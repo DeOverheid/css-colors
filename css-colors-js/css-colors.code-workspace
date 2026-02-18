@@ -1,0 +1,109 @@
+{
+  "folders": [
+    {
+      "name": "CSS Color System",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "*.css": "css"
+    },
+    "css.validate": true,
+    "css.lint.duplicateProperties": "warning",
+    "css.lint.unknownProperties": "warning",
+    "css.lint.vendorPrefix": "warning",
+    "css.lint.zeroUnits": "warning",
+    "css.completion.completePropertyWithSemicolon": true,
+    "css.completion.triggerPropertyValueCompletion": true,
+
+    "editor.wordWrap": "off",
+    "editor.rulers": [120, 160],
+    "editor.minimap.enabled": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "tokens.css": "lists.css, colors.css, greys.css",
+      "demo.css": "color-system-demo.html"
+    },
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#AA5A55",
+      "titleBar.activeForeground": "#ffffff",
+      "titleBar.inactiveBackground": "#AA5A55",
+      "titleBar.inactiveForeground": "#ffffff80"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-css-peek",
+      "bradlc.vscode-tailwindcss",
+      "formulahendry.auto-rename-tag",
+      "ms-vscode.live-server",
+      "christian-kohler.color-highlight",
+      "ms-vscode.hexeditor"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Open Color Demo",
+        "type": "shell",
+        "command": "open",
+        "args": ["color-system-demo.html"],
+        "group": "build",
+        "presentation": {
+          "echo": false,
+          "reveal": "never",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Start Live Server",
+        "type": "shell",
+        "command": "python3",
+        "args": ["-m", "http.server", "8000"],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Generate Color Report",
+        "type": "shell",
+        "command": "echo",
+        "args": [
+          "Color System Files:\n- tokens.css: Global configuration\n- lists.css: Mathematical foundations\n- colors.css: 12 semantic palettes (108 colors)\n- greys.css: Neutrals with alpha variations\n- demo.css: BEM styling patterns\n- color-system-demo.html: Interactive demo"
+        ],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": true,
+          "panel": "new"
+        },
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Open in Browser",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/color-system-demo.html",
+        "console": "integratedTerminal"
+      }
+    ]
+  }
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Demo progress indicator</title>
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+      main {
+      }
+      .progress__indicator {
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        row-gap: 10px;
+      }
+
+      .progress__indicator {
+        --spacing: 5px;
+        --icon-dimension: 16px;
+        --step-width: 14rem;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        row-gap: calc(var(--spacing) * 2);
+      }
+
+      .progress__step {
+        --step-height: calc(var(--spacing) * 6);
+        --arrow-size: calc(var(--step-height) / 2);
+        --clip-left: 0px;
+        --clip-right: 0px;
+
+        align-items: center;
+        background: hsl(206 0% 30% / 0.2);
+        clip-path: polygon(
+          0 0,
+          calc(100% - var(--clip-right)) 0,
+          100% var(--clip-right),
+          calc(100% - var(--clip-right)) 100%,
+          0 100%,
+          var(--clip-left) var(--clip-left),
+          0 0
+        );
+        color: hsl(206 0% 30%);
+        display: flex;
+        flex: 1 1 var(--step-width);
+        min-width: min(var(--step-width), 100%);
+        gap: calc(var(--spacing) * 2);
+        min-height: var(--step-height);
+        padding: var(--spacing)
+          calc(var(--clip-right) + calc(var(--spacing) * 2)) var(--spacing)
+          calc(var(--clip-left) + calc(var(--spacing) * 2));
+      }
+      .progress__step:not(:first-child) {
+        --clip-left: var(--arrow-size);
+      }
+      .progress__step:not(:last-child) {
+        --clip-right: var(--arrow-size);
+      }
+
+      .progress__step--done {
+        background: hsl(168 80% 40% / 0.2);
+        color: hsl(168 80% 40%);
+      }
+      .progress__step--active {
+        background: hsl(206 80% 60% / 1);
+        color: hsl(206 80% 100%);
+      }
+      .progress__step--error {
+        background: hsl(356 80% 60% / 0.2);
+        color: hsl(356 80% 30%);
+      }
+      .progress__step--open {
+        background: hsl(206 20% 60% / 0.2);
+        color: hsl(206 20% 30%);
+      }
+
+      .progress__icon {
+        aspect-ratio: 1 / 1;
+        height: var(--icon-dimension);
+      }
+      .progress__label {
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <main>
+        <h1>Demo progress indicator</h1>
+        <div class="progress__indicator">
+          <div class="progress__step progress__step--done">
+            <span class="progress__icon">
+              <i class="fa-regular fa-circle-check"></i>
+            </span>
+            <span class="progress__label">Bestanden gegenereerd</span>
+          </div>
+          <div class="progress__step progress__step--active">
+            <span class="progress__icon">
+              <i class="fa-regular fa-circle-check"></i>
+            </span>
+            <span class="progress__label">Controle uitgevoerd</span>
+          </div>
+          <div class="progress__step progress__step--error">
+            <span class="progress__icon">
+              <i class="fa-regular fa-crosshairs-simple"></i>
+            </span>
+            <span class="progress__label">Facturen gegenereerd</span>
+          </div>
+          <div class="progress__step progress__step--open">
+            <span class="progress__icon">
+              <i class="fa-regular fa-circle-ellipsis"></i>
+            </span>
+            <span class="progress__label">Facturen verzonden</span>
+          </div>
+        </div>
+      </main>
+    </center>
+  </body>
+</html>

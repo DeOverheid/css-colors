@@ -1,0 +1,9 @@
+/*
+    Core importer
+
+    This file imports all core files so that the theme only needs this one file.
+    Dependencies are handled by individual files.
+*/
+
+@import url("colors/greys.css");
+@import url("colors/hues.css");

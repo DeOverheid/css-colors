@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Color Generator</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <main
+      style="
+        --saturation-primary: 66%;
+        --hue-primary: 183deg;
+        --hue-offset: 0deg;
+        --lightness-white: 100%;
+        --lightness-lightest: 90%;
+        --lightness-lighter: 80%;
+        --lightness-light: 70%;
+        --lightness-medium-light: 60%;
+        --lightness-medium: 50%;
+        --lightness-medium-dark: 40%;
+        --lightness-dark: 30%;
+        --lightness-darker: 20%;
+        --lightness-darkest: 10%;
+        --lightness-black: 0%;
+      "
+    >
+      <header>
+        <h1>Color Generator</h1>
+        <p>
+          Adjust the hue and saturation values to explore the parsed color
+          output and view sample combinations.
+        </p>
+      </header>
+
+      <section>
+        <form data-color-form>
+          <div>
+            <label for="input-color">Color Code</label>
+            <input
+              id="input-color"
+              name="input-color"
+              type="text"
+              placeholder="#rrggbb"
+              autocomplete="off"
+              data-color-input
+            />
+          </div>
+          <div data-color-sliders>
+            <label for="input-hue">Hue</label>
+            <input
+              id="input-hue"
+              name="input-hue"
+              type="range"
+              min="0"
+              max="360"
+              value="183"
+              data-color-hue
+            />
+            <label for="input-saturation">Saturation</label>
+            <input
+              id="input-saturation"
+              name="input-saturation"
+              type="range"
+              min="0"
+              max="100"
+              value="66"
+              data-color-saturation
+            />
+          </div>
+          <section aria-live="polite">
+            <h2>Parsed Values</h2>
+            <dl id="parsed-values" data-color-output>
+              <dt>Hue</dt>
+              <dd data-output-hue>--</dd>
+              <dt>Saturation</dt>
+              <dd data-output-saturation>--</dd>
+            </dl>
+          </section>
+        </form>
+      </section>
+
+      <section aria-label="Sample grid" class="color-output">
+        <div class="color-output__layout color-output__layout--top">
+          <div class="color-output__column color-output__column--slider">
+            <label for="top-light-slider">Light Slider</label>
+            <input
+              id="top-light-slider"
+              name="top-light-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value="0.69"
+              class="color-output__slider-input"
+            />
+          </div>
+
+          <div
+            class="color-output__column color-output__column--samples"
+            data-color-samples
+          >
+            <div class="color-output__row" data-sample-row="primary"></div>
+            <div class="color-output__row" data-sample-row="grey"></div>
+            <div class="color-output__row" data-sample-row="neutral"></div>
+          </div>
+
+          <div class="color-output__column color-output__column--slider">
+            <label for="top-dark-slider">Dark Slider</label>
+            <input
+              id="top-dark-slider"
+              name="top-dark-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value="0"
+              class="color-output__slider-input"
+            />
+          </div>
+        </div>
+
+        <section
+          class="color-adjustment-controls"
+          aria-label="Lightness adjustment controls"
+          data-lightness-adjustments
+        >
+          <div class="color-adjustment-controls__row" data-adjustment-row>
+            <span class="color-adjustment-controls__row-label">Darkening</span>
+            <label class="color-adjustment-controls__field">
+              <span>Light falloff</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                data-adjustment-slider
+                data-adjustment-range="darkening"
+                data-adjustment-field="lightnessFalloffLight"
+              />
+              <output data-adjustment-value></output>
+            </label>
+            <label class="color-adjustment-controls__field">
+              <span>Amplitude</span>
+              <input
+                type="range"
+                min="-20"
+                max="20"
+                step="0.25"
+                data-adjustment-slider
+                data-adjustment-range="darkening"
+                data-adjustment-field="lightnessAmplitude"
+              />
+              <output data-adjustment-value></output>
+            </label>
+            <label class="color-adjustment-controls__field">
+              <span>Dark falloff</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                data-adjustment-slider
+                data-adjustment-range="darkening"
+                data-adjustment-field="lightnessFalloffDark"
+              />
+              <output data-adjustment-value></output>
+            </label>
+          </div>
+          <div class="color-adjustment-controls__row" data-adjustment-row>
+            <span class="color-adjustment-controls__row-label"
+              >Brightening</span
+            >
+            <label class="color-adjustment-controls__field">
+              <span>Light falloff</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                data-adjustment-slider
+                data-adjustment-range="brightening"
+                data-adjustment-field="lightnessFalloffLight"
+              />
+              <output data-adjustment-value></output>
+            </label>
+            <label class="color-adjustment-controls__field">
+              <span>Amplitude</span>
+              <input
+                type="range"
+                min="-20"
+                max="20"
+                step="0.25"
+                data-adjustment-slider
+                data-adjustment-range="brightening"
+                data-adjustment-field="lightnessAmplitude"
+              />
+              <output data-adjustment-value></output>
+            </label>
+            <label class="color-adjustment-controls__field">
+              <span>Dark falloff</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                data-adjustment-slider
+                data-adjustment-range="brightening"
+                data-adjustment-field="lightnessFalloffDark"
+              />
+              <output data-adjustment-value></output>
+            </label>
+          </div>
+          <div class="color-adjustment-controls__toggle">
+            <label>
+              <input type="checkbox" data-lightness-adjust-toggle />
+              Apply lightness adjustment
+            </label>
+          </div>
+        </section>
+
+        <div class="color-output__layouts" data-hue-grid></div>
+      </section>
+    </main>
+
+    <script src="./scripts/init.js"></script>
+  </body>
+</html>

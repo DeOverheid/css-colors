@@ -1,0 +1,70 @@
+/*
+    Color lists
+
+    This file defines the mathematical foundation for the entire color system.
+    Each list represents a different dimension of color in HSL space, providing
+    precise control over hue, saturation, lightness, and transparency values.
+    These variables are used throughout the system to generate consistent,
+    mathematically-related color palettes.
+*/
+
+:root {
+    /* Hue values */
+    /* 12 semantic hues at 30° intervals around the color wheel */
+    /* Each includes global hue modifier for systematic temperature shifts */
+    --hue-crimson: calc(0 + var(--hue-modifier));
+    --hue-flame: calc(30 + var(--hue-modifier));
+    --hue-wheat: calc(60 + var(--hue-modifier));
+    --hue-lime: calc(90 + var(--hue-modifier));
+    --hue-grass: calc(120 + var(--hue-modifier));
+    --hue-sea: calc(150 + var(--hue-modifier));
+    --hue-sky: calc(180 + var(--hue-modifier));
+    --hue-corn: calc(210 + var(--hue-modifier));
+    --hue-dusk: calc(240 + var(--hue-modifier));
+    --hue-plum: calc(270 + var(--hue-modifier));
+    --hue-candy: calc(300 + var(--hue-modifier));
+    --hue-salmon: calc(330 + var(--hue-modifier));
+
+    /* Saturation values */
+    /* 9 levels from desaturated (0%) to fully saturated (100%) */
+    /* Perceptual steps for subtle variations through vibrant colors */
+    --saturation-none: 0%;
+    --saturation-mute: 8%;
+    --saturation-medium: 66%;
+    --saturation-bright: 84%;
+    --saturation-full: 100%;
+
+    /* Lightness values - logarithmic curve */
+    /* 11 levels using logarithmic curve for perceptual uniformity */
+    /* Creates equal visual weight differences between adjacent colors */
+    /* start = 98, end = 18, steps = 9 */
+    /* f(x) = 98 - 80 * (log(x) / log(100))^0.7, where x = 1-100 (outliers 0% and 100% hardcoded) */
+    --lightness-white: 100%;
+    --lightness-lightest: 98%;
+    --lightness-lighter: 94%;
+    --lightness-light: 88%;
+    --lightness-medium-light: 81%;
+    --lightness-medium: 73%;
+    --lightness-medium-dark: 63%;
+    --lightness-dark: 50%;
+    --lightness-darker: 32%;
+    --lightness-darkest: 18%;
+    --lightness-black: 0%;
+
+    /* Alpha values */
+    /* Stepped transparency levels from transparent (0) to opaque (1) */
+    --alpha-100: 1;
+    --alpha-90: 0.9;
+    --alpha-80: 0.8;
+    --alpha-70: 0.7;
+    --alpha-60: 0.6;
+    --alpha-50: 0.5;
+    --alpha-40: 0.4;
+    --alpha-30: 0.3;
+    --alpha-20: 0.2;
+    --alpha-10: 0.1;
+    --alpha-5: 0.05;
+    --alpha-2: 0.02;
+    --alpha-1: 0.01;
+    --alpha-0: 0;
+}

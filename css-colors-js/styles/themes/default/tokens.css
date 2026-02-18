@@ -1,0 +1,12 @@
+/*
+    Default theme tokens
+
+    Theme layer configuration tokens that control the visual personality of the design system.
+ */
+
+:root {
+    /* Global hue modifier */
+    /* Get your modifier by your base-hue MOD(30) */
+    /* Shifts all colors uniformly, -15 to +15 degrees recommended */
+    --hue-modifier: 0;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Color Generator</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Color Generator</h1>
+        <p>
+          Adjust the hue and saturation values to explore the parsed color
+          output and view sample combinations.
+        </p>
+      </header>
+
+      <section>
+        <form data-color-form>
+          <div>
+            <label for="input-color">Color Code</label>
+            <input
+              id="input-color"
+              name="input-color"
+              type="text"
+              placeholder="#rrggbb"
+              autocomplete="off"
+              data-color-input
+            />
+          </div>
+          <div data-color-sliders>
+            <label for="input-hue">Hue</label>
+            <input
+              id="input-hue"
+              name="input-hue"
+              type="range"
+              min="0"
+              max="360"
+              value="183"
+              data-color-hue
+            />
+            <label for="input-saturation">Saturation</label>
+            <input
+              id="input-saturation"
+              name="input-saturation"
+              type="range"
+              min="0"
+              max="100"
+              value="66"
+              data-color-saturation
+            />
+          </div>
+          <section aria-live="polite">
+            <h2>Parsed Values</h2>
+            <dl id="parsed-values" data-color-output>
+              <dt>Hue</dt>
+              <dd data-output-hue>--</dd>
+              <dt>Saturation</dt>
+              <dd data-output-saturation>--</dd>
+            </dl>
+          </section>
+        </form>
+      </section>
+
+      <section aria-label="Sample grid" class="color-output">
+        <div class="color-output__layout color-output__layout--top">
+          <div class="color-output__column">
+            <label for="top-light-slider">Light Slider</label>
+            <input
+              id="top-light-slider"
+              name="top-light-slider"
+              type="range"
+              min="-30"
+              max="30"
+            />
+          </div>
+
+          <div class="color-output__column" data-color-samples>
+            <div class="color-output__row" data-sample-row="neutral"></div>
+            <div class="color-output__row" data-sample-row="grey"></div>
+            <div class="color-output__row" data-sample-row="primary"></div>
+          </div>
+
+          <div class="color-output__column">
+            <label for="top-dark-slider">Dark Slider</label>
+            <input
+              id="top-dark-slider"
+              name="top-dark-slider"
+              type="range"
+              min="-30"
+              max="30"
+            />
+          </div>
+        </div>
+
+        <div class="color-output__layouts" data-hue-grid></div>
+      </section>
+    </main>
+
+    <script src="./scripts/init.js"></script>
+  </body>
+</html>

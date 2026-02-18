@@ -1,0 +1,107 @@
+/* Import tokens */
+@import url("tokens.css");
+
+/*
+ * COLOR VALUE LISTS
+ * =================
+ *
+ * This file defines the mathematical foundation for the entire color system.
+ * Each list represents a different dimension of color in HSL space, providing
+ * precise control over hue, saturation, lightness, and transparency values.
+ * These variables are used throughout the system to generate consistent,
+ * mathematically-related color palettes.
+ */
+
+:root {
+    /*
+   * HUE VALUES (degrees)
+   *
+   * Defines 12 semantic hues distributed at 30° intervals around the color wheel.
+   * Each hue includes the global hue modifier, allowing for systematic color
+   * temperature shifts across the entire palette. The 30° spacing ensures
+   * sufficient visual distinction while maintaining harmonic relationships.
+   * Names are chosen for semantic clarity and emotional association.
+   */
+    --hue-crimson: calc(0 + var(--hue-modifier));
+    --hue-flame: calc(30 + var(--hue-modifier));
+    --hue-wheat: calc(60 + var(--hue-modifier));
+    --hue-lime: calc(90 + var(--hue-modifier));
+    --hue-grass: calc(120 + var(--hue-modifier));
+    --hue-sea: calc(150 + var(--hue-modifier));
+    --hue-sky: calc(180 + var(--hue-modifier));
+    --hue-corn: calc(210 + var(--hue-modifier));
+    --hue-dusk: calc(240 + var(--hue-modifier));
+    --hue-plum: calc(270 + var(--hue-modifier));
+    --hue-candy: calc(300 + var(--hue-modifier));
+    --hue-salmon: calc(330 + var(--hue-modifier));
+
+    /*
+   * SATURATION VALUES (percentages)
+   *
+   * Provides 9 saturation levels from completely desaturated (0%) to fully
+   * saturated (100%). The progression follows perceptual steps that allow
+   * for subtle tonal variations (mutest/muter/mute) through to vibrant colors
+   * (bright/brighter/brightest). These values control color intensity while
+   * maintaining consistent hue and lightness relationships.
+   */
+    /* Saturation values (percentages) */
+    --saturation-none: 0%;
+    --saturation-mutest: 8%;
+    --saturation-muter: 16%;
+    --saturation-mute: 33%;
+    --saturation-medium: 50%;
+    --saturation-bright: 66%;
+    --saturation-brighter: 84%;
+    --saturation-brightest: 92%;
+    --saturation-full: 100%;
+
+    /*
+   * LIGHTNESS VALUES (percentages)
+   *
+   * Uses a logarithmic distribution curve to create 11 perceptually even steps
+   * from pure white (100%) to pure black (0%). The mathematical formula
+   * f(x) = 98 - 80 * (log(x) / log(100))^0.7 ensures more granular control
+   * in the mid-tones where human vision is most sensitive to contrast differences.
+   * This approach provides better accessibility compliance and visual hierarchy
+   * than linear distribution.
+   */
+    /* Lightness values (percentages) - logarithmic curve */
+    /* start = 98, end = 18, steps = 9 */
+    /* f(x) = 98 - 80 * (log(x) / log(100))^0.7, where x = 1-100 (outliers 0% and 100% hardcoded) */
+    --lightness-white: 100%;
+    --lightness-lightest: 98%;
+    --lightness-lighter: 94%;
+    --lightness-light: 88%;
+    --lightness-medium-light: 81%;
+    --lightness-medium: 73%;
+    --lightness-medium-dark: 63%;
+    --lightness-dark: 50%;
+    --lightness-darker: 32%;
+    --lightness-darkest: 18%;
+    --lightness-black: 0%;
+
+    /*
+   * ALPHA VALUES (decimal)
+   *
+   * Provides transparency control from fully opaque (1.0) to fully transparent (0).
+   * The progression includes common UI transparency levels for overlays, shadows,
+   * and layering effects. Values are optimized for typical design patterns:
+   * major steps (10% intervals) for primary transparency levels, and finer
+   * steps (5%, 2%, 1%) for subtle effects like dividers and micro-interactions.
+   */
+    /* Alpha values (decimal) */
+    --alpha-100: 1;
+    --alpha-90: 0.9;
+    --alpha-80: 0.8;
+    --alpha-70: 0.7;
+    --alpha-60: 0.6;
+    --alpha-50: 0.5;
+    --alpha-40: 0.4;
+    --alpha-30: 0.3;
+    --alpha-20: 0.2;
+    --alpha-10: 0.1;
+    --alpha-5: 0.05;
+    --alpha-2: 0.02;
+    --alpha-1: 0.01;
+    --alpha-0: 0;
+}

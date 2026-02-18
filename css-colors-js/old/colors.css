@@ -1,0 +1,469 @@
+/*
+ * COLOR PALETTES
+ * ==============
+ * 
+ * This file generates 12 semantic color palettes, each with 9 lightness variations,
+ * creating 108 total color variables using mathematical distribution curves.
+ * 
+ * ARCHITECTURE:
+ * - Imports lists.css for hue, saturation, and lightness variables
+ * - Uses HSL color space for intuitive color relationships
+ * - Applies logarithmic lightness curve for perceptually balanced steps
+ * - Excludes white/black (handled in greys.css) for focused color(hue) ranges
+ * 
+ * HUE DISTRIBUTION (30° intervals around color wheel):
+ * - Crimson (0°): Red attention grabber
+ * - Flame (30°): Orange-red energy  
+ * - Wheat (60°): Golden yellow warmth
+ * - Lime (90°): Fresh yellow-green
+ * - Grass (120°): Natural green
+ * - Sea (150°): Teal blue-green
+ * - Sky (180°): Clear cyan blue
+ * - Corn (210°): Deep blue
+ * - Dusk (240°): Royal purple-blue
+ * - Plum (270°): Rich purple
+ * - Candy (300°): Vibrant magenta
+ * - Salmon (330°): Soft pink-red
+ * 
+ * LIGHTNESS SCALE (9 variations per hue):
+ * Uses logarithmic curve: f(x) = 98 - 80 * (log(x) / log(100))^0.7
+ * This creates perceptually even steps with more contrast in mid-tones:
+ * - lightest: ~89% (subtle tints)
+ * - lighter: ~79% (light backgrounds)
+ * - light: ~69% (soft accents)
+ * - medium-light: ~59% (muted elements)
+ * - medium: ~49% (balanced core)
+ * - medium-dark: ~39% (strong elements)
+ * - dark: ~29% (bold accents)
+ * - darker: ~20% (emphasis)
+ * - darkest: ~18% (deep contrast)
+ * 
+ * CUSTOMIZATION OPTIONS:
+ * 
+ * 1. Adjust saturation per palette:
+ *    Change var(--saturation-medium) to --saturation-medium, --saturation-muted,
+ *    or --saturation-mutest for different color intensities
+ * 
+ * 2. Modify hue spacing:
+ *    Edit hue variables in lists.css to change color relationships.
+ *    Current 30° spacing ensures no hue conflicts.
+ * 
+ * 3. Change lightness distribution:
+ *    Modify the logarithmic curve in lists.css to adjust contrast steps.
+ *    Current curve emphasizes mid-tone distinction.
+ * 
+ * 4. Add new palettes:
+ *    Create new hue variables and follow the same pattern.
+ *    Maintain consistent naming: {color}-{lightness}
+ * 
+ * 5. Global hue shift:
+ *    Modify --hue-modifier in tokens.css to shift all colors uniformly
+ *    without changing relationships
+ * 
+ * SYSTEM IMPACT:
+ * - Provides consistent color relationships across all UI elements
+ * - Mathematical foundation ensures accessibility compliance potential
+ * - Changes to saturation affect color mood and brand perception
+ * - Lightness modifications impact readability and visual hierarchy
+ * - Adding/removing palettes affects design system scope
+ * 
+ * ACCESSIBILITY CONSIDERATIONS:
+ * - Lightness curve designed for sufficient contrast ratios
+ * - Test combinations against WCAG standards for your use case
+ * - Consider colorblind accessibility when choosing base hues
+ * - Medium lightness (~49%) often provides good contrast with white text
+ * 
+ * PERFORMANCE:
+ * - Each variable calculated once and cached by browser
+ * - HSL values computed at render time for dynamic color shifting
+ * - Large number of variables (~108) has minimal memory impact
+ * - Consider tree-shaking unused colors in production builds
+ */
+@import url("lists.css");
+
+:root {
+    /* 
+   * CRIMSON PALETTE (0° - Red attention grabber)
+   * Usage: a vibrant and dangerous presence
+   */
+    --crimson-lightest: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --crimson-lighter: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --crimson-light: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-light)
+    );
+    --crimson-medium-light: hsl(
+        var(--hue-crimson) var(--saturation-medium)
+            var(--lightness-medium-light)
+    );
+    --crimson-medium: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-medium)
+    );
+    --crimson-medium-dark: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --crimson-dark: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-dark)
+    );
+    --crimson-darker: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-darker)
+    );
+    --crimson-darkest: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * FLAME PALETTE (30° - Orange Energy)
+   * Usage: an energetic but balanced orange tone
+   */
+    --flame-lightest: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --flame-lighter: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --flame-light: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-light)
+    );
+    --flame-medium-light: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --flame-medium: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-medium)
+    );
+    --flame-medium-dark: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --flame-dark: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-dark)
+    );
+    --flame-darker: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-darker)
+    );
+    --flame-darkest: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * WHEAT PALETTE (60° - Golden Warmth)
+   * Usage: a warm, approachable yellow tone
+   */
+    --wheat-lightest: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --wheat-lighter: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --wheat-light: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-light)
+    );
+    --wheat-medium-light: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --wheat-medium: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-medium)
+    );
+    --wheat-medium-dark: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --wheat-dark: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-dark)
+    );
+    --wheat-darker: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-darker)
+    );
+    --wheat-darkest: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * LIME PALETTE (90° - Fresh Growth)
+   * Usage: a vibrant yet natural yellow-green
+   */
+    --lime-lightest: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --lime-lighter: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --lime-light: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-light)
+    );
+    --lime-medium-light: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --lime-medium: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-medium)
+    );
+    --lime-medium-dark: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --lime-dark: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-dark)
+    );
+    --lime-darker: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-darker)
+    );
+    --lime-darkest: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * GRASS PALETTE (120° - Natural Green)
+   * Usage: a balanced, trustworthy green tones
+   */
+    --grass-lightest: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --grass-lighter: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --grass-light: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-light)
+    );
+    --grass-medium-light: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --grass-medium: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-medium)
+    );
+    --grass-medium-dark: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --grass-dark: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-dark)
+    );
+    --grass-darker: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-darker)
+    );
+    --grass-darkest: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * SEA PALETTE (150° - Ocean Depths)
+   * Usage: a calming blue-green aqua tones
+   */
+    --sea-lightest: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --sea-lighter: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --sea-light: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-light)
+    );
+    --sea-medium-light: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --sea-medium: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-medium)
+    );
+    --sea-medium-dark: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --sea-dark: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-dark)
+    );
+    --sea-darker: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-darker)
+    );
+    --sea-darkest: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * SKY PALETTE (180° - Clear Cyan)
+   * Usage: a open, airy cyan blue tones
+   */
+    --sky-lightest: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --sky-lighter: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --sky-light: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-light)
+    );
+    --sky-medium-light: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --sky-medium: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-medium)
+    );
+    --sky-medium-dark: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --sky-dark: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-dark)
+    );
+    --sky-darker: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-darker)
+    );
+    --sky-darkest: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * CORN PALETTE (210° - Deep Blue)
+   * Usage: a professional, stable blue tones
+   */
+    --corn-lightest: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --corn-lighter: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --corn-light: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-light)
+    );
+    --corn-medium-light: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --corn-medium: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-medium)
+    );
+    --corn-medium-dark: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --corn-dark: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-dark)
+    );
+    --corn-darker: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-darker)
+    );
+    --corn-darkest: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * DUSK PALETTE (240° - Royal Purple)
+   * Usage: a sophisticated purple-blue tones
+   */
+    --dusk-lightest: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --dusk-lighter: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --dusk-light: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-light)
+    );
+    --dusk-medium-light: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --dusk-medium: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-medium)
+    );
+    --dusk-medium-dark: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --dusk-dark: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-dark)
+    );
+    --dusk-darker: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-darker)
+    );
+    --dusk-darkest: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * PLUM PALETTE (270° - Rich Purple)
+   * Usage: a luxurious, creative purple tones
+   */
+    --plum-lightest: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --plum-lighter: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --plum-light: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-light)
+    );
+    --plum-medium-light: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --plum-medium: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-medium)
+    );
+    --plum-medium-dark: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --plum-dark: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-dark)
+    );
+    --plum-darker: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-darker)
+    );
+    --plum-darkest: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * CANDY PALETTE (300° - Vibrant Magenta)
+   * Usage: a playful, energetic magenta tones
+   */
+    --candy-lightest: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --candy-lighter: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --candy-light: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-light)
+    );
+    --candy-medium-light: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --candy-medium: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-medium)
+    );
+    --candy-medium-dark: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --candy-dark: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-dark)
+    );
+    --candy-darker: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-darker)
+    );
+    --candy-darkest: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* 
+   * SALMON PALETTE (330° - Soft Pink)
+   * Usage: a warm, gentle pink-red tones
+   */
+    --salmon-lightest: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --salmon-lighter: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --salmon-light: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-light)
+    );
+    --salmon-medium-light: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --salmon-medium: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-medium)
+    );
+    --salmon-medium-dark: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --salmon-dark: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-dark)
+    );
+    --salmon-darker: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-darker)
+    );
+    --salmon-darkest: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-darkest)
+    );
+}

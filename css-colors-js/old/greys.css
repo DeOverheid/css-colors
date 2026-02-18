@@ -1,0 +1,186 @@
+/*
+ * GREYS & NEUTRALS
+ * ================
+ * 
+ * This file generates grayscale colors and alpha variations using the primary hue
+ * This will create a less clinical grey that fits well with the main colors
+ * 
+ * ARCHITECTURE:
+ * - Imports lists.css for hue, saturation, lightness, and alpha variables
+ * - Uses primary hue with mutest saturation for all greys
+ * - Provides complete lightness scale from white to black
+ * - Includes alpha transparency variations for black and white
+ * 
+ * SYSTEM IMPACT:
+ * - Used for text, borders, backgrounds, and UI elements
+ * - Alpha variations enable layering effects and transparency
+ * - Changing the base hue affects the entire grey palette
+ * - Lightness modifications impact accessibility and contrast ratios
+ * 
+ * PERFORMANCE:
+ * Each variable is calculated once and cached by the browser.
+ * HSL values are computed at render time, not during CSS parsing.
+ */
+@import url("lists.css");
+
+:root {
+    /* 
+   * Greys
+   */
+    --white: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white)
+    );
+    --grey-lightest: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-lightest)
+    );
+    --grey-lighter: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-lighter)
+    );
+    --grey-light: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-light)
+    );
+    --grey-medium-light: hsl(
+        var(--hue-crimson) var(--saturation-mutest)
+            var(--lightness-medium-light)
+    );
+    --grey-medium: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-medium)
+    );
+    --grey-medium-dark: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-medium-dark)
+    );
+    --grey-dark: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-dark)
+    );
+    --grey-darker: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-darker)
+    );
+    --grey-darkest: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-darkest)
+    );
+    --black: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black)
+    );
+
+    /* 
+   * Black alpha variations
+   * Range: 100% (solid) to 0% (transparent)
+   */
+    --black-100: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-100)
+    );
+    --black-90: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-90)
+    );
+    --black-80: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-80)
+    );
+    --black-70: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-70)
+    );
+    --black-60: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-60)
+    );
+    --black-50: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-50)
+    );
+    --black-40: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-40)
+    );
+    --black-30: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-30)
+    );
+    --black-20: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-20)
+    );
+    --black-10: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-10)
+    );
+    --black-5: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-5)
+    );
+    --black-2: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-2)
+    );
+    --black-1: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-1)
+    );
+    --black-0: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-black) /
+            var(--alpha-0)
+    );
+
+    /* 
+   * White alpha variations
+   * Range: 100% (solid) to 0% (transparent)
+   */
+    --white-100: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-100)
+    );
+    --white-90: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-90)
+    );
+    --white-80: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-80)
+    );
+    --white-70: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-70)
+    );
+    --white-60: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-60)
+    );
+    --white-50: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-50)
+    );
+    --white-40: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-40)
+    );
+    --white-30: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-30)
+    );
+    --white-20: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-20)
+    );
+    --white-10: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-10)
+    );
+    --white-5: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-5)
+    );
+    --white-2: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-2)
+    );
+    --white-1: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-1)
+    );
+    --white-0: hsl(
+        var(--hue-crimson) var(--saturation-mutest) var(--lightness-white) /
+            var(--alpha-0)
+    );
+}

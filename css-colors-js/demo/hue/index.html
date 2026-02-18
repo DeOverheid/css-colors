@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Hue Offset Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="shared.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <main class="hue-demo demo-ui">
+            <h1>HSL Hue Offset</h1>
+            <p class="hue-demo__intro demo-ui__intro">
+                Adjust the sliders to bend the base hue across the row. The
+                cubes reuse the default lightness curve
+                <code>cubic-bezier(0, 0.67, 0, 1)</code> and apply the offsets
+                linearly from left to right.
+            </p>
+            <section
+                class="hue-row demo-ui__row"
+                aria-label="Primary Hue Row"
+                data-hue-row
+                data-base-hue="0"
+                data-base-saturation="66"
+                data-step-count="12"
+            >
+                <label
+                    class="hue-slider hue-slider--left demo-slider demo-slider--start"
+                >
+                    <span class="hue-slider__label demo-slider__label"
+                        >Left offset</span
+                    >
+                    <input
+                        type="range"
+                        min="-30"
+                        max="30"
+                        step="1"
+                        value="0"
+                        data-side="left"
+                        class="demo-slider__input"
+                    />
+                    <span
+                        class="hue-slider__value demo-slider__value"
+                        data-output="left"
+                        >0deg</span
+                    >
+                </label>
+                <div
+                    class="hue-cubes demo-cubes"
+                    data-role="cubes"
+                    aria-live="polite"
+                ></div>
+                <label
+                    class="hue-slider hue-slider--right demo-slider demo-slider--end"
+                >
+                    <span class="hue-slider__label demo-slider__label"
+                        >Right offset</span
+                    >
+                    <input
+                        type="range"
+                        min="-30"
+                        max="30"
+                        step="1"
+                        value="0"
+                        data-side="right"
+                        class="demo-slider__input"
+                    />
+                    <span
+                        class="hue-slider__value demo-slider__value"
+                        data-output="right"
+                        >0deg</span
+                    >
+                </label>
+            </section>
+        </main>
+        <script src="script-lightness.js" defer></script>
+        <script src="hue-offset.js" defer></script>
+    </body>
+</html>

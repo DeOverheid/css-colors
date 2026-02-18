@@ -1,0 +1,2090 @@
+{
+  "version": 1,
+  "generatedAt": "2025-12-08T10:49:59.900Z",
+  "palette": "practical",
+  "sampleCount": 11,
+  "hueOffset": 0,
+  "highlightMode": "row",
+  "primary": {
+    "hue": 0,
+    "saturation": 88,
+    "lightness": 50
+  },
+  "lightness": {
+    "controls": {
+      "light": 0.68,
+      "dark": 0
+    },
+    "curve": {
+      "x1": 0,
+      "y1": 0,
+      "x2": 0.68,
+      "y2": 1
+    },
+    "range": {
+      "min": 0,
+      "max": 100,
+      "floor": 0
+    },
+    "steps": [
+      100, 97.4665, 91.5687, 83.6152, 74.2221, 63.7349, 52.3664, 40.2534,
+      27.4811, 14.0868, 0
+    ]
+  },
+  "hueOffsets": {
+    "crimson": {
+      "light": 34,
+      "dark": -27
+    },
+    "flame": {
+      "light": 24,
+      "dark": -20
+    },
+    "wheat": {
+      "light": 14,
+      "dark": -32
+    },
+    "lime": {
+      "light": -14,
+      "dark": -14
+    },
+    "grass": {
+      "light": -1,
+      "dark": 19
+    },
+    "sea": {
+      "light": 14,
+      "dark": 8
+    },
+    "sky": {
+      "light": 17,
+      "dark": 2
+    },
+    "corn": {
+      "light": 0,
+      "dark": 9
+    },
+    "dusk": {
+      "light": 6,
+      "dark": 13
+    },
+    "plum": {
+      "light": -5,
+      "dark": -4
+    },
+    "candy": {
+      "light": -6,
+      "dark": 6
+    },
+    "salmon": {
+      "light": -13,
+      "dark": 10
+    }
+  },
+  "adjustments": {
+    "enabled": true,
+    "ranges": {
+      "brightening": {
+        "enabled": true,
+        "start": 210,
+        "end": 300,
+        "hueFalloff": 15,
+        "lightnessFalloff": 0,
+        "lightnessFalloffLight": 1,
+        "lightnessAmplitude": 9,
+        "lightnessFalloffDark": 0
+      },
+      "darkening": {
+        "enabled": true,
+        "start": 30,
+        "end": 210,
+        "hueFalloff": 15,
+        "lightnessFalloff": 0,
+        "lightnessFalloffLight": 0.79,
+        "lightnessAmplitude": 30,
+        "lightnessFalloffDark": 0.68
+      }
+    }
+  },
+  "hueDefinitions": [
+    {
+      "name": "crimson",
+      "baseHue": 0,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "flame",
+      "baseHue": 30,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "wheat",
+      "baseHue": 60,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "lime",
+      "baseHue": 90,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "grass",
+      "baseHue": 120,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "sea",
+      "baseHue": 150,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "sky",
+      "baseHue": 180,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "corn",
+      "baseHue": 210,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "dusk",
+      "baseHue": 240,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "plum",
+      "baseHue": 270,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "candy",
+      "baseHue": 300,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    },
+    {
+      "name": "salmon",
+      "baseHue": 330,
+      "family": "practical",
+      "offsets": {
+        "light": 0,
+        "dark": 0
+      },
+      "saturation": 1
+    }
+  ],
+  "sampleVariants": [
+    {
+      "key": "primary",
+      "mode": "primary"
+    },
+    {
+      "key": "muted",
+      "mode": "primary-scale",
+      "saturationScale": 0.5
+    },
+    {
+      "key": "gray",
+      "mode": "primary-scale",
+      "saturationScale": 0.1
+    },
+    {
+      "key": "neutral",
+      "mode": "neutral"
+    }
+  ],
+  "paletteDefinition": {
+    "key": "practical",
+    "label": "Practical",
+    "sampleCount": 11,
+    "hues": [
+      {
+        "name": "crimson",
+        "baseHue": 0,
+        "family": "practical",
+        "offsets": {
+          "light": 25,
+          "dark": -3
+        },
+        "saturation": 1
+      },
+      {
+        "name": "flame",
+        "baseHue": 30,
+        "family": "practical",
+        "offsets": {
+          "light": 23,
+          "dark": -13
+        },
+        "saturation": 1
+      },
+      {
+        "name": "wheat",
+        "baseHue": 60,
+        "family": "practical",
+        "offsets": {
+          "light": 13,
+          "dark": -20
+        },
+        "saturation": 1
+      },
+      {
+        "name": "lime",
+        "baseHue": 90,
+        "family": "practical",
+        "offsets": {
+          "light": -14,
+          "dark": -6
+        },
+        "saturation": 1
+      },
+      {
+        "name": "grass",
+        "baseHue": 120,
+        "family": "practical",
+        "offsets": {
+          "light": -7,
+          "dark": 9
+        },
+        "saturation": 1
+      },
+      {
+        "name": "sea",
+        "baseHue": 150,
+        "family": "practical",
+        "offsets": {
+          "light": 0,
+          "dark": 13
+        },
+        "saturation": 1
+      },
+      {
+        "name": "sky",
+        "baseHue": 180,
+        "family": "practical",
+        "offsets": {
+          "light": 8,
+          "dark": 4
+        },
+        "saturation": 1
+      },
+      {
+        "name": "corn",
+        "baseHue": 210,
+        "family": "practical",
+        "offsets": {
+          "light": 11,
+          "dark": 0
+        },
+        "saturation": 1
+      },
+      {
+        "name": "dusk",
+        "baseHue": 240,
+        "family": "practical",
+        "offsets": {
+          "light": 7,
+          "dark": 1
+        },
+        "saturation": 1
+      },
+      {
+        "name": "plum",
+        "baseHue": 270,
+        "family": "practical",
+        "offsets": {
+          "light": 0,
+          "dark": 0
+        },
+        "saturation": 1
+      },
+      {
+        "name": "candy",
+        "baseHue": 300,
+        "family": "practical",
+        "offsets": {
+          "light": -6,
+          "dark": 4
+        },
+        "saturation": 1
+      },
+      {
+        "name": "salmon",
+        "baseHue": 330,
+        "family": "practical",
+        "offsets": {
+          "light": -13,
+          "dark": 9
+        },
+        "saturation": 1
+      }
+    ],
+    "samples": [
+      {
+        "key": "primary",
+        "mode": "primary"
+      },
+      {
+        "key": "muted",
+        "mode": "primary-scale",
+        "saturationScale": 0.5
+      },
+      {
+        "key": "gray",
+        "mode": "primary-scale",
+        "saturationScale": 0.1
+      },
+      {
+        "key": "neutral",
+        "mode": "neutral"
+      }
+    ]
+  },
+  "sampleSwatches": [
+    {
+      "key": "primary",
+      "mode": "primary",
+      "hue": 0,
+      "saturation": 88,
+      "swatches": [
+        {
+          "label": "0",
+          "index": 0,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 100%)"
+        },
+        {
+          "label": "1",
+          "index": 1,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 97.47,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 97.47%)"
+        },
+        {
+          "label": "2",
+          "index": 2,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 91.57,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 91.57%)"
+        },
+        {
+          "label": "3",
+          "index": 3,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 83.62,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 83.62%)"
+        },
+        {
+          "label": "4",
+          "index": 4,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 74.22,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 74.22%)"
+        },
+        {
+          "label": "5",
+          "index": 5,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 63.73,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 63.73%)"
+        },
+        {
+          "label": "6",
+          "index": 6,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 52.37,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 52.37%)"
+        },
+        {
+          "label": "7",
+          "index": 7,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 40.25,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 40.25%)"
+        },
+        {
+          "label": "8",
+          "index": 8,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 27.48,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 27.48%)"
+        },
+        {
+          "label": "9",
+          "index": 9,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 14.09,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 14.09%)"
+        },
+        {
+          "label": "10",
+          "index": 10,
+          "hue": 0,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": 0,
+          "hsl": "hsl(0deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "key": "muted",
+      "mode": "primary-scale",
+      "hue": 0,
+      "saturation": 44,
+      "swatches": [
+        {
+          "label": "0",
+          "index": 0,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 100,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 100%)"
+        },
+        {
+          "label": "1",
+          "index": 1,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 97.47,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 97.47%)"
+        },
+        {
+          "label": "2",
+          "index": 2,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 91.57,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 91.57%)"
+        },
+        {
+          "label": "3",
+          "index": 3,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 83.62,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 83.62%)"
+        },
+        {
+          "label": "4",
+          "index": 4,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 74.22,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 74.22%)"
+        },
+        {
+          "label": "5",
+          "index": 5,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 63.73,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 63.73%)"
+        },
+        {
+          "label": "6",
+          "index": 6,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 52.37,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 52.37%)"
+        },
+        {
+          "label": "7",
+          "index": 7,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 40.25,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 40.25%)"
+        },
+        {
+          "label": "8",
+          "index": 8,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 27.48,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 27.48%)"
+        },
+        {
+          "label": "9",
+          "index": 9,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 14.09,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 14.09%)"
+        },
+        {
+          "label": "10",
+          "index": 10,
+          "hue": 0,
+          "saturation": 44,
+          "lightness": 0,
+          "offset": 0,
+          "hsl": "hsl(0deg 44% 0%)"
+        }
+      ]
+    },
+    {
+      "key": "gray",
+      "mode": "primary-scale",
+      "hue": 0,
+      "saturation": 8.8,
+      "swatches": [
+        {
+          "label": "0",
+          "index": 0,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 100,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 100%)"
+        },
+        {
+          "label": "1",
+          "index": 1,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 97.47,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 97.47%)"
+        },
+        {
+          "label": "2",
+          "index": 2,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 91.57,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 91.57%)"
+        },
+        {
+          "label": "3",
+          "index": 3,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 83.62,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 83.62%)"
+        },
+        {
+          "label": "4",
+          "index": 4,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 74.22,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 74.22%)"
+        },
+        {
+          "label": "5",
+          "index": 5,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 63.73,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 63.73%)"
+        },
+        {
+          "label": "6",
+          "index": 6,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 52.37,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 52.37%)"
+        },
+        {
+          "label": "7",
+          "index": 7,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 40.25,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 40.25%)"
+        },
+        {
+          "label": "8",
+          "index": 8,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 27.48,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 27.48%)"
+        },
+        {
+          "label": "9",
+          "index": 9,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 14.09,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 14.09%)"
+        },
+        {
+          "label": "10",
+          "index": 10,
+          "hue": 0,
+          "saturation": 8.8,
+          "lightness": 0,
+          "offset": 0,
+          "hsl": "hsl(0deg 8.8% 0%)"
+        }
+      ]
+    },
+    {
+      "key": "neutral",
+      "mode": "neutral",
+      "hue": 0,
+      "saturation": 0,
+      "swatches": [
+        {
+          "label": "0",
+          "index": 0,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 100,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 100%)"
+        },
+        {
+          "label": "1",
+          "index": 1,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 97.47,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 97.47%)"
+        },
+        {
+          "label": "2",
+          "index": 2,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 91.57,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 91.57%)"
+        },
+        {
+          "label": "3",
+          "index": 3,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 83.62,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 83.62%)"
+        },
+        {
+          "label": "4",
+          "index": 4,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 74.22,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 74.22%)"
+        },
+        {
+          "label": "5",
+          "index": 5,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 63.73,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 63.73%)"
+        },
+        {
+          "label": "6",
+          "index": 6,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 52.37,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 52.37%)"
+        },
+        {
+          "label": "7",
+          "index": 7,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 40.25,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 40.25%)"
+        },
+        {
+          "label": "8",
+          "index": 8,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 27.48,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 27.48%)"
+        },
+        {
+          "label": "9",
+          "index": 9,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 14.09,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 14.09%)"
+        },
+        {
+          "label": "10",
+          "index": 10,
+          "hue": 0,
+          "saturation": 0,
+          "lightness": 0,
+          "offset": 0,
+          "hsl": "hsl(0deg 0% 0%)"
+        }
+      ]
+    }
+  ],
+  "hueSwatches": [
+    {
+      "name": "crimson",
+      "baseHue": 0,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 34,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 34,
+          "hsl": "hsl(34deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 27.9,
+          "saturation": 88,
+          "lightness": 97.47,
+          "offset": 27.9,
+          "hsl": "hsl(27.9deg 88% 97.47%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 21.8,
+          "saturation": 88,
+          "lightness": 91.57,
+          "offset": 21.8,
+          "hsl": "hsl(21.8deg 88% 91.57%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 15.7,
+          "saturation": 88,
+          "lightness": 83.62,
+          "offset": 15.7,
+          "hsl": "hsl(15.7deg 88% 83.62%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 9.6,
+          "saturation": 88,
+          "lightness": 74.22,
+          "offset": 9.6,
+          "hsl": "hsl(9.6deg 88% 74.22%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 3.5,
+          "saturation": 88,
+          "lightness": 63.73,
+          "offset": 3.5,
+          "hsl": "hsl(3.5deg 88% 63.73%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 357.4,
+          "saturation": 88,
+          "lightness": 52.37,
+          "offset": -2.6,
+          "hsl": "hsl(357.4deg 88% 52.37%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 351.3,
+          "saturation": 88,
+          "lightness": 40.25,
+          "offset": -8.7,
+          "hsl": "hsl(351.3deg 88% 40.25%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 345.2,
+          "saturation": 88,
+          "lightness": 27.48,
+          "offset": -14.8,
+          "hsl": "hsl(345.2deg 88% 27.48%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 339.1,
+          "saturation": 88,
+          "lightness": 14.09,
+          "offset": -20.9,
+          "hsl": "hsl(339.1deg 88% 14.09%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 333,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": -27,
+          "hsl": "hsl(333deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "flame",
+      "baseHue": 30,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 54,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 24,
+          "hsl": "hsl(54deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 49.6,
+          "saturation": 88,
+          "lightness": 93.67,
+          "offset": 19.6,
+          "hsl": "hsl(49.6deg 88% 93.67%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 45.2,
+          "saturation": 88,
+          "lightness": 83.97,
+          "offset": 15.2,
+          "hsl": "hsl(45.2deg 88% 83.97%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 40.8,
+          "saturation": 88,
+          "lightness": 75.41,
+          "offset": 10.8,
+          "hsl": "hsl(40.8deg 88% 75.41%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 36.4,
+          "saturation": 88,
+          "lightness": 67.74,
+          "offset": 6.4,
+          "hsl": "hsl(36.4deg 88% 67.74%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 32,
+          "saturation": 88,
+          "lightness": 61.2,
+          "offset": 2,
+          "hsl": "hsl(32deg 88% 61.2%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 27.6,
+          "saturation": 88,
+          "lightness": 52.37,
+          "offset": -2.4,
+          "hsl": "hsl(27.6deg 88% 52.37%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 23.2,
+          "saturation": 88,
+          "lightness": 40.25,
+          "offset": -6.8,
+          "hsl": "hsl(23.2deg 88% 40.25%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 18.8,
+          "saturation": 88,
+          "lightness": 27.48,
+          "offset": -11.2,
+          "hsl": "hsl(18.8deg 88% 27.48%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 14.4,
+          "saturation": 88,
+          "lightness": 14.09,
+          "offset": -15.6,
+          "hsl": "hsl(14.4deg 88% 14.09%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 10,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": -20,
+          "hsl": "hsl(10deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "wheat",
+      "baseHue": 60,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 74,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 14,
+          "hsl": "hsl(74deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 69.4,
+          "saturation": 88,
+          "lightness": 93.67,
+          "offset": 9.4,
+          "hsl": "hsl(69.4deg 88% 93.67%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 64.8,
+          "saturation": 88,
+          "lightness": 83.97,
+          "offset": 4.8,
+          "hsl": "hsl(64.8deg 88% 83.97%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 60.2,
+          "saturation": 88,
+          "lightness": 72.22,
+          "offset": 0.2,
+          "hsl": "hsl(60.2deg 88% 72.22%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 55.6,
+          "saturation": 88,
+          "lightness": 59.03,
+          "offset": -4.4,
+          "hsl": "hsl(55.6deg 88% 59.03%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 51,
+          "saturation": 88,
+          "lightness": 44.75,
+          "offset": -9,
+          "hsl": "hsl(51deg 88% 44.75%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 46.4,
+          "saturation": 88,
+          "lightness": 34.72,
+          "offset": -13.6,
+          "hsl": "hsl(46.4deg 88% 34.72%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 41.8,
+          "saturation": 88,
+          "lightness": 29.84,
+          "offset": -18.2,
+          "hsl": "hsl(41.8deg 88% 29.84%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 37.2,
+          "saturation": 88,
+          "lightness": 23.25,
+          "offset": -22.8,
+          "hsl": "hsl(37.2deg 88% 23.25%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 32.6,
+          "saturation": 88,
+          "lightness": 13.32,
+          "offset": -27.4,
+          "hsl": "hsl(32.6deg 88% 13.32%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 28,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": -32,
+          "hsl": "hsl(28deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "lime",
+      "baseHue": 90,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 93.67,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 93.67%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 83.97,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 83.97%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 72.22,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 72.22%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 59.03,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 59.03%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 44.75,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 44.75%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 34.72,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 34.72%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 27.02,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 27.02%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 18.66,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 18.66%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 9.68,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 9.68%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 76,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": -14,
+          "hsl": "hsl(76deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "grass",
+      "baseHue": 120,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 119,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": -1,
+          "hsl": "hsl(119deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 121,
+          "saturation": 88,
+          "lightness": 93.67,
+          "offset": 1,
+          "hsl": "hsl(121deg 88% 93.67%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 123,
+          "saturation": 88,
+          "lightness": 83.97,
+          "offset": 3,
+          "hsl": "hsl(123deg 88% 83.97%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 125,
+          "saturation": 88,
+          "lightness": 72.22,
+          "offset": 5,
+          "hsl": "hsl(125deg 88% 72.22%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 127,
+          "saturation": 88,
+          "lightness": 59.03,
+          "offset": 7,
+          "hsl": "hsl(127deg 88% 59.03%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 129,
+          "saturation": 88,
+          "lightness": 44.75,
+          "offset": 9,
+          "hsl": "hsl(129deg 88% 44.75%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 131,
+          "saturation": 88,
+          "lightness": 34.72,
+          "offset": 11,
+          "hsl": "hsl(131deg 88% 34.72%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 133,
+          "saturation": 88,
+          "lightness": 27.02,
+          "offset": 13,
+          "hsl": "hsl(133deg 88% 27.02%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 135,
+          "saturation": 88,
+          "lightness": 18.66,
+          "offset": 15,
+          "hsl": "hsl(135deg 88% 18.66%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 137,
+          "saturation": 88,
+          "lightness": 9.68,
+          "offset": 17,
+          "hsl": "hsl(137deg 88% 9.68%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 139,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": 19,
+          "hsl": "hsl(139deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "sea",
+      "baseHue": 150,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 164,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 14,
+          "hsl": "hsl(164deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 163.4,
+          "saturation": 88,
+          "lightness": 93.67,
+          "offset": 13.4,
+          "hsl": "hsl(163.4deg 88% 93.67%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 162.8,
+          "saturation": 88,
+          "lightness": 83.97,
+          "offset": 12.8,
+          "hsl": "hsl(162.8deg 88% 83.97%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 162.2,
+          "saturation": 88,
+          "lightness": 72.22,
+          "offset": 12.2,
+          "hsl": "hsl(162.2deg 88% 72.22%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 161.6,
+          "saturation": 88,
+          "lightness": 59.03,
+          "offset": 11.6,
+          "hsl": "hsl(161.6deg 88% 59.03%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 161,
+          "saturation": 88,
+          "lightness": 44.75,
+          "offset": 11,
+          "hsl": "hsl(161deg 88% 44.75%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 160.4,
+          "saturation": 88,
+          "lightness": 34.72,
+          "offset": 10.4,
+          "hsl": "hsl(160.4deg 88% 34.72%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 159.8,
+          "saturation": 88,
+          "lightness": 27.02,
+          "offset": 9.8,
+          "hsl": "hsl(159.8deg 88% 27.02%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 159.2,
+          "saturation": 88,
+          "lightness": 18.66,
+          "offset": 9.2,
+          "hsl": "hsl(159.2deg 88% 18.66%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 158.6,
+          "saturation": 88,
+          "lightness": 9.68,
+          "offset": 8.6,
+          "hsl": "hsl(158.6deg 88% 9.68%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 158,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": 8,
+          "hsl": "hsl(158deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "sky",
+      "baseHue": 180,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 197,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 17,
+          "hsl": "hsl(197deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 195.5,
+          "saturation": 88,
+          "lightness": 93.8,
+          "offset": 15.5,
+          "hsl": "hsl(195.5deg 88% 93.8%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 194,
+          "saturation": 88,
+          "lightness": 83.97,
+          "offset": 14,
+          "hsl": "hsl(194deg 88% 83.97%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 192.5,
+          "saturation": 88,
+          "lightness": 72.22,
+          "offset": 12.5,
+          "hsl": "hsl(192.5deg 88% 72.22%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 191,
+          "saturation": 88,
+          "lightness": 59.03,
+          "offset": 11,
+          "hsl": "hsl(191deg 88% 59.03%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 189.5,
+          "saturation": 88,
+          "lightness": 44.75,
+          "offset": 9.5,
+          "hsl": "hsl(189.5deg 88% 44.75%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 188,
+          "saturation": 88,
+          "lightness": 34.72,
+          "offset": 8,
+          "hsl": "hsl(188deg 88% 34.72%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 186.5,
+          "saturation": 88,
+          "lightness": 27.02,
+          "offset": 6.5,
+          "hsl": "hsl(186.5deg 88% 27.02%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 185,
+          "saturation": 88,
+          "lightness": 18.66,
+          "offset": 5,
+          "hsl": "hsl(185deg 88% 18.66%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 183.5,
+          "saturation": 88,
+          "lightness": 9.68,
+          "offset": 3.5,
+          "hsl": "hsl(183.5deg 88% 9.68%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 182,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": 2,
+          "hsl": "hsl(182deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "corn",
+      "baseHue": 210,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 210,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 0,
+          "hsl": "hsl(210deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 210.9,
+          "saturation": 88,
+          "lightness": 97.52,
+          "offset": 0.9,
+          "hsl": "hsl(210.9deg 88% 97.52%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 211.8,
+          "saturation": 88,
+          "lightness": 91.78,
+          "offset": 1.8,
+          "hsl": "hsl(211.8deg 88% 91.78%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 212.7,
+          "saturation": 88,
+          "lightness": 84.1,
+          "offset": 2.7,
+          "hsl": "hsl(212.7deg 88% 84.1%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 213.6,
+          "saturation": 88,
+          "lightness": 75.09,
+          "offset": 3.6,
+          "hsl": "hsl(213.6deg 88% 75.09%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 214.5,
+          "saturation": 88,
+          "lightness": 65.08,
+          "offset": 4.5,
+          "hsl": "hsl(214.5deg 88% 65.08%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 215.4,
+          "saturation": 88,
+          "lightness": 54.31,
+          "offset": 5.4,
+          "hsl": "hsl(215.4deg 88% 54.31%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 216.3,
+          "saturation": 88,
+          "lightness": 42.9,
+          "offset": 6.3,
+          "hsl": "hsl(216.3deg 88% 42.9%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 217.2,
+          "saturation": 88,
+          "lightness": 30.94,
+          "offset": 7.2,
+          "hsl": "hsl(217.2deg 88% 30.94%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 218.1,
+          "saturation": 88,
+          "lightness": 18.46,
+          "offset": 8.1,
+          "hsl": "hsl(218.1deg 88% 18.46%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 219,
+          "saturation": 88,
+          "lightness": 5.4,
+          "offset": 9,
+          "hsl": "hsl(219deg 88% 5.4%)"
+        }
+      ]
+    },
+    {
+      "name": "dusk",
+      "baseHue": 240,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 246,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": 6,
+          "hsl": "hsl(246deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 246.7,
+          "saturation": 88,
+          "lightness": 98.37,
+          "offset": 6.7,
+          "hsl": "hsl(246.7deg 88% 98.37%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 247.4,
+          "saturation": 88,
+          "lightness": 93.37,
+          "offset": 7.4,
+          "hsl": "hsl(247.4deg 88% 93.37%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 248.1,
+          "saturation": 88,
+          "lightness": 86.32,
+          "offset": 8.1,
+          "hsl": "hsl(248.1deg 88% 86.32%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 248.8,
+          "saturation": 88,
+          "lightness": 77.82,
+          "offset": 8.8,
+          "hsl": "hsl(248.8deg 88% 77.82%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 249.5,
+          "saturation": 88,
+          "lightness": 68.23,
+          "offset": 9.5,
+          "hsl": "hsl(249.5deg 88% 68.23%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 250.2,
+          "saturation": 88,
+          "lightness": 57.77,
+          "offset": 10.2,
+          "hsl": "hsl(250.2deg 88% 57.77%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 250.9,
+          "saturation": 88,
+          "lightness": 46.55,
+          "offset": 10.9,
+          "hsl": "hsl(250.9deg 88% 46.55%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 251.6,
+          "saturation": 88,
+          "lightness": 34.68,
+          "offset": 11.6,
+          "hsl": "hsl(251.6deg 88% 34.68%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 252.3,
+          "saturation": 88,
+          "lightness": 22.19,
+          "offset": 12.3,
+          "hsl": "hsl(252.3deg 88% 22.19%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 253,
+          "saturation": 88,
+          "lightness": 9,
+          "offset": 13,
+          "hsl": "hsl(253deg 88% 9%)"
+        }
+      ]
+    },
+    {
+      "name": "plum",
+      "baseHue": 270,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 265,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": -5,
+          "hsl": "hsl(265deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 265.1,
+          "saturation": 88,
+          "lightness": 98.37,
+          "offset": -4.9,
+          "hsl": "hsl(265.1deg 88% 98.37%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 265.2,
+          "saturation": 88,
+          "lightness": 93.37,
+          "offset": -4.8,
+          "hsl": "hsl(265.2deg 88% 93.37%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 265.3,
+          "saturation": 88,
+          "lightness": 86.32,
+          "offset": -4.7,
+          "hsl": "hsl(265.3deg 88% 86.32%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 265.4,
+          "saturation": 88,
+          "lightness": 77.82,
+          "offset": -4.6,
+          "hsl": "hsl(265.4deg 88% 77.82%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 265.5,
+          "saturation": 88,
+          "lightness": 68.23,
+          "offset": -4.5,
+          "hsl": "hsl(265.5deg 88% 68.23%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 265.6,
+          "saturation": 88,
+          "lightness": 57.77,
+          "offset": -4.4,
+          "hsl": "hsl(265.6deg 88% 57.77%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 265.7,
+          "saturation": 88,
+          "lightness": 46.55,
+          "offset": -4.3,
+          "hsl": "hsl(265.7deg 88% 46.55%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 265.8,
+          "saturation": 88,
+          "lightness": 34.68,
+          "offset": -4.2,
+          "hsl": "hsl(265.8deg 88% 34.68%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 265.9,
+          "saturation": 88,
+          "lightness": 22.19,
+          "offset": -4.1,
+          "hsl": "hsl(265.9deg 88% 22.19%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 266,
+          "saturation": 88,
+          "lightness": 9,
+          "offset": -4,
+          "hsl": "hsl(266deg 88% 9%)"
+        }
+      ]
+    },
+    {
+      "name": "candy",
+      "baseHue": 300,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 294,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": -6,
+          "hsl": "hsl(294deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 295.2,
+          "saturation": 88,
+          "lightness": 97.75,
+          "offset": -4.8,
+          "hsl": "hsl(295.2deg 88% 97.75%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 296.4,
+          "saturation": 88,
+          "lightness": 92,
+          "offset": -3.6,
+          "hsl": "hsl(296.4deg 88% 92%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 297.6,
+          "saturation": 88,
+          "lightness": 84.05,
+          "offset": -2.4,
+          "hsl": "hsl(297.6deg 88% 84.05%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 298.8,
+          "saturation": 88,
+          "lightness": 74.51,
+          "offset": -1.2,
+          "hsl": "hsl(298.8deg 88% 74.51%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 300,
+          "saturation": 88,
+          "lightness": 63.73,
+          "offset": 0,
+          "hsl": "hsl(300deg 88% 63.73%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 301.2,
+          "saturation": 88,
+          "lightness": 52.37,
+          "offset": 1.2,
+          "hsl": "hsl(301.2deg 88% 52.37%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 302.4,
+          "saturation": 88,
+          "lightness": 40.25,
+          "offset": 2.4,
+          "hsl": "hsl(302.4deg 88% 40.25%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 303.6,
+          "saturation": 88,
+          "lightness": 27.48,
+          "offset": 3.6,
+          "hsl": "hsl(303.6deg 88% 27.48%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 304.8,
+          "saturation": 88,
+          "lightness": 14.09,
+          "offset": 4.8,
+          "hsl": "hsl(304.8deg 88% 14.09%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 306,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": 6,
+          "hsl": "hsl(306deg 88% 0%)"
+        }
+      ]
+    },
+    {
+      "name": "salmon",
+      "baseHue": 330,
+      "shades": [
+        {
+          "label": "50",
+          "index": 0,
+          "hue": 317,
+          "saturation": 88,
+          "lightness": 100,
+          "offset": -13,
+          "hsl": "hsl(317deg 88% 100%)"
+        },
+        {
+          "label": "100",
+          "index": 1,
+          "hue": 319.3,
+          "saturation": 88,
+          "lightness": 97.47,
+          "offset": -10.7,
+          "hsl": "hsl(319.3deg 88% 97.47%)"
+        },
+        {
+          "label": "200",
+          "index": 2,
+          "hue": 321.6,
+          "saturation": 88,
+          "lightness": 91.57,
+          "offset": -8.4,
+          "hsl": "hsl(321.6deg 88% 91.57%)"
+        },
+        {
+          "label": "300",
+          "index": 3,
+          "hue": 323.9,
+          "saturation": 88,
+          "lightness": 83.62,
+          "offset": -6.1,
+          "hsl": "hsl(323.9deg 88% 83.62%)"
+        },
+        {
+          "label": "400",
+          "index": 4,
+          "hue": 326.2,
+          "saturation": 88,
+          "lightness": 74.22,
+          "offset": -3.8,
+          "hsl": "hsl(326.2deg 88% 74.22%)"
+        },
+        {
+          "label": "500",
+          "index": 5,
+          "hue": 328.5,
+          "saturation": 88,
+          "lightness": 63.73,
+          "offset": -1.5,
+          "hsl": "hsl(328.5deg 88% 63.73%)"
+        },
+        {
+          "label": "600",
+          "index": 6,
+          "hue": 330.8,
+          "saturation": 88,
+          "lightness": 52.37,
+          "offset": 0.8,
+          "hsl": "hsl(330.8deg 88% 52.37%)"
+        },
+        {
+          "label": "700",
+          "index": 7,
+          "hue": 333.1,
+          "saturation": 88,
+          "lightness": 40.25,
+          "offset": 3.1,
+          "hsl": "hsl(333.1deg 88% 40.25%)"
+        },
+        {
+          "label": "800",
+          "index": 8,
+          "hue": 335.4,
+          "saturation": 88,
+          "lightness": 27.48,
+          "offset": 5.4,
+          "hsl": "hsl(335.4deg 88% 27.48%)"
+        },
+        {
+          "label": "900",
+          "index": 9,
+          "hue": 337.7,
+          "saturation": 88,
+          "lightness": 14.09,
+          "offset": 7.7,
+          "hsl": "hsl(337.7deg 88% 14.09%)"
+        },
+        {
+          "label": "950",
+          "index": 10,
+          "hue": 340,
+          "saturation": 88,
+          "lightness": 0,
+          "offset": 10,
+          "hsl": "hsl(340deg 88% 0%)"
+        }
+      ]
+    }
+  ]
+}

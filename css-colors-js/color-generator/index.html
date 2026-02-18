@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Color Generator</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body
+    style="
+      --hue-primary: 183deg;
+      --saturation-primary: 66%;
+      --lightness-primary: 50%;
+      --hue-offset: 0deg;
+      --lightness-white: 100%;
+      --lightness-lightest: 90%;
+      --lightness-lighter: 80%;
+      --lightness-light: 70%;
+      --lightness-medium-lighter: 60%;
+      --lightness-medium-light: 60%;
+      --lightness-medium: 50%;
+      --lightness-medium-dark: 40%;
+      --lightness-medium-darker: 40%;
+      --lightness-dark: 30%;
+      --lightness-darker: 20%;
+      --lightness-darkest: 10%;
+      --lightness-black: 0%;
+    "
+  >
+    <main>
+      <header>
+        <h1>Color Generator</h1>
+        <p>
+          Adjust the hue and saturation values to explore the parsed color
+          output and view sample combinations.
+        </p>
+      </header>
+
+      <section class="step step--1">
+        <h2>1. Source color</h2>
+        <p>
+          Paste an RGB, HEX, HSL or OKLCH color to get it's components. We will
+          work from there.
+        </p>
+        <fieldset class="color-entry__system">
+          <legend class="sr-only">Select color system</legend>
+          <div class="color-entry__system-options" data-palette-selector>
+            <label class="color-entry__system-option">
+              <input
+                type="radio"
+                name="color-system"
+                value="practical"
+                checked
+              />
+              Practical
+            </label>
+            <label class="color-entry__system-option">
+              <input type="radio" name="color-system" value="tailwind" />
+              Tailwind
+            </label>
+          </div>
+        </fieldset>
+        <form data-color-form class="color-entry">
+          <section class="color-entry__inputs">
+            <h3>Source color</h3>
+            <div class="color-entry__input color-entry__input--color">
+              <label for="input-color">Color Code</label>
+              <input
+                id="input-color"
+                name="input-color"
+                type="text"
+                placeholder="#rrggbb"
+                autocomplete="off"
+                data-color-input
+              />
+            </div>
+            <p>or use these three</p>
+            <div
+              data-color-sliders
+              class="color-entry__input color-entry__input--hue"
+            >
+              <label for="input-hue">Hue</label>
+              <input
+                id="input-hue"
+                name="input-hue"
+                type="range"
+                min="0"
+                max="360"
+                value="183"
+                data-color-hue
+              />
+              <output for="input-hue">--</output>
+            </div>
+            <div
+              data-color-sliders
+              class="color-entry__input color-entry__input--saturation"
+            >
+              <label for="input-saturation">Saturation</label>
+              <input
+                id="input-saturation"
+                name="input-saturation"
+                type="range"
+                min="0"
+                max="100"
+                value="66"
+                data-color-saturation
+              />
+              <output for="input-saturation">--</output>
+            </div>
+            <div
+              data-color-sliders
+              class="color-entry__input color-entry__lightness"
+            >
+              <label for="input-lightness">lightness</label>
+              <input
+                id="input-lightness"
+                name="input-lightness"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                data-color-lightness
+              />
+              <output for="input-lightness">--</output>
+            </div>
+          </section>
+
+          <section
+            aria-live="polite"
+            class="color-entry__output"
+            data-color-output
+          >
+            <h3>Color results</h3>
+            <div class="color-entry__sample"></div>
+            <dl>
+              <dt>Hue</dt>
+              <dd data-output-hue>--</dd>
+            </dl>
+            <dl>
+              <dt>Saturation</dt>
+              <dd data-output-saturation>--</dd>
+            </dl>
+            <dl>
+              <dt>Lightness</dt>
+              <dd data-output-lightness>--</dd>
+            </dl>
+          </section>
+        </form>
+      </section>
+
+      <section class="step step--2">
+        <h2>2. Adjust lightness range</h2>
+        <div class="color-output__layout color-output__layout--top">
+          <div class="color-output__column color-output__column--slider">
+            <label for="top-light-slider">Light Slider</label>
+            <input
+              id="top-light-slider"
+              name="top-light-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value="0.69"
+              class="color-output__slider-input"
+            />
+          </div>
+
+          <div
+            class="color-output__column color-output__column--samples"
+            data-color-samples
+          ></div>
+
+          <div class="color-output__column color-output__column--slider">
+            <label for="top-dark-slider">Dark Slider</label>
+            <input
+              id="top-dark-slider"
+              name="top-dark-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value="0"
+              class="color-output__slider-input"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="step step--3">
+        <div
+          class="hsl-adjustment"
+          aria-label="Lightness adjustment controls"
+          data-lightness-adjustments
+        >
+          <h2>3. Adjust HSL lightness</h2>
+
+          <div class="hsl-adjustment__toggle">
+            <label>
+              <input type="checkbox" data-lightness-adjust-toggle />
+              Apply lightness adjustment
+            </label>
+          </div>
+
+          <div class="hsl-adjustment__controls">
+            <div class="hsl-adjustment__control" data-adjustment-row>
+              <h4>Darkening</h4>
+
+              <label class="hsl-adjustment__field">
+                <span>Light falloff</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  data-adjustment-slider
+                  data-adjustment-range="darkening"
+                  data-adjustment-field="lightnessFalloffLight"
+                />
+                <output data-adjustment-value></output>
+              </label>
+
+              <label class="hsl-adjustment__field">
+                <span>Amplitude</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  step="0.5"
+                  data-adjustment-slider
+                  data-adjustment-range="darkening"
+                  data-adjustment-field="lightnessAmplitude"
+                />
+                <output data-adjustment-value></output>
+              </label>
+
+              <label class="hsl-adjustment__field">
+                <span>Dark falloff</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  data-adjustment-slider
+                  data-adjustment-range="darkening"
+                  data-adjustment-field="lightnessFalloffDark"
+                />
+                <output data-adjustment-value></output>
+              </label>
+            </div>
+
+            <div class="hsl-adjustment__control" data-adjustment-row>
+              <h4>Brightening</h4>
+
+              <label class="hsl-adjustment__field">
+                <span>Light falloff</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  data-adjustment-slider
+                  data-adjustment-range="brightening"
+                  data-adjustment-field="lightnessFalloffLight"
+                />
+                <output data-adjustment-value></output>
+              </label>
+
+              <label class="hsl-adjustment__field">
+                <span>Amplitude</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  step="0.5"
+                  data-adjustment-slider
+                  data-adjustment-range="brightening"
+                  data-adjustment-field="lightnessAmplitude"
+                />
+                <output data-adjustment-value></output>
+              </label>
+
+              <label class="hsl-adjustment__field">
+                <span>Dark falloff</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  data-adjustment-slider
+                  data-adjustment-range="brightening"
+                  data-adjustment-field="lightnessFalloffDark"
+                />
+                <output data-adjustment-value></output>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step step--4">
+        <h2>4. Adjust individual hues</h2>
+        <div class="color-output__layouts" data-hue-grid></div>
+      </section>
+
+      <section class="step step--5" data-export-panel>
+        <h2>5. Export current settings</h2>
+        <p>
+          Generate a config snapshot from every control on this page so you can
+          paste it back here for quick updates.
+        </p>
+        <div class="export-controls">
+          <button
+            type="button"
+            class="export-controls__button"
+            data-export-generate
+          >
+            Generate config
+          </button>
+          <button
+            type="button"
+            class="export-controls__button export-controls__button--copy"
+            data-export-copy
+            disabled
+          >
+            Copy to clipboard
+          </button>
+        </div>
+        <p
+          class="export-controls__message"
+          data-export-message
+          role="status"
+          aria-live="polite"
+          hidden
+        ></p>
+        <textarea
+          class="export-controls__output"
+          data-export-output
+          rows="12"
+          readonly
+          hidden
+        ></textarea>
+      </section>
+    </main>
+
+    <script src="./scripts/init.js"></script>
+  </body>
+</html>

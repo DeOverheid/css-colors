@@ -1,0 +1,357 @@
+/*
+    Hue palettes
+
+    This file generates 12 hue palettes, each with 9 lightness variations and the default saturation.
+ */
+@import url("lists.css");
+
+:root {
+    /* Crimson - 0° hue */
+    --crimson-lightest: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --crimson-lighter: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --crimson-light: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-light)
+    );
+    --crimson-medium-light: hsl(
+        var(--hue-crimson) var(--saturation-medium)
+            var(--lightness-medium-light)
+    );
+    --crimson-medium: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-medium)
+    );
+    --crimson-medium-dark: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --crimson-dark: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-dark)
+    );
+    --crimson-darker: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-darker)
+    );
+    --crimson-darkest: hsl(
+        var(--hue-crimson) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Flame - 30° hue */
+    --flame-lightest: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --flame-lighter: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --flame-light: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-light)
+    );
+    --flame-medium-light: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --flame-medium: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-medium)
+    );
+    --flame-medium-dark: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --flame-dark: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-dark)
+    );
+    --flame-darker: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-darker)
+    );
+    --flame-darkest: hsl(
+        var(--hue-flame) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Wheat - 60° hue */
+    --wheat-lightest: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --wheat-lighter: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --wheat-light: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-light)
+    );
+    --wheat-medium-light: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --wheat-medium: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-medium)
+    );
+    --wheat-medium-dark: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --wheat-dark: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-dark)
+    );
+    --wheat-darker: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-darker)
+    );
+    --wheat-darkest: hsl(
+        var(--hue-wheat) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Lime - 90° hue */
+    --lime-lightest: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --lime-lighter: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --lime-light: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-light)
+    );
+    --lime-medium-light: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --lime-medium: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-medium)
+    );
+    --lime-medium-dark: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --lime-dark: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-dark)
+    );
+    --lime-darker: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-darker)
+    );
+    --lime-darkest: hsl(
+        var(--hue-lime) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Grass - 120° hue */
+    --grass-lightest: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --grass-lighter: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --grass-light: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-light)
+    );
+    --grass-medium-light: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --grass-medium: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-medium)
+    );
+    --grass-medium-dark: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --grass-dark: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-dark)
+    );
+    --grass-darker: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-darker)
+    );
+    --grass-darkest: hsl(
+        var(--hue-grass) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Sea - 150° hue */
+    --sea-lightest: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --sea-lighter: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --sea-light: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-light)
+    );
+    --sea-medium-light: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --sea-medium: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-medium)
+    );
+    --sea-medium-dark: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --sea-dark: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-dark)
+    );
+    --sea-darker: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-darker)
+    );
+    --sea-darkest: hsl(
+        var(--hue-sea) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Sky - 180° hue */
+    --sky-lightest: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --sky-lighter: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --sky-light: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-light)
+    );
+    --sky-medium-light: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --sky-medium: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-medium)
+    );
+    --sky-medium-dark: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --sky-dark: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-dark)
+    );
+    --sky-darker: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-darker)
+    );
+    --sky-darkest: hsl(
+        var(--hue-sky) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Corn - 210° hue */
+    --corn-lightest: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --corn-lighter: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --corn-light: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-light)
+    );
+    --corn-medium-light: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --corn-medium: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-medium)
+    );
+    --corn-medium-dark: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --corn-dark: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-dark)
+    );
+    --corn-darker: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-darker)
+    );
+    --corn-darkest: hsl(
+        var(--hue-corn) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Dusk - 240° hue */
+    --dusk-lightest: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --dusk-lighter: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --dusk-light: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-light)
+    );
+    --dusk-medium-light: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --dusk-medium: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-medium)
+    );
+    --dusk-medium-dark: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --dusk-dark: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-dark)
+    );
+    --dusk-darker: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-darker)
+    );
+    --dusk-darkest: hsl(
+        var(--hue-dusk) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Plum - 270° hue */
+    --plum-lightest: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --plum-lighter: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --plum-light: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-light)
+    );
+    --plum-medium-light: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --plum-medium: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-medium)
+    );
+    --plum-medium-dark: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --plum-dark: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-dark)
+    );
+    --plum-darker: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-darker)
+    );
+    --plum-darkest: hsl(
+        var(--hue-plum) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Candy - 300° hue */
+    --candy-lightest: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --candy-lighter: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --candy-light: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-light)
+    );
+    --candy-medium-light: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --candy-medium: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-medium)
+    );
+    --candy-medium-dark: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --candy-dark: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-dark)
+    );
+    --candy-darker: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-darker)
+    );
+    --candy-darkest: hsl(
+        var(--hue-candy) var(--saturation-medium) var(--lightness-darkest)
+    );
+
+    /* Salmon - 330° hue */
+    --salmon-lightest: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-lightest)
+    );
+    --salmon-lighter: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-lighter)
+    );
+    --salmon-light: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-light)
+    );
+    --salmon-medium-light: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-medium-light)
+    );
+    --salmon-medium: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-medium)
+    );
+    --salmon-medium-dark: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-medium-dark)
+    );
+    --salmon-dark: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-dark)
+    );
+    --salmon-darker: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-darker)
+    );
+    --salmon-darkest: hsl(
+        var(--hue-salmon) var(--saturation-medium) var(--lightness-darkest)
+    );
+}

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Color Parsing Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-shared.css" />
+    <link rel="stylesheet" href="demo-colors.css" />
+  </head>
+  <body>
+    <main class="colors-demo demo-ui">
+      <h1>Color generator</h1>
+      <p class="colors-demo__intro demo-ui__intro">
+        Paste a color in <code>hex</code>, <code>rgb()</code>,
+        <code>hsl()</code>, or <code>oklch()</code>. The demo extracts hue,
+        saturation, and lightness, then applies the hue spread using the default
+        <code>cubic-bezier(0, 0.67, 0, 1)</code> lightness curve.
+      </p>
+      <form
+        class="colors-demo__form"
+        data-role="color-form"
+        data-color-form
+        novalidate
+      >
+        <div class="colors-demo__form-row colors-demo__form-row--title">
+          <h2 class="colors-demo__form-title">Input primary color</h2>
+        </div>
+        <div class="colors-demo__form-row colors-demo__form-row--input">
+          <div class="colors-demo__field">
+            <label class="colors-demo__label" for="color-input"
+              >Color code</label
+            >
+            <input
+              id="color-input"
+              name="color"
+              class="colors-demo__input"
+              type="text"
+              placeholder="#cc3344 or hsl(210, 60%, 50%)"
+              autocomplete="off"
+              data-role="color-input"
+              data-color-input
+            />
+          </div>
+          <div class="colors-demo__actions">
+            <button type="submit" class="colors-demo__button">
+              Apply color
+            </button>
+            <span
+              class="colors-demo__status"
+              data-role="color-status"
+              data-color-status
+              aria-live="polite"
+            ></span>
+          </div>
+        </div>
+        <div
+          class="colors-demo__form-row colors-demo__form-row--sliders"
+          data-color-sliders
+        >
+          <label
+            class="colors-demo__slider demo-slider"
+            data-color-slider="hue"
+            data-color-slider-unit="°"
+          >
+            <span class="demo-slider__label">Hue</span>
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="1"
+              value="0"
+              class="demo-slider__input"
+              data-role="slider-hue"
+              data-color-slider-input
+            />
+            <span
+              class="demo-slider__value"
+              data-role="slider-hue-value"
+              data-color-slider-output
+              aria-live="polite"
+              >0°</span
+            >
+          </label>
+          <label
+            class="colors-demo__slider demo-slider"
+            data-color-slider="saturation"
+            data-color-slider-unit="%"
+          >
+            <span class="demo-slider__label">Saturation</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="66"
+              class="demo-slider__input"
+              data-role="slider-saturation"
+              data-color-slider-input
+            />
+            <span
+              class="demo-slider__value"
+              data-role="slider-saturation-value"
+              data-color-slider-output
+              aria-live="polite"
+              >66%</span
+            >
+          </label>
+        </div>
+        <div class="colors-demo__form-row colors-demo__form-row--summary">
+          <div
+            class="colors-demo__summary"
+            data-color-summary-root
+            aria-live="polite"
+          >
+            <span class="colors-demo__summary-title">Parsed values</span>
+            <div class="colors-demo__summary-values">
+              <span class="colors-demo__summary-item">
+                <span class="colors-demo__summary-label">Hue</span>
+                <span
+                  class="colors-demo__summary-value"
+                  data-role="summary-hue"
+                  data-color-summary="hue"
+                  >--</span
+                >
+              </span>
+              <span class="colors-demo__summary-item">
+                <span class="colors-demo__summary-label">Saturation</span>
+                <span
+                  class="colors-demo__summary-value"
+                  data-role="summary-saturation"
+                  data-color-summary="saturation"
+                  >--</span
+                >
+              </span>
+              <span class="colors-demo__summary-item">
+                <span class="colors-demo__summary-label">Grey (auto)</span>
+                <span
+                  class="colors-demo__summary-value"
+                  data-role="summary-grey"
+                  data-color-summary="grey"
+                  >--</span
+                >
+              </span>
+              <span class="colors-demo__summary-item">
+                <span class="colors-demo__summary-label">Lightness</span>
+                <span
+                  class="colors-demo__summary-value"
+                  data-role="summary-lightness"
+                  data-color-summary="lightness"
+                  >--</span
+                >
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+      <section class="colors-demo__spread" aria-label="Hue spread preview">
+        <section
+          class="colors-demo__spread-row colors-demo__spread-row--primary"
+          aria-label="Primary hue row"
+          data-hue-row
+          data-role="primary-row"
+          data-color-row="primary"
+          data-base-hue="0"
+          data-base-saturation="66"
+          data-step-count="12"
+        >
+          <div class="colors-demo__spread-row-grid">
+            <label
+              class="hue-slider hue-slider--left demo-slider demo-slider--start"
+            >
+              <span class="hue-slider__label demo-slider__label"
+                >White offset</span
+              >
+              <input
+                type="range"
+                min="-30"
+                max="30"
+                step="1"
+                value="0"
+                data-side="left"
+                class="demo-slider__input"
+              />
+              <span
+                class="hue-slider__value demo-slider__value"
+                data-output="left"
+                >0deg</span
+              >
+            </label>
+            <div
+              class="colors-demo__spread-stack"
+              data-role="cubes"
+              aria-live="polite"
+            >
+              <div
+                class="demo-cubes"
+                data-role="cubes-primary"
+                data-variant="primary"
+              ></div>
+              <div
+                class="demo-cubes"
+                data-role="cubes-grey"
+                data-variant="grey"
+              ></div>
+              <div
+                class="demo-cubes"
+                data-role="cubes-neutral"
+                data-variant="neutral"
+              ></div>
+              <div
+                class="colors-demo__tooltip"
+                data-role="color-tooltip"
+                hidden
+                aria-hidden="true"
+              >
+                <div class="colors-demo__tooltip-row">
+                  <span
+                    class="colors-demo__tooltip-swatch colors-demo__tooltip-swatch--input"
+                  ></span>
+                  <span class="colors-demo__tooltip-label">Input</span>
+                  <span class="colors-demo__tooltip-values" data-tooltip="input"
+                    >--</span
+                  >
+                </div>
+                <div class="colors-demo__tooltip-row">
+                  <span
+                    class="colors-demo__tooltip-swatch colors-demo__tooltip-swatch--generated"
+                  ></span>
+                  <span class="colors-demo__tooltip-label">Generated</span>
+                  <span
+                    class="colors-demo__tooltip-values"
+                    data-tooltip="generated"
+                    >--</span
+                  >
+                </div>
+              </div>
+            </div>
+            <label
+              class="hue-slider hue-slider--right demo-slider demo-slider--end"
+            >
+              <span class="hue-slider__label demo-slider__label"
+                >Black offset</span
+              >
+              <input
+                type="range"
+                min="-30"
+                max="30"
+                step="1"
+                value="0"
+                data-side="right"
+                class="demo-slider__input"
+              />
+              <span
+                class="hue-slider__value demo-slider__value"
+                data-output="right"
+                >0deg</span
+              >
+            </label>
+          </div>
+        </section>
+        <section
+          class="colors-demo__spread-row colors-demo__spread-row--zero"
+          aria-label="Hue zero row"
+          data-hue-row
+          data-role="zero-row"
+          data-color-row="zero"
+          data-base-hue="0"
+          data-base-saturation="66"
+          data-step-count="12"
+        >
+          <div class="colors-demo__spread-row-grid">
+            <label
+              class="hue-slider hue-slider--left demo-slider demo-slider--start"
+            >
+              <span class="hue-slider__label demo-slider__label"
+                >Hue 0 offset</span
+              >
+              <input
+                type="range"
+                min="-30"
+                max="30"
+                step="1"
+                value="0"
+                data-side="left"
+                class="demo-slider__input"
+              />
+              <span
+                class="hue-slider__value demo-slider__value"
+                data-output="left"
+                >0deg</span
+              >
+            </label>
+            <div
+              class="colors-demo__spread-stack colors-demo__spread-stack--single"
+              data-role="cubes"
+              aria-live="polite"
+            >
+              <div
+                class="demo-cubes"
+                data-role="cubes-zero"
+                data-variant="primary"
+              ></div>
+              <div
+                class="colors-demo__tooltip"
+                data-role="color-tooltip"
+                hidden
+                aria-hidden="true"
+              >
+                <div class="colors-demo__tooltip-row">
+                  <span
+                    class="colors-demo__tooltip-swatch colors-demo__tooltip-swatch--input"
+                  ></span>
+                  <span class="colors-demo__tooltip-label">Input</span>
+                  <span class="colors-demo__tooltip-values" data-tooltip="input"
+                    >--</span
+                  >
+                </div>
+                <div class="colors-demo__tooltip-row">
+                  <span
+                    class="colors-demo__tooltip-swatch colors-demo__tooltip-swatch--generated"
+                  ></span>
+                  <span class="colors-demo__tooltip-label">Generated</span>
+                  <span
+                    class="colors-demo__tooltip-values"
+                    data-tooltip="generated"
+                    >--</span
+                  >
+                </div>
+              </div>
+            </div>
+            <label
+              class="hue-slider hue-slider--right demo-slider demo-slider--end"
+            >
+              <span class="hue-slider__label demo-slider__label"
+                >Black offset</span
+              >
+              <input
+                type="range"
+                min="-30"
+                max="30"
+                step="1"
+                value="0"
+                data-side="right"
+                class="demo-slider__input"
+              />
+              <span
+                class="hue-slider__value demo-slider__value"
+                data-output="right"
+                >0deg</span
+              >
+            </label>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="script-lightness.js" defer></script>
+    <script src="script-color-parser.js" defer></script>
+    <script src="script-hue-offset.js" defer></script>
+    <script src="script-color-matcher.js" defer></script>
+    <script type="module" src="scripts/demo-init.js"></script>
+  </body>
+</html>

@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS Color System Demo - Mathematical Color Palettes</title>
+        <link rel="stylesheet" href="demo-complete.css" />
+    </head>
+    <body>
+        <header class="demo-header">
+            <h1 class="demo-title">CSS Mathematical Color System</h1>
+            <p class="demo-subtitle">
+                12 semantic palettes • 132 colors total • HSL foundation •
+                Logarithmic distribution
+            </p>
+        </header>
+
+        <main class="demo-main">
+            <!-- Color Palette Grid -->
+            <section class="demo-section">
+                <h2 class="section-title">Color Palettes</h2>
+                <p class="section-description">
+                    12 hues with 11 lightness variations each (including white
+                    and black)
+                </p>
+
+                <div class="demo-controls">
+                    <div class="control-group">
+                        <label for="hue-modifier">Global Hue Shift:</label>
+                        <input
+                            type="range"
+                            id="hue-modifier"
+                            min="-15"
+                            max="15"
+                            value="0"
+                            step="1"
+                        />
+                        <span id="hue-value">0°</span>
+                    </div>
+                </div>
+
+                <div class="color-grid">
+                    <!-- Crimson (0°) -->
+                    <div class="color-palette" data-palette="crimson">
+                        <h3 class="palette-name">
+                            Crimson <span class="palette-hue">0°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div
+                                class="color-swatch"
+                                data-color="white"
+                                title="100% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-lightest"
+                                title="98% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-lighter"
+                                title="94% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-light"
+                                title="88% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-medium-light"
+                                title="81% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-medium"
+                                title="73% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-medium-dark"
+                                title="63% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-dark"
+                                title="50% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-darker"
+                                title="32% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="crimson-darkest"
+                                title="18% lightness"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="black"
+                                title="0% lightness"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <!-- Flame (30°) -->
+                    <div class="color-palette" data-palette="flame">
+                        <h3 class="palette-name">
+                            Flame <span class="palette-hue">30°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="flame-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Wheat (60°) -->
+                    <div class="color-palette" data-palette="wheat">
+                        <h3 class="palette-name">
+                            Wheat <span class="palette-hue">60°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="wheat-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lime (90°) -->
+                    <div class="color-palette" data-palette="lime">
+                        <h3 class="palette-name">
+                            Lime <span class="palette-hue">90°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="lime-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Grass (120°) -->
+                    <div class="color-palette" data-palette="grass">
+                        <h3 class="palette-name">
+                            Grass <span class="palette-hue">120°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="grass-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Sea (150°) -->
+                    <div class="color-palette" data-palette="sea">
+                        <h3 class="palette-name">
+                            Sea <span class="palette-hue">150°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sea-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Sky (180°) -->
+                    <div class="color-palette" data-palette="sky">
+                        <h3 class="palette-name">
+                            Sky <span class="palette-hue">180°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="sky-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Corn (210°) -->
+                    <div class="color-palette" data-palette="corn">
+                        <h3 class="palette-name">
+                            Corn <span class="palette-hue">210°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="corn-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Dusk (240°) -->
+                    <div class="color-palette" data-palette="dusk">
+                        <h3 class="palette-name">
+                            Dusk <span class="palette-hue">240°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="dusk-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Plum (270°) -->
+                    <div class="color-palette" data-palette="plum">
+                        <h3 class="palette-name">
+                            Plum <span class="palette-hue">270°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="plum-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Candy (300°) -->
+                    <div class="color-palette" data-palette="candy">
+                        <h3 class="palette-name">
+                            Candy <span class="palette-hue">300°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="candy-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+
+                    <!-- Salmon (330°) -->
+                    <div class="color-palette" data-palette="salmon">
+                        <h3 class="palette-name">
+                            Salmon <span class="palette-hue">330°</span>
+                        </h3>
+                        <div class="palette-colors">
+                            <div class="color-swatch" data-color="white"></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-lightest"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-lighter"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-medium-light"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-medium"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-medium-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-dark"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-darker"
+                            ></div>
+                            <div
+                                class="color-swatch"
+                                data-color="salmon-darkest"
+                            ></div>
+                            <div class="color-swatch" data-color="black"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Greys Section -->
+            <section class="demo-section">
+                <h2 class="section-title">Neutral Greys</h2>
+                <p class="section-description">
+                    11 neutrals using primary hue with minimal saturation
+                </p>
+
+                <div class="grey-palette">
+                    <div
+                        class="color-swatch"
+                        data-color="white"
+                        title="White - 100% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-lightest"
+                        title="98% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-lighter"
+                        title="94% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-light"
+                        title="88% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-medium-light"
+                        title="81% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-medium"
+                        title="73% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-medium-dark"
+                        title="63% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-dark"
+                        title="50% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-darker"
+                        title="32% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="grey-darkest"
+                        title="18% lightness"
+                    ></div>
+                    <div
+                        class="color-swatch"
+                        data-color="black"
+                        title="Black - 0% lightness"
+                    ></div>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            // Interactive hue modifier
+            const hueSlider = document.getElementById("hue-modifier");
+            const hueValue = document.getElementById("hue-value");
+
+            hueSlider.addEventListener("input", (e) => {
+                const value = e.target.value;
+                hueValue.textContent = value + "°";
+                document.documentElement.style.setProperty(
+                    "--hue-modifier",
+                    value,
+                );
+            });
+
+            // Color swatch click handler for copying CSS variable names
+            document.querySelectorAll(".color-swatch").forEach((swatch) => {
+                swatch.addEventListener("click", () => {
+                    const colorName = swatch.getAttribute("data-color");
+                    navigator.clipboard
+                        .writeText(`var(--${colorName})`)
+                        .then(() => {
+                            // Visual feedback
+                            swatch.style.transform = "scale(0.95)";
+                            setTimeout(() => {
+                                swatch.style.transform = "";
+                            }, 150);
+                        });
+                });
+            });
+        </script>
+    </body>
+</html>

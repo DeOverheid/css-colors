@@ -1,0 +1,30 @@
+/*
+    Default Theme Importer
+
+    Master import file for the complete design system.
+    Import order is critical for CSS custom property inheritance.
+
+    ARCHITECTURE:
+    1. Themes    - Token configuration (theme variables, brand colors)
+    2. Core      - Mathematical foundations and color generation (black box)
+    3. Semantic  - Named variables for UI components and patterns
+
+    DO NOT add styling in this file.
+*/
+
+/* Theme layer, make your changes here */
+@import url("themes/default/tokens.css");
+
+/* Core Layer, do not modify */
+@import url("core/core.css");
+
+/* SEMANTIC LAYER
+*/
+
+/* FUTURE EXPANSIONS
+*/
+
+/* Components, utilities, and layout systems can be added here */
+/* @import url("components/components.css"); */
+/* @import url("utilities/utilities.css"); */
+/* @import url("layouts/layouts.css"); */

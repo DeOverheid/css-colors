@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Lightness Curve Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="shared.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <main class="demo demo-ui">
+            <p class="demo__intro demo-ui__intro">
+                These sliders adjust a
+                <a
+                    href="https://cubic-bezier.com/#0,0,.67,1"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    >Bezier curve</a
+                >.
+            </p>
+            <div class="controls demo-ui__controls">
+                <label
+                    class="slider slider--align-start demo-slider demo-slider--start"
+                    for="x2"
+                >
+                    <span class="slider__label demo-slider__label">
+                        Push lightness - X2:
+                        <span
+                            class="slider__value demo-slider__value"
+                            data-value-for="x2"
+                            >0.67</span
+                        >
+                    </span>
+                    <input
+                        id="x2"
+                        class="demo-slider__input"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.67"
+                    />
+                </label>
+                <label
+                    class="slider slider--align-end demo-slider demo-slider--end"
+                    for="x1"
+                >
+                    <span class="slider__label demo-slider__label">
+                        Push darkness - X1:
+                        <span
+                            class="slider__value demo-slider__value"
+                            data-value-for="x1"
+                            >0.00</span
+                        >
+                    </span>
+                    <input
+                        id="x1"
+                        class="demo-slider__input"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0"
+                    />
+                </label>
+            </div>
+            <section class="swatches demo-cubes" aria-label="Lightness steps">
+                <div
+                    class="step step--cube demo-cubes__item step--anchor-start"
+                    data-anchor="start"
+                    data-lightness="100%"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="0"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="1"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="2"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="3"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="4"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="5"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="6"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="7"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="8"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="9"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item"
+                    data-step="10"
+                ></div>
+                <div
+                    class="step step--cube demo-cubes__item step--anchor-end"
+                    data-anchor="end"
+                    data-lightness="0%"
+                ></div>
+            </section>
+            <table class="steps-table" aria-label="Lightness steps table">
+                <thead>
+                    <tr>
+                        <th scope="col">Sample</th>
+                        <th scope="col">Step</th>
+                        <th scope="col">Tailwind</th>
+                        <th scope="col">Lightness</th>
+                        <th scope="col">HSL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-row-type="anchor" data-anchor="start">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-anchor="start"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">0</span></td>
+                        <td>White</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="anchor-start"
+                                >100%</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="anchor-start"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="0">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="0"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">1</span></td>
+                        <td>50</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-0"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-0"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="1">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="1"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">2</span></td>
+                        <td>100</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-1"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-1"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="2">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="2"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">3</span></td>
+                        <td>200</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-2"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-2"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="3">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="3"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">4</span></td>
+                        <td>300</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-3"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-3"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="4">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="4"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">5</span></td>
+                        <td>400</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-4"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-4"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="5">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="5"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">6</span></td>
+                        <td>500</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-5"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-5"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="6">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="6"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">7</span></td>
+                        <td>600</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-6"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-6"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="7">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="7"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">8</span></td>
+                        <td>700</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-7"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-7"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="8">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="8"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">9</span></td>
+                        <td>800</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-8"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-8"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="9">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="9"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">10</span></td>
+                        <td>900</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-9"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-9"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="interior" data-step="10">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-step="10"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">11</span></td>
+                        <td>950</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="interior-10"
+                                >--</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="interior-10"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-row-type="anchor" data-anchor="end">
+                        <td>
+                            <span
+                                class="step step--sample"
+                                data-anchor="end"
+                                aria-hidden="true"
+                            ></span>
+                        </td>
+                        <td><span class="step-index">12</span></td>
+                        <td>Black</td>
+                        <td>
+                            <span
+                                class="step-lightness"
+                                data-lightness-id="anchor-end"
+                                >0%</span
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="step-hsl"
+                                data-hsl-id="anchor-end"
+                                href="#"
+                            >
+                                hsl(0 0% LIGHTNESS)
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+        <script src="lightness-curve.js" defer></script>
+    </body>
+</html>

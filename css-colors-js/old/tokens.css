@@ -1,0 +1,5 @@
+/* Token file - configurable values */
+:root {
+    /* Hue modifier (-15 to +15 degrees) */
+    --hue-modifier: 0;
+}
