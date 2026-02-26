@@ -7,11 +7,13 @@
                 viewBox="0 0 100 100"
                 preserveAspectRatio="xMidYMid meet"
                 @mousedown="handleSvgMouseDown"
-                @touchstart="handleSvgTouchStart">
+                @touchstart="handleSvgTouchStart"
+            >
                 <!-- Grid lines -->
                 <g
                     class="bezier-editor__grid"
-                    opacity="0.1">
+                    opacity="0.1"
+                >
                     <line
                         v-for="i in 10"
                         :key="`v-${i}`"
@@ -20,7 +22,8 @@
                         :x2="i * 10"
                         y2="100"
                         stroke="currentColor"
-                        stroke-width="0.5" />
+                        stroke-width="0.5"
+                    />
                     <line
                         v-for="i in 10"
                         :key="`h-${i}`"
@@ -29,7 +32,8 @@
                         x2="100"
                         :y2="i * 10"
                         stroke="currentColor"
-                        stroke-width="0.5" />
+                        stroke-width="0.5"
+                    />
                 </g>
 
                 <!-- Bezier curve -->
@@ -38,7 +42,8 @@
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
-                    class="bezier-editor__curve" />
+                    class="bezier-editor__curve"
+                />
 
                 <!-- Control lines -->
                 <line
@@ -49,7 +54,8 @@
                     stroke="currentColor"
                     stroke-width="1"
                     opacity="0.3"
-                    stroke-dasharray="2,2" />
+                    stroke-dasharray="2,2"
+                />
                 <line
                     :x1="100"
                     :y1="0"
@@ -58,7 +64,8 @@
                     stroke="currentColor"
                     stroke-width="1"
                     opacity="0.3"
-                    stroke-dasharray="2,2" />
+                    stroke-dasharray="2,2"
+                />
 
                 <!-- Start and end points -->
                 <circle
@@ -66,13 +73,15 @@
                     cy="100"
                     r="2"
                     fill="currentColor"
-                    opacity="0.5" />
+                    opacity="0.5"
+                />
                 <circle
                     cx="100"
                     cy="0"
                     r="2"
                     fill="currentColor"
-                    opacity="0.5" />
+                    opacity="0.5"
+                />
 
                 <!-- Draggable control points -->
                 <circle
@@ -82,7 +91,8 @@
                     fill="var(--ui-primary)"
                     class="bezier-editor__handle"
                     @mousedown.stop="startDrag(1, $event)"
-                    @touchstart.stop="startDrag(1, $event)" />
+                    @touchstart.stop="startDrag(1, $event)"
+                />
                 <circle
                     :cx="p2.x"
                     :cy="p2.y"
@@ -90,7 +100,8 @@
                     fill="var(--ui-primary)"
                     class="bezier-editor__handle"
                     @mousedown.stop="startDrag(2, $event)"
-                    @touchstart.stop="startDrag(2, $event)" />
+                    @touchstart.stop="startDrag(2, $event)"
+                />
             </svg>
         </div>
 

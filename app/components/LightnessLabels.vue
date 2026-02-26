@@ -6,7 +6,8 @@
         <div
             v-for="(value, index) in lightnessSteps"
             :key="`label-${index}`"
-            class="lightness-label">
+            class="lightness-label"
+        >
             {{ value }}
         </div>
         <div class="lightness-label">

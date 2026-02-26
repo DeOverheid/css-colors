@@ -222,8 +222,12 @@ const { isDevModeEnabled, toggleDevMode } = useDevMode();
 
 const { currentThemeId, currentTheme, availableThemes } = useThemes();
 
-// Hue spectrum state and offset range
-const hueSpectrumStates = computed(() => hueSpectrum.hueRowStates.value);
+// Hue spectrum state and offset range (filter out grayscale colors for now)
+const hueSpectrumStates = computed(() =>
+    hueSpectrum.hueRowStates.value.filter(state =>
+        !("type" in state.entry) || state.entry.type !== "grayscale"
+    )
+);
 const hueSpectrumOffsetRange = computed(() => hueSpectrum.offsetRange.value);
 
 // Convert themes to radio group options
@@ -281,7 +285,9 @@ const lightnessSteps = computed(() => {
         bezierValues.value.y1,
         bezierValues.value.x2,
         bezierValues.value.y2,
-        totalSteps.value
+        totalSteps.value,
+        currentTheme.value.lightnessMin ?? 0,
+        currentTheme.value.lightnessMax ?? 100
     );
 });
 
@@ -293,7 +299,15 @@ const fullLightnessSteps = computed(() => {
 // Generate lightness steps for grayscale (uses grayscaleBezier if available)
 const grayscaleLightnessSteps = computed(() => {
     const gb = grayscaleBezierValues.value;
-    return generateLightnessSteps(gb.x1, gb.y1, gb.x2, gb.y2, totalSteps.value);
+    return generateLightnessSteps(
+        gb.x1,
+        gb.y1,
+        gb.x2,
+        gb.y2,
+        totalSteps.value,
+        currentTheme.value.lightnessMin ?? 0,
+        currentTheme.value.lightnessMax ?? 100
+    );
 });
 
 // Full grayscale lightness steps including 0 (black) and 100 (white)

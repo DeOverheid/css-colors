@@ -92,7 +92,7 @@ const colorOrder = [
     "rose"
 ];
 
-const shadeOrder = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"];
+const shadeOrder = ["900", "800", "700", "600", "500", "400", "300", "200", "100", "50"];
 
 // Tailwind HSL color data
 const tailwindColors: Record<string, ColorData> = {

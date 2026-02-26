@@ -4,7 +4,8 @@
         :style="{
             backgroundColor: hslColor
         }"
-        :title="`H: ${hue}° S: ${saturation}% L: ${lightness}%`" />
+        :title="`H: ${hue}° S: ${saturation}% L: ${lightness}%`"
+    />
 </template>
 
 <script setup lang="ts">

@@ -11,7 +11,8 @@
                     :max="max"
                     class="slider-input"
                     :style="{ '--hue-value': modelValue + 'deg' }"
-                    @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
+                    @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))"
+                >
             </div>
             <span class="slider-value">
                 {{ modelValue }}{{ unit }}

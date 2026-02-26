@@ -22,11 +22,11 @@
         <div class="swatches-column">
             <div class="swatches-row">
                 <ColorSwatch
-                    v-for="(step, index) in lightnessSteps"
-                    :key="index"
-                    :hue="getHueForStep(index)"
-                    :saturation="getAdjustedSaturation(index)"
-                    :lightness="getAdjustedLightness(step, index)" />
+                    v-for="item in orderedSteps"
+                    :key="item.originalIndex"
+                    :hue="getHueForStep(item.originalIndex)"
+                    :saturation="getAdjustedSaturation(item.originalIndex)"
+                    :lightness="getAdjustedLightness(item.step, item.originalIndex)" />
             </div>
         </div>
 
@@ -71,6 +71,14 @@ defineEmits<{
 const { applyAdjustment } = useLightnessAdjustment();
 
 const totalSteps = computed(() => props.lightnessSteps.length);
+
+// Steps in original order (dark to light, left to right)
+const orderedSteps = computed(() => {
+    return props.lightnessSteps.map((step, index) => ({
+        step,
+        originalIndex: index
+    }));
+});
 
 /**
  * Calculate the hue for a specific step

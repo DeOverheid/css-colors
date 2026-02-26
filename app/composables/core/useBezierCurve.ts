@@ -47,24 +47,48 @@ export function useBezierCurve() {
     }
 
     /**
+     * Apply dark-side offset boost
+     * Formula: adjusted = lightness + (ceiling - lightness) / divisor
+     * This boosts dark tones while tapering off at the light end
+     */
+    function applyDarkBoost(lightness: number, ceiling = 95, divisor = 15): number {
+        return lightness + (ceiling - lightness) / divisor;
+    }
+
+    /**
      * Generate lightness steps using bezier curve
-     * Returns lightness values (0-100) for N-2 steps evenly distributed between black and white
+     * Returns lightness values for N-2 steps evenly distributed between black and white
      * Total of N samples: black (0) + (N-2) calculated steps + white (100)
      * X positions: 1/(N-1), 2/(N-1), 3/(N-1), ..., (N-2)/(N-1)
+     *
+     * @param lightnessMin - Minimum lightness (darkest shade), bezier 0 maps here
+     * @param lightnessMax - Maximum lightness (lightest shade), bezier 1 maps here
      */
-    function generateLightnessSteps(x1: number, y1: number, x2: number, y2: number, totalSteps: number): number[] {
+    function generateLightnessSteps(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        totalSteps: number,
+        lightnessMin = 0,
+        lightnessMax = 100
+    ): number[] {
         const numberOfCalculatedSteps = totalSteps - 2;
         const divisor = totalSteps - 1;
         const steps = Array.from({ length: numberOfCalculatedSteps }, (_, i) => (i + 1) / divisor);
+        const range = lightnessMax - lightnessMin;
 
         return steps.map((step) => {
             const y = getBezierY(step, x1, y1, x2, y2);
-            return Math.round(y * 100);
+            // Map bezier output (0-1) to lightness range (min-max)
+            const lightness = lightnessMin + y * range;
+            return Math.round(lightness);
         });
     }
 
     return {
         getBezierY,
-        generateLightnessSteps
+        generateLightnessSteps,
+        applyDarkBoost
     };
 }

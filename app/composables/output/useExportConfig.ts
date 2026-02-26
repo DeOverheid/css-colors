@@ -21,7 +21,7 @@ export function useExportConfig() {
         return `export default defineAppConfig({
     ui: {
         colors: {
-            neutral: '${appConfig.ui?.colors?.neutral || 'slate'}',
+            neutral: '${appConfig.ui?.colors?.neutral || "slate"}',
         },
     },
     colors: {

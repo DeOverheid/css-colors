@@ -32,7 +32,7 @@ export interface LightnessAdjustmentSettings {
 
 /** Default settings matching the JS implementation */
 const DEFAULT_SETTINGS: LightnessAdjustmentSettings = {
-    enabled: true,
+    enabled: false,
     darkening: {
         enabled: true,
         start: 30,

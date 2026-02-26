@@ -8,7 +8,8 @@
                 :min="min"
                 :max="max"
                 class="slider-input"
-                @update:model-value="$emit('update:modelValue', $event)" />
+                @update:model-value="$emit('update:modelValue', $event)"
+            />
             <span class="slider-value">
                 {{ modelValue }}{{ unit }}
             </span>

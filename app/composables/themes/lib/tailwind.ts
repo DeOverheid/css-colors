@@ -12,19 +12,23 @@ export const tailwindTheme: ThemeConfig = {
     // Labels from dark to light: 0 (black), 950, 900...100, 50, 1000 (white)
     // Note: Tailwind shade numbers are inverted - 50 is lightest, 950 is darkest
     swatchLabels: ["0", "950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50", "1000"],
-    // Bezier for color hues - produces ~20-25% at dark end
+    // Bezier output (0-1) maps to lightnessMin-lightnessMax range
+    // These values are the average lightness of TW shades 900 and 50
+    lightnessMin: 29, // avg of shade 900 across chromatic colors
+    lightnessMax: 97, // avg of shade 50 across chromatic colors
+    // Optimized bezier curve matching TW lightness distribution (RMSE 0.89)
     bezier: {
-        x1: 0.45,
-        y1: 0.25,
-        x2: 0.55,
-        y2: 0.95
+        x1: 0.46,
+        y1: 0.13,
+        x2: 0.72,
+        y2: 0.92
     },
-    // Bezier for grayscale - goes darker, ~10% at dark end
+    // Bezier for grayscale - darker curve matching Tailwind gray scales
     grayscaleBezier: {
-        x1: 0.30,
-        y1: 0.10,
-        x2: 0.68,
-        y2: 0.98
+        x1: 0.45,
+        y1: 0.03,
+        x2: 0.55,
+        y2: 0.99
     },
     description: "Standard Tailwind CSS color scale with 50-950 naming"
 };

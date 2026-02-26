@@ -22,6 +22,10 @@ export interface ThemeConfig {
     bezier: BezierCurve;
     /** Optional separate bezier curve for grayscale (uses bezier if not specified) */
     grayscaleBezier?: BezierCurve;
+    /** Minimum lightness value (darkest shade, maps to bezier 0) */
+    lightnessMin?: number;
+    /** Maximum lightness value (lightest shade, maps to bezier 1) */
+    lightnessMax?: number;
     /** Description of the theme */
     description?: string;
 }

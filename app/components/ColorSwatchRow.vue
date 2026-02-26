@@ -5,7 +5,8 @@
             :hue="hue"
             :saturation="saturation"
             :lightness="0"
-            :class="{ marked: showMarker && markerIndex === 0 }" />
+            :class="{ marked: showMarker && markerIndex === 0 }"
+        />
 
         <!-- Steps from bezier curve -->
         <ColorSwatch
@@ -14,14 +15,16 @@
             :hue="hue"
             :saturation="saturation"
             :lightness="lightnessValue"
-            :class="{ marked: showMarker && markerIndex === index + 1 }" />
+            :class="{ marked: showMarker && markerIndex === index + 1 }"
+        />
 
         <!-- Pure white (L: 100) -->
         <ColorSwatch
             :hue="hue"
             :saturation="saturation"
             :lightness="100"
-            :class="{ marked: showMarker && markerIndex === totalSteps - 1 }" />
+            :class="{ marked: showMarker && markerIndex === totalSteps - 1 }"
+        />
     </div>
 </template>
 

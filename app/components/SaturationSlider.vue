@@ -14,7 +14,8 @@
                         '--hue-value': hue + 'deg',
                         '--saturation-value': modelValue + '%'
                     }"
-                    @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
+                    @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))"
+                >
             </div>
             <span class="slider-value">
                 {{ modelValue }}{{ unit }}
