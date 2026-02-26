@@ -9,6 +9,32 @@ export interface BezierCurve {
     y2: number;
 }
 
+export interface AdjustmentRange {
+    /** Whether this adjustment range is active */
+    enabled: boolean;
+    /** Start hue of the affected range (degrees) */
+    start: number;
+    /** End hue of the affected range (degrees) */
+    end: number;
+    /** Hue falloff zone in degrees (smooth transition at range edges) */
+    hueFalloff: number;
+    /** Lightness falloff for light shades (0-1, higher = more effect on light shades) */
+    lightnessFalloffLight: number;
+    /** Maximum lightness adjustment amplitude (0-30) */
+    lightnessAmplitude: number;
+    /** Lightness falloff for dark shades (0-1, higher = more effect on dark shades) */
+    lightnessFalloffDark: number;
+}
+
+export interface LightnessAdjustmentConfig {
+    /** Master enable/disable for all adjustments */
+    enabled: boolean;
+    /** Darkening range: typically warm hues (30-210°) that need to be darkened */
+    darkening: AdjustmentRange;
+    /** Brightening range: typically cool hues (210-300°) that need to be brightened */
+    brightening: AdjustmentRange;
+}
+
 export interface ThemeConfig {
     /** Unique identifier for the theme */
     id: string;
@@ -26,6 +52,8 @@ export interface ThemeConfig {
     lightnessMin?: number;
     /** Maximum lightness value (lightest shade, maps to bezier 1) */
     lightnessMax?: number;
+    /** Hue-based lightness compensation settings */
+    lightnessAdjustment?: LightnessAdjustmentConfig;
     /** Description of the theme */
     description?: string;
 }

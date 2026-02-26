@@ -1,6 +1,7 @@
 import type { ThemeConfig } from "./lib/types";
 import { tailwindTheme } from "./lib/tailwind";
 import { mathematicalTheme } from "./lib/mathematical";
+import { customTheme } from "./lib/custom";
 
 /**
  * All available themes
@@ -8,7 +9,8 @@ import { mathematicalTheme } from "./lib/mathematical";
  */
 export const themes: ThemeConfig[] = [
     tailwindTheme,
-    mathematicalTheme
+    mathematicalTheme,
+    customTheme
 ];
 
 /**

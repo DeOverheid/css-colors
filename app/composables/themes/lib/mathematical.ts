@@ -5,29 +5,12 @@ import type { ThemeConfig } from "./types";
  * Uses simple sequential numbering: 0-8
  * Evenly distributed lightness values based on bezier curve
  */
-export const mathematicalTheme: ThemeConfig = {
-    id: "mathematical",
-    name: "Mathematical",
-    totalSteps: 9,
-    // Descriptive labels from dark to light
-    swatchLabels: ["Black", "Darkest", "Darker", "Dark", "Medium", "Light", "Lighter", "Lightest", "White"],
-    bezier: {
-        x1: 0.0,
-        y1: 0.0,
-        x2: 0.54,
-        y2: 0.94
-    },
-    description: "Simple sequential numbering with visually even distributed lightness"
-};
 
 /**
  * Mathematical Color Hue Entry Configuration
  *
  * A simplified color palette using 30° hue intervals.
  * Each color has a base hue and hue offsets for light and dark shades.
- *
- * The hue offset allows colors to shift slightly warmer or cooler
- * at the extremes for a more natural appearance.
  */
 export interface MathHueEntry {
     /** Display name of the color */
@@ -47,8 +30,57 @@ export interface MathHueEntry {
 }
 
 /**
- * Mathematical color hue data at 30° intervals
+ * Get a hue entry by name
  */
+export function getMathHueByName(name: string): MathHueEntry | undefined {
+    return mathematicalHues.find(h => h.name === name);
+}
+
+/**
+ * Default offset range for sliders (degrees)
+ */
+export const MATH_HUE_OFFSET_RANGE = { min: -45, max: 45 };
+
+// ============================================================================
+// REPLACEABLE CONFIG - START
+// Export > select this block > paste to replace
+// ============================================================================
+
+export const mathematicalTheme: ThemeConfig = {
+    id: "mathematical",
+    name: "Mathematical",
+    totalSteps: 9,
+    swatchLabels: ["Black", "Darkest", "Darker", "Dark", "Medium", "Light", "Lighter", "Lightest", "White"],
+    bezier: {
+        x1: 0.0,
+        y1: 0.0,
+        x2: 0.54,
+        y2: 0.94
+    },
+    lightnessAdjustment: {
+        enabled: true,
+        darkening: {
+            enabled: true,
+            start: 30,
+            end: 210,
+            hueFalloff: 15,
+            lightnessFalloffLight: 0.48,
+            lightnessAmplitude: 9.5,
+            lightnessFalloffDark: 0.44
+        },
+        brightening: {
+            enabled: true,
+            start: 210,
+            end: 300,
+            hueFalloff: 15,
+            lightnessFalloffLight: 1,
+            lightnessAmplitude: 12,
+            lightnessFalloffDark: 0.2
+        }
+    },
+    description: "Simple sequential numbering with visually even distributed lightness"
+};
+
 export const mathematicalHues: MathHueEntry[] = [
     { name: "crimson", baseHue: 0, lightOffset: 25, darkOffset: -3, saturationLightOffset: 0, saturationDarkOffset: 0 },
     { name: "flame", baseHue: 30, lightOffset: 23, darkOffset: -13, saturationLightOffset: 0, saturationDarkOffset: 0 },
@@ -64,14 +96,6 @@ export const mathematicalHues: MathHueEntry[] = [
     { name: "salmon", baseHue: 330, lightOffset: -13, darkOffset: 9, saturationLightOffset: 0, saturationDarkOffset: 0 }
 ];
 
-/**
- * Get a hue entry by name
- */
-export function getMathHueByName(name: string): MathHueEntry | undefined {
-    return mathematicalHues.find(h => h.name === name);
-}
-
-/**
- * Default offset range for sliders (degrees)
- */
-export const MATH_HUE_OFFSET_RANGE = { min: -45, max: 45 };
+// ============================================================================
+// REPLACEABLE CONFIG - END
+// ============================================================================

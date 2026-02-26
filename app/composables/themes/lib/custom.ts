@@ -1,57 +1,53 @@
 import type { ThemeConfig } from "./types";
 
 /**
- * Tailwind CSS color palette theme
- * Uses the standard Tailwind naming convention: 50, 100-900, 950
- * Plus 0 (pure black) and 1000 (pure white) as endpoints
+ * Custom user theme
+ * Based on Tailwind color palette structure
+ * User can overwrite this file with exported theme config
  */
 
 /**
- * Hue Entry Configuration
- *
- * Based on analysis of Tailwind CSS v3 default color palette.
- * Each color has a base hue (midpoint at shade 500) and hue offsets
- * for light (50-400) and dark (600-900) shades.
+ * Custom Hue Entry Configuration
  */
-export interface TailwindHueEntry {
+export interface CustomHueEntry {
     /** Display name of the color */
     name: string;
     /** Type: 'color' for chromatic hues, 'grayscale' for neutral tones */
     type: "color" | "grayscale";
-    /** Base hue at shade 500 (0-360) */
+    /** Base hue (0-360) */
     baseHue: number;
-    /** Hue offset for light shades (50-400), degrees */
+    /** Hue offset for light shades, degrees */
     lightOffset: number;
-    /** Hue offset for dark shades (600-900), degrees */
+    /** Hue offset for dark shades, degrees */
     darkOffset: number;
-    /** Lightness offset as relative percentage (+10 = 10% brighter, -10 = 10% darker) */
+    /** Lightness offset as relative percentage */
     lightnessOffset: number;
-    /** Saturation shift for light shades as relative percentage (+6 = 6% more saturated) */
+    /** Saturation shift for light shades as relative percentage */
     saturationLightOffset: number;
-    /** Saturation shift for dark shades as relative percentage (-19 = 19% less saturated) */
+    /** Saturation shift for dark shades as relative percentage */
     saturationDarkOffset: number;
 }
 
 /**
  * Get a hue entry by name
  */
-export function getHueByName(name: string): TailwindHueEntry | undefined {
-    return tailwindHues.find(h => h.name === name);
+export function getCustomHueByName(name: string): CustomHueEntry | undefined {
+    return customHues.find(h => h.name === name);
 }
 
 /**
  * Default offset range for sliders (degrees)
  */
-export const HUE_OFFSET_RANGE = { min: -30, max: 30 };
+export const CUSTOM_HUE_OFFSET_RANGE = { min: -30, max: 30 };
 
 // ============================================================================
 // REPLACEABLE CONFIG - START
 // Export > select this block > paste to replace
 // ============================================================================
 
-export const tailwindTheme: ThemeConfig = {
-    id: "tailwind",
-    name: "Tailwind",
+export const customTheme: ThemeConfig = {
+    id: "custom",
+    name: "Custom",
     totalSteps: 13,
     swatchLabels: ["0", "950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50", "1000"],
     lightnessMin: 29,
@@ -89,10 +85,10 @@ export const tailwindTheme: ThemeConfig = {
             lightnessFalloffDark: 0.2
         }
     },
-    description: "Standard Tailwind CSS color scale with 50-950 naming"
+    description: "Standard custom CSS color scale with 50-950 naming"
 };
 
-export const tailwindHues: TailwindHueEntry[] = [
+export const customHues: CustomHueEntry[] = [
     { name: "slate", type: "grayscale", baseHue: 215, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
     { name: "gray", type: "grayscale", baseHue: 220, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
     { name: "zinc", type: "grayscale", baseHue: 240, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },

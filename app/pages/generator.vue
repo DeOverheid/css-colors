@@ -179,15 +179,23 @@
 
                 <div class="button-group">
                     <UButton
+                        v-if="isDevModeEnabled"
                         icon="i-lucide-copy"
                         @click="exportConfig.copyToClipboard">
                         Export Config
                     </UButton>
                     <UButton
+                        v-if="isDevModeEnabled"
                         icon="i-lucide-palette"
                         variant="soft"
-                        @click="exportConfig.copyHueOffsetsToClipboard">
-                        Export Hue Offsets
+                        @click="exportConfig.copyDevExportToClipboard">
+                        Export Theme Config
+                    </UButton>
+                    <UButton
+                        icon="i-lucide-save"
+                        variant="outline"
+                        @click="exportConfig.copyUserThemeToClipboard">
+                        Export Custom Theme
                     </UButton>
                 </div>
             </div>
