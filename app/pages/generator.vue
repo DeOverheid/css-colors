@@ -141,10 +141,17 @@
                     </div>
                 </StepAccordion>
 
-                <!-- Step 3: Hue Spectrum -->
+                <!-- Step 3: Lightness Adjustment -->
                 <StepAccordion
                     :step="stepDefinitions[2]!"
                     :step-number="3">
+                    <LightnessAdjustmentPanel />
+                </StepAccordion>
+
+                <!-- Step 4: Hue Spectrum -->
+                <StepAccordion
+                    :step="stepDefinitions[3]!"
+                    :step-number="4">
                     <div class="hue-spectrum-grid">
                         <HueSpectrumRow
                             v-for="rowState in hueSpectrumStates"

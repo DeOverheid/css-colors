@@ -26,7 +26,7 @@
                     :key="index"
                     :hue="getHueForStep(index)"
                     :saturation="getAdjustedSaturation(index)"
-                    :lightness="getAdjustedLightness(step)" />
+                    :lightness="getAdjustedLightness(step, index)" />
             </div>
         </div>
 
@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
 import type { HueEntry } from "~/composables/input/stepHueSpectrum";
+import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
 
 const props = defineProps<{
     entry: HueEntry;
@@ -66,6 +67,8 @@ defineEmits<{
     "update:lightOffset": [value: number];
     "update:darkOffset": [value: number];
 }>();
+
+const { applyAdjustment } = useLightnessAdjustment();
 
 const totalSteps = computed(() => props.lightnessSteps.length);
 
@@ -101,22 +104,28 @@ function formatOffset(value: number): string {
 }
 
 /**
- * Adjust lightness based on entry's lightnessOffset (relative/percentage)
- * Applies offset scaled by distance from extremes (more at middle, less at edges)
- * Offset is relative: +10 means 10% brighter, -10 means 10% darker
+ * Adjust lightness based on:
+ * 1. Entry's lightnessOffset (per-color adjustment)
+ * 2. Hue-based lightness compensation (perceptual uniformity)
  */
-function getAdjustedLightness(lightness: number): number {
+function getAdjustedLightness(lightness: number, index: number): number {
+    // First apply per-color offset
+    let adjusted = lightness;
     const offset = props.entry.lightnessOffset ?? 0;
-    if (offset === 0) return lightness;
 
-    // Scale offset based on distance from extremes (0 and 100)
-    // Maximum effect at lightness 50, tapering to 0 at extremes
-    const distanceFromExtreme = Math.min(lightness, 100 - lightness) / 50;
+    if (offset !== 0) {
+        // Scale offset based on distance from extremes (0 and 100)
+        // Maximum effect at lightness 50, tapering to 0 at extremes
+        const distanceFromExtreme = Math.min(lightness, 100 - lightness) / 50;
+        const multiplier = 1 + (offset / 100) * distanceFromExtreme;
+        adjusted = Math.max(0, Math.min(100, adjusted * multiplier));
+    }
 
-    // Apply offset as relative percentage
-    const multiplier = 1 + (offset / 100) * distanceFromExtreme;
+    // Then apply hue-based lightness compensation
+    const hue = getHueForStep(index);
+    adjusted = applyAdjustment(adjusted, hue, index, totalSteps.value);
 
-    return Math.max(0, Math.min(100, lightness * multiplier));
+    return adjusted;
 }
 
 /**

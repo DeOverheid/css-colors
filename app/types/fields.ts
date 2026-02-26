@@ -13,6 +13,7 @@ export interface FieldDefinition {
 
 export interface StepContent {
     title: string;
+    subtitle?: string;
     description: string;
     fields: FieldDefinition[];
 }
