@@ -12,8 +12,7 @@
                 <!-- Step 1: Base Color -->
                 <StepAccordion
                     :step="stepDefinitions[0]!"
-                    :step-number="1"
-                >
+                    :step-number="1">
                     <!-- Theme Selection -->
                     <div class="form-group form-group-row">
                         <div>
@@ -21,16 +20,14 @@
                             <URadioGroup
                                 v-model="currentThemeId"
                                 :items="themeOptions"
-                                orientation="horizontal"
-                            />
+                                orientation="horizontal" />
                         </div>
                         <UButton
                             :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
                             :color="isDevModeEnabled ? 'primary' : 'neutral'"
                             variant="soft"
                             size="sm"
-                            @click="toggleDevMode"
-                        >
+                            @click="toggleDevMode">
                             {{ isDevModeEnabled ? 'Dev Mode' : 'Preview Mode' }}
                         </UButton>
                     </div>

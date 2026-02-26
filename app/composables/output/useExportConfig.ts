@@ -1,4 +1,5 @@
 import { useConfig } from "~/composables/core/baseConfig";
+import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
 
 /**
  * Output Module: Export Configuration
@@ -8,12 +9,14 @@ export function useExportConfig() {
     const appConfig = useAppConfig();
     const config = useConfig();
     const colorSettings = useColorSettings();
+    const { settings: lightnessAdjustment } = useLightnessAdjustment();
 
     const generateConfig = () => {
         // Get current values from sliders
         const currentHue = colorSettings.step1.hue.value;
         const currentSaturation = colorSettings.step1.saturation.value;
         const currentLightness = colorSettings.step2.lightness.value;
+        const adj = lightnessAdjustment.value;
 
         return `export default defineAppConfig({
     ui: {
@@ -32,6 +35,27 @@ export function useExportConfig() {
         y1: ${config.bezier.y1},
         x2: ${config.bezier.x2},
         y2: ${config.bezier.y2},
+    },
+    lightnessAdjustment: {
+        enabled: ${adj.enabled},
+        darkening: {
+            enabled: ${adj.darkening.enabled},
+            start: ${adj.darkening.start},
+            end: ${adj.darkening.end},
+            hueFalloff: ${adj.darkening.hueFalloff},
+            lightnessFalloffLight: ${adj.darkening.lightnessFalloffLight},
+            lightnessAmplitude: ${adj.darkening.lightnessAmplitude},
+            lightnessFalloffDark: ${adj.darkening.lightnessFalloffDark},
+        },
+        brightening: {
+            enabled: ${adj.brightening.enabled},
+            start: ${adj.brightening.start},
+            end: ${adj.brightening.end},
+            hueFalloff: ${adj.brightening.hueFalloff},
+            lightnessFalloffLight: ${adj.brightening.lightnessFalloffLight},
+            lightnessAmplitude: ${adj.brightening.lightnessAmplitude},
+            lightnessFalloffDark: ${adj.brightening.lightnessFalloffDark},
+        },
     },
 })`;
     };
