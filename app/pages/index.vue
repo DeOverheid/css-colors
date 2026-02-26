@@ -12,15 +12,23 @@
                     adjustments.
                 </p>
 
-                <!-- Call to Action Button -->
-                <UButton
-                    to="/generator"
-                    size="xl"
-                    icon="i-lucide-palette"
-                    trailing-icon="i-lucide-arrow-right"
-                >
-                    Open Color Generator
-                </UButton>
+                <!-- Call to Action Buttons -->
+                <div class="cta-buttons">
+                    <UButton
+                        to="/generator"
+                        size="xl"
+                        icon="i-lucide-palette"
+                        trailing-icon="i-lucide-arrow-right">
+                        Open Color Generator
+                    </UButton>
+                    <UButton
+                        to="/tailwind"
+                        size="xl"
+                        variant="outline"
+                        icon="i-lucide-swatches">
+                        Tailwind Colors Reference
+                    </UButton>
+                </div>
             </div>
 
             <!-- Feature Cards -->
@@ -30,8 +38,7 @@
                         <div class="card-header">
                             <UIcon
                                 name="i-lucide-sliders-horizontal"
-                                class="card-icon"
-                            />
+                                class="card-icon" />
                             <h3 class="card-title">
                                 Bezier Curves
                             </h3>
@@ -48,8 +55,7 @@
                         <div class="card-header">
                             <UIcon
                                 name="i-lucide-sun-moon"
-                                class="card-icon"
-                            />
+                                class="card-icon" />
                             <h3 class="card-title">
                                 Hue Adjustments
                             </h3>
@@ -65,8 +71,7 @@
                         <div class="card-header">
                             <UIcon
                                 name="i-lucide-download"
-                                class="card-icon"
-                            />
+                                class="card-icon" />
                             <h3 class="card-title">
                                 Export Ready
                             </h3>
@@ -83,65 +88,79 @@
 
 <style scoped>
 .home-page {
-  padding: 6rem 0;
+    padding: 6rem 0;
 }
 
 .hero-section {
-  text-align: center;
-  margin-bottom: 4rem;
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
 .hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
 }
 
 .hero-description {
-  font-size: 1.25rem;
-  color: var(--color-gray-600);
-  max-width: 42rem;
-  margin: 0 auto 2rem;
+    font-size: 1.25rem;
+    color: var(--color-gray-600);
+    max-width: 42rem;
+    margin: 0 auto 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+@media (min-width: 640px) {
+    .cta-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
 }
 
 :global(.dark) .hero-description {
-  color: var(--color-gray-400);
+    color: var(--color-gray-400);
 }
 
 .features-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-top: 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 4rem;
 }
 
 @media (min-width: 768px) {
-  .features-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .card-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .card-title {
-  font-size: 1.125rem;
-  font-weight: 600;
+    font-size: 1.125rem;
+    font-weight: 600;
 }
 
 .card-description {
-  color: var(--color-gray-600);
+    color: var(--color-gray-600);
 }
 
 :global(.dark) .card-description {
-  color: var(--color-gray-400);
+    color: var(--color-gray-400);
 }
 </style>
