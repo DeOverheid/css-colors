@@ -1,5 +1,6 @@
 import { useConfig } from "~/composables/core/baseConfig";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
+import { stepHueSpectrum } from "~/composables/input/stepHueSpectrum";
 
 /**
  * Output Module: Export Configuration
@@ -10,6 +11,7 @@ export function useExportConfig() {
     const config = useConfig();
     const colorSettings = useColorSettings();
     const { settings: lightnessAdjustment } = useLightnessAdjustment();
+    const hueSpectrum = stepHueSpectrum();
 
     const generateConfig = () => {
         // Get current values from sliders
@@ -60,6 +62,18 @@ export function useExportConfig() {
 })`;
     };
 
+    /**
+     * Generate hue offsets in TypeScript format for tailwind.ts
+     */
+    const generateHueOffsets = () => {
+        const rows = hueSpectrum.hueRowStates.value;
+        const lines = rows.map(row => {
+            const entry = row.entry as { name: string; type: string; baseHue: number; lightnessOffset?: number; saturationLightOffset?: number; saturationDarkOffset?: number };
+            return `    { name: "${entry.name}", type: "${entry.type}", baseHue: ${entry.baseHue}, lightOffset: ${row.lightOffset}, darkOffset: ${row.darkOffset}, lightnessOffset: ${entry.lightnessOffset ?? 0}, saturationLightOffset: ${entry.saturationLightOffset ?? 0}, saturationDarkOffset: ${entry.saturationDarkOffset ?? 0} },`;
+        });
+        return `export const tailwindHues: TailwindHueEntry[] = [\n${lines.join("\n")}\n];`;
+    };
+
     const copyToClipboard = async () => {
         const configText = generateConfig();
         try {
@@ -72,8 +86,21 @@ export function useExportConfig() {
         }
     };
 
+    const copyHueOffsetsToClipboard = async () => {
+        const hueOffsetsText = generateHueOffsets();
+        try {
+            await navigator.clipboard.writeText(hueOffsetsText);
+            alert("Hue offsets copied to clipboard! Paste into tailwind.ts");
+        } catch (err) {
+            console.error("Failed to copy:", err);
+            prompt("Copy this config to tailwind.ts:", hueOffsetsText);
+        }
+    };
+
     return {
         generateConfig,
-        copyToClipboard
+        generateHueOffsets,
+        copyToClipboard,
+        copyHueOffsetsToClipboard
     };
 }

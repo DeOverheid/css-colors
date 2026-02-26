@@ -183,6 +183,12 @@
                         @click="exportConfig.copyToClipboard">
                         Export Config
                     </UButton>
+                    <UButton
+                        icon="i-lucide-palette"
+                        variant="soft"
+                        @click="exportConfig.copyHueOffsetsToClipboard">
+                        Export Hue Offsets
+                    </UButton>
                 </div>
             </div>
 
