@@ -12,14 +12,27 @@
                 <!-- Step 1: Base Color -->
                 <StepAccordion
                     :step="stepDefinitions[0]!"
-                    :step-number="1">
+                    :step-number="1"
+                >
                     <!-- Theme Selection -->
-                    <div class="form-group">
-                        <label>Theme</label>
-                        <URadioGroup
-                            v-model="currentThemeId"
-                            :items="themeOptions"
-                            orientation="horizontal" />
+                    <div class="form-group form-group-row">
+                        <div>
+                            <label>Theme</label>
+                            <URadioGroup
+                                v-model="currentThemeId"
+                                :items="themeOptions"
+                                orientation="horizontal"
+                            />
+                        </div>
+                        <UButton
+                            :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
+                            :color="isDevModeEnabled ? 'primary' : 'neutral'"
+                            variant="soft"
+                            size="sm"
+                            @click="toggleDevMode"
+                        >
+                            {{ isDevModeEnabled ? 'Dev Mode' : 'Preview Mode' }}
+                        </UButton>
                     </div>
 
                     <!-- Hue and Saturation Controls -->
@@ -196,6 +209,7 @@ import { useBezierCurve } from "~/composables/core/useBezierCurve";
 import { parseColor } from "~/composables/utils/parseColor";
 import { useConfig } from "~/composables/core/baseConfig";
 import { useThemes } from "~/composables/themes";
+import { useDevMode } from "~/composables/ui/useDevMode";
 
 useHead({
     title: "Color Generator"
@@ -206,6 +220,7 @@ const exportConfig = useExportConfig();
 const colorSettings = useColorSettings();
 const { generateLightnessSteps } = useBezierCurve();
 const config = useConfig();
+const { isDevModeEnabled, toggleDevMode } = useDevMode();
 
 const { currentThemeId, currentTheme, availableThemes } = useThemes();
 
@@ -322,6 +337,13 @@ function handleColorInput() {
 
 .form-group {
     margin-bottom: 1rem;
+}
+
+.form-group-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .controls-grid {

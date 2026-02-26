@@ -35,19 +35,16 @@ function handleComplete() {
     <UCard class="step-accordion">
         <template
             v-if="!shouldHideStepHeaders"
-            #header
-        >
+            #header>
             <div
                 class="step-header"
-                @click="toggleExpanded"
-            >
+                @click="toggleExpanded">
                 <div class="step-title-row">
                     <UBadge
                         v-if="stepNumber"
                         :color="state.isComplete ? 'success' : 'neutral'"
                         variant="solid"
-                        size="sm"
-                    >
+                        size="sm">
                         {{ state.isComplete ? '✓' : stepNumber }}
                     </UBadge>
                     <span class="step-title">
@@ -55,30 +52,20 @@ function handleComplete() {
                     </span>
                 </div>
                 <UIcon
-                    :name="state.isActive ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
-                />
+                    :name="state.isActive ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" />
             </div>
         </template>
 
         <div v-show="isContentVisible">
-            <p
-                v-if="step.content.value.description"
-                class="step-description"
-            >
+            <p v-if="step.content.value.description" class="step-description">
                 {{ step.content.value.description }}
             </p>
 
             <slot />
 
-            <div
-                v-if="!shouldAllStepsBeOpen"
-                class="step-actions"
-            >
+            <div v-if="!shouldAllStepsBeOpen" class="step-actions">
                 <slot name="actions">
-                    <UButton
-                        v-if="!state.isComplete"
-                        @click="handleComplete"
-                    >
+                    <UButton v-if="!state.isComplete" @click="handleComplete">
                         Continue
                     </UButton>
                 </slot>
