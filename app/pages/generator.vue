@@ -170,7 +170,7 @@
                             :light-offset="rowState.lightOffset"
                             :dark-offset="rowState.darkOffset"
                             :saturation="colorSettings.step1.saturation.value"
-                            :lightness-steps="fullLightnessSteps"
+                            :lightness-steps="getLightnessStepsForEntry(rowState.entry)"
                             :offset-range="hueSpectrumOffsetRange"
                             @update:light-offset="hueSpectrum.setLightOffset(rowState.entry.name, $event)"
                             @update:dark-offset="hueSpectrum.setDarkOffset(rowState.entry.name, $event)" />
@@ -200,6 +200,7 @@
 
 <script setup lang="ts">
 import { useSteps } from "~/composables/input/useSteps";
+import type { HueEntry } from "~/composables/input/stepHueSpectrum";
 import { useExportConfig } from "~/composables/output/useExportConfig";
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useBezierCurve } from "~/composables/core/useBezierCurve";
@@ -240,6 +241,15 @@ const bezierValues = ref({
     y2: currentTheme.value.bezier.y2
 });
 
+// Grayscale bezier values (falls back to main bezier if not defined)
+const grayscaleBezierValues = computed(() => {
+    const grayscale = currentTheme.value.grayscaleBezier;
+    if (grayscale) {
+        return grayscale;
+    }
+    return bezierValues.value;
+});
+
 // Update bezier values when theme changes
 watch(currentTheme, (newTheme) => {
     bezierValues.value = {
@@ -264,7 +274,7 @@ const mutedSaturation = computed(() => {
     return Math.round(colorSettings.step1.saturation.value * config.colors.mutedSaturationMultiplier);
 });
 
-// Generate lightness steps from bezier curve
+// Generate lightness steps from bezier curve (for color hues)
 const lightnessSteps = computed(() => {
     return generateLightnessSteps(
         bezierValues.value.x1,
@@ -279,6 +289,26 @@ const lightnessSteps = computed(() => {
 const fullLightnessSteps = computed(() => {
     return [0, ...lightnessSteps.value, 100];
 });
+
+// Generate lightness steps for grayscale (uses grayscaleBezier if available)
+const grayscaleLightnessSteps = computed(() => {
+    const gb = grayscaleBezierValues.value;
+    return generateLightnessSteps(gb.x1, gb.y1, gb.x2, gb.y2, totalSteps.value);
+});
+
+// Full grayscale lightness steps including 0 (black) and 100 (white)
+const fullGrayscaleLightnessSteps = computed(() => {
+    return [0, ...grayscaleLightnessSteps.value, 100];
+});
+
+// Get the appropriate lightness steps for an entry based on its type
+function getLightnessStepsForEntry(entry: HueEntry): number[] {
+    // Check if entry has type 'grayscale' (TailwindHueEntry)
+    if ("type" in entry && entry.type === "grayscale") {
+        return fullGrayscaleLightnessSteps.value;
+    }
+    return fullLightnessSteps.value;
+}
 
 // Find the index of the swatch that matches the target lightness most closely
 function findClosestLightnessIndex(targetLightness: number): number {

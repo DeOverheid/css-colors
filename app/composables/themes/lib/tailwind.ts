@@ -12,7 +12,15 @@ export const tailwindTheme: ThemeConfig = {
     // Labels from dark to light: 0 (black), 950, 900...100, 50, 1000 (white)
     // Note: Tailwind shade numbers are inverted - 50 is lightest, 950 is darkest
     swatchLabels: ["0", "950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50", "1000"],
+    // Bezier for color hues - produces ~20-25% at dark end
     bezier: {
+        x1: 0.45,
+        y1: 0.25,
+        x2: 0.55,
+        y2: 0.95
+    },
+    // Bezier for grayscale - goes darker, ~10% at dark end
+    grayscaleBezier: {
         x1: 0.30,
         y1: 0.10,
         x2: 0.68,
@@ -37,6 +45,8 @@ export const tailwindTheme: ThemeConfig = {
 export interface TailwindHueEntry {
     /** Display name of the color */
     name: string;
+    /** Type: 'color' for chromatic hues, 'grayscale' for neutral tones */
+    type: "color" | "grayscale";
     /** Base hue at shade 500 (0-360) */
     baseHue: number;
     /** Hue offset for light shades (50-400), degrees */
@@ -59,23 +69,30 @@ export interface TailwindHueEntry {
  * Lightness offsets are derived from Tailwind's actual L500 values vs neutral 50%.
  */
 export const tailwindHues: TailwindHueEntry[] = [
-    { name: "red", baseHue: 0, lightOffset: 0, darkOffset: 2, lightnessOffset: 20, saturationLightOffset: 2, saturationDarkOffset: -21 },
-    { name: "orange", baseHue: 25, lightOffset: 0, darkOffset: -15, lightnessOffset: 6, saturationLightOffset: 5, saturationDarkOffset: -20 },
-    { name: "amber", baseHue: 38, lightOffset: 15, darkOffset: -30, lightnessOffset: 0, saturationLightOffset: 8, saturationDarkOffset: -14 },
-    { name: "yellow", baseHue: 45, lightOffset: 22, darkOffset: -24, lightnessOffset: -5, saturationLightOffset: -2, saturationDarkOffset: -21 },
-    { name: "lime", baseHue: 84, lightOffset: -9, darkOffset: -1, lightnessOffset: -11, saturationLightOffset: 12, saturationDarkOffset: -19 },
-    { name: "green", baseHue: 142, lightOffset: -4, darkOffset: 3, lightnessOffset: -9, saturationLightOffset: 6, saturationDarkOffset: -9 },
-    { name: "emerald", baseHue: 160, lightOffset: -17, darkOffset: 2, lightnessOffset: -21, saturationLightOffset: -3, saturationDarkOffset: 2 },
-    { name: "teal", baseHue: 173, lightOffset: -7, darkOffset: 5, lightnessOffset: -20, saturationLightOffset: -4, saturationDarkOffset: -20 },
-    { name: "cyan", baseHue: 189, lightOffset: -12, darkOffset: 3, lightnessOffset: -14, saturationLightOffset: 6, saturationDarkOffset: -31 },
-    { name: "sky", baseHue: 199, lightOffset: 5, darkOffset: 5, lightnessOffset: -3, saturationLightOffset: 11, saturationDarkOffset: -8 },
-    { name: "blue", baseHue: 217, lightOffset: 0, darkOffset: 4, lightnessOffset: 20, saturationLightOffset: 9, saturationDarkOffset: -27 },
-    { name: "indigo", baseHue: 239, lightOffset: -13, darkOffset: 9, lightnessOffset: 33, saturationLightOffset: 17, saturationDarkOffset: -36 },
-    { name: "violet", baseHue: 258, lightOffset: -13, darkOffset: 3, lightnessOffset: 33, saturationLightOffset: 11, saturationDarkOffset: -22 },
-    { name: "purple", baseHue: 271, lightOffset: -4, darkOffset: 7, lightnessOffset: 30, saturationLightOffset: 9, saturationDarkOffset: -25 },
-    { name: "fuchsia", baseHue: 292, lightOffset: -6, darkOffset: 7, lightnessOffset: 21, saturationLightOffset: 16, saturationDarkOffset: -20 },
-    { name: "pink", baseHue: 330, lightOffset: -8, darkOffset: -3, lightnessOffset: 21, saturationLightOffset: -8, saturationDarkOffset: -12 },
-    { name: "rose", baseHue: 350, lightOffset: 8, darkOffset: -16, lightnessOffset: 20, saturationLightOffset: 11, saturationDarkOffset: -14 }
+    // Grayscale colors - use grayscaleBezier curve
+    { name: "slate", type: "grayscale", baseHue: 215, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
+    { name: "gray", type: "grayscale", baseHue: 220, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
+    { name: "zinc", type: "grayscale", baseHue: 240, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
+    { name: "neutral", type: "grayscale", baseHue: 0, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
+    { name: "stone", type: "grayscale", baseHue: 30, lightOffset: 0, darkOffset: 0, lightnessOffset: 0, saturationLightOffset: 0, saturationDarkOffset: 0 },
+    // Color hues - use main bezier curve
+    { name: "red", type: "color", baseHue: 0, lightOffset: 0, darkOffset: 2, lightnessOffset: 20, saturationLightOffset: 2, saturationDarkOffset: -21 },
+    { name: "orange", type: "color", baseHue: 25, lightOffset: 0, darkOffset: -15, lightnessOffset: 6, saturationLightOffset: 5, saturationDarkOffset: -20 },
+    { name: "amber", type: "color", baseHue: 38, lightOffset: 15, darkOffset: -30, lightnessOffset: 0, saturationLightOffset: 8, saturationDarkOffset: -14 },
+    { name: "yellow", type: "color", baseHue: 45, lightOffset: 22, darkOffset: -24, lightnessOffset: -5, saturationLightOffset: -2, saturationDarkOffset: -21 },
+    { name: "lime", type: "color", baseHue: 84, lightOffset: -9, darkOffset: -1, lightnessOffset: -11, saturationLightOffset: 12, saturationDarkOffset: -19 },
+    { name: "green", type: "color", baseHue: 142, lightOffset: -4, darkOffset: 3, lightnessOffset: -9, saturationLightOffset: 6, saturationDarkOffset: -9 },
+    { name: "emerald", type: "color", baseHue: 160, lightOffset: -17, darkOffset: 2, lightnessOffset: -21, saturationLightOffset: -3, saturationDarkOffset: 2 },
+    { name: "teal", type: "color", baseHue: 173, lightOffset: -7, darkOffset: 5, lightnessOffset: -20, saturationLightOffset: -4, saturationDarkOffset: -20 },
+    { name: "cyan", type: "color", baseHue: 189, lightOffset: -12, darkOffset: 3, lightnessOffset: -14, saturationLightOffset: 6, saturationDarkOffset: -31 },
+    { name: "sky", type: "color", baseHue: 199, lightOffset: 5, darkOffset: 5, lightnessOffset: -3, saturationLightOffset: 11, saturationDarkOffset: -8 },
+    { name: "blue", type: "color", baseHue: 217, lightOffset: 0, darkOffset: 4, lightnessOffset: 20, saturationLightOffset: 9, saturationDarkOffset: -27 },
+    { name: "indigo", type: "color", baseHue: 239, lightOffset: -13, darkOffset: 9, lightnessOffset: 33, saturationLightOffset: 17, saturationDarkOffset: -36 },
+    { name: "violet", type: "color", baseHue: 258, lightOffset: -13, darkOffset: 3, lightnessOffset: 33, saturationLightOffset: 11, saturationDarkOffset: -22 },
+    { name: "purple", type: "color", baseHue: 271, lightOffset: -4, darkOffset: 7, lightnessOffset: 30, saturationLightOffset: 9, saturationDarkOffset: -25 },
+    { name: "fuchsia", type: "color", baseHue: 292, lightOffset: -6, darkOffset: 7, lightnessOffset: 21, saturationLightOffset: 16, saturationDarkOffset: -20 },
+    { name: "pink", type: "color", baseHue: 330, lightOffset: -8, darkOffset: -3, lightnessOffset: 21, saturationLightOffset: -8, saturationDarkOffset: -12 },
+    { name: "rose", type: "color", baseHue: 350, lightOffset: 8, darkOffset: -16, lightnessOffset: 20, saturationLightOffset: 11, saturationDarkOffset: -14 }
 ];
 
 /**
