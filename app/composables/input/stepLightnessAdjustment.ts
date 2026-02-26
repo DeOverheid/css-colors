@@ -40,7 +40,7 @@ const DEFAULT_SETTINGS: LightnessAdjustmentSettings = {
         hueFalloff: 15,
         lightnessFalloffLight: 0.48,
         lightnessAmplitude: 9.5,
-        lightnessFalloffDark: 0.44,
+        lightnessFalloffDark: 0.44
     },
     brightening: {
         enabled: true,
@@ -49,8 +49,8 @@ const DEFAULT_SETTINGS: LightnessAdjustmentSettings = {
         hueFalloff: 15,
         lightnessFalloffLight: 1.0,
         lightnessAmplitude: 12,
-        lightnessFalloffDark: 0.2,
-    },
+        lightnessFalloffDark: 0.2
+    }
 };
 
 export function stepLightnessAdjustment() {
@@ -220,9 +220,9 @@ export function stepLightnessAdjustment() {
 
         // Darkening reduces lightness (negative direction)
         // Brightening increases lightness (positive direction)
-        const delta =
-            computeRangeEffect(hue, index, count, brightening, 1) +
-            computeRangeEffect(hue, index, count, darkening, -1);
+        const delta
+            = computeRangeEffect(hue, index, count, brightening, 1)
+            + computeRangeEffect(hue, index, count, darkening, -1);
 
         if (delta === 0) return adjustedBase;
 
@@ -236,8 +236,8 @@ export function stepLightnessAdjustment() {
         if (!settings.value.enabled) return 0;
 
         return (
-            computeHueContribution(hue, settings.value.brightening, 1) +
-            computeHueContribution(hue, settings.value.darkening, -1)
+            computeHueContribution(hue, settings.value.brightening, 1)
+            + computeHueContribution(hue, settings.value.darkening, -1)
         );
     }
 
