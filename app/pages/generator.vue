@@ -14,8 +14,7 @@
                     :key="step"
                     class="step-nav-item"
                     :class="{ active: currentStep === step }"
-                    @click="goToStep(step as 1 | 2 | 3 | 4)"
-                >
+                    @click="goToStep(step as 1 | 2 | 3 | 4)">
                     <span class="step-number">{{ step }}</span>
                     <span class="step-label">{{ stepMetadata[step as 1 | 2 | 3 | 4].title }}</span>
                 </button>
@@ -24,14 +23,12 @@
             <!-- Theme Selector (hidden for now) -->
             <div
                 v-show="false"
-                class="sidebar-theme"
-            >
+                class="sidebar-theme">
                 <label class="sidebar-label">Theme</label>
                 <URadioGroup
                     v-model="currentThemeId"
                     :items="themeOptions"
-                    orientation="vertical"
-                />
+                    orientation="vertical" />
             </div>
 
             <!-- Spacer -->
@@ -40,16 +37,14 @@
             <!-- Export Buttons (hidden until step 4) -->
             <div
                 v-show="currentStep >= 4"
-                class="sidebar-export"
-            >
+                class="sidebar-export">
                 <UButton
                     :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
                     :color="isDevModeEnabled ? 'primary' : 'neutral'"
                     variant="soft"
                     size="sm"
                     block
-                    @click="toggleDevMode"
-                >
+                    @click="toggleDevMode">
                     {{ isDevModeEnabled ? 'Dev Mode' : 'Preview Mode' }}
                 </UButton>
                 <UButton
@@ -57,8 +52,7 @@
                     variant="outline"
                     size="sm"
                     block
-                    @click="exportConfig.copyUserThemeToClipboard"
-                >
+                    @click="exportConfig.copyUserThemeToClipboard">
                     Export Theme
                 </UButton>
             </div>
@@ -74,8 +68,7 @@
             <!-- Top Controls: Header + Primary Controls (Step-specific) -->
             <section
                 class="top-controls"
-                :class="{ 'top-controls--step2': currentStep === 2 }"
-            >
+                :class="{ 'top-controls--step2': currentStep === 2 }">
                 <!-- Step 2: Split layout with bezier on right -->
                 <template v-if="currentStep === 2">
                     <div class="step2-left">
@@ -96,8 +89,7 @@
                                 <span class="bezier-label">CSS:</span>
                                 <ClickToCopy
                                     :value="`cubic-bezier(${bezierValues.x1.toFixed(2)}, ${bezierValues.y1.toFixed(2)}, ${bezierValues.x2.toFixed(2)}, ${bezierValues.y2.toFixed(2)})`"
-                                    class="bezier-css"
-                                >
+                                    class="bezier-css">
                                     cubic-bezier({{ bezierValues.x1.toFixed(2) }}, {{ bezierValues.y1.toFixed(2) }}, {{ bezierValues.x2.toFixed(2) }}, {{ bezierValues.y2.toFixed(2) }})
                                 </ClickToCopy>
                             </div>
@@ -110,8 +102,7 @@
                             :initial-y1="bezierValues.y1"
                             :initial-x2="bezierValues.x2"
                             :initial-y2="bezierValues.y2"
-                            @update="handleBezierUpdate"
-                        />
+                            @update="handleBezierUpdate" />
                     </div>
                 </template>
 
@@ -132,8 +123,7 @@
                                         v-model="colorInput"
                                         placeholder="#hex, rgb(), or hsl()"
                                         class="input-field"
-                                        @input="handleColorInput"
-                                    />
+                                        @input="handleColorInput" />
                                     <div class="input-value" />
                                 </div>
                                 <div class="input-row">
@@ -143,8 +133,7 @@
                                         v-model="colorSettings.step1.hue.value"
                                         :min="0"
                                         :max="360"
-                                        class="input-field"
-                                    />
+                                        class="input-field" />
                                     <div class="input-value">
                                         {{ colorSettings.step1.hue.value }}°
                                     </div>
@@ -157,8 +146,7 @@
                                         :hue="colorSettings.step1.hue.value"
                                         :min="0"
                                         :max="100"
-                                        class="input-field"
-                                    />
+                                        class="input-field" />
                                     <div class="input-value">
                                         {{ colorSettings.step1.saturation.value }}%
                                     </div>
@@ -187,8 +175,7 @@
                                         :lightness-steps="getLightnessStepsForEntry(rowState.entry)"
                                         :offset-range="hueSpectrumOffsetRange"
                                         @update:light-offset="hueSpectrum.setLightOffset(rowState.entry.name, $event)"
-                                        @update:dark-offset="hueSpectrum.setDarkOffset(rowState.entry.name, $event)"
-                                    />
+                                        @update:dark-offset="hueSpectrum.setDarkOffset(rowState.entry.name, $event)" />
                                 </div>
                             </div>
                         </template>
@@ -206,15 +193,7 @@
                     <div class="swatch-row-label">
                         Primary
                     </div>
-                    <ColorSwatchRow
-                        :hue="colorSettings.step1.hue.value"
-                        :saturation="colorSettings.step1.saturation.value"
-                        :lightness-steps="lightnessSteps"
-                        :total-steps="totalSteps"
-                        :show-marker="true"
-                        :marker-index="markerIndex"
-                        class="swatch-row-swatches"
-                    />
+                    <ColorSwatchRow :hue="colorSettings.step1.hue.value" :saturation="colorSettings.step1.saturation.value" :lightness-steps="lightnessSteps" :total-steps="totalSteps" :show-marker="true" :marker-index="markerIndex" class="swatch-row-swatches" />
                     <div class="swatch-row-value">
                         {{ colorSettings.step1.saturation.value }}%
                     </div>
@@ -225,13 +204,7 @@
                     <div class="swatch-row-label">
                         Grey
                     </div>
-                    <ColorSwatchRow
-                        :hue="colorSettings.step1.hue.value"
-                        :saturation="mutedSaturation"
-                        :lightness-steps="lightnessSteps"
-                        :total-steps="totalSteps"
-                        class="swatch-row-swatches"
-                    />
+                    <ColorSwatchRow :hue="colorSettings.step1.hue.value" :saturation="mutedSaturation" :lightness-steps="lightnessSteps" :total-steps="totalSteps" class="swatch-row-swatches" />
                     <div class="swatch-row-value">
                         {{ mutedSaturation }}%
                     </div>
@@ -242,13 +215,7 @@
                     <div class="swatch-row-label">
                         Neutral
                     </div>
-                    <ColorSwatchRow
-                        :hue="colorSettings.step1.hue.value"
-                        :saturation="0"
-                        :lightness-steps="lightnessSteps"
-                        :total-steps="totalSteps"
-                        class="swatch-row-swatches"
-                    />
+                    <ColorSwatchRow :hue="colorSettings.step1.hue.value" :saturation="0" :lightness-steps="lightnessSteps" :total-steps="totalSteps" class="swatch-row-swatches" />
                     <div class="swatch-row-value">
                         0%
                     </div>
@@ -263,8 +230,7 @@
                             :hue="colorSettings.step1.hue.value"
                             :saturation="colorSettings.step1.saturation.value"
                             :lightness="markedSampleLightness"
-                            class="large-sample"
-                        />
+                            class="large-sample" />
                         <div class="color-preview-info">
                             <div class="color-sample-label">
                                 Primary-{{ markedSwatchLabel }}
@@ -489,7 +455,6 @@ function handleColorInput() {
 }
 
 .sidebar-logo h1 {
-    font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
 }
@@ -532,15 +497,10 @@ function handleColorInput() {
     border-radius: 50%;
     background: var(--ui-bg-accented);
     font-weight: 600;
-    font-size: 0.875rem;
 }
 
 .step-nav-item.active .step-number {
     background: rgba(255, 255, 255, 0.2);
-}
-
-.step-label {
-    font-size: 0.875rem;
 }
 
 .sidebar-theme {
@@ -549,7 +509,6 @@ function handleColorInput() {
 
 .sidebar-label {
     display: block;
-    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -616,20 +575,12 @@ function handleColorInput() {
     margin-bottom: 1rem;
 }
 
-/* Align header with swatches when not in step2 */
-.top-controls:not(.top-controls--step2) > .top-controls-header {
-    padding-left: calc(15% + 10px);
-    padding-right: calc(15% + 10px);
-}
-
 .top-controls-header h2 {
-    font-size: 1.5rem;
     font-weight: 600;
     margin: 0 0 0.25rem 0;
 }
 
 .top-controls-header p {
-    font-size: 0.875rem;
     color: var(--ui-text-muted);
     margin: 0;
 }
@@ -692,7 +643,7 @@ function handleColorInput() {
 }
 
 .bezier-label {
-    font-size: 0.75rem;
+    font-family: var(--font-family-header);
     font-weight: 600;
     text-transform: uppercase;
     color: var(--ui-text-muted);
@@ -700,12 +651,7 @@ function handleColorInput() {
 }
 
 .bezier-coords {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 0.875rem;
-}
-
-.bezier-css {
-    font-size: 0.75rem;
+    font-family: var(--font-family-monospace);
 }
 
 .swatches-preview {
@@ -740,16 +686,26 @@ function handleColorInput() {
 /* 3-Column Input Row */
 .input-row {
     display: grid;
-    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-columns: 80px 1fr 80px;
     gap: 1rem;
     align-items: center;
 }
 
-.input-label {
-    font-size: 0.75rem;
+/* Shared label styles */
+.input-label,
+.swatch-row-label {
+    font-family: var(--font-family-header);
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: var(--ui-text-muted);
+}
+
+/* Shared value styles */
+.input-value,
+.swatch-row-value {
+    font-family: var(--font-family-header);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
     color: var(--ui-text-muted);
 }
 
@@ -757,36 +713,16 @@ function handleColorInput() {
     width: 100%;
 }
 
-.input-value {
-    font-size: 0.875rem;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-    color: var(--ui-text-muted);
-}
-
 /* Swatch Rows - 3 Column Grid */
 .swatch-row {
     display: grid;
-    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-columns: 80px 1fr 80px;
     gap: 1rem;
     align-items: center;
 }
 
-.swatch-row-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--ui-text-muted);
-}
-
 .swatch-row-swatches {
     width: 100%;
-}
-
-.swatch-row-value {
-    font-size: 0.75rem;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-    color: var(--ui-text-muted);
 }
 
 /* Color Preview Panel */
@@ -809,13 +745,11 @@ function handleColorInput() {
 }
 
 .color-sample-label {
-    font-size: 0.875rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
 }
 
 .color-values {
-    font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
     color: var(--ui-text-muted);
     display: flex;

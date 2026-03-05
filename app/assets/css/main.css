@@ -1,8 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600&family=Open+Sans&display=swap");
+
 @import "tailwindcss";
 @import "@nuxt/ui";
 
 @layer base {
   :root {
+    /* Font families */
+    --font-family-body: "Open Sans", sans-serif;
+    --font-family-header: "Inconsolata", monospace;
+    --font-family-monospace: "Inconsolata", monospace;
     --ui-color-primary-50: hsl(
       var(--hue-slider-value) var(--saturation-slider-value) 95%
     );
@@ -38,11 +44,49 @@
       var(--hue-slider-value) var(--saturation-slider-value) 5%
     );
   }
+
+  /* Body font */
+  body {
+    font-family: var(--font-family-body);
+    font-size: 14px;
+  }
+
+  /* Headers and labels */
+  h1,
+  .h1 {
+    font-family: var(--font-family-header);
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  h2,
+  .h2,
+  h3,
+  .h3,
+  h4,
+  .h4,
+  h5,
+  .h5,
+  h6,
+  .h6 {
+    font-family: var(--font-family-header);
+    font-weight: 600;
+  }
+
+  label {
+    font-family: var(--font-family-header);
+    font-weight: 600;
+  }
+
+  /* Monospace / code elements */
+  code,
+  pre,
+  .code {
+    font-family: var(--font-family-monospace);
+  }
 }
 
 @theme static {
-  --font-sans: system-ui, -apple-system, sans-serif;
-
   --color-green-50: #effdf5;
   --color-green-100: #d9fbe8;
   --color-green-200: #b3f5d1;

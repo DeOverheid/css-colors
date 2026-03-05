@@ -5,16 +5,14 @@
             <label class="toggle-label">
                 <input
                     v-model="settings.enabled"
-                    type="checkbox"
-                >
+                    type="checkbox">
                 <span>Apply lightness compensation</span>
             </label>
         </div>
 
         <div
             v-if="settings.enabled"
-            class="adjustment-controls"
-        >
+            class="adjustment-controls">
             <!-- Darkening Section -->
             <div class="adjustment-section">
                 <div class="section-header">
@@ -22,8 +20,7 @@
                     <label class="toggle-label small">
                         <input
                             v-model="settings.darkening.enabled"
-                            type="checkbox"
-                        >
+                            type="checkbox">
                         <span>Enabled</span>
                     </label>
                 </div>
@@ -33,8 +30,7 @@
 
                 <div
                     v-if="settings.darkening.enabled"
-                    class="control-grid"
-                >
+                    class="control-grid">
                     <div class="control-row">
                         <label :for="`darkening-start-${id}`">Hue Start</label>
                         <input
@@ -43,8 +39,7 @@
                             type="range"
                             min="0"
                             max="360"
-                            step="1"
-                        >
+                            step="1">
                         <output>{{ settings.darkening.start }}°</output>
                     </div>
 
@@ -56,8 +51,7 @@
                             type="range"
                             min="0"
                             max="360"
-                            step="1"
-                        >
+                            step="1">
                         <output>{{ settings.darkening.end }}°</output>
                     </div>
 
@@ -69,8 +63,7 @@
                             type="range"
                             min="0"
                             max="60"
-                            step="1"
-                        >
+                            step="1">
                         <output>{{ settings.darkening.hueFalloff }}°</output>
                     </div>
 
@@ -82,8 +75,7 @@
                             type="range"
                             min="0"
                             max="30"
-                            step="0.5"
-                        >
+                            step="0.5">
                         <output>{{ settings.darkening.lightnessAmplitude.toFixed(1) }}</output>
                     </div>
 
@@ -95,8 +87,7 @@
                             type="range"
                             min="0"
                             max="1"
-                            step="0.01"
-                        >
+                            step="0.01">
                         <output>{{ settings.darkening.lightnessFalloffLight.toFixed(2) }}</output>
                     </div>
 
@@ -108,8 +99,7 @@
                             type="range"
                             min="0"
                             max="1"
-                            step="0.01"
-                        >
+                            step="0.01">
                         <output>{{ settings.darkening.lightnessFalloffDark.toFixed(2) }}</output>
                     </div>
                 </div>
@@ -124,8 +114,7 @@
                     <label class="toggle-label small">
                         <input
                             v-model="settings.brightening.enabled"
-                            type="checkbox"
-                        >
+                            type="checkbox">
                         <span>Enabled</span>
                     </label>
                 </div>
@@ -135,8 +124,7 @@
 
                 <div
                     v-if="settings.brightening.enabled"
-                    class="control-grid"
-                >
+                    class="control-grid">
                     <div class="control-row">
                         <label :for="`brightening-start-${id}`">Hue Start</label>
                         <input
@@ -145,8 +133,7 @@
                             type="range"
                             min="0"
                             max="360"
-                            step="1"
-                        >
+                            step="1">
                         <output>{{ settings.brightening.start }}°</output>
                     </div>
 
@@ -158,8 +145,7 @@
                             type="range"
                             min="0"
                             max="360"
-                            step="1"
-                        >
+                            step="1">
                         <output>{{ settings.brightening.end }}°</output>
                     </div>
 
@@ -171,8 +157,7 @@
                             type="range"
                             min="0"
                             max="60"
-                            step="1"
-                        >
+                            step="1">
                         <output>{{ settings.brightening.hueFalloff }}°</output>
                     </div>
 
@@ -184,8 +169,7 @@
                             type="range"
                             min="0"
                             max="30"
-                            step="0.5"
-                        >
+                            step="0.5">
                         <output>{{ settings.brightening.lightnessAmplitude.toFixed(1) }}</output>
                     </div>
 
@@ -197,8 +181,7 @@
                             type="range"
                             min="0"
                             max="1"
-                            step="0.01"
-                        >
+                            step="0.01">
                         <output>{{ settings.brightening.lightnessFalloffLight.toFixed(2) }}</output>
                     </div>
 
@@ -210,8 +193,7 @@
                             type="range"
                             min="0"
                             max="1"
-                            step="0.01"
-                        >
+                            step="0.01">
                         <output>{{ settings.brightening.lightnessFalloffDark.toFixed(2) }}</output>
                     </div>
                 </div>
@@ -223,8 +205,7 @@
                     size="sm"
                     variant="ghost"
                     icon="i-lucide-rotate-ccw"
-                    @click="resetToDefaults"
-                >
+                    @click="resetToDefaults">
                     Reset to defaults
                 </UButton>
             </div>
@@ -290,7 +271,7 @@ const { settings, resetToDefaults } = useLightnessAdjustment();
 
 .section-header h4 {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
@@ -308,7 +289,7 @@ const { settings, resetToDefaults } = useLightnessAdjustment();
 
 .control-row {
     display: grid;
-    grid-template-columns: 100px 1fr 50px;
+    grid-template-columns: 80px 1fr 80px;
     gap: 0.75rem;
     align-items: center;
 }
