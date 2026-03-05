@@ -1,6 +1,10 @@
 <template>
     <div class="saturation-slider">
-        <label :for="id">{{ label }}</label>
+        <label
+            v-if="label"
+            :for="id">
+            {{ label }}
+        </label>
         <div class="slider-row">
             <div class="slider-track">
                 <input
@@ -14,10 +18,11 @@
                         '--hue-value': hue + 'deg',
                         '--saturation-value': modelValue + '%'
                     }"
-                    @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))"
-                >
+                    @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
             </div>
-            <span class="slider-value">
+            <span
+                v-if="unit"
+                class="slider-value">
                 {{ modelValue }}{{ unit }}
             </span>
         </div>
@@ -27,7 +32,7 @@
 <script setup lang="ts">
 defineProps<{
     id: string;
-    label: string;
+    label?: string;
     modelValue: number;
     hue: number;
     min: number;

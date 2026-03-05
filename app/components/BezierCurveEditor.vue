@@ -104,10 +104,6 @@
                 />
             </svg>
         </div>
-
-        <div class="bezier-editor__output">
-            <code class="bezier-editor__code">cubic-bezier({{ formattedValues }})</code>
-        </div>
     </div>
 </template>
 
@@ -149,11 +145,6 @@ const normalizedValues = computed(() => ({
     x2: Math.round(p2.x) / 100,
     y2: Math.round(100 - p2.y) / 100
 }));
-
-const formattedValues = computed(() => {
-    const { x1, y1, x2, y2 } = normalizedValues.value;
-    return `${x1.toFixed(2)}, ${y1.toFixed(2)}, ${x2.toFixed(2)}, ${y2.toFixed(2)}`;
-});
 
 // Emit updates when values change
 watch(normalizedValues, (values) => {
@@ -246,13 +237,13 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 100%;
+    height: 100%;
 }
 
 .bezier-editor__container {
-    width: 100%;
+    height: 100%;
+    width: auto;
     aspect-ratio: 1;
-    max-width: 300px;
 }
 
 .bezier-editor__svg {
@@ -272,10 +263,5 @@ onUnmounted(() => {
 
 .bezier-editor__handle:active {
     cursor: grabbing;
-}
-
-.bezier-editor__code {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 0.875rem;
 }
 </style>
