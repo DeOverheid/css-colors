@@ -5,10 +5,12 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "ftp": "nuxt generate && node scripts/deploy.mjs"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.87",
@@ -20,6 +22,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.13.0",
     "eslint": "^9.39.2",
+    "ftp-deploy": "^2.4.7",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
   },

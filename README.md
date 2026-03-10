@@ -50,6 +50,31 @@ pnpm lint        # Run ESLint
 pnpm typecheck   # Run TypeScript type checking
 ```
 
+### Generate Static Site
+
+Generate a fully static version for deployment:
+
+```bash
+pnpm generate
+```
+
+Output will be in `.output/public/`.
+
+### Deploy to FTP
+
+Deploy the static site to an FTP server:
+
+```bash
+pnpm ftp
+```
+
+This will:
+1. Generate the static site
+2. Prompt for FTP credentials (host, user, password, remote path)
+3. Upload and sync files to your server
+
+Credentials are entered interactively each time and never stored in the repository.
+
 ## Project Structure
 
 ```
