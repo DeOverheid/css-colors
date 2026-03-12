@@ -1,0 +1,97 @@
+<template>
+    <div class="step2-title">
+        <h2>{{ currentStepMetadata.title }}</h2>
+        <p>{{ currentStepMetadata.description }}</p>
+    </div>
+    <div class="step2-results">
+        <div class="bezier-values">
+            <div class="bezier-value-row">
+                <span class="bezier-label">P1:</span>
+                <span class="bezier-coords">({{ bezierValues.x1.toFixed(2) }}, {{ bezierValues.y1.toFixed(2) }})</span>
+            </div>
+            <div class="bezier-value-row">
+                <span class="bezier-label">P2:</span>
+                <span class="bezier-coords">({{ bezierValues.x2.toFixed(2) }}, {{ bezierValues.y2.toFixed(2) }})</span>
+            </div>
+            <div class="bezier-value-row">
+                <span class="bezier-label">CSS:</span>
+                <ClickToCopy
+                    :value="`cubic-bezier(${bezierValues.x1.toFixed(2)}, ${bezierValues.y1.toFixed(2)}, ${bezierValues.x2.toFixed(2)}, ${bezierValues.y2.toFixed(2)})`"
+                    class="bezier-css">
+                    cubic-bezier({{ bezierValues.x1.toFixed(2) }}, {{ bezierValues.y1.toFixed(2) }}, {{ bezierValues.x2.toFixed(2) }}, {{ bezierValues.y2.toFixed(2) }})
+                </ClickToCopy>
+            </div>
+        </div>
+    </div>
+    <div class="step2-bezier">
+        <BezierCurveEditor
+            :key="currentThemeId"
+            :initial-x1="bezierValues.x1"
+            :initial-y1="bezierValues.y1"
+            :initial-x2="bezierValues.x2"
+            :initial-y2="bezierValues.y2"
+            @update="updateBezier" />
+    </div>
+</template>
+
+<script setup lang="ts">
+import { useSteps } from "~/composables/input/useSteps";
+import { useCurrentStep } from "~/composables/ui/useCurrentStep";
+import { useThemes } from "~/composables/themes";
+
+const { lightnessDistribution } = useSteps();
+const { bezierValues, updateBezier } = lightnessDistribution;
+const { currentStepMetadata } = useCurrentStep();
+const { currentThemeId } = useThemes();
+</script>
+
+<style scoped>
+.step2-title h2 {
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.step2-title p {
+    color: var(--ui-text-muted);
+    margin: 0;
+}
+
+.step2-bezier {
+    grid-area: bezier;
+    height: 100%;
+    overflow: hidden;
+}
+
+.step2-bezier :deep(.bezier-editor) {
+    height: 100%;
+}
+
+.step2-bezier :deep(.bezier-editor__container) {
+    height: 100%;
+    width: auto;
+}
+
+.bezier-values {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.bezier-value-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+}
+
+.bezier-label {
+    font-family: var(--font-family-header);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ui-text-muted);
+    min-width: 2rem;
+}
+
+.bezier-coords {
+    font-family: var(--font-family-monospace);
+}
+</style>
