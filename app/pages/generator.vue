@@ -247,7 +247,6 @@ import { useSteps } from "~/composables/input/useSteps";
 import type { HueEntry } from "~/composables/input/stepHueSpectrum";
 import { useExportConfig } from "~/composables/output/useExportConfig";
 import { useColorSettings } from "~/composables/core/useColorSettings";
-import { useBezierCurve } from "~/composables/core/useBezierCurve";
 import { parseColor } from "~/composables/utils/parseColor";
 import { useConfig } from "~/composables/core/baseConfig";
 import { useThemes } from "~/composables/themes";
@@ -262,11 +261,11 @@ useHead({
     title: "Color Generator"
 });
 
-const { hueSpectrum } = useSteps();
+const { hueSpectrum, lightnessDistribution } = useSteps();
+const { bezierValues, lightnessSteps, fullLightnessSteps, fullGrayscaleLightnessSteps, updateBezier } = lightnessDistribution;
 const { currentStep, currentStepMetadata, stepMetadata, goToStep } = useCurrentStep();
 const exportConfig = useExportConfig();
 const colorSettings = useColorSettings();
-const { generateLightnessSteps } = useBezierCurve();
 const config = useConfig();
 const { isDevModeEnabled, toggleDevMode } = useDevMode();
 
@@ -288,32 +287,6 @@ const themeOptions = computed(() =>
     }))
 );
 
-const bezierValues = ref({
-    x1: currentTheme.value.bezier.x1,
-    y1: currentTheme.value.bezier.y1,
-    x2: currentTheme.value.bezier.x2,
-    y2: currentTheme.value.bezier.y2
-});
-
-// Grayscale bezier values (falls back to main bezier if not defined)
-const grayscaleBezierValues = computed(() => {
-    const grayscale = currentTheme.value.grayscaleBezier;
-    if (grayscale) {
-        return grayscale;
-    }
-    return bezierValues.value;
-});
-
-// Update bezier values when theme changes
-watch(currentTheme, (newTheme) => {
-    bezierValues.value = {
-        x1: newTheme.bezier.x1,
-        y1: newTheme.bezier.y1,
-        x2: newTheme.bezier.x2,
-        y2: newTheme.bezier.y2
-    };
-});
-
 const colorInput = ref("");
 const userInputLightness = ref<number | null>(null);
 
@@ -323,43 +296,6 @@ const totalSteps = computed(() => currentTheme.value.totalSteps);
 // Calculate muted saturation based on config multiplier
 const mutedSaturation = computed(() => {
     return Math.round(colorSettings.step1.saturation.value * config.colors.mutedSaturationMultiplier);
-});
-
-// Generate lightness steps from bezier curve (for color hues)
-const lightnessSteps = computed(() => {
-    return generateLightnessSteps(
-        bezierValues.value.x1,
-        bezierValues.value.y1,
-        bezierValues.value.x2,
-        bezierValues.value.y2,
-        totalSteps.value,
-        currentTheme.value.lightnessMin ?? 0,
-        currentTheme.value.lightnessMax ?? 100
-    );
-});
-
-// Full lightness steps including 0 (black) and 100 (white)
-const fullLightnessSteps = computed(() => {
-    return [0, ...lightnessSteps.value, 100];
-});
-
-// Generate lightness steps for grayscale (uses grayscaleBezier if available)
-const grayscaleLightnessSteps = computed(() => {
-    const gb = grayscaleBezierValues.value;
-    return generateLightnessSteps(
-        gb.x1,
-        gb.y1,
-        gb.x2,
-        gb.y2,
-        totalSteps.value,
-        currentTheme.value.lightnessMin ?? 0,
-        currentTheme.value.lightnessMax ?? 100
-    );
-});
-
-// Full grayscale lightness steps including 0 (black) and 100 (white)
-const fullGrayscaleLightnessSteps = computed(() => {
-    return [0, ...grayscaleLightnessSteps.value, 100];
 });
 
 // Get the appropriate lightness steps for an entry based on its type
@@ -401,7 +337,7 @@ const markedSampleLightness = computed(() => {
 });
 
 function handleBezierUpdate(values: { x1: number; y1: number; x2: number; y2: number }) {
-    bezierValues.value = values;
+    updateBezier(values);
 }
 
 function handleColorInput() {
