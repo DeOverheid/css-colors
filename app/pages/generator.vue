@@ -10,13 +10,13 @@
             <!-- Step Navigation -->
             <nav class="step-navigation">
                 <button
-                    v-for="step in 4"
+                    v-for="step in 5"
                     :key="step"
                     class="step-nav-item"
                     :class="{ active: currentStep === step }"
-                    @click="goToStep(step as 1 | 2 | 3 | 4)">
+                    @click="goToStep(step as 1 | 2 | 3 | 4 | 5)">
                     <span class="step-number">{{ step }}</span>
-                    <span class="step-label">{{ stepMetadata[step as 1 | 2 | 3 | 4].title }}</span>
+                    <span class="step-label">{{ stepMetadata[step as 1 | 2 | 3 | 4 | 5].title }}</span>
                 </button>
             </nav>
 
@@ -34,28 +34,8 @@
             <!-- Spacer -->
             <div class="sidebar-spacer" />
 
-            <!-- Export Buttons (hidden until step 4) -->
-            <div
-                v-show="currentStep >= 4"
-                class="sidebar-export">
-                <UButton
-                    :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
-                    :color="isDevModeEnabled ? 'primary' : 'neutral'"
-                    variant="soft"
-                    size="sm"
-                    block
-                    @click="toggleDevMode">
-                    {{ isDevModeEnabled ? 'Dev Mode' : 'Preview Mode' }}
-                </UButton>
-                <UButton
-                    icon="i-lucide-save"
-                    variant="outline"
-                    size="sm"
-                    block
-                    @click="exportConfig.copyUserThemeToClipboard">
-                    Export Theme
-                </UButton>
-            </div>
+            <!-- Spacer for removed export buttons -->
+            <div class="sidebar-export" />
 
             <!-- Nuxt UI Logo -->
             <div class="sidebar-branding">
@@ -69,13 +49,13 @@
             <section
                 class="top-controls"
                 :class="{ 'top-controls--step2': currentStep === 2 }">
-                <!-- Step 2: Split layout with bezier on right -->
+                <!-- Step 2: Grid layout with bezier on right -->
                 <template v-if="currentStep === 2">
-                    <div class="step2-left">
-                        <div class="top-controls-header">
-                            <h2>{{ currentStepMetadata.title }}</h2>
-                            <p>{{ currentStepMetadata.description }}</p>
-                        </div>
+                    <div class="step2-title">
+                        <h2>{{ currentStepMetadata.title }}</h2>
+                        <p>{{ currentStepMetadata.description }}</p>
+                    </div>
+                    <div class="step2-results">
                         <div class="bezier-values">
                             <div class="bezier-value-row">
                                 <span class="bezier-label">P1:</span>
@@ -95,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="step2-right">
+                    <div class="step2-bezier">
                         <BezierCurveEditor
                             :key="currentThemeId"
                             :initial-x1="bezierValues.x1"
@@ -117,14 +97,13 @@
                         <!-- Step 1: Color Input -->
                         <template v-if="currentStep === 1">
                             <div class="step1-controls">
-                                <div class="input-row">
+                                <div class="input-row-color">
                                     <label class="input-label">Color</label>
                                     <UInput
                                         v-model="colorInput"
                                         placeholder="#hex, rgb(), or hsl()"
                                         class="input-field"
                                         @input="handleColorInput" />
-                                    <div class="input-value" />
                                 </div>
                                 <div class="input-row">
                                     <label class="input-label">Hue</label>
@@ -222,31 +201,43 @@
                 </div>
             </section>
 
-            <!-- Color Preview Panel (Step 1 only) -->
-            <aside class="color-preview-area">
-                <template v-if="currentStep === 1">
-                    <div class="color-preview-panel">
-                        <ColorSwatch
-                            :hue="colorSettings.step1.hue.value"
-                            :saturation="colorSettings.step1.saturation.value"
-                            :lightness="markedSampleLightness"
-                            class="large-sample" />
-                        <div class="color-preview-info">
-                            <div class="color-sample-label">
-                                Primary-{{ markedSwatchLabel }}
-                            </div>
-                            <div class="color-values">
-                                <span>H: {{ colorSettings.step1.hue.value }}°</span>
-                                <span>S: {{ colorSettings.step1.saturation.value }}%</span>
-                                <span>L: {{ markedSampleLightness }}%</span>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-            </aside>
+            <!-- Right Panel (placeholder) -->
+            <aside class="color-preview-area" />
 
-            <!-- Bottom Panel (placeholder for future use) -->
-            <div class="bottom-panel" />
+            <!-- Bottom Panel (footer spanning full width) -->
+            <footer class="bottom-panel">
+                <!-- Left: Primary Color Sample (persistent) -->
+                <div class="footer-left">
+                    <ColorSwatch :hue="colorSettings.step1.hue.value" :saturation="colorSettings.step1.saturation.value" :lightness="markedSampleLightness" class="footer-sample" />
+                    <div class="footer-color-info">
+                        <span class="footer-color-name">Primary</span>
+                        <span class="footer-color-value">H: {{ colorSettings.step1.hue.value }}°</span>
+                        <span class="footer-color-value">S: {{ colorSettings.step1.saturation.value }}%</span>
+                        <span class="footer-color-value">L: {{ markedSampleLightness }}%</span>
+                    </div>
+                </div>
+
+                <!-- Middle: Step-specific content -->
+                <div class="footer-middle">
+                    <!-- Step 5: Export button -->
+                    <template v-if="currentStep === 5">
+                        <UButton
+                            icon="i-lucide-save"
+                            variant="outline"
+                            size="sm"
+                            @click="exportConfig.copyUserThemeToClipboard">
+                            Export Theme
+                        </UButton>
+                    </template>
+                </div>
+
+                <!-- Right: Dev Mode button (persistent) -->
+                <div class="footer-right">
+                    <UButton :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'" :color="isDevModeEnabled ? 'primary' : 'neutral'" variant="soft" size="xs" @click="toggleDevMode">
+                        {{ isDevModeEnabled ? 'Dev' : 'Preview' }}
+                    </UButton>
+                </div>
+            </footer>
         </main>
     </div>
 </template>
@@ -412,9 +403,6 @@ const markedSampleLightness = computed(() => {
     return allLightnesses[markerIndex.value] ?? config.colors.lightness;
 });
 
-// Get the label for the currently marked swatch
-const markedSwatchLabel = computed(() => swatchLabels.value[markerIndex.value] ?? currentTheme.value.swatchLabels[Math.floor(currentTheme.value.swatchLabels.length / 2)]);
-
 function handleBezierUpdate(values: { x1: number; y1: number; x2: number; y2: number }) {
     bezierValues.value = values;
 }
@@ -444,8 +432,8 @@ function handleColorInput() {
 /* Left Sidebar */
 .left-sidebar {
     width: 20%;
-    min-width: 200px;
-    max-width: 280px;
+    min-width: 220px;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -456,7 +444,9 @@ function handleColorInput() {
 
 .sidebar-logo h1 {
     font-weight: 600;
+    font-size: 0.9375rem;
     margin: 0;
+    white-space: nowrap;
 }
 
 .step-navigation {
@@ -588,9 +578,11 @@ function handleColorInput() {
 .top-controls-content {
     flex: 1;
     overflow: auto;
-    /* Align with swatches grid (15% columns + gap) */
-    padding-left: calc(15% + 10px);
-    padding-right: calc(15% + 10px);
+    /* Outer grid matching main content columns */
+    display: grid;
+    grid-template-columns: 15% auto 15%;
+    gap: 0 1rem;
+    align-content: start;
 }
 
 /* Step-specific control containers */
@@ -601,31 +593,40 @@ function handleColorInput() {
     flex-direction: column;
     gap: 1rem;
     height: 100%;
+    /* Sit in the center column of 15% auto 15% grid */
+    grid-column: 2;
 }
 
-/* Step 2: Full-height side-by-side layout */
+/* Step 2: Named grid layout */
 .top-controls--step2 {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-}
-
-.step2-left {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 15% 1fr 1fr 15%;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "title  title  bezier  ."
+        ".      results bezier  .";
     gap: 1rem;
 }
 
-.step2-right {
+.step2-title {
+    grid-area: title;
+}
+
+.step2-results {
+    grid-area: results;
+}
+
+.step2-bezier {
+    grid-area: bezier;
     height: 100%;
     overflow: hidden;
 }
 
-.step2-right :deep(.bezier-editor) {
+.step2-bezier :deep(.bezier-editor) {
     height: 100%;
 }
 
-.step2-right :deep(.bezier-editor__container) {
+.step2-bezier :deep(.bezier-editor__container) {
     height: 100%;
     width: auto;
 }
@@ -676,15 +677,73 @@ function handleColorInput() {
 }
 
 .bottom-panel {
-    grid-column: 2;
+    grid-column: 1 / -1;
     grid-row: 3;
     background: var(--ui-bg-elevated);
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+    /* Match the same 3-column grid as the main content area */
+    display: grid;
+    grid-template-columns: 15% auto 15%;
+    align-items: center;
+    gap: 10px;
 }
 
-/* 3-Column Input Row */
+/* Footer Areas */
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.footer-sample {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.footer-color-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    line-height: 1.3;
+}
+
+.footer-color-name {
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.footer-color-value {
+    font-size: 0.6875rem;
+    color: var(--ui-text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.footer-middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* 3-Column Input Row - matches swatch-row grid */
 .input-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Color input row: same 3-column grid as sliders */
+.input-row-color {
     display: grid;
     grid-template-columns: 80px 1fr 80px;
     gap: 1rem;
@@ -725,37 +784,7 @@ function handleColorInput() {
     width: 100%;
 }
 
-/* Color Preview Panel */
-.color-preview-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: center;
-}
-
-.large-sample {
-    width: 100%;
-    max-width: 120px;
-    aspect-ratio: 1;
-    border-radius: 8px;
-}
-
-.color-preview-info {
-    text-align: center;
-}
-
-.color-sample-label {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-}
-
-.color-values {
-    font-variant-numeric: tabular-nums;
-    color: var(--ui-text-muted);
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
-}
+/* Color Preview Panel - removed, now in footer */
 
 /* Hue Spectrum Grid */
 .hue-spectrum-grid {

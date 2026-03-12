@@ -2,7 +2,7 @@
  * Composable for managing the current wizard step state and navigation.
  */
 export function useCurrentStep() {
-    const currentStep = ref<1 | 2 | 3 | 4>(1);
+    const currentStep = ref<1 | 2 | 3 | 4 | 5>(1);
 
     const stepMetadata = {
         1: {
@@ -20,24 +20,28 @@ export function useCurrentStep() {
         4: {
             title: "Hue Spectrum",
             description: "Expand your palette with additional hue variations"
+        },
+        5: {
+            title: "Export",
+            description: "Export your color palette configuration"
         }
     };
 
     const currentStepMetadata = computed(() => stepMetadata[currentStep.value]);
 
-    function goToStep(step: 1 | 2 | 3 | 4) {
+    function goToStep(step: 1 | 2 | 3 | 4 | 5) {
         currentStep.value = step;
     }
 
     function nextStep() {
-        if (currentStep.value < 4) {
-            currentStep.value = (currentStep.value + 1) as 1 | 2 | 3 | 4;
+        if (currentStep.value < 5) {
+            currentStep.value = (currentStep.value + 1) as 1 | 2 | 3 | 4 | 5;
         }
     }
 
     function prevStep() {
         if (currentStep.value > 1) {
-            currentStep.value = (currentStep.value - 1) as 1 | 2 | 3 | 4;
+            currentStep.value = (currentStep.value - 1) as 1 | 2 | 3 | 4 | 5;
         }
     }
 

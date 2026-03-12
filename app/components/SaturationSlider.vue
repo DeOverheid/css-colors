@@ -58,7 +58,6 @@ defineEmits<{
 
 .slider-track {
     flex: 1;
-    max-width: 300px;
 }
 
 /* Functional: gradient shows saturation range */

@@ -8,8 +8,7 @@
                 :min="min"
                 :max="max"
                 class="slider-input"
-                @update:model-value="$emit('update:modelValue', $event)"
-            />
+                @update:model-value="$emit('update:modelValue', $event)" />
             <span class="slider-value">
                 {{ modelValue }}{{ unit }}
             </span>
@@ -45,7 +44,6 @@ defineEmits<{
 
 .slider-input {
     flex: 1;
-    max-width: 300px;
 }
 
 .slider-value {
