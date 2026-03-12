@@ -19,9 +19,9 @@ export function useExportConfig() {
      * Generate app.config.ts format with current values
      */
     const generateAppConfig = () => {
-        const currentHue = colorSettings.step1.hue.value;
-        const currentSaturation = colorSettings.step1.saturation.value;
-        const currentLightness = colorSettings.step2.lightness.value;
+        const currentHue = colorSettings.hue.value;
+        const currentSaturation = colorSettings.saturation.value;
+        const currentLightness = colorSettings.lightness.value;
         const adj = lightnessAdjustment.value;
 
         return `export default defineAppConfig({

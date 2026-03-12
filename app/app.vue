@@ -12,15 +12,15 @@ useHead({
 });
 
 const title = "CSS Color Palette Generator";
-const description = "The ease of Tailwind, but none of that bespoke crap";
+const description = "The power of Tailwind, but now in your hands.";
 
 useSeoMeta({
     title,
     description,
     ogTitle: title,
     ogDescription: description,
-    ogImage: "https://ui.nuxt.com/assets/templates/nuxt/starter-light.png",
-    twitterImage: "https://ui.nuxt.com/assets/templates/nuxt/starter-light.png",
+    ogImage: "",
+    twitterImage: "",
     twitterCard: "summary_large_image"
 });
 </script>

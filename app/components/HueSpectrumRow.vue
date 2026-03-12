@@ -24,9 +24,9 @@
                 <ColorSwatch
                     v-for="item in orderedSteps"
                     :key="item.originalIndex"
-                    :hue="getHueForStep(item.originalIndex)"
-                    :saturation="getAdjustedSaturation(item.originalIndex)"
-                    :lightness="getAdjustedLightness(item.step, item.originalIndex)" />
+                    :hue="hueForStep(item.originalIndex)"
+                    :saturation="adjustedSaturation(item.originalIndex)"
+                    :lightness="adjustedLightness(item.step, item.originalIndex)" />
             </div>
         </div>
 
@@ -53,6 +53,7 @@
 <script setup lang="ts">
 import type { HueEntry } from "~/composables/input/stepHueSpectrum";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
+import { getHueForStep, formatOffset, getAdjustedLightness, getAdjustedSaturation } from "~/composables/utils/hueRowColors";
 
 const props = defineProps<{
     entry: HueEntry;
@@ -80,86 +81,21 @@ const orderedSteps = computed(() => {
     }));
 });
 
-/**
- * Calculate the hue for a specific step
- * Blends from darkOffset (dark side) to lightOffset (light side)
- */
-function getHueForStep(index: number): number {
-    // Calculate blend factor: 0 = dark side, 1 = light side
-    const blendFactor = totalSteps.value > 1
-        ? index / (totalSteps.value - 1)
-        : 0.5;
-
-    // Interpolate between dark and light offsets
-    const offset = props.darkOffset + (props.lightOffset - props.darkOffset) * blendFactor;
-
-    // Apply offset to base hue and normalize to 0-360
-    let hue = props.entry.baseHue + offset;
-    while (hue < 0) hue += 360;
-    while (hue >= 360) hue -= 360;
-
-    return hue;
+// Wrapper functions that bind component props to pure utility functions
+function hueForStep(index: number): number {
+    return getHueForStep(index, totalSteps.value, props.entry.baseHue, props.darkOffset, props.lightOffset);
 }
 
-/**
- * Format offset value for display
- */
-function formatOffset(value: number): string {
-    const rounded = Math.round(value);
-    if (rounded > 0) return `+${rounded}°`;
-    if (rounded < 0) return `${rounded}°`;
-    return "0°";
+function adjustedLightness(lightness: number, index: number): number {
+    const hue = hueForStep(index);
+    return getAdjustedLightness(lightness, index, totalSteps.value, props.entry.lightnessOffset ?? 0, hue, applyAdjustment);
 }
 
-/**
- * Adjust lightness based on:
- * 1. Entry's lightnessOffset (per-color adjustment)
- * 2. Hue-based lightness compensation (perceptual uniformity)
- */
-function getAdjustedLightness(lightness: number, index: number): number {
-    // First apply per-color offset
-    let adjusted = lightness;
-    const offset = props.entry.lightnessOffset ?? 0;
-
-    if (offset !== 0) {
-        // Scale offset based on distance from extremes (0 and 100)
-        // Maximum effect at lightness 50, tapering to 0 at extremes
-        const distanceFromExtreme = Math.min(lightness, 100 - lightness) / 50;
-        const multiplier = 1 + (offset / 100) * distanceFromExtreme;
-        adjusted = Math.max(0, Math.min(100, adjusted * multiplier));
-    }
-
-    // Then apply hue-based lightness compensation
-    const hue = getHueForStep(index);
-    adjusted = applyAdjustment(adjusted, hue, index, totalSteps.value);
-
-    return adjusted;
-}
-
-/**
- * Adjust saturation based on entry's saturationLightOffset and saturationDarkOffset (relative/percentage)
- * Interpolates from dark offset (index 0) to light offset (last index)
- * Offsets are relative: +6 means 6% more saturated, -19 means 19% less saturated
- */
-function getAdjustedSaturation(index: number): number {
-    const lightOffset = props.entry.saturationLightOffset ?? 0;
-    const darkOffset = props.entry.saturationDarkOffset ?? 0;
-
-    // No adjustment needed if both offsets are 0
-    if (lightOffset === 0 && darkOffset === 0) return props.saturation;
-
-    // Calculate blend factor: 0 = dark side (index 0), 1 = light side (last index)
-    const blendFactor = totalSteps.value > 1
-        ? index / (totalSteps.value - 1)
-        : 0.5;
-
-    // Interpolate between dark and light saturation offsets (relative percentages)
-    const offsetPercent = darkOffset + (lightOffset - darkOffset) * blendFactor;
-
-    // Apply as relative multiplier: +6 means 1.06x, -19 means 0.81x
-    const multiplier = 1 + offsetPercent / 100;
-
-    return Math.max(0, Math.min(100, props.saturation * multiplier));
+function adjustedSaturation(index: number): number {
+    return getAdjustedSaturation(
+        index, totalSteps.value, props.saturation,
+        props.entry.saturationDarkOffset ?? 0, props.entry.saturationLightOffset ?? 0
+    );
 }
 </script>
 

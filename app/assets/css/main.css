@@ -4,98 +4,138 @@
 @import "@nuxt/ui";
 
 @layer base {
-  :root {
-    /* Font families */
-    --font-family-body: "Open Sans", sans-serif;
-    --font-family-header: "Inconsolata", monospace;
-    --font-family-monospace: "Inconsolata", monospace;
-    --ui-color-primary-50: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 95%
-    );
-    --ui-color-primary-100: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 90%
-    );
-    --ui-color-primary-200: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 80%
-    );
-    --ui-color-primary-300: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 70%
-    );
-    --ui-color-primary-400: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value)
-        var(--lightness-slider-value)
-    );
-    --ui-color-primary-500: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 50%
-    );
-    --ui-color-primary-600: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 40%
-    );
-    --ui-color-primary-700: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 30%
-    );
-    --ui-color-primary-800: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 20%
-    );
-    --ui-color-primary-900: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 10%
-    );
-    --ui-color-primary-950: hsl(
-      var(--hue-slider-value) var(--saturation-slider-value) 5%
-    );
-  }
+    :root {
+        /* Font families */
+        --font-family-body: "Open Sans", sans-serif;
+        --font-family-header: "Inconsolata", monospace;
+        --font-family-monospace: "Inconsolata", monospace;
 
-  /* Body font */
-  body {
-    font-family: var(--font-family-body);
-    font-size: 14px;
-  }
+        /* Generator layout tokens */
+        --panel-column-width: 15%;
+        --label-column-width: 80px;
 
-  /* Headers and labels */
-  h1,
-  .h1 {
-    font-family: var(--font-family-header);
-    font-weight: 600;
-    font-size: 20px;
-  }
+        /* Default color values (matching app.config.ts) — overridden by useCssVariables on mount */
+        --hue-slider-value: 186;
+        --saturation-slider-value: 87%;
+        --lightness-slider-value: 66%;
 
-  h2,
-  .h2,
-  h3,
-  .h3,
-  h4,
-  .h4,
-  h5,
-  .h5,
-  h6,
-  .h6 {
-    font-family: var(--font-family-header);
-    font-weight: 600;
-  }
+        /* Primary color lightness steps (linear defaults, overridden by bezier-computed values on mount) */
+        --primary-lightness-50: 95%;
+        --primary-lightness-100: 90%;
+        --primary-lightness-200: 80%;
+        --primary-lightness-300: 70%;
+        --primary-lightness-400: 60%;
+        --primary-lightness-500: 50%;
+        --primary-lightness-600: 40%;
+        --primary-lightness-700: 30%;
+        --primary-lightness-800: 20%;
+        --primary-lightness-900: 10%;
+        --primary-lightness-950: 5%;
 
-  label {
-    font-family: var(--font-family-header);
-    font-weight: 600;
-  }
+        --ui-color-primary-50: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-50)
+        );
+        --ui-color-primary-100: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-100)
+        );
+        --ui-color-primary-200: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-200)
+        );
+        --ui-color-primary-300: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-300)
+        );
+        --ui-color-primary-400: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-400)
+        );
+        --ui-color-primary-500: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-500)
+        );
+        --ui-color-primary-600: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-600)
+        );
+        --ui-color-primary-700: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-700)
+        );
+        --ui-color-primary-800: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-800)
+        );
+        --ui-color-primary-900: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-900)
+        );
+        --ui-color-primary-950: hsl(
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-950)
+        );
+    }
 
-  /* Monospace / code elements */
-  code,
-  pre,
-  .code {
-    font-family: var(--font-family-monospace);
-  }
+    /* Body font */
+    body {
+        font-family: var(--font-family-body);
+        font-size: 14px;
+    }
+
+    /* Headers and labels */
+    h1,
+    .h1 {
+        font-family: var(--font-family-header);
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    h2,
+    .h2,
+    h3,
+    .h3,
+    h4,
+    .h4,
+    h5,
+    .h5,
+    h6,
+    .h6 {
+        font-family: var(--font-family-header);
+        font-weight: 600;
+    }
+
+    label {
+        font-family: var(--font-family-header);
+        font-weight: 600;
+    }
+
+    /* Monospace / code elements */
+    code,
+    pre,
+    .code {
+        font-family: var(--font-family-monospace);
+    }
+
+    /* Shared panel appearance */
+    .panel {
+        background: var(--ui-bg-elevated);
+        border-radius: 8px;
+        padding: 1rem;
+    }
 }
 
 @theme static {
-  --color-green-50: #effdf5;
-  --color-green-100: #d9fbe8;
-  --color-green-200: #b3f5d1;
-  --color-green-300: #75edae;
-  --color-green-400: #00dc82;
-  --color-green-500: #00c16a;
-  --color-green-600: #00a155;
-  --color-green-700: #007f45;
-  --color-green-800: #016538;
-  --color-green-900: #0a5331;
-  --color-green-950: #052e16;
+    --color-green-50: #effdf5;
+    --color-green-100: #d9fbe8;
+    --color-green-200: #b3f5d1;
+    --color-green-300: #75edae;
+    --color-green-400: #00dc82;
+    --color-green-500: #00c16a;
+    --color-green-600: #00a155;
+    --color-green-700: #007f45;
+    --color-green-800: #016538;
+    --color-green-900: #0a5331;
+    --color-green-950: #052e16;
 }

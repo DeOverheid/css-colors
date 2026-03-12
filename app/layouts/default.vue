@@ -5,21 +5,18 @@
                 <NuxtLink to="/">
                     <AppLogo class="w-auto h-6 shrink-0" />
                 </NuxtLink>
-
-                <TemplateMenu />
             </template>
 
             <template #right>
                 <UColorModeButton />
 
                 <UButton
-                    to="https://github.com/nuxt-ui-templates/starter"
+                    to="https://github.com/DeOverheid/css-colors"
                     target="_blank"
                     icon="i-simple-icons-github"
                     aria-label="GitHub"
                     color="neutral"
-                    variant="ghost"
-                />
+                    variant="ghost" />
             </template>
         </UHeader>
 
@@ -38,13 +35,12 @@
 
             <template #right>
                 <UButton
-                    to="https://github.com/nuxt-ui-templates/starter"
+                    to="https://github.com/DeOverheid/css-colors"
                     target="_blank"
                     icon="i-simple-icons-github"
                     aria-label="GitHub"
                     color="neutral"
-                    variant="ghost"
-                />
+                    variant="ghost" />
             </template>
         </UFooter>
     </UApp>

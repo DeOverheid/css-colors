@@ -1,4 +1,5 @@
 import type { ThemeConfig } from "./types";
+import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "./types";
 
 /**
  * Tailwind CSS color palette theme
@@ -33,13 +34,6 @@ export interface TailwindHueEntry {
 }
 
 /**
- * Get a hue entry by name
- */
-export function getHueByName(name: string): TailwindHueEntry | undefined {
-    return tailwindHues.find(h => h.name === name);
-}
-
-/**
  * Default offset range for sliders (degrees)
  */
 export const HUE_OFFSET_RANGE = { min: -30, max: 30 };
@@ -68,27 +62,7 @@ export const tailwindTheme: ThemeConfig = {
         x2: 0.55,
         y2: 0.99
     },
-    lightnessAdjustment: {
-        enabled: false,
-        darkening: {
-            enabled: true,
-            start: 30,
-            end: 210,
-            hueFalloff: 15,
-            lightnessFalloffLight: 0.48,
-            lightnessAmplitude: 9.5,
-            lightnessFalloffDark: 0.44
-        },
-        brightening: {
-            enabled: true,
-            start: 210,
-            end: 300,
-            hueFalloff: 15,
-            lightnessFalloffLight: 1,
-            lightnessAmplitude: 12,
-            lightnessFalloffDark: 0.2
-        }
-    },
+    lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
     description: "Standard Tailwind CSS color scale with 50-950 naming"
 };
 

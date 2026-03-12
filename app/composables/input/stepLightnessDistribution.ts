@@ -1,9 +1,9 @@
-import type { StepContent } from "~/types/fields";
-
 /**
  * Step: Lightness Distribution
  * Handles bezier curve control points for lightness mapping
  */
+import { generateLightnessSteps } from "~/composables/utils/bezierCurve";
+
 export function stepLightnessDistribution() {
     const { currentTheme } = useThemes();
 
@@ -21,11 +21,45 @@ export function stepLightnessDistribution() {
         y2.value = newTheme.bezier.y2;
     });
 
-    const content = computed<StepContent>(() => ({
-        title: "Lightness Distribution",
-        description: "Adjust the bezier curve to control how lightness values are distributed across the color scale.",
-        fields: [] // Bezier editor is a custom component, not standard fields
+    /** Convenience computed: current bezier as a plain object */
+    const bezierValues = computed(() => ({
+        x1: x1.value,
+        y1: y1.value,
+        x2: x2.value,
+        y2: y2.value
     }));
+
+    /** Grayscale bezier (falls back to main bezier when theme has none) */
+    const grayscaleBezierValues = computed(() => {
+        return currentTheme.value.grayscaleBezier ?? bezierValues.value;
+    });
+
+    /** Lightness steps computed from bezier + current theme */
+    const lightnessSteps = computed(() => {
+        return generateLightnessSteps(
+            x1.value, y1.value, x2.value, y2.value,
+            currentTheme.value.totalSteps,
+            currentTheme.value.lightnessMin ?? 0,
+            currentTheme.value.lightnessMax ?? 100
+        );
+    });
+
+    /** Full lightness steps including 0 (black) and 100 (white) */
+    const fullLightnessSteps = computed(() => [0, ...lightnessSteps.value, 100]);
+
+    /** Grayscale lightness steps (uses grayscaleBezier if available) */
+    const grayscaleLightnessSteps = computed(() => {
+        const gb = grayscaleBezierValues.value;
+        return generateLightnessSteps(
+            gb.x1, gb.y1, gb.x2, gb.y2,
+            currentTheme.value.totalSteps,
+            currentTheme.value.lightnessMin ?? 0,
+            currentTheme.value.lightnessMax ?? 100
+        );
+    });
+
+    /** Full grayscale lightness steps including 0 (black) and 100 (white) */
+    const fullGrayscaleLightnessSteps = computed(() => [0, ...grayscaleLightnessSteps.value, 100]);
 
     /**
      * Update bezier values
@@ -48,13 +82,13 @@ export function stepLightnessDistribution() {
     }
 
     return {
-        content,
-        bezier: {
-            x1,
-            y1,
-            x2,
-            y2
-        },
+        bezier: { x1, y1, x2, y2 },
+        bezierValues,
+        grayscaleBezierValues,
+        lightnessSteps,
+        fullLightnessSteps,
+        grayscaleLightnessSteps,
+        fullGrayscaleLightnessSteps,
         updateBezier,
         resetToThemeDefaults
     };

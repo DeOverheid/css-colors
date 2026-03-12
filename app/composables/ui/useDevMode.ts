@@ -29,8 +29,8 @@ const DEFAULT_FLAGS: DevModeFlags = {
     hideStepHeaders: true
 };
 
-// Singleton state
-const _devMode: Ref<DevModeFlags> | null = null;
+// Singleton instance
+let _instance: ReturnType<typeof createDevMode> | null = null;
 
 function createDevMode() {
     const devMode = useState<DevModeFlags>("dev-mode", () => ({ ...DEFAULT_FLAGS }));
@@ -111,8 +111,8 @@ function createDevMode() {
  * Dev mode composable - singleton pattern for shared state
  */
 export function useDevMode() {
-    if (!_devMode) {
-        return createDevMode();
+    if (!_instance) {
+        _instance = createDevMode();
     }
-    return createDevMode();
+    return _instance;
 }
