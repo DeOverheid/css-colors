@@ -47,15 +47,6 @@ export function useBezierCurve() {
     }
 
     /**
-     * Apply dark-side offset boost
-     * Formula: adjusted = lightness + (ceiling - lightness) / divisor
-     * This boosts dark tones while tapering off at the light end
-     */
-    function applyDarkBoost(lightness: number, ceiling = 95, divisor = 15): number {
-        return lightness + (ceiling - lightness) / divisor;
-    }
-
-    /**
      * Generate lightness steps using bezier curve
      * Returns lightness values for N-2 steps evenly distributed between black and white
      * Total of N samples: black (0) + (N-2) calculated steps + white (100)
@@ -88,7 +79,6 @@ export function useBezierCurve() {
 
     return {
         getBezierY,
-        generateLightnessSteps,
-        applyDarkBoost
+        generateLightnessSteps
     };
 }

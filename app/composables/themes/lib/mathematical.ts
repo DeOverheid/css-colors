@@ -30,13 +30,6 @@ export interface MathHueEntry {
 }
 
 /**
- * Get a hue entry by name
- */
-export function getMathHueByName(name: string): MathHueEntry | undefined {
-    return mathematicalHues.find(h => h.name === name);
-}
-
-/**
  * Default offset range for sliders (degrees)
  */
 export const MATH_HUE_OFFSET_RANGE = { min: -45, max: 45 };

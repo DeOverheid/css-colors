@@ -230,18 +230,6 @@ export function stepLightnessAdjustment() {
     }
 
     /**
-     * Get the total hue delta (for preview/debug purposes)
-     */
-    function getHueDelta(hue: number): number {
-        if (!settings.value.enabled) return 0;
-
-        return (
-            computeHueContribution(hue, settings.value.brightening, 1)
-            + computeHueContribution(hue, settings.value.darkening, -1)
-        );
-    }
-
-    /**
      * Reset to default settings
      */
     function resetToDefaults() {
@@ -259,7 +247,6 @@ export function stepLightnessAdjustment() {
     return {
         settings,
         applyAdjustment,
-        getHueDelta,
         resetToDefaults,
         content,
         // Export defaults for reference

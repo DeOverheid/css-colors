@@ -320,9 +320,6 @@ const userInputLightness = ref<number | null>(null);
 // Get total steps from current theme
 const totalSteps = computed(() => currentTheme.value.totalSteps);
 
-// Get swatch labels from current theme
-const swatchLabels = computed(() => currentTheme.value.swatchLabels);
-
 // Calculate muted saturation based on config multiplier
 const mutedSaturation = computed(() => {
     return Math.round(colorSettings.step1.saturation.value * config.colors.mutedSaturationMultiplier);

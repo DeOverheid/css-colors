@@ -29,13 +29,6 @@ export interface CustomHueEntry {
 }
 
 /**
- * Get a hue entry by name
- */
-export function getCustomHueByName(name: string): CustomHueEntry | undefined {
-    return customHues.find(h => h.name === name);
-}
-
-/**
  * Default offset range for sliders (degrees)
  */
 export const CUSTOM_HUE_OFFSET_RANGE = { min: -30, max: 30 };

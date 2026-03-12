@@ -33,13 +33,6 @@ export interface TailwindHueEntry {
 }
 
 /**
- * Get a hue entry by name
- */
-export function getHueByName(name: string): TailwindHueEntry | undefined {
-    return tailwindHues.find(h => h.name === name);
-}
-
-/**
  * Default offset range for sliders (degrees)
  */
 export const HUE_OFFSET_RANGE = { min: -30, max: 30 };
