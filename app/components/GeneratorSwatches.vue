@@ -1,7 +1,10 @@
 <template>
     <section class="swatches-preview panel">
         <!-- Primary Color Row -->
-        <div class="swatch-row">
+        <div
+            v-if="isUnlocked('primary')"
+            class="swatch-row"
+        >
             <div class="swatch-row-label">
                 Primary
             </div>
@@ -12,14 +15,18 @@
                 :total-steps="totalSteps"
                 :show-marker="true"
                 :marker-index="markerIndex"
-                class="swatch-row-swatches" />
+                class="swatch-row-swatches"
+            />
             <div class="swatch-row-value">
                 {{ saturation }}%
             </div>
         </div>
 
         <!-- Grey Row -->
-        <div class="swatch-row">
+        <div
+            v-if="isUnlocked('grey')"
+            class="swatch-row"
+        >
             <div class="swatch-row-label">
                 Grey
             </div>
@@ -28,14 +35,18 @@
                 :saturation="mutedSaturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                class="swatch-row-swatches" />
+                class="swatch-row-swatches"
+            />
             <div class="swatch-row-value">
                 {{ mutedSaturation }}%
             </div>
         </div>
 
         <!-- Neutral Row -->
-        <div class="swatch-row">
+        <div
+            v-if="isUnlocked('neutral')"
+            class="swatch-row"
+        >
             <div class="swatch-row-label">
                 Neutral
             </div>
@@ -44,7 +55,8 @@
                 :saturation="0"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                class="swatch-row-swatches" />
+                class="swatch-row-swatches"
+            />
             <div class="swatch-row-value">
                 0%
             </div>
@@ -54,6 +66,7 @@
 
 <script setup lang="ts">
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
+import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 
 const props = defineProps<{
     hue: number;
@@ -63,6 +76,8 @@ const props = defineProps<{
     totalSteps: number;
     targetLightness: number;
 }>();
+
+const { isUnlocked } = useSwatchUnlock();
 
 const markerIndex = computed(() =>
     findClosestLightnessIndex(props.lightnessSteps, props.targetLightness)

@@ -1,7 +1,7 @@
 <template>
     <div class="step2-title">
-        <h2>{{ currentStepMetadata.title }}</h2>
-        <p>{{ currentStepMetadata.description }}</p>
+        <h2>{{ activeStep.title }}</h2>
+        <p>{{ activeStep.description }}</p>
     </div>
     <div class="step2-results">
         <div class="bezier-values">
@@ -36,12 +36,12 @@
 
 <script setup lang="ts">
 import { useSteps } from "~/composables/input/useSteps";
-import { useCurrentStep } from "~/composables/ui/useCurrentStep";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useThemes } from "~/composables/themes";
 
 const { lightnessDistribution } = useSteps();
 const { bezierValues, updateBezier } = lightnessDistribution;
-const { currentStepMetadata } = useCurrentStep();
+const { activeStep } = useStepNavigation();
 const { currentThemeId } = useThemes();
 </script>
 

@@ -8,13 +8,14 @@
         <!-- Step Navigation -->
         <nav class="step-navigation">
             <button
-                v-for="step in 5"
-                :key="step"
+                v-for="(step, index) in steps"
+                :key="step.id"
                 class="step-nav-item"
-                :class="{ active: currentStep === step }"
-                @click="goToStep(step as 1 | 2 | 3 | 4 | 5)">
-                <span class="step-number">{{ step }}</span>
-                <span class="step-label">{{ stepMetadata[step as 1 | 2 | 3 | 4 | 5].title }}</span>
+                :class="{ active: activeStepId === step.id }"
+                @click="goTo(step.id)"
+            >
+                <span class="step-number">{{ index + 1 }}</span>
+                <span class="step-label">{{ step.title }}</span>
             </button>
         </nav>
 
@@ -43,10 +44,10 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentStep } from "~/composables/ui/useCurrentStep";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useThemes } from "~/composables/themes";
 
-const { currentStep, stepMetadata, goToStep } = useCurrentStep();
+const { steps, activeStepId, goTo } = useStepNavigation();
 const { currentThemeId, availableThemes } = useThemes();
 
 const themeOptions = computed(() =>

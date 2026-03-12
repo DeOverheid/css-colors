@@ -25,7 +25,7 @@ const { hueSpectrum, lightnessDistribution } = useSteps();
 const { fullLightnessSteps, fullGrayscaleLightnessSteps } = lightnessDistribution;
 const colorSettings = useColorSettings();
 
-const saturation = computed(() => colorSettings.step1.saturation.value);
+const saturation = computed(() => colorSettings.saturation.value);
 
 const hueSpectrumStates = computed(() =>
     hueSpectrum.hueRowStates.value.filter(state =>

@@ -12,25 +12,25 @@
             <label class="input-label">Hue</label>
             <HueSlider
                 id="hue"
-                v-model="colorSettings.step1.hue.value"
+                v-model="colorSettings.hue.value"
                 :min="0"
                 :max="360"
                 class="input-field" />
             <div class="input-value">
-                {{ colorSettings.step1.hue.value }}°
+                {{ colorSettings.hue.value }}°
             </div>
         </div>
         <div class="input-row">
             <label class="input-label">Saturation</label>
             <SaturationSlider
                 id="saturation"
-                v-model="colorSettings.step1.saturation.value"
-                :hue="colorSettings.step1.hue.value"
+                v-model="colorSettings.saturation.value"
+                :hue="colorSettings.hue.value"
                 :min="0"
                 :max="100"
                 class="input-field" />
             <div class="input-value">
-                {{ colorSettings.step1.saturation.value }}%
+                {{ colorSettings.saturation.value }}%
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@ const userInputLightness = defineModel<number | null>("userInputLightness");
 function handleColorInput() {
     const parsed = parseColor(colorInput.value);
     if (parsed) {
-        colorSettings.step1.hue.value = parsed.hue;
-        colorSettings.step1.saturation.value = parsed.saturation;
+        colorSettings.hue.value = parsed.hue;
+        colorSettings.saturation.value = parsed.saturation;
         userInputLightness.value = parsed.lightness;
     }
 }

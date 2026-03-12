@@ -17,16 +17,10 @@
 
         <!-- Middle: Step-specific content -->
         <div class="footer-middle">
-            <!-- Step 5: Export button -->
-            <template v-if="currentStep === 5">
-                <UButton
-                    icon="i-lucide-save"
-                    variant="outline"
-                    size="sm"
-                    @click="exportConfig.copyUserThemeToClipboard">
-                    Export Theme
-                </UButton>
-            </template>
+            <component
+                :is="footerComponent"
+                v-if="footerComponent"
+            />
         </div>
 
         <!-- Right: Dev Mode button (persistent) -->
@@ -39,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentStep } from "~/composables/ui/useCurrentStep";
-import { useExportConfig } from "~/composables/output/useExportConfig";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useDevMode } from "~/composables/ui/useDevMode";
 import { useSteps } from "~/composables/input/useSteps";
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
+import type { Component } from "vue";
 
 const props = defineProps<{
     hue: number;
@@ -51,11 +45,20 @@ const props = defineProps<{
     targetLightness: number;
 }>();
 
-const { currentStep } = useCurrentStep();
-const exportConfig = useExportConfig();
+const { activeStep } = useStepNavigation();
 const { isDevModeEnabled, toggleDevMode } = useDevMode();
 const { lightnessDistribution } = useSteps();
 const { lightnessSteps } = lightnessDistribution;
+
+/** Map step footerComponent names to lazy-loaded components */
+const footerComponentMap: Record<string, Component> = {
+    ExportActions: defineAsyncComponent(() => import("~/components/ExportActions.vue"))
+};
+
+const footerComponent = computed(() => {
+    const name = activeStep.value.footerComponent;
+    return name ? footerComponentMap[name] ?? null : null;
+});
 
 const markedSampleLightness = computed(() => {
     const idx = findClosestLightnessIndex(lightnessSteps.value, props.targetLightness);

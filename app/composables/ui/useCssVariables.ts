@@ -18,9 +18,9 @@ export function useCssVariables() {
 
     // Initialize CSS variables from config on client-side
     onMounted(() => {
-        const initialHue = colorSettings.step1.hue.value;
-        const initialSaturation = colorSettings.step1.saturation.value;
-        const initialLightness = colorSettings.step2.lightness.value;
+        const initialHue = colorSettings.hue.value;
+        const initialSaturation = colorSettings.saturation.value;
+        const initialLightness = colorSettings.lightness.value;
 
         document.documentElement.style.setProperty("--hue-slider-value", String(initialHue));
         document.documentElement.style.setProperty("--saturation-slider-value", `${initialSaturation}%`);
@@ -31,7 +31,7 @@ export function useCssVariables() {
 
     // Watch for changes and update CSS variables
     watch(
-        () => colorSettings.step1.hue.value,
+        () => colorSettings.hue.value,
         (newHue) => {
             if (import.meta.client && typeof newHue === "number") {
                 document.documentElement.style.setProperty("--hue-slider-value", String(newHue));
@@ -40,7 +40,7 @@ export function useCssVariables() {
     );
 
     watch(
-        () => colorSettings.step1.saturation.value,
+        () => colorSettings.saturation.value,
         (newSaturation) => {
             if (import.meta.client && typeof newSaturation === "number") {
                 document.documentElement.style.setProperty("--saturation-slider-value", `${newSaturation}%`);
@@ -49,7 +49,7 @@ export function useCssVariables() {
     );
 
     watch(
-        () => colorSettings.step2.lightness.value,
+        () => colorSettings.lightness.value,
         (newLightness) => {
             if (import.meta.client && typeof newLightness === "number") {
                 document.documentElement.style.setProperty("--lightness-slider-value", `${newLightness}%`);

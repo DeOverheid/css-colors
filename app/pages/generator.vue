@@ -8,28 +8,31 @@
             <!-- Top Controls: Header + Primary Controls (Step-specific) -->
             <GeneratorInput
                 v-model:user-input-lightness="userInputLightness"
-                class="top-controls" />
+                class="top-controls"
+            />
 
             <!-- Left Panel (placeholder for future use) -->
             <GeneratorLeftPanel class="left-panel" />
 
             <!-- Swatches Preview (PERSISTENT) -->
             <GeneratorSwatches
-                :hue="colorSettings.step1.hue.value"
-                :saturation="colorSettings.step1.saturation.value"
+                :hue="colorSettings.hue.value"
+                :saturation="colorSettings.saturation.value"
                 :muted-saturation="mutedSaturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                :target-lightness="targetLightness" />
+                :target-lightness="targetLightness"
+            />
 
             <!-- Right Panel (placeholder) -->
             <GeneratorRightPanel class="right-panel" />
 
             <!-- Footer -->
             <GeneratorFooter
-                :hue="colorSettings.step1.hue.value"
-                :saturation="colorSettings.step1.saturation.value"
-                :target-lightness="targetLightness" />
+                :hue="colorSettings.hue.value"
+                :saturation="colorSettings.saturation.value"
+                :target-lightness="targetLightness"
+            />
         </main>
     </div>
 </template>
@@ -61,7 +64,7 @@ const totalSteps = computed(() => currentTheme.value.totalSteps);
 
 // Calculate muted saturation based on config multiplier
 const mutedSaturation = computed(() => {
-    return Math.round(colorSettings.step1.saturation.value * config.colors.mutedSaturationMultiplier);
+    return Math.round(colorSettings.saturation.value * config.colors.mutedSaturationMultiplier);
 });
 
 // Target lightness: user-entered value or config default

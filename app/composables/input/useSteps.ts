@@ -3,7 +3,7 @@ import { useLightnessAdjustment } from "./stepLightnessAdjustment";
 /**
  * Steps Orchestrator
  * Initializes all step composables and exposes their state.
- * Step metadata (titles, descriptions) lives in useCurrentStep.ts.
+ * Step metadata (titles, descriptions) lives in steps/stepRegistry.ts.
  */
 export function useSteps() {
     // Initialize step composables

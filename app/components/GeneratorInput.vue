@@ -1,46 +1,49 @@
 <template>
     <section
         class="generator-input panel"
-        :class="{ 'generator-input--step2': currentStep === 2 }">
-        <!-- Step 2: Bezier curve controls -->
-        <template v-if="currentStep === 2">
-            <BezierControls />
+        :class="{ 'generator-input--bezier': activeStep.inputLayout === 'bezier' }"
+    >
+        <!-- Bezier layout: component fills entire panel -->
+        <template v-if="activeStep.inputLayout === 'bezier'">
+            <component :is="inputComponent" />
         </template>
 
-        <!-- Other steps: Standard header + content layout -->
+        <!-- Default layout: header + content area -->
         <template v-else>
             <div class="input-header">
-                <h2>{{ currentStepMetadata.title }}</h2>
-                <p>{{ currentStepMetadata.description }}</p>
+                <h2>{{ activeStep.title }}</h2>
+                <p>{{ activeStep.description }}</p>
             </div>
 
             <div class="input-content">
-                <!-- Step 1: Color Input -->
-                <template v-if="currentStep === 1">
-                    <ColorInputControls v-model:user-input-lightness="userInputLightness" />
-                </template>
-
-                <!-- Step 3: Lightness Adjustment -->
-                <template v-if="currentStep === 3">
-                    <div class="step3-controls">
-                        <LightnessAdjustmentPanel />
-                    </div>
-                </template>
-
-                <!-- Step 4: Hue Spectrum -->
-                <template v-if="currentStep === 4">
-                    <HueSpectrumControls />
-                </template>
+                <component
+                    :is="inputComponent"
+                    v-model:user-input-lightness="userInputLightness"
+                />
             </div>
         </template>
     </section>
 </template>
 
 <script setup lang="ts">
-import { useCurrentStep } from "~/composables/ui/useCurrentStep";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
+import type { Component } from "vue";
 
 const userInputLightness = defineModel<number | null>("userInputLightness");
-const { currentStep, currentStepMetadata } = useCurrentStep();
+const { activeStep } = useStepNavigation();
+
+/** Map step inputComponent names to lazy-loaded components */
+const componentMap: Record<string, Component> = {
+    ColorInputControls: defineAsyncComponent(() => import("~/components/ColorInputControls.vue")),
+    BezierControls: defineAsyncComponent(() => import("~/components/BezierControls.vue")),
+    LightnessAdjustmentPanel: defineAsyncComponent(() => import("~/components/LightnessAdjustmentPanel.vue")),
+    HueSpectrumControls: defineAsyncComponent(() => import("~/components/HueSpectrumControls.vue")),
+    ExportPanel: defineAsyncComponent(() => import("~/components/ExportPanel.vue"))
+};
+
+const inputComponent = computed(() =>
+    componentMap[activeStep.value.inputComponent]
+);
 </script>
 
 <style scoped>
@@ -74,17 +77,8 @@ const { currentStep, currentStepMetadata } = useCurrentStep();
     align-content: start;
 }
 
-/* Step 3 controls container */
-.step3-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: 100%;
-    grid-column: 2;
-}
-
-/* Step 2: Named grid layout */
-.generator-input--step2 {
+/* Bezier layout: Named grid */
+.generator-input--bezier {
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) 1fr 1fr var(--panel-column-width, 15%);
     grid-template-rows: auto 1fr;
