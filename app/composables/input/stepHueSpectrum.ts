@@ -1,4 +1,3 @@
-import type { StepContent } from "~/types/fields";
 import { tailwindHues, HUE_OFFSET_RANGE, type TailwindHueEntry } from "~/composables/themes/lib/tailwind";
 import { mathematicalHues, MATH_HUE_OFFSET_RANGE, type MathHueEntry } from "~/composables/themes/lib/mathematical";
 import { useThemes } from "~/composables/themes";
@@ -137,14 +136,7 @@ export function stepHueSpectrum() {
         return config;
     });
 
-    const content = computed<StepContent>(() => ({
-        title: "Hue Spectrum",
-        description: "Fine-tune the hue offset for light and dark shades of each color.",
-        fields: [] // This step uses custom rendering, not standard fields
-    }));
-
     return {
-        content,
         hueRowStates,
         offsetRange,
         getRowOffsets,

@@ -57,3 +57,29 @@ export interface ThemeConfig {
     /** Description of the theme */
     description?: string;
 }
+
+/**
+ * Default lightness adjustment settings — shared across themes and composable.
+ * Darkening: warm hues (30–210°), Brightening: cool hues (210–300°).
+ */
+export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
+    enabled: false,
+    darkening: {
+        enabled: true,
+        start: 30,
+        end: 210,
+        hueFalloff: 15,
+        lightnessFalloffLight: 0.48,
+        lightnessAmplitude: 9.5,
+        lightnessFalloffDark: 0.44
+    },
+    brightening: {
+        enabled: true,
+        start: 210,
+        end: 300,
+        hueFalloff: 15,
+        lightnessFalloffLight: 1,
+        lightnessAmplitude: 12,
+        lightnessFalloffDark: 0.2
+    }
+};

@@ -3,59 +3,12 @@
  * Hue-based lightness compensation to create perceptual uniformity across colors.
  * Yellow appears brighter than blue at the same HSL lightness; this compensates.
  */
-
-export interface AdjustmentRange {
-    /** Whether this adjustment range is active */
-    enabled: boolean;
-    /** Start hue of the affected range (degrees) */
-    start: number;
-    /** End hue of the affected range (degrees) */
-    end: number;
-    /** Hue falloff zone in degrees (smooth transition at range edges) */
-    hueFalloff: number;
-    /** Lightness falloff for light shades (0-1, higher = more effect on light shades) */
-    lightnessFalloffLight: number;
-    /** Maximum lightness adjustment amplitude (0-30) */
-    lightnessAmplitude: number;
-    /** Lightness falloff for dark shades (0-1, higher = more effect on dark shades) */
-    lightnessFalloffDark: number;
-}
-
-export interface LightnessAdjustmentSettings {
-    /** Master enable/disable for all adjustments */
-    enabled: boolean;
-    /** Darkening range: typically warm hues (30-210°) that need to be darkened */
-    darkening: AdjustmentRange;
-    /** Brightening range: typically cool hues (210-300°) that need to be brightened */
-    brightening: AdjustmentRange;
-}
-
-/** Default settings matching the JS implementation */
-const DEFAULT_SETTINGS: LightnessAdjustmentSettings = {
-    enabled: false,
-    darkening: {
-        enabled: true,
-        start: 30,
-        end: 210,
-        hueFalloff: 15,
-        lightnessFalloffLight: 0.48,
-        lightnessAmplitude: 9.5,
-        lightnessFalloffDark: 0.44
-    },
-    brightening: {
-        enabled: true,
-        start: 210,
-        end: 300,
-        hueFalloff: 15,
-        lightnessFalloffLight: 1.0,
-        lightnessAmplitude: 12,
-        lightnessFalloffDark: 0.2
-    }
-};
+import type { AdjustmentRange, LightnessAdjustmentConfig } from "~/composables/themes/lib/types";
+import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "~/composables/themes/lib/types";
 
 export function stepLightnessAdjustment() {
     // Reactive state
-    const settings = ref<LightnessAdjustmentSettings>(structuredClone(DEFAULT_SETTINGS));
+    const settings = ref<LightnessAdjustmentConfig>(structuredClone(DEFAULT_LIGHTNESS_ADJUSTMENT));
 
     /**
      * Normalize hue to 0-360 range
@@ -233,24 +186,13 @@ export function stepLightnessAdjustment() {
      * Reset to default settings
      */
     function resetToDefaults() {
-        settings.value = structuredClone(DEFAULT_SETTINGS);
+        settings.value = structuredClone(DEFAULT_LIGHTNESS_ADJUSTMENT);
     }
-
-    // Step content for StepAccordion
-    const content = computed(() => ({
-        title: "Lightness Compensation",
-        subtitle: "Adjust perceived brightness across hue ranges",
-        description: "",
-        fields: []
-    }));
 
     return {
         settings,
         applyAdjustment,
-        resetToDefaults,
-        content,
-        // Export defaults for reference
-        DEFAULT_SETTINGS
+        resetToDefaults
     };
 }
 

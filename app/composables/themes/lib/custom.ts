@@ -1,4 +1,5 @@
 import type { ThemeConfig } from "./types";
+import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "./types";
 
 /**
  * Custom user theme
@@ -57,27 +58,7 @@ export const customTheme: ThemeConfig = {
         x2: 0.55,
         y2: 0.99
     },
-    lightnessAdjustment: {
-        enabled: false,
-        darkening: {
-            enabled: true,
-            start: 30,
-            end: 210,
-            hueFalloff: 15,
-            lightnessFalloffLight: 0.48,
-            lightnessAmplitude: 9.5,
-            lightnessFalloffDark: 0.44
-        },
-        brightening: {
-            enabled: true,
-            start: 210,
-            end: 300,
-            hueFalloff: 15,
-            lightnessFalloffLight: 1,
-            lightnessAmplitude: 12,
-            lightnessFalloffDark: 0.2
-        }
-    },
+    lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
     description: "Standard custom CSS color scale with 50-950 naming"
 };
 

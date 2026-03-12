@@ -1,8 +1,8 @@
 /**
- * Step: Lightness Distribution
+ * Step Feature: Lightness Distribution
  * Handles bezier curve control points for lightness mapping
  */
-export function stepLightnessDistribution() {
+export function stepFeatureLightnessDistribution() {
     const { currentTheme } = useThemes();
 
     // Bezier control points (initialized from current theme)
