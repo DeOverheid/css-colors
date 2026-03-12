@@ -8,8 +8,7 @@
             <!-- Top Controls: Header + Primary Controls (Step-specific) -->
             <GeneratorInput
                 v-model:user-input-lightness="userInputLightness"
-                class="top-controls"
-            />
+                class="top-controls" />
 
             <!-- Left Panel (placeholder for future use) -->
             <GeneratorLeftPanel class="left-panel" />
@@ -21,8 +20,7 @@
                 :muted-saturation="mutedSaturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                :target-lightness="targetLightness"
-            />
+                :target-lightness="targetLightness" />
 
             <!-- Right Panel (placeholder) -->
             <GeneratorRightPanel class="right-panel" />
@@ -31,8 +29,7 @@
             <GeneratorFooter
                 :hue="colorSettings.hue.value"
                 :saturation="colorSettings.saturation.value"
-                :target-lightness="targetLightness"
-            />
+                :target-lightness="targetLightness" />
         </main>
     </div>
 </template>

@@ -3,8 +3,7 @@
         icon="i-lucide-save"
         variant="outline"
         size="sm"
-        @click="exportConfig.copyUserThemeToClipboard"
-    >
+        @click="exportConfig.copyUserThemeToClipboard">
         Export Theme
     </UButton>
 </template>

@@ -6,7 +6,8 @@
                 :hue="hue"
                 :saturation="saturation"
                 :lightness="markedSampleLightness"
-                class="footer-sample" />
+                class="footer-sample"
+            />
             <div class="footer-color-info">
                 <span class="footer-color-name">Primary</span>
                 <span class="footer-color-value">H: {{ hue }}°</span>
@@ -25,7 +26,13 @@
 
         <!-- Right: Dev Mode button (persistent) -->
         <div class="footer-right">
-            <UButton :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'" :color="isDevModeEnabled ? 'primary' : 'neutral'" variant="soft" size="xs" @click="toggleDevMode">
+            <UButton
+                :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
+                :color="isDevModeEnabled ? 'primary' : 'neutral'"
+                variant="soft"
+                size="xs"
+                @click="toggleDevMode"
+            >
                 {{ isDevModeEnabled ? 'Dev' : 'Preview' }}
             </UButton>
         </div>

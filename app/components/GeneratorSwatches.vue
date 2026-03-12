@@ -3,8 +3,7 @@
         <!-- Primary Color Row -->
         <div
             v-if="isUnlocked('primary')"
-            class="swatch-row"
-        >
+            class="swatch-row">
             <div class="swatch-row-label">
                 Primary
             </div>
@@ -15,8 +14,7 @@
                 :total-steps="totalSteps"
                 :show-marker="true"
                 :marker-index="markerIndex"
-                class="swatch-row-swatches"
-            />
+                class="swatch-row-swatches" />
             <div class="swatch-row-value">
                 {{ saturation }}%
             </div>
@@ -25,8 +23,7 @@
         <!-- Grey Row -->
         <div
             v-if="isUnlocked('grey')"
-            class="swatch-row"
-        >
+            class="swatch-row">
             <div class="swatch-row-label">
                 Grey
             </div>
@@ -35,8 +32,7 @@
                 :saturation="mutedSaturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                class="swatch-row-swatches"
-            />
+                class="swatch-row-swatches" />
             <div class="swatch-row-value">
                 {{ mutedSaturation }}%
             </div>
@@ -45,8 +41,7 @@
         <!-- Neutral Row -->
         <div
             v-if="isUnlocked('neutral')"
-            class="swatch-row"
-        >
+            class="swatch-row">
             <div class="swatch-row-label">
                 Neutral
             </div>
@@ -55,8 +50,7 @@
                 :saturation="0"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                class="swatch-row-swatches"
-            />
+                class="swatch-row-swatches" />
             <div class="swatch-row-value">
                 0%
             </div>

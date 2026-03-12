@@ -12,8 +12,7 @@
                 :key="step.id"
                 class="step-nav-item"
                 :class="{ active: activeStepId === step.id }"
-                @click="goTo(step.id)"
-            >
+                @click="goTo(step.id)">
                 <span class="step-number">{{ index + 1 }}</span>
                 <span class="step-label">{{ step.title }}</span>
             </button>
