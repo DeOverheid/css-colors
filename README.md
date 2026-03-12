@@ -69,6 +69,7 @@ pnpm ftp
 ```
 
 This will:
+
 1. Generate the static site
 2. Prompt for FTP credentials (host, user, password, remote path)
 3. Upload and sync files to your server
@@ -96,12 +97,12 @@ Default color values can be modified in `app/app.config.ts`:
 
 ```typescript
 export default defineAppConfig({
-    colors: {
-        hue: 186,
-        saturation: 50,
-        lightness: 66,
-    },
-})
+  colors: {
+    hue: 186,
+    saturation: 50,
+    lightness: 66,
+  },
+});
 ```
 
 ## Tech Stack
