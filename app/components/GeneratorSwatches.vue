@@ -1,5 +1,5 @@
 <template>
-    <section class="swatches-preview">
+    <section class="swatches-preview panel">
         <!-- Primary Color Row -->
         <div class="swatch-row">
             <div class="swatch-row-label">
@@ -53,23 +53,34 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
+
+const props = defineProps<{
     hue: number;
     saturation: number;
     mutedSaturation: number;
     lightnessSteps: number[];
     totalSteps: number;
-    markerIndex: number;
+    targetLightness: number;
 }>();
+
+const markerIndex = computed(() =>
+    findClosestLightnessIndex(props.lightnessSteps, props.targetLightness)
+);
+
+/** The actual lightness value of the marked swatch */
+const markedSampleLightness = computed(() => {
+    const allLightnesses = [0, ...props.lightnessSteps, 100];
+    return allLightnesses[markerIndex.value] ?? props.targetLightness;
+});
+
+defineExpose({ markedSampleLightness });
 </script>
 
 <style scoped>
 .swatches-preview {
     grid-column: 2;
     grid-row: 2;
-    padding: 1rem;
-    background: var(--ui-bg-elevated);
-    border-radius: 8px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

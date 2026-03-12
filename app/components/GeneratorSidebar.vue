@@ -1,5 +1,5 @@
 <template>
-    <aside class="left-sidebar">
+    <aside class="left-sidebar panel">
         <!-- Logo / Title -->
         <div class="sidebar-logo">
             <h1>Bespoke for the masses!</h1>
@@ -65,9 +65,6 @@ const themeOptions = computed(() =>
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 1rem;
-    background: var(--ui-bg-elevated);
-    border-radius: 8px;
 }
 
 .sidebar-logo h1 {

@@ -12,7 +12,7 @@ useHead({
 });
 
 const title = "CSS Color Palette Generator";
-const description = "The ease of Tailwind, but none of that bespoke crap";
+const description = "The power of Tailwind, but now in your hands.";
 
 useSeoMeta({
     title,

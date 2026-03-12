@@ -1,5 +1,5 @@
 <template>
-    <footer class="bottom-panel">
+    <footer class="bottom-panel panel">
         <!-- Left: Primary Color Sample (persistent) -->
         <div class="footer-left">
             <ColorSwatch
@@ -42,24 +42,32 @@
 import { useCurrentStep } from "~/composables/ui/useCurrentStep";
 import { useExportConfig } from "~/composables/output/useExportConfig";
 import { useDevMode } from "~/composables/ui/useDevMode";
+import { useSteps } from "~/composables/input/useSteps";
+import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 
-defineProps<{
+const props = defineProps<{
     hue: number;
     saturation: number;
-    markedSampleLightness: number;
+    targetLightness: number;
 }>();
 
 const { currentStep } = useCurrentStep();
 const exportConfig = useExportConfig();
 const { isDevModeEnabled, toggleDevMode } = useDevMode();
+const { lightnessDistribution } = useSteps();
+const { lightnessSteps } = lightnessDistribution;
+
+const markedSampleLightness = computed(() => {
+    const idx = findClosestLightnessIndex(lightnessSteps.value, props.targetLightness);
+    const allLightnesses = [0, ...lightnessSteps.value, 100];
+    return allLightnesses[idx] ?? props.targetLightness;
+});
 </script>
 
 <style scoped>
 .bottom-panel {
     grid-column: 1 / -1;
     grid-row: 3;
-    background: var(--ui-bg-elevated);
-    border-radius: 8px;
     padding: 0.75rem 1rem;
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) auto var(--panel-column-width, 15%);
