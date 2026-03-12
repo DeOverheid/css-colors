@@ -137,7 +137,7 @@ const markedSampleLightness = computed(() => {
     flex: 1;
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) auto var(--panel-column-width, 15%);
-    grid-template-rows: 2fr 3fr 1fr;
+    grid-template-rows: 3fr 6fr 1fr;
     gap: 10px;
     min-width: 0;
     overflow: hidden;

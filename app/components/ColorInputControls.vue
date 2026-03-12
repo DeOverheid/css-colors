@@ -59,7 +59,7 @@ function handleColorInput() {
 .step1-controls {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 10px;
     height: 100%;
     grid-column: 2;
 }

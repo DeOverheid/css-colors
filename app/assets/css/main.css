@@ -19,39 +19,62 @@
         --saturation-slider-value: 87%;
         --lightness-slider-value: 66%;
 
+        /* Primary color lightness steps (linear defaults, overridden by bezier-computed values on mount) */
+        --primary-lightness-50: 95%;
+        --primary-lightness-100: 90%;
+        --primary-lightness-200: 80%;
+        --primary-lightness-300: 70%;
+        --primary-lightness-400: 60%;
+        --primary-lightness-500: 50%;
+        --primary-lightness-600: 40%;
+        --primary-lightness-700: 30%;
+        --primary-lightness-800: 20%;
+        --primary-lightness-900: 10%;
+        --primary-lightness-950: 5%;
+
         --ui-color-primary-50: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 95%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-50)
         );
         --ui-color-primary-100: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 90%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-100)
         );
         --ui-color-primary-200: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 80%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-200)
         );
         --ui-color-primary-300: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 70%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-300)
         );
         --ui-color-primary-400: hsl(
             var(--hue-slider-value) var(--saturation-slider-value)
-                var(--lightness-slider-value)
+                var(--primary-lightness-400)
         );
         --ui-color-primary-500: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 50%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-500)
         );
         --ui-color-primary-600: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 40%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-600)
         );
         --ui-color-primary-700: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 30%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-700)
         );
         --ui-color-primary-800: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 20%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-800)
         );
         --ui-color-primary-900: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 10%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-900)
         );
         --ui-color-primary-950: hsl(
-            var(--hue-slider-value) var(--saturation-slider-value) 5%
+            var(--hue-slider-value) var(--saturation-slider-value)
+                var(--primary-lightness-950)
         );
     }
 

@@ -6,9 +6,10 @@ import { useLightnessAdjustment } from "./stepLightnessAdjustment";
  * Step metadata (titles, descriptions) lives in useCurrentStep.ts.
  */
 export function useSteps() {
-    // Initialize step composables (order matters for side-effects)
-    const baseColor = stepBaseColor();
+    // Initialize step composables
+    // lightnessDistribution first: its useState bezier refs must exist before useCssVariables reads them
     const lightnessDistribution = stepLightnessDistribution();
+    const baseColor = stepBaseColor();
     const lightnessAdjustment = useLightnessAdjustment();
     const hueSpectrum = stepHueSpectrum();
 

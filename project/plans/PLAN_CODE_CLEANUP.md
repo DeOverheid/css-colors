@@ -44,7 +44,6 @@ Audit-based cleanup of the `app/` folder — dead code removal, deduplication, r
 - [ ] **5.1** Extract `LightnessAdjustmentPanel` dark/bright sections into reusable `AdjustmentRangeControls.vue` sub-component
 - [ ] **5.2** Create shared base slider component for `HueSlider` + `SaturationSlider` (nearly identical structure)
 - [ ] **5.3** Fix `main.css` primary color scale — uses hardcoded lightness (5–95%) instead of bezier-computed values
-- [ ] **5.4** Replace `alert()`/`prompt()` in `useExportConfig.ts` with toast notifications
 
 ---
 
