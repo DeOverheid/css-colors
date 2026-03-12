@@ -68,13 +68,17 @@ Deploy the static site to an FTP server:
 pnpm ftp
 ```
 
+**First-time setup:**
+
+1. Copy `scripts/deploy.template.mjs` to `scripts/deploy.mjs`
+2. Edit `deploy.mjs` and fill in your FTP host, user, and remote path
+3. The `deploy.mjs` file is gitignored (credentials stay local)
+
 This will:
 
 1. Generate the static site
-2. Prompt for FTP credentials (host, user, password, remote path)
+2. Prompt for FTP password only
 3. Upload and sync files to your server
-
-Credentials are entered interactively each time and never stored in the repository.
 
 ## Project Structure
 

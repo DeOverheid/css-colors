@@ -264,8 +264,7 @@ import { useDevMode } from "~/composables/ui/useDevMode";
 import { useCurrentStep } from "~/composables/ui/useCurrentStep";
 
 definePageMeta({
-    layout: "blank",
-    ssr: false
+    layout: "blank"
 });
 
 useHead({

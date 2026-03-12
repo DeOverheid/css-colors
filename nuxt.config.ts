@@ -17,13 +17,26 @@ export default defineNuxtConfig({
         enabled: true
     },
 
+    app: {
+        baseURL: "/css-colors/"
+    },
+
     css: ["~/assets/css/main.css"],
 
     routeRules: {
-        "/": { prerender: true }
+        "/": { prerender: true },
+        "/generator": { prerender: true },
+        "/tailwind": { prerender: true }
     },
 
     compatibilityDate: "2025-01-15",
+
+    nitro: {
+        prerender: {
+            autoSubfolderIndex: true,
+            routes: ["/", "/generator", "/tailwind"]
+        }
+    },
 
     eslint: {
         config: {

@@ -1,0 +1,15 @@
+# Handle extensionless HTML files (Nuxt static generation)
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # If a file without extension exists, serve it as HTML
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^([^.]+)$ $1 [L,T=text/html]
+</IfModule>
+
+# Fallback: Set default content type for files without extension
+
+<Files ~ "^[^.]+$">
+ForceType text/html
+</Files>
