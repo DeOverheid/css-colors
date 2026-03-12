@@ -24,20 +24,20 @@ Audit-based cleanup of the `app/` folder — dead code removal, deduplication, r
 ## Phase 3: Refactors
 
 - [ ] **3.1** Rename `composables/core/useBezierCurve.ts` → `composables/utils/bezierCurve.ts` (pure functions, not a composable)
-- [ ] **3.2** Extract inline Tailwind color data from `pages/tailwind.vue` (~370 lines) → `data/tailwindColors.ts`
-- [ ] **3.3** Fix `useDevMode.ts` — singleton guard is broken (both branches return `createDevMode()`), change default `enabled` to `false`
-- [ ] **3.4** Fix `app.config.ts` — `lightnessAdjustment` values are dead (never read by the composable); either wire them up or remove
+- [ ] **3.2** Extract inline Tailwind color data from `pages/tailwind.vue` (~370 lines) → `data/tailwindColors.ts`, keep only the HSL values.
+- [ ] **3.3** Fix `useDevMode.ts` — singleton guard is broken (both branches return `createDevMode()`), keep default `enabled`, we will change it when we are ready to release
+- [ ] **3.4** Fix `app.config.ts` — `lightnessAdjustment` values are dead (never read by the composable); remove them, we will allow the user to create a custom set parallel to our themes.
 - [ ] **3.5** Wire bezier state through `stepLightnessDistribution` composable instead of duplicating in `generator.vue`
 - [ ] **3.6** Extract color math from `HueSpectrumRow.vue` → composable (hue calculation, lightness/saturation adjustment logic)
 
 ## Phase 4: generator.vue decomposition
 
 - [ ] **4.1** Extract sidebar navigation → `components/GeneratorSidebar.vue`
-- [ ] **4.2** Extract swatch preview section → `components/SwatchesPreview.vue`
+- [ ] **4.2** Extract swatch preview section → `components/GeneratorSwatches.vue`
 - [ ] **4.3** Extract footer bar → `components/GeneratorFooter.vue`
-- [ ] **4.4** Extract step-specific control panels → `components/Step1Controls.vue`, `Step2Controls.vue`, etc.
-- [ ] **4.5** Create CSS variable for `15%` grid column width (used in 4+ grid declarations)
-- [ ] **4.6** Create CSS variable for `80px` label column width (used in 4+ grid declarations)
+- [ ] **4.4** Extract step-specific control panels → `components/Step1Controls.vue`, `Step2Controls.vue`, etc. Do not use numbering for the steps as they can now be run parallel
+- [ ] **4.5** Create CSS variable for `15%` grid column width (used in 4+ grid declarations) Find a central CSS staging area
+- [ ] **4.6** Create CSS variable for `80px` label column width (used in 4+ grid declarations) Use the same central CSS staging
 
 ## Phase 5: Nice-to-haves
 

@@ -2,7 +2,7 @@
  * Composable for managing the current wizard step state and navigation.
  */
 export function useCurrentStep() {
-    const currentStep = ref<1 | 2 | 3 | 4 | 5>(1);
+    const currentStep = useState<1 | 2 | 3 | 4 | 5>("current-step", () => 1);
 
     const stepMetadata = {
         1: {
