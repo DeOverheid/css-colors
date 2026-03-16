@@ -5,12 +5,14 @@
  * from the lightest swatch to the darkest. The max value is controlled by
  * the saturation slider (0–100).
  *
- * When slider = 100 → darkest swatch = 100% saturation, lightest = 0%
- * When slider = 50  → darkest = 50%, lightest = 0%
+ * When slider = 100 → darkest swatch = 60% saturation, lightest = 0%
+ * When slider = 50  → darkest = 30%, lightest = 0%
  * When slider = 0   → all = 0%
  */
 
-/** Number of swatches in our grid */
+/** Maximum saturation at the darkest swatch when slider = 100 */
+const MAX_SATURATION = 60;
+
 const TOTAL_STEPS = 13;
 
 /**
@@ -23,9 +25,8 @@ const TOTAL_STEPS = 13;
  * @returns Array of 13 saturation percentages
  */
 export function greySaturationSteps(sliderValue: number): number[] {
-    const max = sliderValue;
+    const max = (sliderValue / 100) * MAX_SATURATION;
     return Array.from({ length: TOTAL_STEPS }, (_, i) => {
-        // i=0 is darkest (full saturation), i=12 is lightest (zero)
         const t = 1 - i / (TOTAL_STEPS - 1);
         return Math.round(t * max * 100) / 100;
     });
