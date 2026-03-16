@@ -32,9 +32,9 @@
                                 <div
                                     v-for="shade in shadeOrder"
                                     :key="shade"
+                                    v-hover-popup="getTooltipHtml(colorName, shade)"
                                     class="color-swatch"
                                     :style="{ backgroundColor: getHslColor(colorName, shade) }"
-                                    :title="getTooltip(colorName, shade)"
                                 />
                             </div>
                         </div>
@@ -76,6 +76,9 @@ import {
     categoryLabels,
     type TailwindShade
 } from "~/data/tailwindColors";
+import { useHoverPopup } from "~/composables/ui/useHoverPopup";
+
+const vHoverPopup = useHoverPopup();
 
 /** Group colorOrder entries by their category */
 const colorsByCategory = computed(() => {
@@ -96,12 +99,19 @@ function getHslColor(colorName: string, shade: string): string {
     return `hsl(${shadeData.hue}, ${shadeData.saturation}%, ${shadeData.lightness}%)`;
 }
 
-function getTooltip(colorName: string, shade: string): string {
+function getTooltipHtml(colorName: string, shade: string): string {
     const color = tailwindColors[colorName];
     if (!color) return "";
-    const shadeData: TailwindShade | undefined = color.shades[shade];
-    if (!shadeData) return "";
-    return `${colorName}-${shade}\nH: ${shadeData.hue.toFixed(1)}° S: ${shadeData.saturation.toFixed(1)}% L: ${shadeData.lightness.toFixed(1)}%`;
+    const s: TailwindShade | undefined = color.shades[shade];
+    if (!s) return "";
+    const hsl = `hsl(${s.hue}, ${s.saturation}%, ${s.lightness}%)`;
+    return [
+        `<strong>${color.name}-${shade}</strong>`,
+        `<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${hsl};vertical-align:middle;margin-right:4px"></span>`,
+        `H: ${s.hue.toFixed(1)}°`,
+        `S: ${s.saturation.toFixed(1)}%`,
+        `L: ${s.lightness.toFixed(1)}%`
+    ].join("<br>");
 }
 </script>
 
