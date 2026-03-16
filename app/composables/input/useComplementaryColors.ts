@@ -1,4 +1,5 @@
 import { useColorSettings } from "~/composables/core/useColorSettings";
+import { closestGreyName } from "~/composables/utils/closestGreyName";
 
 /**
  * Complementary Colors
@@ -7,6 +8,9 @@ import { useColorSettings } from "~/composables/core/useColorSettings";
  *   - secondary = primaryHue + offset
  *   - tertiary  = primaryHue - offset
  * Hues wrap around the 360° wheel.
+ *
+ * Also computes tinted-grey companion labels for each color row,
+ * using the closest Tailwind grey palette name for the given hue.
  */
 export function useComplementaryColors() {
     const colorSettings = useColorSettings();
@@ -21,6 +25,11 @@ export function useComplementaryColors() {
 
     /** At offset 180, secondary and tertiary land on the same hue — hide tertiary */
     const showTertiary = computed(() => hueOffset.value < 180);
+
+    /** Closest TW grey name for each color hue */
+    const primaryGreyName = computed(() => closestGreyName(primaryHue.value));
+    const secondaryGreyName = computed(() => closestGreyName(secondaryHue.value));
+    const tertiaryGreyName = computed(() => closestGreyName(tertiaryHue.value));
 
     /**
      * Returns swatch rows in fixed visual order:
@@ -39,12 +48,43 @@ export function useComplementaryColors() {
         return rows;
     });
 
+    /**
+     * Grey companion rows for secondary/tertiary colors.
+     * These use the same hue as their parent color but with muted saturation.
+     * Shown only when the parent color is unlocked.
+     */
+    const greyCompanionRows = computed(() => {
+        const rows: { rowId: string; hue: number; label: string; parentId: string }[] = [];
+
+        rows.push({
+            rowId: "secondary-grey",
+            hue: secondaryHue.value,
+            label: secondaryGreyName.value,
+            parentId: "secondary"
+        });
+
+        if (showTertiary.value) {
+            rows.push({
+                rowId: "tertiary-grey",
+                hue: tertiaryHue.value,
+                label: tertiaryGreyName.value,
+                parentId: "tertiary"
+            });
+        }
+
+        return rows;
+    });
+
     return {
         hueOffset,
         primaryHue,
         secondaryHue,
         tertiaryHue,
         showTertiary,
-        orderedRows
+        primaryGreyName,
+        secondaryGreyName,
+        tertiaryGreyName,
+        orderedRows,
+        greyCompanionRows
     };
 }

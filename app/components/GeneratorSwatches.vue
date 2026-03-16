@@ -1,60 +1,46 @@
 <template>
     <section class="swatches-preview panel">
-        <!-- Color rows sorted by hue -->
-        <template
-            v-for="row in visibleRows"
-            :key="row.rowId">
-            <div class="swatch-row">
-                <div class="swatch-row-label">
-                    {{ row.label }}
-                </div>
-                <ColorSwatchRow
-                    :hue="row.hue"
-                    :saturation="row.saturation"
-                    :lightness-steps="lightnessSteps"
-                    :total-steps="totalSteps"
-                    :show-marker="row.rowId === 'primary'"
-                    :marker-index="row.rowId === 'primary' ? markerIndex : undefined"
-                    class="swatch-row-swatches" />
-                <div class="swatch-row-value">
-                    {{ row.hue }}°
-                </div>
-            </div>
-        </template>
-
-        <!-- Grey Row -->
+        <!-- Chromatic rows: secondary → primary → tertiary -->
         <div
-            v-if="isUnlocked('grey')"
-            class="swatch-row">
+            v-for="row in visibleRows"
+            :key="row.rowId"
+            class="swatch-row"
+        >
             <div class="swatch-row-label">
-                Grey
+                {{ row.label }}
             </div>
             <ColorSwatchRow
-                :hue="hue"
-                :saturation="mutedSaturation"
+                :hue="row.hue"
+                :saturation="row.saturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                class="swatch-row-swatches" />
+                :show-marker="row.rowId === 'primary'"
+                :marker-index="row.rowId === 'primary' ? markerIndex : undefined"
+                class="swatch-row-swatches"
+            />
             <div class="swatch-row-value">
-                {{ mutedSaturation }}%
+                {{ row.hue }}°
             </div>
         </div>
 
-        <!-- Neutral Row -->
+        <!-- Greyscale rows: one tinted grey per chromatic color + neutral -->
         <div
-            v-if="isUnlocked('neutral')"
-            class="swatch-row">
+            v-for="row in greyRows"
+            :key="row.rowId"
+            class="swatch-row swatch-row--muted"
+        >
             <div class="swatch-row-label">
-                Neutral
+                {{ row.label }}
             </div>
             <ColorSwatchRow
-                :hue="hue"
-                :saturation="0"
+                :hue="row.hue"
+                :saturation="row.saturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
-                class="swatch-row-swatches" />
+                class="swatch-row-swatches"
+            />
             <div class="swatch-row-value">
-                0%
+                {{ row.value }}
             </div>
         </div>
     </section>
@@ -75,16 +61,13 @@ const props = defineProps<{
 }>();
 
 const { isUnlocked } = useSwatchUnlock();
-const { secondaryHue, tertiaryHue, orderedRows } = useComplementaryColors();
+const { orderedRows, primaryGreyName, greyCompanionRows } = useComplementaryColors();
 
 const markerIndex = computed(() =>
     findClosestLightnessIndex(props.lightnessSteps, props.targetLightness)
 );
 
-/**
- * Build the visible color rows (primary + secondary/tertiary when unlocked).
- * Sorted by hue via sortedRows from the composable.
- */
+/** Chromatic color rows (secondary → primary → tertiary when unlocked) */
 const visibleRows = computed(() => {
     const labels: Record<string, string> = {
         primary: "Primary",
@@ -95,10 +78,59 @@ const visibleRows = computed(() => {
     return orderedRows.value
         .filter(row => isUnlocked(row.rowId))
         .map(row => ({
-            ...row,
+            rowId: row.rowId,
+            hue: row.hue,
             label: labels[row.rowId] ?? row.rowId,
             saturation: props.saturation
         }));
+});
+
+interface GreyRow {
+    rowId: string;
+    hue: number;
+    label: string;
+    saturation: number;
+    value: string;
+}
+
+/** Greyscale rows: one tinted grey per visible chromatic color + neutral at the end */
+const greyRows = computed((): GreyRow[] => {
+    const rows: GreyRow[] = [];
+
+    // Build lookup for grey companion labels by parent ID
+    const greyLabelByParent: Record<string, string> = {};
+    for (const g of greyCompanionRows.value) {
+        greyLabelByParent[g.parentId] = g.label;
+    }
+
+    // Tinted grey for each visible chromatic row (same order)
+    for (const row of visibleRows.value) {
+        const label = row.rowId === "primary"
+            ? primaryGreyName.value
+            : greyLabelByParent[row.rowId];
+        if (label) {
+            rows.push({
+                rowId: `${row.rowId}-grey`,
+                hue: row.hue,
+                label,
+                saturation: props.mutedSaturation,
+                value: `${props.mutedSaturation}%`
+            });
+        }
+    }
+
+    // Neutral (always last, 0% saturation)
+    if (isUnlocked("neutral")) {
+        rows.push({
+            rowId: "neutral",
+            hue: props.hue,
+            label: "Neutral",
+            saturation: 0,
+            value: "0%"
+        });
+    }
+
+    return rows;
 });
 
 /** The actual lightness value of the marked swatch */
@@ -125,6 +157,10 @@ defineExpose({ markedSampleLightness });
     grid-template-columns: var(--label-column-width, 80px) 1fr var(--label-column-width, 80px);
     gap: 1rem;
     align-items: center;
+}
+
+.swatch-row--muted {
+    opacity: 0.85;
 }
 
 .swatch-row-label {

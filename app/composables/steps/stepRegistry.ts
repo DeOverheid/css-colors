@@ -34,7 +34,7 @@ export const steps: StepDefinition[] = [
         title: "Complementary Colors",
         description: "Choose secondary and tertiary hues by setting the hue offset from your primary color",
         inputComponent: "ComplementaryColorPicker",
-        unlocks: ["secondary", "tertiary"]
+        unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
     },
     {
         id: "lightness-distribution",
