@@ -18,23 +18,33 @@
             </div>
         </div>
 
-        <div class="hue-indicators">
-            <div class="hue-indicator">
+        <div class="color-preview">
+            <div class="preview-row">
+                <span class="preview-label">Secondary</span>
                 <span
-                    class="hue-dot"
-                    :style="{ background: `hsl(${secondaryHue}, 80%, 50%)` }"
+                    class="preview-swatch"
+                    :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }"
                 />
-                <span class="hue-label">Secondary {{ secondaryHue }}°</span>
+                <span class="preview-degrees">{{ secondaryHue }}°</span>
+            </div>
+            <div class="preview-row">
+                <span class="preview-label">Primary</span>
+                <span
+                    class="preview-swatch"
+                    :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }"
+                />
+                <span class="preview-degrees">{{ primaryHue }}°</span>
             </div>
             <div
                 v-if="showTertiary"
-                class="hue-indicator"
+                class="preview-row"
             >
+                <span class="preview-label">Tertiary</span>
                 <span
-                    class="hue-dot"
-                    :style="{ background: `hsl(${tertiaryHue}, 80%, 50%)` }"
+                    class="preview-swatch"
+                    :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }"
                 />
-                <span class="hue-label">Tertiary {{ tertiaryHue }}°</span>
+                <span class="preview-degrees">{{ tertiaryHue }}°</span>
             </div>
         </div>
 
@@ -52,6 +62,8 @@ const colorSettings = useColorSettings();
 const { hueOffset, secondaryHue, tertiaryHue, showTertiary } = useComplementaryColors();
 
 const primaryHue = computed(() => colorSettings.hue.value);
+const saturation = computed(() => colorSettings.saturation.value);
+const lightness = computed(() => colorSettings.lightness.value);
 
 /** Track gradient: shows the primary hue in the center, offset hues at the edges */
 const trackGradient = computed(() => {
@@ -131,26 +143,32 @@ const thumbColor = computed(() => {
     cursor: pointer;
 }
 
-.hue-indicators {
+.color-preview {
     display: flex;
-    gap: 1.5rem;
+    flex-direction: column;
 }
 
-.hue-indicator {
-    display: flex;
-    align-items: center;
+.preview-row {
+    display: grid;
+    grid-template-columns: var(--label-column-width, 80px) 40px 1fr;
     gap: 0.5rem;
+    align-items: center;
 }
 
-.hue-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+.preview-swatch {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.hue-label {
+.preview-label {
+    font-family: var(--font-family-header);
+    font-weight: 600;
+    color: var(--ui-text-muted);
+    font-size: 0.875rem;
+}
+
+.preview-degrees {
     font-variant-numeric: tabular-nums;
     color: var(--ui-text-muted);
     font-size: 0.875rem;
