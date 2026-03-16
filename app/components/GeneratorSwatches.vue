@@ -25,20 +25,21 @@
                     </div>
                 </div>
 
-                <!-- Grey companion (tinted grey using same hue, TW lightness distribution) -->
+                <!-- Grey companion (tinted grey using same hue, TW saturation distribution) -->
                 <div class="swatch-row swatch-row--muted">
                     <div class="swatch-row-label">
                         {{ group.grey.label }}
                     </div>
                     <ColorSwatchRow
                         :hue="group.grey.hue"
-                        :saturation="group.grey.saturation"
+                        :saturation="0"
+                        :saturations="greySaturations"
                         :lightness-steps="GREY_LIGHTNESS_STEPS"
                         :total-steps="totalSteps"
                         class="swatch-row-swatches"
                     />
                     <div class="swatch-row-value">
-                        {{ group.grey.saturation }}%
+                        {{ peakGreySaturation }}%
                     </div>
                 </div>
             </div>
@@ -72,6 +73,7 @@
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
+import { greySaturationSteps } from "~/composables/utils/greySaturation";
 
 /**
  * Lightness steps from Tailwind CSS v4 grey palettes (shades 950→50, dark to light).
@@ -84,7 +86,6 @@ const NEUTRAL_LIGHTNESS_STEPS = [3.94, 9.02, 14.9, 25.1, 32.16, 45.1, 63, 83.14,
 const props = defineProps<{
     hue: number;
     saturation: number;
-    mutedSaturation: number;
     lightnessSteps: number[];
     totalSteps: number;
     targetLightness: number;
@@ -97,9 +98,15 @@ const markerIndex = computed(() =>
     findClosestLightnessIndex(props.lightnessSteps, props.targetLightness)
 );
 
+/** Per-swatch grey saturation array following TW distribution, scaled by saturation slider */
+const greySaturations = computed(() => greySaturationSteps(props.saturation));
+
+/** Display value: the peak saturation in the grey row (the darkest swatch) */
+const peakGreySaturation = computed(() => Math.round(greySaturations.value[0] ?? 0));
+
 interface SwatchGroup {
     chromatic: { rowId: string; hue: number; label: string; saturation: number };
-    grey: { rowId: string; hue: number; label: string; saturation: number };
+    grey: { rowId: string; hue: number; label: string };
 }
 
 /**
@@ -132,8 +139,7 @@ const swatchGroups = computed((): SwatchGroup[] => {
             grey: {
                 rowId: `${row.rowId}-grey`,
                 hue: row.hue,
-                label: row.rowId === "primary" ? "Gray" : (greyLabelByParent[row.rowId] ?? "Gray"),
-                saturation: props.mutedSaturation
+                label: row.rowId === "primary" ? "Gray" : (greyLabelByParent[row.rowId] ?? "Gray")
             }
         }));
 });

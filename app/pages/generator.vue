@@ -17,7 +17,6 @@
             <GeneratorSwatches
                 :hue="colorSettings.hue.value"
                 :saturation="colorSettings.saturation.value"
-                :muted-saturation="mutedSaturation"
                 :lightness-steps="lightnessSteps"
                 :total-steps="totalSteps"
                 :target-lightness="targetLightness" />
@@ -58,11 +57,6 @@ const userInputLightness = ref<number | null>(null);
 
 // Get total steps from current theme
 const totalSteps = computed(() => currentTheme.value.totalSteps);
-
-// Calculate muted saturation based on config multiplier
-const mutedSaturation = computed(() => {
-    return Math.round(colorSettings.saturation.value * config.colors.mutedSaturationMultiplier);
-});
 
 // Target lightness: user-entered value or config default
 const targetLightness = computed(() => userInputLightness.value ?? config.colors.lightness);
