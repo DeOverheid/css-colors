@@ -6,7 +6,7 @@
                 <input
                     type="range"
                     :value="hueOffset"
-                    :min="0"
+                    :min="-180"
                     :max="180"
                     class="slider-input"
                     :style="{ '--track-bg': trackGradient, '--thumb-bg': thumbColor }"
@@ -14,7 +14,7 @@
                 >
             </div>
             <div class="input-value">
-                ±{{ hueOffset }}°
+                {{ hueOffset }}°
             </div>
         </div>
 
@@ -68,14 +68,15 @@ const primaryHue = computed(() => colorSettings.hue.value);
 const saturation = computed(() => colorSettings.saturation.value);
 const lightness = computed(() => colorSettings.lightness.value);
 
-/** Track gradient: shows the primary hue in the center, offset hues at the edges */
+/** Track gradient: primary hue in center (offset 0), offset ±180 at edges */
 const trackGradient = computed(() => {
     const h = primaryHue.value;
-    // At 0 the secondary/tertiary sit on the primary; at 180 they're opposite
-    const left = `hsl(${h}, 80%, 50%)`;
-    const mid = `hsl(${(h + 90) % 360}, 80%, 50%)`;
+    const left = `hsl(${(h - 180 + 360) % 360}, 80%, 50%)`;
+    const midLeft = `hsl(${(h - 90 + 360) % 360}, 80%, 50%)`;
+    const center = `hsl(${h}, 80%, 50%)`;
+    const midRight = `hsl(${(h + 90) % 360}, 80%, 50%)`;
     const right = `hsl(${(h + 180) % 360}, 80%, 50%)`;
-    return `linear-gradient(to right, ${left}, ${mid}, ${right})`;
+    return `linear-gradient(to right, ${left}, ${midLeft}, ${center}, ${midRight}, ${right})`;
 });
 
 const thumbColor = computed(() => {

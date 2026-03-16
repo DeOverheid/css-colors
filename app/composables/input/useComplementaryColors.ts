@@ -4,7 +4,7 @@ import { closestGreyName } from "~/composables/utils/closestGreyName";
 /**
  * Complementary Colors
  * Computes secondary and tertiary hues by offsetting from the primary hue.
- * The offset is a value from 0 to 180 degrees, applied symmetrically:
+ * The offset ranges from -180 to +180 degrees:
  *   - secondary = primaryHue + offset
  *   - tertiary  = primaryHue - offset
  * Hues wrap around the 360° wheel.
@@ -19,12 +19,15 @@ export function useComplementaryColors() {
 
     const primaryHue = computed(() => colorSettings.hue.value);
 
-    const secondaryHue = computed(() => (primaryHue.value + hueOffset.value) % 360);
+    const secondaryHue = computed(() => ((primaryHue.value + hueOffset.value) % 360 + 360) % 360);
 
-    const tertiaryHue = computed(() => (primaryHue.value - hueOffset.value + 360) % 360);
+    const tertiaryHue = computed(() => ((primaryHue.value - hueOffset.value) % 360 + 360) % 360);
 
-    /** At offset 180, secondary and tertiary land on the same hue — hide tertiary */
-    const showTertiary = computed(() => hueOffset.value < 180);
+    /** At offset 0 or ±180, secondary and tertiary overlap — hide tertiary */
+    const showTertiary = computed(() => {
+        const abs = Math.abs(hueOffset.value);
+        return abs > 0 && abs < 180;
+    });
 
     /** Closest TW grey name for each color hue */
     const primaryGreyName = computed(() => closestGreyName(primaryHue.value));
