@@ -19,32 +19,35 @@
         </div>
 
         <div class="color-preview">
-            <div class="preview-row">
+            <div class="preview-swatches">
                 <span class="preview-label">Secondary</span>
                 <span
                     class="preview-swatch"
                     :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }"
                 />
-                <span class="preview-degrees">{{ secondaryHue }}°</span>
-            </div>
-            <div class="preview-row">
-                <span class="preview-label">Primary</span>
                 <span
                     class="preview-swatch"
                     :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }"
                 />
-                <span class="preview-degrees">{{ primaryHue }}°</span>
-            </div>
-            <div
-                v-if="showTertiary"
-                class="preview-row"
-            >
-                <span class="preview-label">Tertiary</span>
                 <span
+                    v-if="showTertiary"
                     class="preview-swatch"
                     :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }"
                 />
-                <span class="preview-degrees">{{ tertiaryHue }}°</span>
+                <span
+                    v-if="showTertiary"
+                    class="preview-label preview-label--right"
+                >Tertiary</span>
+            </div>
+            <div class="preview-degrees">
+                <span />
+                <span class="degrees-value">{{ secondaryHue }}°</span>
+                <span class="degrees-value">{{ primaryHue }}°</span>
+                <span
+                    v-if="showTertiary"
+                    class="degrees-value"
+                >{{ tertiaryHue }}°</span>
+                <span v-if="showTertiary" />
             </div>
         </div>
 
@@ -146,13 +149,15 @@ const thumbColor = computed(() => {
 .color-preview {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
 }
 
-.preview-row {
-    display: grid;
-    grid-template-columns: var(--label-column-width, 80px) 40px 1fr;
-    gap: 0.5rem;
+.preview-swatches,
+.preview-degrees {
+    display: flex;
     align-items: center;
+    gap: 0;
 }
 
 .preview-swatch {
@@ -161,17 +166,33 @@ const thumbColor = computed(() => {
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+.preview-swatch + .preview-swatch {
+    border-left: none;
+}
+
 .preview-label {
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+    padding: 0 0.5rem;
+    white-space: nowrap;
+}
+
+.preview-label--right {
+    text-align: left;
 }
 
 .preview-degrees {
+    gap: 0;
+}
+
+.degrees-value {
+    width: 40px;
+    text-align: center;
     font-variant-numeric: tabular-nums;
     color: var(--ui-text-muted);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
 }
 
 .hint {
