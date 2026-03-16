@@ -37,9 +37,6 @@
                         :total-steps="totalSteps"
                         class="swatch-row-swatches"
                     />
-                    <div class="swatch-row-value">
-                        {{ peakGreySaturation }}%
-                    </div>
                 </div>
             </div>
         </template>
@@ -60,9 +57,6 @@
                     :total-steps="totalSteps"
                     class="swatch-row-swatches"
                 />
-                <div class="swatch-row-value">
-                    0%
-                </div>
             </div>
         </div>
     </section>
@@ -99,9 +93,6 @@ const markerIndex = computed(() =>
 
 /** Per-swatch grey saturation array following TW distribution, scaled by saturation slider */
 const greySaturations = computed(() => greySaturationSteps(props.saturation));
-
-/** Display value: the peak saturation in the grey row (the darkest swatch) */
-const peakGreySaturation = computed(() => Math.round(greySaturations.value[0] ?? 0));
 
 interface SwatchGroup {
     chromatic: { rowId: string; hue: number; label: string; saturation: number };
