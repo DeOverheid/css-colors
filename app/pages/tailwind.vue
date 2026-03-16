@@ -2,51 +2,65 @@
     <UContainer>
         <div class="tailwind-page">
             <h1 class="page-title">
-                Tailwind CSS Colors Reference
+                Tailwind CSS v4 Colors Reference
             </h1>
             <p class="page-description">
-                Exact Tailwind CSS color values in HSL format
+                All 26 default colors — converted from OKLCH to HSL.
+                Shade 950 is new in v4.
             </p>
 
-            <div class="hue-spectrum-grid">
-                <div
-                    v-for="colorName in colorOrder"
-                    :key="colorName"
-                    class="hue-spectrum-row">
-                    <!-- Color name label -->
-                    <span class="color-name">{{ colorName }}</span>
+            <template
+                v-for="cat in categoryOrder"
+                :key="cat"
+            >
+                <h2 class="category-title">
+                    {{ categoryLabels[cat] }}
+                </h2>
 
-                    <!-- Color swatches -->
-                    <div class="swatches-column">
-                        <div class="swatches-row">
-                            <div
-                                v-for="shade in shadeOrder"
-                                :key="shade"
-                                class="color-swatch"
-                                :style="{ backgroundColor: getHslColor(colorName, shade) }"
-                                :title="getTooltip(colorName, shade)" />
+                <div class="hue-spectrum-grid">
+                    <div
+                        v-for="colorName in colorsByCategory[cat]"
+                        :key="colorName"
+                        class="hue-spectrum-row"
+                    >
+                        <!-- Color name label -->
+                        <span class="color-name">{{ tailwindColors[colorName]?.name }}</span>
+
+                        <!-- Color swatches -->
+                        <div class="swatches-column">
+                            <div class="swatches-row">
+                                <div
+                                    v-for="shade in shadeOrder"
+                                    :key="shade"
+                                    class="color-swatch"
+                                    :style="{ backgroundColor: getHslColor(colorName, shade) }"
+                                    :title="getTooltip(colorName, shade)"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Shade labels -->
-            <div class="shade-labels">
-                <span class="color-name" />
-                <div class="labels-row">
-                    <span
-                        v-for="shade in shadeOrder"
-                        :key="shade"
-                        class="shade-label">{{ shade }}</span>
+                <!-- Shade labels (after each category) -->
+                <div class="shade-labels">
+                    <span class="color-name" />
+                    <div class="labels-row">
+                        <span
+                            v-for="shade in shadeOrder"
+                            :key="shade"
+                            class="shade-label"
+                        >{{ shade }}</span>
+                    </div>
                 </div>
-            </div>
+            </template>
 
             <USeparator class="my-6" />
 
             <UButton
                 to="/"
                 icon="i-lucide-arrow-left"
-                variant="ghost">
+                variant="ghost"
+            >
                 Back to Home
             </UButton>
         </div>
@@ -54,7 +68,25 @@
 </template>
 
 <script setup lang="ts">
-import { tailwindColors, colorOrder, shadeOrder, type TailwindShade } from "~/data/tailwindColors";
+import {
+    tailwindColors,
+    colorOrder,
+    shadeOrder,
+    categoryOrder,
+    categoryLabels,
+    type TailwindShade
+} from "~/data/tailwindColors";
+
+/** Group colorOrder entries by their category */
+const colorsByCategory = computed(() => {
+    const map: Record<string, string[]> = {};
+    for (const cat of categoryOrder) map[cat] = [];
+    for (const name of colorOrder) {
+        const c = tailwindColors[name];
+        if (c) map[c.category]?.push(name);
+    }
+    return map;
+});
 
 function getHslColor(colorName: string, shade: string): string {
     const color = tailwindColors[colorName];
@@ -89,6 +121,14 @@ function getTooltip(colorName: string, shade: string): string {
     margin-bottom: 2rem;
 }
 
+.category-title {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.65;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
 .hue-spectrum-grid {
     display: flex;
     flex-direction: column;
@@ -105,7 +145,6 @@ function getTooltip(colorName: string, shade: string): string {
 .color-name {
     font-size: 0.75rem;
     font-weight: 500;
-    text-transform: capitalize;
     opacity: 0.8;
 }
 
