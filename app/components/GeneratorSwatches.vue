@@ -175,7 +175,8 @@ defineExpose({ markedSampleLightness });
     align-items: center;
 }
 
-.swatch-row--muted {
+.swatch-row--muted .swatch-row-label,
+.swatch-row--muted .swatch-row-value {
     opacity: 0.85;
 }
 
