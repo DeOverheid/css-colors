@@ -32,8 +32,7 @@
                     </div>
                     <ColorSwatchRow
                         :hue="group.grey.hue"
-                        :saturation="0"
-                        :saturations="greySaturations"
+                        :saturation="greySaturations"
                         :lightness-steps="GREY_LIGHTNESS_STEPS"
                         :total-steps="totalSteps"
                         class="swatch-row-swatches"

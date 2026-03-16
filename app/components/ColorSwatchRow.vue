@@ -3,7 +3,7 @@
         <!-- Pure black (L: 0) -->
         <ColorSwatch
             :hue="hue"
-            :saturation="satAt(0)"
+            :saturation="satValues[0] ?? 0"
             :lightness="0"
             :class="{ marked: showMarker && markerIndex === 0 }"
         />
@@ -13,7 +13,7 @@
             v-for="(lightnessValue, index) in lightnessSteps"
             :key="`step-${index}`"
             :hue="hue"
-            :saturation="satAt(index + 1)"
+            :saturation="satValues[index + 1] ?? 0"
             :lightness="lightnessValue"
             :class="{ marked: showMarker && markerIndex === index + 1 }"
         />
@@ -21,7 +21,7 @@
         <!-- Pure white (L: 100) -->
         <ColorSwatch
             :hue="hue"
-            :saturation="satAt(totalSteps - 1)"
+            :saturation="satValues[totalSteps - 1] ?? 0"
             :lightness="100"
             :class="{ marked: showMarker && markerIndex === totalSteps - 1 }"
         />
@@ -31,19 +31,21 @@
 <script setup lang="ts">
 const props = defineProps<{
     hue: number;
-    saturation: number;
-    /** Optional per-swatch saturation array (length = totalSteps). Overrides `saturation` when provided. */
-    saturations?: number[];
+    /** Single saturation value (applied to all swatches) or per-swatch array (length = totalSteps) */
+    saturation: number | number[];
     lightnessSteps: number[];
     totalSteps: number;
     showMarker?: boolean;
     markerIndex?: number;
 }>();
 
-/** Return the saturation for swatch at the given index */
-function satAt(index: number): number {
-    return props.saturations?.[index] ?? props.saturation;
-}
+/** Resolved per-swatch saturation values */
+const satValues = computed((): number[] => {
+    if (Array.isArray(props.saturation)) {
+        return props.saturation;
+    }
+    return Array(props.totalSteps).fill(props.saturation);
+});
 </script>
 
 <style scoped>
