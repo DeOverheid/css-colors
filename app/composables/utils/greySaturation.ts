@@ -10,7 +10,7 @@
  */
 
 /** Maximum saturation at the darkest swatch when slider = 100 */
-const MAX_SATURATION = 60;
+const MAX_SATURATION = 40;
 
 const TOTAL_STEPS = 13;
 
