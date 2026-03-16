@@ -33,6 +33,7 @@ const { activeStep } = useStepNavigation();
 /** Map step inputComponent names to lazy-loaded components */
 const componentMap: Record<string, Component> = {
     ColorInputControls: defineAsyncComponent(() => import("~/components/ColorInputControls.vue")),
+    ComplementaryColorPicker: defineAsyncComponent(() => import("~/components/ComplementaryColorPicker.vue")),
     BezierControls: defineAsyncComponent(() => import("~/components/BezierControls.vue")),
     LightnessAdjustmentPanel: defineAsyncComponent(() => import("~/components/LightnessAdjustmentPanel.vue")),
     HueSpectrumControls: defineAsyncComponent(() => import("~/components/HueSpectrumControls.vue")),

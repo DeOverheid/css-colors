@@ -6,7 +6,7 @@
 import type { StepDefinition } from "./stepRegistry";
 
 export function useSwatchUnlock() {
-    const unlockedRows = useState<string[]>("unlocked-swatch-rows", () => ["primary"]);
+    const unlockedRows = useState<string[]>("unlocked-swatch-rows", () => ["primary", "grey", "neutral"]);
 
     function visitStep(step: StepDefinition) {
         if (step.unlocks) {

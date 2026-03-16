@@ -1,24 +1,26 @@
 <template>
     <section class="swatches-preview panel">
-        <!-- Primary Color Row -->
-        <div
-            v-if="isUnlocked('primary')"
-            class="swatch-row">
-            <div class="swatch-row-label">
-                Primary
+        <!-- Color rows sorted by hue -->
+        <template
+            v-for="row in visibleRows"
+            :key="row.rowId">
+            <div class="swatch-row">
+                <div class="swatch-row-label">
+                    {{ row.label }}
+                </div>
+                <ColorSwatchRow
+                    :hue="row.hue"
+                    :saturation="row.saturation"
+                    :lightness-steps="lightnessSteps"
+                    :total-steps="totalSteps"
+                    :show-marker="row.rowId === 'primary'"
+                    :marker-index="row.rowId === 'primary' ? markerIndex : undefined"
+                    class="swatch-row-swatches" />
+                <div class="swatch-row-value">
+                    {{ row.hue }}°
+                </div>
             </div>
-            <ColorSwatchRow
-                :hue="hue"
-                :saturation="saturation"
-                :lightness-steps="lightnessSteps"
-                :total-steps="totalSteps"
-                :show-marker="true"
-                :marker-index="markerIndex"
-                class="swatch-row-swatches" />
-            <div class="swatch-row-value">
-                {{ saturation }}%
-            </div>
-        </div>
+        </template>
 
         <!-- Grey Row -->
         <div
@@ -61,6 +63,7 @@
 <script setup lang="ts">
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
+import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
 
 const props = defineProps<{
     hue: number;
@@ -72,10 +75,31 @@ const props = defineProps<{
 }>();
 
 const { isUnlocked } = useSwatchUnlock();
+const { secondaryHue, tertiaryHue, orderedRows } = useComplementaryColors();
 
 const markerIndex = computed(() =>
     findClosestLightnessIndex(props.lightnessSteps, props.targetLightness)
 );
+
+/**
+ * Build the visible color rows (primary + secondary/tertiary when unlocked).
+ * Sorted by hue via sortedRows from the composable.
+ */
+const visibleRows = computed(() => {
+    const labels: Record<string, string> = {
+        primary: "Primary",
+        secondary: "Secondary",
+        tertiary: "Tertiary"
+    };
+
+    return orderedRows.value
+        .filter(row => isUnlocked(row.rowId))
+        .map(row => ({
+            ...row,
+            label: labels[row.rowId] ?? row.rowId,
+            saturation: props.saturation
+        }));
+});
 
 /** The actual lightness value of the marked swatch */
 const markedSampleLightness = computed(() => {

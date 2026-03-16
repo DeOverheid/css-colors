@@ -27,7 +27,14 @@ export const steps: StepDefinition[] = [
         title: "Primary Color",
         description: "Set the base hue and saturation for your color palette",
         inputComponent: "ColorInputControls",
-        unlocks: ["primary"]
+        unlocks: ["primary", "grey", "neutral"]
+    },
+    {
+        id: "complementary-colors",
+        title: "Complementary Colors",
+        description: "Choose secondary and tertiary hues by setting the hue offset from your primary color",
+        inputComponent: "ComplementaryColorPicker",
+        unlocks: ["secondary", "tertiary"]
     },
     {
         id: "lightness-distribution",
@@ -46,8 +53,7 @@ export const steps: StepDefinition[] = [
         id: "hue-spectrum",
         title: "Hue Spectrum",
         description: "Expand your palette with additional hue variations",
-        inputComponent: "HueSpectrumControls",
-        unlocks: ["grey", "neutral"]
+        inputComponent: "HueSpectrumControls"
     },
     {
         id: "export",
