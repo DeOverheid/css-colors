@@ -26,7 +26,7 @@
                 </div>
 
                 <!-- Grey companion (tinted grey using same hue, TW saturation distribution) -->
-                <div class="swatch-row swatch-row--muted">
+                <div class="swatch-row">
                     <div class="swatch-row-label">
                         {{ group.grey.label }}
                     </div>
@@ -49,7 +49,7 @@
             v-if="isUnlocked('neutral')"
             class="swatch-group"
         >
-            <div class="swatch-row swatch-row--muted">
+            <div class="swatch-row">
                 <div class="swatch-row-label">
                     Neutral
                 </div>
@@ -173,11 +173,6 @@ defineExpose({ markedSampleLightness });
     grid-template-columns: var(--label-column-width, 80px) 1fr var(--label-column-width, 80px);
     gap: 1rem;
     align-items: center;
-}
-
-.swatch-row--muted .swatch-row-label,
-.swatch-row--muted .swatch-row-value {
-    opacity: 0.85;
 }
 
 .swatch-row-label {
