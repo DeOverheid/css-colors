@@ -6,8 +6,7 @@
                 v-model="colorInput"
                 placeholder="#hex, rgb(), or hsl()"
                 class="input-field"
-                @input="handleColorInput"
-            />
+                @input="handleColorInput" />
         </div>
         <div class="input-row">
             <label class="input-label">Hue</label>
@@ -17,8 +16,7 @@
                 :min="0"
                 :max="360"
                 :saturation="colorSettings.saturation.value"
-                class="input-field"
-            />
+                class="input-field" />
             <div class="input-value">
                 {{ colorSettings.hue.value }}°
             </div>
@@ -31,8 +29,7 @@
                 :hue="colorSettings.hue.value"
                 :min="0"
                 :max="100"
-                class="input-field"
-            />
+                class="input-field" />
             <div class="input-value">
                 {{ colorSettings.saturation.value }}%
             </div>
@@ -43,8 +40,7 @@
                 <span class="preview-label swatch__label">Primary</span>
                 <span
                     class="preview-swatch swatch__cell"
-                    :style="{ background: `hsl(${colorSettings.hue.value}, ${colorSettings.saturation.value}%, ${colorSettings.lightness.value}%)` }"
-                />
+                    :style="{ background: `hsl(${colorSettings.hue.value}, ${colorSettings.saturation.value}%, ${colorSettings.lightness.value}%)` }" />
                 <span class="preview-value swatch__value">{{ colorSettings.hue.value }}°</span>
             </div>
         </div>
