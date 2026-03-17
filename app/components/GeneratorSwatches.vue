@@ -55,14 +55,7 @@ import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
 import { greySaturationSteps } from "~/composables/utils/greySaturation";
-
-/**
- * Lightness steps from Tailwind CSS v4 grey palettes (shades 950→50, dark to light).
- * These replace the bezier-generated steps for grey rows so they match
- * real-world grey palette distribution.
- */
-const GREY_LIGHTNESS_STEPS = [4.17, 11.08, 16.86, 26.86, 34.31, 46.27, 64.31, 83.92, 90.98, 95.88, 98.12];
-const NEUTRAL_LIGHTNESS_STEPS = [3.94, 9.02, 14.9, 25.1, 32.16, 45.1, 63, 83.14, 89.8, 96.08, 98.04];
+import { GREY_LIGHTNESS_STEPS, NEUTRAL_LIGHTNESS_STEPS } from "~/composables/utils/greyConstants";
 
 const props = defineProps<{
     hue: number;

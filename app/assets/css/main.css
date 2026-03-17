@@ -76,6 +76,78 @@
             var(--hue-slider-value) var(--saturation-slider-value)
                 var(--primary-lightness-950)
         );
+
+        /* Grey palette saturation inputs — dynamically set by useCssVariables.ts */
+        --grey-saturation-50: 0%;
+        --grey-saturation-100: 0%;
+        --grey-saturation-200: 0%;
+        --grey-saturation-300: 0%;
+        --grey-saturation-400: 0%;
+        --grey-saturation-500: 0%;
+        --grey-saturation-600: 0%;
+        --grey-saturation-700: 0%;
+        --grey-saturation-800: 0%;
+        --grey-saturation-900: 0%;
+        --grey-saturation-950: 0%;
+
+        /* Grey palette lightness (static defaults from Tailwind grey palette) */
+        --grey-lightness-50: 98.12%;
+        --grey-lightness-100: 95.88%;
+        --grey-lightness-200: 90.98%;
+        --grey-lightness-300: 83.92%;
+        --grey-lightness-400: 64.31%;
+        --grey-lightness-500: 46.27%;
+        --grey-lightness-600: 34.31%;
+        --grey-lightness-700: 26.86%;
+        --grey-lightness-800: 16.86%;
+        --grey-lightness-900: 11.08%;
+        --grey-lightness-950: 4.17%;
+
+        /* Composed neutral palette — hue from primary, per-shade saturation & lightness */
+        --ui-color-neutral-50: hsl(
+            var(--hue-slider-value) var(--grey-saturation-50)
+                var(--grey-lightness-50)
+        );
+        --ui-color-neutral-100: hsl(
+            var(--hue-slider-value) var(--grey-saturation-100)
+                var(--grey-lightness-100)
+        );
+        --ui-color-neutral-200: hsl(
+            var(--hue-slider-value) var(--grey-saturation-200)
+                var(--grey-lightness-200)
+        );
+        --ui-color-neutral-300: hsl(
+            var(--hue-slider-value) var(--grey-saturation-300)
+                var(--grey-lightness-300)
+        );
+        --ui-color-neutral-400: hsl(
+            var(--hue-slider-value) var(--grey-saturation-400)
+                var(--grey-lightness-400)
+        );
+        --ui-color-neutral-500: hsl(
+            var(--hue-slider-value) var(--grey-saturation-500)
+                var(--grey-lightness-500)
+        );
+        --ui-color-neutral-600: hsl(
+            var(--hue-slider-value) var(--grey-saturation-600)
+                var(--grey-lightness-600)
+        );
+        --ui-color-neutral-700: hsl(
+            var(--hue-slider-value) var(--grey-saturation-700)
+                var(--grey-lightness-700)
+        );
+        --ui-color-neutral-800: hsl(
+            var(--hue-slider-value) var(--grey-saturation-800)
+                var(--grey-lightness-800)
+        );
+        --ui-color-neutral-900: hsl(
+            var(--hue-slider-value) var(--grey-saturation-900)
+                var(--grey-lightness-900)
+        );
+        --ui-color-neutral-950: hsl(
+            var(--hue-slider-value) var(--grey-saturation-950)
+                var(--grey-lightness-950)
+        );
     }
 
     /* Body font */
