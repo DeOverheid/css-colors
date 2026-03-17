@@ -10,8 +10,7 @@
                     :max="180"
                     class="slider-input"
                     :style="{ '--track-bg': trackGradient, '--thumb-bg': thumbColor }"
-                    @input="hueOffset = Number(($event.target as HTMLInputElement).value)"
-                >
+                    @input="hueOffset = Number(($event.target as HTMLInputElement).value)">
             </div>
             <div class="input-value">
                 {{ hueOffset }}°
@@ -23,21 +22,17 @@
                 <span class="preview-label">Secondary</span>
                 <span
                     class="preview-swatch"
-                    :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }"
-                />
+                    :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
                     class="preview-swatch"
-                    :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }"
-                />
+                    :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
                     v-if="showTertiary"
                     class="preview-swatch"
-                    :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }"
-                />
+                    :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
                     v-if="showTertiary"
-                    class="preview-label preview-label--right"
-                >Tertiary</span>
+                    class="preview-label preview-label--right">Tertiary</span>
             </div>
             <div class="preview-degrees">
                 <span />
@@ -45,8 +40,7 @@
                 <span class="degrees-value">{{ primaryHue }}°</span>
                 <span
                     v-if="showTertiary"
-                    class="degrees-value"
-                >{{ tertiaryHue }}°</span>
+                    class="degrees-value">{{ tertiaryHue }}°</span>
                 <span v-if="showTertiary" />
             </div>
         </div>
@@ -167,7 +161,7 @@ const thumbColor = computed(() => {
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.preview-swatch + .preview-swatch {
+.preview-swatch+.preview-swatch {
     border-left: none;
 }
 

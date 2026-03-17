@@ -3,8 +3,7 @@
         <!-- Paired groups: chromatic color + its grey companion, no gap between them -->
         <template
             v-for="group in swatchGroups"
-            :key="group.chromatic.rowId"
-        >
+            :key="group.chromatic.rowId">
             <div class="swatch-group">
                 <!-- Chromatic row -->
                 <div class="swatch-row">
@@ -18,8 +17,7 @@
                         :total-steps="totalSteps"
                         :show-marker="group.chromatic.rowId === 'primary'"
                         :marker-index="group.chromatic.rowId === 'primary' ? markerIndex : undefined"
-                        class="swatch-row-swatches"
-                    />
+                        class="swatch-row-swatches" />
                     <div class="swatch-row-value">
                         {{ group.chromatic.hue }}°
                     </div>
@@ -35,28 +33,18 @@
                         :saturation="greySaturations"
                         :lightness-steps="GREY_LIGHTNESS_STEPS"
                         :total-steps="totalSteps"
-                        class="swatch-row-swatches"
-                    />
+                        class="swatch-row-swatches" />
                 </div>
             </div>
         </template>
 
         <!-- Neutral row (standalone, always last) -->
-        <div
-            v-if="isUnlocked('neutral')"
-            class="swatch-group"
-        >
+        <div v-if="isUnlocked('neutral')" class="swatch-group">
             <div class="swatch-row">
                 <div class="swatch-row-label">
                     Neutral
                 </div>
-                <ColorSwatchRow
-                    :hue="hue"
-                    :saturation="0"
-                    :lightness-steps="NEUTRAL_LIGHTNESS_STEPS"
-                    :total-steps="totalSteps"
-                    class="swatch-row-swatches"
-                />
+                <ColorSwatchRow :hue="hue" :saturation="0" :lightness-steps="NEUTRAL_LIGHTNESS_STEPS" :total-steps="totalSteps" class="swatch-row-swatches" />
             </div>
         </div>
     </section>

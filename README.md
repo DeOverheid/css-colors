@@ -89,11 +89,22 @@ app/
 │   ├── core/       # Core color settings and state management
 │   ├── input/      # Step-based input handling (base color, lightness, settings)
 │   ├── output/     # Export functionality
+│   ├── utils/      # Shared utilities (bezier, grey saturation, etc.)
 │   └── ui/         # CSS variable generation
-├── pages/          # Route pages (index, generator)
+├── pages/          # Route pages (index, generator, tailwind)
 ├── assets/         # CSS and static assets
 └── app.config.ts   # Default color configuration
+docs/
+└── plans/          # Feature plans and implementation notes
 ```
+
+## Plans
+
+Feature plans and implementation notes live in `docs/plans/`. When starting new work, check for an existing plan first.
+
+| Plan | Status | Description |
+| ---- | ------ | ----------- |
+| [Live Grey Theme](docs/plans/PLAN_LIVE_GREY_THEME.md) | Planned | Use generated grey palette for the app's own UI |
 
 ## Configuration
 
