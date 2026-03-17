@@ -6,6 +6,14 @@ Replace the static Nuxt UI neutral color palette (currently Tailwind's `slate`) 
 
 ---
 
+## Naming Clarification
+
+Nuxt UI uses `--ui-color-neutral-*` internally for all background, text, and border semantic tokens. **This name is fixed** — we cannot change it or use `--ui-color-grey` because Nuxt UI's theme layer hardcodes references to `--ui-color-neutral-*`.
+
+What we're doing: **overriding the values** of `--ui-color-neutral-*` with our generated **grey** swatch data (primary hue + bezier-curved saturation). This is the grey row — **not** the neutral row (which has 0% saturation). The "neutral" name is just Nuxt UI's naming convention for the base/chrome color of the app.
+
+---
+
 ## Current Architecture
 
 ### How Nuxt UI neutral colors work
@@ -37,150 +45,199 @@ The **theme layer** in `@nuxt/ui/dist/runtime/index.css` then maps these into se
 | `--ui-border`            | `--ui-color-neutral-200`       | `--ui-color-neutral-800`       |
 | `--ui-border-accented`   | `--ui-color-neutral-300`       | `--ui-color-neutral-700`       |
 
-### How our app currently overrides primary colors
+### How primary colors already work (the pattern to follow)
 
-`useCssVariables.ts` sets `--hue-slider-value`, `--saturation-slider-value`, and `--primary-lightness-{shade}` on `document.documentElement.style`. These feed into the `--ui-color-primary-*` variables defined in `main.css`.
+`main.css` defines a **CSS variable chain** — the primary color shades compose themselves from input variables:
+
+```css
+:root {
+  /* Inputs (set by JS) */
+  --hue-slider-value: 186;
+  --saturation-slider-value: 87%;
+  --primary-lightness-500: 50%;
+
+  /* Composed output (pure CSS, updates instantly when inputs change) */
+  --ui-color-primary-500: hsl(
+    var(--hue-slider-value) var(--saturation-slider-value) var(--primary-lightness-500)
+  );
+}
+```
+
+`useCssVariables.ts` only sets the **input variables** (`--hue-slider-value`, `--saturation-slider-value`, `--primary-lightness-{shade}`). CSS composes the final `hsl()` colors reactively.
 
 ### How our grey swatch row is built
 
-- **Lightness**: `GREY_LIGHTNESS_STEPS` — 11 fixed values derived from Tailwind's grey palette (shade 50–950), plus 0 and 100 for black/white endpoints → 13 total swatches.
-- **Saturation**: `greySaturationSteps(sliderValue)` — bezier-curved ramp from 0% (white) to MAX_SATURATION (40%) at black, scaled by the saturation slider.
-- **Hue**: Same as the primary hue (inherited from the color row).
+- **Hue**: Same as the primary hue (`--hue-slider-value`)
+- **Saturation**: `greySaturationSteps(sliderValue)` — bezier-curved per-shade values, scaled by the saturation slider
+- **Lightness**: Fixed values from Tailwind's grey palette (defined in `GeneratorSwatches.vue` as `GREY_LIGHTNESS_STEPS`)
 
 ---
 
 ## Implementation Plan
 
-### Step 1: Define `--ui-color-neutral-*` CSS variables in `main.css`
+### Approach: CSS Variable Chain (matching primary color pattern)
 
-Add 11 neutral shade variables (50–950), mirroring the primary approach:
+JS sets the raw input variables → CSS composes `hsl()` → Nuxt UI reads `--ui-color-neutral-*` → semantic tokens update automatically. No hardcoded absolute values in JS — everything is dynamic.
+
+### Step 1: Extract grey lightness constants to a shared module
+
+Create `app/composables/utils/greyConstants.ts`:
+
+```ts
+/** Shade labels ordered dark → light (matches greySaturationSteps indices 1–11) */
+export const GREY_SHADE_LABELS = ["950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50"] as const;
+
+/** Fixed lightness values for grey shades (from Tailwind's grey palette) */
+export const GREY_LIGHTNESS_STEPS = [4.17, 11.08, 16.86, 26.86, 34.31, 46.27, 64.31, 83.92, 90.98, 95.88, 98.12];
+```
+
+Update `GeneratorSwatches.vue` to import from here instead of defining inline.
+
+### Step 2: Add grey CSS variable chain in `main.css`
+
+Add grey input variables and compose `--ui-color-neutral-*` from them, mirroring the primary pattern:
 
 ```css
 :root {
-  /* Grey/neutral palette — overridden by useCssVariables on mount */
-  --grey-hue: var(--hue-slider-value);
+  /* Grey palette inputs — dynamically set by useCssVariables.ts */
   --grey-saturation-50: 0%;
   --grey-saturation-100: 0%;
-  /* ... */
+  --grey-saturation-200: 0%;
+  --grey-saturation-300: 0%;
+  --grey-saturation-400: 0%;
+  --grey-saturation-500: 0%;
+  --grey-saturation-600: 0%;
+  --grey-saturation-700: 0%;
+  --grey-saturation-800: 0%;
+  --grey-saturation-900: 0%;
   --grey-saturation-950: 0%;
+
   --grey-lightness-50: 98.12%;
   --grey-lightness-100: 95.88%;
-  /* ... */
+  --grey-lightness-200: 90.98%;
+  --grey-lightness-300: 83.92%;
+  --grey-lightness-400: 64.31%;
+  --grey-lightness-500: 46.27%;
+  --grey-lightness-600: 34.31%;
+  --grey-lightness-700: 26.86%;
+  --grey-lightness-800: 16.86%;
+  --grey-lightness-900: 11.08%;
   --grey-lightness-950: 4.17%;
 
-  --ui-color-neutral-50:  hsl(var(--grey-hue) var(--grey-saturation-50)  var(--grey-lightness-50));
-  --ui-color-neutral-100: hsl(var(--grey-hue) var(--grey-saturation-100) var(--grey-lightness-100));
+  /* Composed neutral palette — hue from primary, per-shade saturation & lightness */
+  --ui-color-neutral-50:  hsl(var(--hue-slider-value) var(--grey-saturation-50)  var(--grey-lightness-50));
+  --ui-color-neutral-100: hsl(var(--hue-slider-value) var(--grey-saturation-100) var(--grey-lightness-100));
+  --ui-color-neutral-200: hsl(var(--hue-slider-value) var(--grey-saturation-200) var(--grey-lightness-200));
   /* ... through 950 */
 }
 ```
 
-By setting `--ui-color-neutral-*` on `:root`, our values will **override** the Nuxt UI plugin's injected `<style>` (which uses `@layer theme` — lower specificity than `:root` in the base layer).
+The hue comes from `--hue-slider-value` (already set by the primary color system). When the user changes hue, both primary and grey update. Grey saturation per shade is set by JS. Grey lightness has sensible CSS defaults but JS also sets them for consistency.
 
-### Step 2: Update `useCssVariables.ts`
+### Step 3: Update `useCssVariables.ts`
 
-Extend the existing composable to also set grey variables:
-
-1. **Grey hue** — same as `--hue-slider-value` (already set for primary). If we want to decouple later, add `--grey-hue` separately.
-2. **Grey saturation per shade** — call `greySaturationSteps(saturation)` and set `--grey-saturation-{shade}` for each of the 11 shades.
-3. **Grey lightness per shade** — use the fixed `GREY_LIGHTNESS_STEPS` values (these don't change, but declaring them as variables keeps the system consistent and allows future bezier-driven grey lightness).
-
-Add a `updateGreyNeutral()` function alongside `updatePrimaryLightness()`:
+Add `updateGreyNeutral()` that sets **only the input variables** — CSS does the composition:
 
 ```ts
-const GREY_SHADE_LABELS = ["950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50"] as const;
-const GREY_LIGHTNESS = [4.17, 11.08, 16.86, 26.86, 34.31, 46.27, 64.31, 83.92, 90.98, 95.88, 98.12];
+import { greySaturationSteps } from "~/composables/utils/greySaturation";
+import { GREY_SHADE_LABELS, GREY_LIGHTNESS_STEPS } from "~/composables/utils/greyConstants";
 
 function updateGreyNeutral() {
-  if (!import.meta.client) return;
+    if (!import.meta.client) return;
 
-  const saturations = greySaturationSteps(colorSettings.saturation.value);
+    const saturations = greySaturationSteps(colorSettings.saturation.value);
 
-  GREY_SHADE_LABELS.forEach((label, i) => {
-    document.documentElement.style.setProperty(`--grey-saturation-${label}`, `${saturations[i]}%`);
-    document.documentElement.style.setProperty(`--grey-lightness-${label}`, `${GREY_LIGHTNESS[i]}%`);
-  });
+    // Saturations: indices 1–11 of the 13-step array (skip black=0, white=12)
+    GREY_SHADE_LABELS.forEach((label, i) => {
+        document.documentElement.style.setProperty(
+            `--grey-saturation-${label}`,
+            `${saturations[i + 1]}%`
+        );
+    });
+
+    // Lightness: set from shared constants (enables future dynamic lightness)
+    GREY_SHADE_LABELS.forEach((label, i) => {
+        document.documentElement.style.setProperty(
+            `--grey-lightness-${label}`,
+            `${GREY_LIGHTNESS_STEPS[i]}%`
+        );
+    });
 }
 ```
 
-Watch `saturation` (and optionally `hue`) changes to trigger updates.
+Wire up watchers:
+- **Saturation changes** → call `updateGreyNeutral()` (saturation affects grey saturation per shade)
+- **Hue changes** → no JS needed! CSS composes grey from `--hue-slider-value` which is already updated
+- **Bezier changes** → no effect on grey (grey uses fixed lightness for now)
 
-### Step 3: Consolidate grey lightness constants
+Call `updateGreyNeutral()` in `onMounted()` alongside `updatePrimaryLightness()`.
 
-Currently `GREY_LIGHTNESS_STEPS` is defined in `GeneratorSwatches.vue`. Extract it to a shared constant (e.g., `app/composables/utils/greyLightness.ts`) so both the swatch display and the CSS variable updater use the same source of truth.
+### Step 4: Handle shade mapping (swatch indices → shade labels)
 
-### Step 4: Handle the shade mapping
-
-The swatch rows use 13 values (including black=0% and white=100%), but Nuxt UI's neutral palette has 11 shades (50–950). The mapping:
-
-| Swatch index | Shade label | Lightness (from GREY_LIGHTNESS_STEPS) |
-| ------------ | ----------- | ------------------------------------- |
-| 0            | 950         | 4.17%                                 |
-| 1            | 900         | 11.08%                                |
-| 2            | 800         | 16.86%                                |
-| 3            | 700         | 26.86%                                |
-| 4            | 600         | 34.31%                                |
-| 5            | 500         | 46.27%                                |
-| 6            | 400         | 64.31%                                |
-| 7            | 300         | 83.92%                                |
-| 8            | 200         | 90.98%                                |
-| 9            | 100         | 95.88%                                |
-| 10           | 50          | 98.12%                                |
-
-Indices 0–10 of `GREY_LIGHTNESS_STEPS` map directly to shades 950–50. The endpoints (black=0, white=100) are swatch-only and don't map to Nuxt UI shades.
-
-For `greySaturationSteps()`, the 13 values include black and white. Use indices 1–11 (skip index 0 = black, skip index 12 = white) for shades 950–50.
+The swatch rows use 13 values (indices 0–12 including black and white endpoints). Nuxt UI has 11 shades (50–950). The mapping uses indices **1–11** of `greySaturationSteps()` output, skipping:
+- Index 0 = black endpoint (100% lightness, not a shade)
+- Index 12 = white endpoint (0% lightness, not a shade)
 
 ### Step 5: Verify CSS specificity
 
-Our `:root` declarations in `main.css` (inside `@layer base`) need to beat the Nuxt UI plugin's `@layer theme` injections. Since our `main.css` variables use `@layer base` and Nuxt UI's runtime styles are in `@layer theme`, and theme has its own cascade, we should verify precedence. If needed, move our neutral overrides outside any `@layer` for highest specificity, or use `!important` scoped to the CSS variables.
+The `--ui-color-neutral-*` definitions in `main.css` (inside `@layer base`) must override Nuxt UI's runtime-injected `<style>` tag. Since inline `<style>` tags from Nuxt UI's plugin are NOT in `@layer base` and instead use `@layer theme`, our base-layer `:root` rules should win.
 
-**Alternative approach**: Instead of CSS-only overrides, set `--ui-color-neutral-*` directly via JavaScript in `useCssVariables.ts` using `document.documentElement.style.setProperty()`. Inline styles on `:root` always beat stylesheet rules regardless of layers. This is the **safest and simplest** approach, matching how we already handle primary colors.
+If not, fallback: JS also calls `setProperty('--ui-color-neutral-{shade}', hslValue)` as inline style — inline styles always win.
 
 ### Step 6: Test both light and dark modes
 
-The semantic mappings swap which neutral shade is used for what, but the underlying `--ui-color-neutral-*` values are the same in both modes. Our override will affect both correctly since we're replacing the neutral shade values, not the semantic mapping.
+The semantic mappings swap which neutral shade is used for what, but the underlying `--ui-color-neutral-*` values are the same in both modes. Our override affects both correctly.
+
+---
+
+## Variable Flow Diagram
+
+```
+User input (slider)
+    │
+    ├─→ JS sets --hue-slider-value           (already exists for primary)
+    ├─→ JS sets --grey-saturation-{shade}     (NEW — from greySaturationSteps())
+    └─→ JS sets --grey-lightness-{shade}      (NEW — from GREY_LIGHTNESS_STEPS)
+         │
+         ▼
+CSS composes --ui-color-neutral-{shade}: hsl(--hue-slider-value --grey-saturation-{shade} --grey-lightness-{shade})
+         │
+         ▼
+Nuxt UI reads --ui-color-neutral-{shade} → maps to semantic tokens
+         │
+         ▼
+--ui-bg-elevated, --ui-text-muted, --ui-border, etc. all update in real time
+```
 
 ---
 
 ## Summary of Changes
 
-| File                                   | Change                                                                     |
-| -------------------------------------- | -------------------------------------------------------------------------- |
-| `composables/utils/greyLightness.ts`   | **New** — export `GREY_LIGHTNESS_STEPS` and `GREY_SHADE_LABELS` constants  |
-| `composables/ui/useCssVariables.ts`    | Add `updateGreyNeutral()` — set `--ui-color-neutral-{shade}` on `:root`    |
-| `composables/utils/greySaturation.ts`  | No change (already exports `greySaturationSteps`)                          |
-| `components/GeneratorSwatches.vue`     | Import `GREY_LIGHTNESS_STEPS` from shared constant instead of inline       |
-| `assets/css/main.css`                  | Optionally add CSS fallback defaults (not required if JS-only approach)    |
-
-## Approach Decision
-
-**Recommended: JavaScript-only (Option A)**
-
-Set `--ui-color-neutral-*` directly via `document.documentElement.style.setProperty()` in `useCssVariables.ts`. This:
-- Matches the existing primary color pattern
-- Guarantees specificity (inline styles beat all stylesheets)
-- Requires no CSS layer games
-- Updates reactively when hue/saturation/bezier changes
-
-**Alternative: CSS variable chain (Option B)**
-
-Define intermediate `--grey-*` variables in `main.css` and compose `--ui-color-neutral-*` from them. Cleaner separation but requires verifying CSS layer specificity.
+| File                                   | Change                                                                        |
+| -------------------------------------- | ----------------------------------------------------------------------------- |
+| `composables/utils/greyConstants.ts`   | **New** — export `GREY_LIGHTNESS_STEPS` and `GREY_SHADE_LABELS`               |
+| `composables/ui/useCssVariables.ts`    | Add `updateGreyNeutral()` — set `--grey-saturation-*` and `--grey-lightness-*`|
+| `composables/utils/greySaturation.ts`  | No change (already exports `greySaturationSteps`)                             |
+| `components/GeneratorSwatches.vue`     | Import `GREY_LIGHTNESS_STEPS` from shared constant instead of inline          |
+| `assets/css/main.css`                  | Add grey CSS variable chain: inputs + `--ui-color-neutral-*` composition      |
 
 ---
 
 ## Edge Cases
 
-1. **SSR flash**: On first load before JS hydrates, neutral colors will use Nuxt UI's default slate. This is fine — same as current primary color behavior.
-2. **Saturation 0**: At slider=0, all grey saturation values become 0% — the palette becomes truly achromatic (pure grey). This is correct behavior.
-3. **Dark mode**: No special handling needed. Nuxt UI's semantic mapping (e.g., `--ui-bg-elevated: --ui-color-neutral-800` in dark) will automatically use our overridden values.
-4. **Complementary grey hues**: The current plan uses the primary hue for the app UI neutral palette. Secondary/tertiary grey hues are only used in the swatch preview. If desired, a future enhancement could let the user pick which grey row drives the UI.
+1. **SSR flash**: On first load before JS hydrates, grey defaults to 0% saturation (pure grey). This is fine — same as current primary color behavior with slate.
+2. **Saturation 0**: All `--grey-saturation-*` become 0% — the palette becomes truly achromatic. Correct behavior.
+3. **Dark mode**: No special handling needed. Nuxt UI's semantic mapping automatically uses our overridden values.
+4. **Complementary grey hues**: Currently the app UI uses primary hue for grey. Future enhancement: let the user pick which row drives the UI.
 
 ---
 
 ## Implementation Order
 
-1. Extract `GREY_LIGHTNESS_STEPS` to shared constants
-2. Add `updateGreyNeutral()` to `useCssVariables.ts`
-3. Wire up watchers for hue and saturation changes
-4. Test light mode, dark mode, and slider interactions
-5. Commit
+1. Extract `GREY_LIGHTNESS_STEPS` and `GREY_SHADE_LABELS` to `greyConstants.ts`
+2. Add grey input variables and `--ui-color-neutral-*` composition to `main.css`
+3. Add `updateGreyNeutral()` to `useCssVariables.ts` with saturation watcher
+4. Update `GeneratorSwatches.vue` to import from shared constants
+5. Test light mode, dark mode, and slider interactions
+6. Verify CSS specificity — if needed, add JS fallback for `--ui-color-neutral-*`
+7. Commit
