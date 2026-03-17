@@ -102,8 +102,8 @@ project/
 
 Feature plans and implementation notes live in `project/plans/`. When starting new work, check for an existing plan first.
 
-| Plan | Status | Description |
-| ---- | ------ | ----------- |
+| Plan                                                     | Status  | Description                                     |
+| -------------------------------------------------------- | ------- | ----------------------------------------------- |
 | [Live Grey Theme](project/plans/PLAN_LIVE_GREY_THEME.md) | Planned | Use generated grey palette for the app's own UI |
 
 ## Configuration
@@ -112,11 +112,11 @@ Default color values can be modified in `app/app.config.ts`:
 
 ```typescript
 export default defineAppConfig({
-  colors: {
-    hue: 186,
-    saturation: 50,
-    lightness: 66,
-  },
+    colors: {
+        hue: 186,
+        saturation: 50,
+        lightness: 66,
+    },
 });
 ```
 
