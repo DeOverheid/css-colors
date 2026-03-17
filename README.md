@@ -94,17 +94,17 @@ app/
 ├── pages/          # Route pages (index, generator, tailwind)
 ├── assets/         # CSS and static assets
 └── app.config.ts   # Default color configuration
-docs/
+project/
 └── plans/          # Feature plans and implementation notes
 ```
 
 ## Plans
 
-Feature plans and implementation notes live in `docs/plans/`. When starting new work, check for an existing plan first.
+Feature plans and implementation notes live in `project/plans/`. When starting new work, check for an existing plan first.
 
 | Plan | Status | Description |
 | ---- | ------ | ----------- |
-| [Live Grey Theme](docs/plans/PLAN_LIVE_GREY_THEME.md) | Planned | Use generated grey palette for the app's own UI |
+| [Live Grey Theme](project/plans/PLAN_LIVE_GREY_THEME.md) | Planned | Use generated grey palette for the app's own UI |
 
 ## Configuration
 
