@@ -104,7 +104,7 @@ Feature plans and implementation notes live in `project/plans/`. When starting n
 
 | Plan                                                     | Status  | Description                                     |
 | -------------------------------------------------------- | ------- | ----------------------------------------------- |
-| [Live Grey Theme](project/plans/PLAN_LIVE_GREY_THEME.md) | Planned | Use generated grey palette for the app's own UI |
+| [Live Grey Theme](project/plans/PLAN_LIVE_GREY_THEME.md) | Implemented | Use generated grey palette for the app's own UI |
 
 ## Configuration
 
