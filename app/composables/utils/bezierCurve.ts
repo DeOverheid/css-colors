@@ -2,6 +2,7 @@
  * Cubic bezier curve utilities for lightness distribution.
  * Pure functions — no Vue reactivity needed.
  */
+import type { BezierCurve } from "~/composables/themes/lib/types";
 
 /**
  * Calculate a point on a cubic bezier curve
@@ -51,19 +52,22 @@ export function getBezierY(x: number, x1: number, y1: number, x2: number, y2: nu
 }
 
 /**
- * Generate lightness steps using bezier curve
- * Returns lightness values for N-2 steps evenly distributed between black and white
- * Total of N samples: black (0) + (N-2) calculated steps + white (100)
- * X positions: 1/(N-1), 2/(N-1), 3/(N-1), ..., (N-2)/(N-1)
+ * Generate lightness percentage values from a bezier curve.
  *
- * @param lightnessMin - Minimum lightness (darkest shade), bezier 0 maps here
- * @param lightnessMax - Maximum lightness (lightest shade), bezier 1 maps here
+ * Takes a BezierCurve and distributes `totalSteps` evenly across it.
+ * The first and last steps are implied endpoints (black=0%, white=100%),
+ * so this returns `totalSteps - 2` inner values.
+ *
+ * The bezier output (0–1) is mapped to the lightnessMin–lightnessMax range.
+ *
+ * @param curve - Cubic bezier control points { x1, y1, x2, y2 }
+ * @param totalSteps - Total steps including black/white endpoints (e.g. 13)
+ * @param lightnessMin - Lightness % at the dark end (bezier 0), default 0
+ * @param lightnessMax - Lightness % at the light end (bezier 1), default 100
+ * @returns Array of (totalSteps - 2) lightness percentages, dark → light
  */
 export function generateLightnessSteps(
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
+    curve: BezierCurve,
     totalSteps: number,
     lightnessMin = 0,
     lightnessMax = 100
@@ -74,7 +78,7 @@ export function generateLightnessSteps(
     const range = lightnessMax - lightnessMin;
 
     return steps.map((step) => {
-        const y = getBezierY(step, x1, y1, x2, y2);
+        const y = getBezierY(step, curve.x1, curve.y1, curve.x2, curve.y2);
         // Map bezier output (0-1) to lightness range (min-max)
         const lightness = lightnessMin + y * range;
         return Math.round(lightness);

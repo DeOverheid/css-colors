@@ -88,6 +88,12 @@ export function useExportConfig() {
         if (theme.lightnessMax !== undefined) {
             configStr += `\n    lightnessMax: ${theme.lightnessMax},`;
         }
+        if (theme.grayscaleLightnessMin !== undefined) {
+            configStr += `\n    grayscaleLightnessMin: ${theme.grayscaleLightnessMin},`;
+        }
+        if (theme.grayscaleLightnessMax !== undefined) {
+            configStr += `\n    grayscaleLightnessMax: ${theme.grayscaleLightnessMax},`;
+        }
 
         configStr += `
     bezier: {
@@ -250,6 +256,12 @@ ${hueConfig}
         const lightnessMaxStr = theme.lightnessMax !== undefined
             ? `\n    lightnessMax: ${theme.lightnessMax},`
             : "";
+        const gsLightnessMinStr = theme.grayscaleLightnessMin !== undefined
+            ? `\n    grayscaleLightnessMin: ${theme.grayscaleLightnessMin},`
+            : "";
+        const gsLightnessMaxStr = theme.grayscaleLightnessMax !== undefined
+            ? `\n    grayscaleLightnessMax: ${theme.grayscaleLightnessMax},`
+            : "";
         const grayscaleBezierStr = theme.grayscaleBezier
             ? `
     grayscaleBezier: {
@@ -275,7 +287,7 @@ export const customTheme: ThemeConfig = {
         y1: ${theme.bezier.y1},
         x2: ${theme.bezier.x2},
         y2: ${theme.bezier.y2}
-    },${grayscaleBezierStr}
+    },${grayscaleBezierStr}${gsLightnessMinStr}${gsLightnessMaxStr}
     lightnessAdjustment: {
         enabled: ${adj.enabled},
         darkening: {

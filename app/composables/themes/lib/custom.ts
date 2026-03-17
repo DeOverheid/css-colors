@@ -58,6 +58,8 @@ export const customTheme: ThemeConfig = {
         x2: 0.55,
         y2: 0.99
     },
+    grayscaleLightnessMin: 0,
+    grayscaleLightnessMax: 100,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
     description: "Standard custom CSS color scale with 50-950 naming"
 };

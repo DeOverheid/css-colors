@@ -37,7 +37,7 @@ export function stepLightnessDistribution() {
     /** Lightness steps computed from bezier + current theme */
     const lightnessSteps = computed(() => {
         return generateLightnessSteps(
-            x1.value, y1.value, x2.value, y2.value,
+            bezierValues.value,
             currentTheme.value.totalSteps,
             currentTheme.value.lightnessMin ?? 0,
             currentTheme.value.lightnessMax ?? 100
@@ -47,14 +47,13 @@ export function stepLightnessDistribution() {
     /** Full lightness steps including 0 (black) and 100 (white) */
     const fullLightnessSteps = computed(() => [0, ...lightnessSteps.value, 100]);
 
-    /** Grayscale lightness steps (uses grayscaleBezier if available) */
+    /** Grayscale lightness steps (uses grayscaleBezier + grayscale range if available) */
     const grayscaleLightnessSteps = computed(() => {
-        const gb = grayscaleBezierValues.value;
         return generateLightnessSteps(
-            gb.x1, gb.y1, gb.x2, gb.y2,
+            grayscaleBezierValues.value,
             currentTheme.value.totalSteps,
-            currentTheme.value.lightnessMin ?? 0,
-            currentTheme.value.lightnessMax ?? 100
+            currentTheme.value.grayscaleLightnessMin ?? 0,
+            currentTheme.value.grayscaleLightnessMax ?? 100
         );
     });
 

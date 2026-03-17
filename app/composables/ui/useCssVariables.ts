@@ -1,25 +1,23 @@
 /**
  * UI Module: Manages CSS variable updates for live color changes
  * Updates CSS variables in the DOM based on color settings and bezier curve.
+ * Reads lightness from stepLightnessDistribution (bezier-computed, single source of truth).
  * Sets input variables that feed into CSS variable chains in main.css:
  *   - Primary: --hue-slider-value, --saturation-slider-value, --primary-lightness-{shade}
- *   - Grey:    --grey-saturation-{shade} (hue reuses --hue-slider-value, lightness is static CSS)
+ *   - Grey:    --grey-saturation-{shade}, --grey-lightness-{shade} (hue via --ui-neutral-hue)
  */
-import { generateLightnessSteps } from "~/composables/utils/bezierCurve";
 import { greySaturationSteps } from "~/composables/utils/greySaturation";
 import { GREY_SHADE_LABELS } from "~/composables/utils/greyConstants";
+import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
+import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
 
 /** Primary shade labels ordered dark → light (matches generateLightnessSteps output) */
 const PRIMARY_SHADE_LABELS = ["950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50"] as const;
 
 export function useCssVariables() {
     const colorSettings = useColorSettings();
-
-    // Bezier state (initialized by stepLightnessDistribution before this composable runs)
-    const bezierX1 = useState<number>("bezier-x1");
-    const bezierY1 = useState<number>("bezier-y1");
-    const bezierX2 = useState<number>("bezier-x2");
-    const bezierY2 = useState<number>("bezier-y2");
+    const { uiToneSource, uiToneHue } = useComplementaryColors();
+    const { lightnessSteps, grayscaleLightnessSteps } = stepLightnessDistribution();
 
     // Initialize CSS variables from config on client-side
     onMounted(() => {
@@ -32,7 +30,7 @@ export function useCssVariables() {
         document.documentElement.style.setProperty("--lightness-slider-value", `${initialLightness}%`);
 
         updatePrimaryLightness();
-        updateGreySaturation();
+        updateGreyNeutral();
     });
 
     // Watch for changes and update CSS variables
@@ -50,7 +48,7 @@ export function useCssVariables() {
         (newSaturation) => {
             if (import.meta.client && typeof newSaturation === "number") {
                 document.documentElement.style.setProperty("--saturation-slider-value", `${newSaturation}%`);
-                updateGreySaturation();
+                updateGreyNeutral();
             }
         }
     );
@@ -64,29 +62,24 @@ export function useCssVariables() {
         }
     );
 
-    // Watch bezier changes and update primary color scale
+    // Watch bezier-computed lightness changes and push to CSS
+    watch(lightnessSteps, () => updatePrimaryLightness());
+    watch(grayscaleLightnessSteps, () => updateGreyNeutral());
+
+    // Watch tone selection changes and update neutral palette
     watch(
-        [bezierX1, bezierY1, bezierX2, bezierY2],
-        () => updatePrimaryLightness()
+        [uiToneSource, uiToneHue],
+        () => updateGreyNeutral()
     );
 
     /**
-     * Compute lightness steps from the current bezier curve and apply
-     * them to primary color scale CSS variables.
-     * Uses totalSteps=13 (11 shades + 2 endpoints) and 5–95% range
-     * for a full UI-appropriate lightness spread.
+     * Push bezier-computed primary lightness steps into CSS variables.
+     * Reads from stepLightnessDistribution — no local recomputation.
      */
     function updatePrimaryLightness() {
         if (!import.meta.client) return;
 
-        const steps = generateLightnessSteps(
-            bezierX1.value ?? 0.46,
-            bezierY1.value ?? 0.13,
-            bezierX2.value ?? 0.72,
-            bezierY2.value ?? 0.92,
-            13, 5, 95
-        );
-
+        const steps = lightnessSteps.value;
         PRIMARY_SHADE_LABELS.forEach((label, i) => {
             document.documentElement.style.setProperty(
                 `--primary-lightness-${label}`,
@@ -96,21 +89,50 @@ export function useCssVariables() {
     }
 
     /**
-     * Compute per-shade grey saturation from the bezier curve and apply
-     * them to --grey-saturation-{shade} CSS variables.
-     * CSS in main.css composes --ui-color-neutral-{shade} from these inputs.
-     * Uses indices 1–11 of the 13-step array (skipping black/white endpoints).
+     * Update grey saturation, lightness, and neutral hue CSS variables based on tone selection.
+     *
+     * Sets --ui-neutral-hue to the selected tone's hue.
+     * Sets --grey-saturation-{shade} from bezier-curved distribution (or 0% for "neutral").
+     * Sets --grey-lightness-{shade} from grayscaleLightnessSteps (bezier-computed).
      */
-    function updateGreySaturation() {
+    function updateGreyNeutral() {
         if (!import.meta.client) return;
 
-        const saturations = greySaturationSteps(colorSettings.saturation.value);
+        const tone = uiToneSource.value;
+        const toneHue = uiToneHue.value;
 
+        // Set the neutral hue (for "neutral" tone, hue is irrelevant since sat=0)
+        document.documentElement.style.setProperty(
+            "--ui-neutral-hue",
+            tone === "neutral" ? "0" : String(toneHue)
+        );
+
+        // Grey lightness from grayscale bezier (single source of truth)
+        const greySteps = grayscaleLightnessSteps.value;
         GREY_SHADE_LABELS.forEach((label, i) => {
             document.documentElement.style.setProperty(
-                `--grey-saturation-${label}`,
-                `${saturations[i + 1]}%`
+                `--grey-lightness-${label}`,
+                `${greySteps[i]}%`
             );
         });
+
+        // Set per-shade saturations: zero for "neutral", bezier-curved otherwise
+        if (tone === "neutral") {
+            GREY_SHADE_LABELS.forEach((label) => {
+                document.documentElement.style.setProperty(
+                    `--grey-saturation-${label}`,
+                    "0%"
+                );
+            });
+        }
+        else {
+            const saturations = greySaturationSteps(colorSettings.saturation.value);
+            GREY_SHADE_LABELS.forEach((label, i) => {
+                document.documentElement.style.setProperty(
+                    `--grey-saturation-${label}`,
+                    `${saturations[i + 1]}%`
+                );
+            });
+        }
     }
 }

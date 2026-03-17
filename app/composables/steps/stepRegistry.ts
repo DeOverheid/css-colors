@@ -32,7 +32,7 @@ export const steps: StepDefinition[] = [
     {
         id: "complementary-colors",
         title: "Complementary Colors",
-        description: "Choose secondary and tertiary hues by setting the hue offset from your primary color",
+        description: "Choose secondary and tertiary hues by setting the hue offset, then pick a UI tone for the app background",
         inputComponent: "ComplementaryColorPicker",
         unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
     },

@@ -52,6 +52,10 @@ export interface ThemeConfig {
     lightnessMin?: number;
     /** Maximum lightness value (lightest shade, maps to bezier 1) */
     lightnessMax?: number;
+    /** Minimum lightness for greyscale shades (defaults to 0) */
+    grayscaleLightnessMin?: number;
+    /** Maximum lightness for greyscale shades (defaults to 100) */
+    grayscaleLightnessMax?: number;
     /** Hue-based lightness compensation settings */
     lightnessAdjustment?: LightnessAdjustmentConfig;
     /** Description of the theme */

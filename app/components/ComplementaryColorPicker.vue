@@ -17,46 +17,52 @@
             </div>
         </div>
 
-        <div class="color-preview">
-            <div class="preview-swatches">
-                <span class="preview-label">Secondary</span>
+        <div class="color-preview swatch__group">
+            <div class="preview-swatches swatch__row">
+                <span class="preview-label swatch__label">Secondary</span>
                 <span
-                    class="preview-swatch"
+                    class="preview-swatch swatch__cell"
                     :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
-                    class="preview-swatch"
+                    class="preview-swatch swatch__cell"
                     :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
                     v-if="showTertiary"
-                    class="preview-swatch"
+                    class="preview-swatch swatch__cell"
                     :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
                     v-if="showTertiary"
-                    class="preview-label preview-label--right">Tertiary</span>
+                    class="preview-label preview-label--right swatch__label">Tertiary</span>
             </div>
             <div class="preview-degrees">
                 <span />
                 <span class="degrees-value">{{ secondaryHue }}°</span>
                 <span class="degrees-value">{{ primaryHue }}°</span>
-                <span
-                    v-if="showTertiary"
-                    class="degrees-value">{{ tertiaryHue }}°</span>
-                <span v-if="showTertiary" />
+                <template v-if="showTertiary">
+                    <span class="degrees-value">{{ tertiaryHue }}°</span>
+                    <span />
+                </template>
             </div>
         </div>
 
-        <p class="hint">
-            * Indication only — final hues may shift to align with the full palette range.
-        </p>
+        <div class="input-row">
+            <label class="input-label">UI Tone</label>
+            <div class="tone-picker">
+                <button v-for="tone in availableTones" :key="tone.value" class="tone-option" :class="{ 'tone-option--active': uiToneSource === tone.value }" :style="{ '--tone-bg': toneSwatchColor(tone) }" @click="uiToneSource = tone.value">
+                    <span class="tone-swatch" />
+                    <span class="tone-label">{{ tone.label }}</span>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
+import { useComplementaryColors, type UiToneSource } from "~/composables/input/useComplementaryColors";
 import { useColorSettings } from "~/composables/core/useColorSettings";
 
 const colorSettings = useColorSettings();
-const { hueOffset, secondaryHue, tertiaryHue, showTertiary } = useComplementaryColors();
+const { hueOffset, secondaryHue, tertiaryHue, showTertiary, uiToneSource, availableTones } = useComplementaryColors();
 
 const primaryHue = computed(() => colorSettings.hue.value);
 const saturation = computed(() => colorSettings.saturation.value);
@@ -76,6 +82,12 @@ const trackGradient = computed(() => {
 const thumbColor = computed(() => {
     return `hsl(${secondaryHue.value}, 80%, 50%)`;
 });
+
+/** Swatch color for a tone option (mid-shade preview) */
+function toneSwatchColor(tone: { value: UiToneSource; hue: number }) {
+    if (tone.value === "neutral") return `hsl(0, 0%, 46%)`;
+    return `hsl(${tone.hue}, 10%, 46%)`;
+}
 </script>
 
 <style scoped>
@@ -156,7 +168,7 @@ const thumbColor = computed(() => {
 }
 
 .preview-swatch {
-    width: 40px;
+    width: 120px;
     height: 40px;
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
@@ -183,7 +195,7 @@ const thumbColor = computed(() => {
 }
 
 .degrees-value {
-    width: 40px;
+    width: 120px;
     text-align: center;
     font-variant-numeric: tabular-nums;
     color: var(--ui-text-muted);
@@ -195,5 +207,47 @@ const thumbColor = computed(() => {
     font-size: 0.75rem;
     font-style: italic;
     margin: 0;
+}
+
+.tone-picker {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tone-option {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    border: 1.5px solid var(--ui-border);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    font-family: var(--font-family-header);
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--ui-text-muted);
+}
+
+.tone-option:hover {
+    border-color: var(--ui-border-hover);
+    background: var(--ui-bg-elevated);
+}
+
+.tone-option--active {
+    border-color: var(--ui-color-primary-400);
+    background: var(--ui-bg-elevated);
+    color: var(--ui-text);
+}
+
+.tone-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    background: var(--tone-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>

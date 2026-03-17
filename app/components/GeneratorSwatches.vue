@@ -1,50 +1,71 @@
 <template>
     <section class="swatches-preview panel">
-        <!-- Paired groups: chromatic color + its grey companion, no gap between them -->
-        <template
-            v-for="group in swatchGroups"
-            :key="group.chromatic.rowId">
-            <div class="swatch-group">
-                <!-- Chromatic row -->
-                <div class="swatch-row">
-                    <div class="swatch-row-label">
-                        {{ group.chromatic.label }}
+        <!-- Chromatic rows: Secondary, Primary, Tertiary -->
+        <div class="swatch-group swatch__group swatch__group--chromatic">
+            <template
+                v-for="row in chromaticRows"
+                :key="row.rowId"
+            >
+                <div class="swatch-row swatch__row swatch__row--chromatic">
+                    <div class="swatch-row-label swatch__label">
+                        {{ row.label }}
                     </div>
                     <ColorSwatchRow
-                        :hue="group.chromatic.hue"
-                        :saturation="group.chromatic.saturation"
+                        :hue="row.hue"
+                        :saturation="row.saturation"
                         :lightness-steps="lightnessSteps"
                         :total-steps="totalSteps"
-                        :show-marker="group.chromatic.rowId === 'primary'"
-                        :marker-index="group.chromatic.rowId === 'primary' ? markerIndex : undefined"
-                        class="swatch-row-swatches" />
-                    <div class="swatch-row-value">
-                        {{ group.chromatic.hue }}°
+                        :show-marker="row.rowId === 'primary'"
+                        :marker-index="row.rowId === 'primary' ? markerIndex : undefined"
+                        class="swatch-row-swatches"
+                    />
+                    <div class="swatch-row-value swatch__value">
+                        {{ row.hue }}°
                     </div>
                 </div>
+            </template>
+        </div>
 
-                <!-- Grey companion (tinted grey using same hue, TW saturation distribution) -->
-                <div class="swatch-row">
-                    <div class="swatch-row-label">
-                        {{ group.grey.label }}
+        <!-- Grey companion rows: sec. grey, primary grey, tert. grey -->
+        <div
+            v-if="greyRows.length > 0"
+            class="swatch-group swatch__group swatch__group--grey"
+        >
+            <template
+                v-for="row in greyRows"
+                :key="row.rowId"
+            >
+                <div class="swatch-row swatch__row swatch__row--grey">
+                    <div class="swatch-row-label swatch__label">
+                        {{ row.label }}
                     </div>
                     <ColorSwatchRow
-                        :hue="group.grey.hue"
+                        :hue="row.hue"
                         :saturation="greySaturations"
-                        :lightness-steps="GREY_LIGHTNESS_STEPS"
+                        :lightness-steps="greyLightnessSteps"
                         :total-steps="totalSteps"
-                        class="swatch-row-swatches" />
+                        class="swatch-row-swatches"
+                    />
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
 
-        <!-- Neutral row (standalone, always last) -->
-        <div v-if="isUnlocked('neutral')" class="swatch-group">
-            <div class="swatch-row">
-                <div class="swatch-row-label">
+        <!-- Neutral row (always last) -->
+        <div
+            v-if="isUnlocked('neutral')"
+            class="swatch-group swatch__group swatch__group--neutral"
+        >
+            <div class="swatch-row swatch__row swatch__row--neutral">
+                <div class="swatch-row-label swatch__label">
                     Neutral
                 </div>
-                <ColorSwatchRow :hue="hue" :saturation="0" :lightness-steps="NEUTRAL_LIGHTNESS_STEPS" :total-steps="totalSteps" class="swatch-row-swatches" />
+                <ColorSwatchRow
+                    :hue="hue"
+                    :saturation="0"
+                    :lightness-steps="greyLightnessSteps"
+                    :total-steps="totalSteps"
+                    class="swatch-row-swatches"
+                />
             </div>
         </div>
     </section>
@@ -55,7 +76,7 @@ import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
 import { greySaturationSteps } from "~/composables/utils/greySaturation";
-import { GREY_LIGHTNESS_STEPS, NEUTRAL_LIGHTNESS_STEPS } from "~/composables/utils/greyConstants";
+import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
 
 const props = defineProps<{
     hue: number;
@@ -65,54 +86,59 @@ const props = defineProps<{
     targetLightness: number;
 }>();
 
-const { isUnlocked } = useSwatchUnlock();
-const { orderedRows, greyCompanionRows } = useComplementaryColors();
+const { grayscaleLightnessSteps: greyLightnessSteps } = stepLightnessDistribution();
 
-const markerIndex = computed(() =>
-    findClosestLightnessIndex(props.lightnessSteps, props.targetLightness)
-);
+const { isUnlocked } = useSwatchUnlock();
+const { orderedRows, greyCompanionRows, primaryGreyName } = useComplementaryColors();
+
+const markerIndex = computed(() => {
+    const baseIndex = findClosestLightnessIndex(props.lightnessSteps, props.targetLightness);
+    // Shift one step darker (lower lightness = higher index toward black)
+    return Math.max(0, baseIndex - 1);
+});
 
 /** Per-swatch grey saturation array following TW distribution, scaled by saturation slider */
 const greySaturations = computed(() => greySaturationSteps(props.saturation));
 
-interface SwatchGroup {
-    chromatic: { rowId: string; hue: number; label: string; saturation: number };
-    grey: { rowId: string; hue: number; label: string };
-}
+const chromaticLabels: Record<string, string> = {
+    primary: "Primary",
+    secondary: "Secondary",
+    tertiary: "Tertiary"
+};
 
-/**
- * Build paired groups: each chromatic color row with its grey companion.
- * - Primary grey is always labelled "Gray"
- * - Secondary/Tertiary grey labels come from closestGreyName (via greyCompanionRows)
- */
-const swatchGroups = computed((): SwatchGroup[] => {
-    const labels: Record<string, string> = {
-        primary: "Primary",
-        secondary: "Secondary",
-        tertiary: "Tertiary"
-    };
+/** Chromatic rows: Secondary → Primary → Tertiary */
+const chromaticRows = computed(() =>
+    orderedRows.value
+        .filter(row => isUnlocked(row.rowId))
+        .map(row => ({
+            rowId: row.rowId,
+            hue: row.hue,
+            label: chromaticLabels[row.rowId] ?? row.rowId,
+            saturation: props.saturation
+        }))
+);
 
+/** Grey companion rows: sec. grey → primary grey → tert. grey */
+const greyRows = computed(() => {
     // Build lookup for grey companion labels by parent ID
     const greyLabelByParent: Record<string, string> = {};
     for (const g of greyCompanionRows.value) {
         greyLabelByParent[g.parentId] = g.label;
     }
 
-    return orderedRows.value
-        .filter(row => isUnlocked(row.rowId))
-        .map(row => ({
-            chromatic: {
-                rowId: row.rowId,
-                hue: row.hue,
-                label: labels[row.rowId] ?? row.rowId,
-                saturation: props.saturation
-            },
-            grey: {
-                rowId: `${row.rowId}-grey`,
-                hue: row.hue,
-                label: row.rowId === "primary" ? "Gray" : (greyLabelByParent[row.rowId] ?? "Gray")
-            }
-        }));
+    // Order: secondary-grey, primary-grey, tertiary-grey
+    const rows: { rowId: string; hue: number; label: string }[] = [];
+
+    for (const row of orderedRows.value) {
+        if (!isUnlocked(row.rowId)) continue;
+        rows.push({
+            rowId: `${row.rowId}-grey`,
+            hue: row.hue,
+            label: row.rowId === "primary" ? primaryGreyName.value : (greyLabelByParent[row.rowId] ?? "Gray")
+        });
+    }
+
+    return rows;
 });
 
 /** The actual lightness value of the marked swatch */

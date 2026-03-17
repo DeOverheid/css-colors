@@ -103,45 +103,48 @@
         --grey-lightness-900: 11.08%;
         --grey-lightness-950: 4.17%;
 
-        /* Composed neutral palette — hue from primary, per-shade saturation & lightness */
+        /* UI neutral hue — set by JS based on tone selection (default = primary hue) */
+        --ui-neutral-hue: var(--hue-slider-value);
+
+        /* Composed neutral palette — hue from tone selection, per-shade saturation & lightness */
         --ui-color-neutral-50: hsl(
-            var(--hue-slider-value) var(--grey-saturation-50)
+            var(--ui-neutral-hue) var(--grey-saturation-50)
                 var(--grey-lightness-50)
         );
         --ui-color-neutral-100: hsl(
-            var(--hue-slider-value) var(--grey-saturation-100)
+            var(--ui-neutral-hue) var(--grey-saturation-100)
                 var(--grey-lightness-100)
         );
         --ui-color-neutral-200: hsl(
-            var(--hue-slider-value) var(--grey-saturation-200)
+            var(--ui-neutral-hue) var(--grey-saturation-200)
                 var(--grey-lightness-200)
         );
         --ui-color-neutral-300: hsl(
-            var(--hue-slider-value) var(--grey-saturation-300)
+            var(--ui-neutral-hue) var(--grey-saturation-300)
                 var(--grey-lightness-300)
         );
         --ui-color-neutral-400: hsl(
-            var(--hue-slider-value) var(--grey-saturation-400)
+            var(--ui-neutral-hue) var(--grey-saturation-400)
                 var(--grey-lightness-400)
         );
         --ui-color-neutral-500: hsl(
-            var(--hue-slider-value) var(--grey-saturation-500)
+            var(--ui-neutral-hue) var(--grey-saturation-500)
                 var(--grey-lightness-500)
         );
         --ui-color-neutral-600: hsl(
-            var(--hue-slider-value) var(--grey-saturation-600)
+            var(--ui-neutral-hue) var(--grey-saturation-600)
                 var(--grey-lightness-600)
         );
         --ui-color-neutral-700: hsl(
-            var(--hue-slider-value) var(--grey-saturation-700)
+            var(--ui-neutral-hue) var(--grey-saturation-700)
                 var(--grey-lightness-700)
         );
         --ui-color-neutral-800: hsl(
-            var(--hue-slider-value) var(--grey-saturation-800)
+            var(--ui-neutral-hue) var(--grey-saturation-800)
                 var(--grey-lightness-800)
         );
         --ui-color-neutral-900: hsl(
-            var(--hue-slider-value) var(--grey-saturation-900)
+            var(--ui-neutral-hue) var(--grey-saturation-900)
                 var(--grey-lightness-900)
         );
         --ui-color-neutral-950: hsl(

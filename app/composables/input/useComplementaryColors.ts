@@ -1,6 +1,9 @@
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { closestGreyName } from "~/composables/utils/closestGreyName";
 
+/** Which grey tone feeds the app's UI neutral palette */
+export type UiToneSource = "primary" | "secondary" | "tertiary" | "neutral";
+
 /**
  * Complementary Colors
  * Computes secondary and tertiary hues by offsetting from the primary hue.
@@ -11,11 +14,16 @@ import { closestGreyName } from "~/composables/utils/closestGreyName";
  *
  * Also computes tinted-grey companion labels for each color row,
  * using the closest Tailwind grey palette name for the given hue.
+ *
+ * Manages `uiToneSource` — which grey tone drives the app's UI neutral palette.
  */
 export function useComplementaryColors() {
     const colorSettings = useColorSettings();
 
     const hueOffset = useState<number>("complementary-hue-offset", () => 120);
+
+    /** Which grey tone is selected as the app's UI background color */
+    const uiToneSource = useState<UiToneSource>("ui-tone-source", () => "neutral");
 
     const primaryHue = computed(() => colorSettings.hue.value);
 
@@ -27,6 +35,13 @@ export function useComplementaryColors() {
     const showTertiary = computed(() => {
         const abs = Math.abs(hueOffset.value);
         return abs > 0 && abs < 180;
+    });
+
+    // If tertiary is hidden but tone was set to tertiary, fall back to neutral
+    watch(showTertiary, (visible) => {
+        if (!visible && uiToneSource.value === "tertiary") {
+            uiToneSource.value = "neutral";
+        }
     });
 
     /** Closest TW grey name for each color hue */
@@ -78,8 +93,55 @@ export function useComplementaryColors() {
         return rows;
     });
 
+    /**
+     * The hue value for the selected UI tone.
+     * - primary/secondary/tertiary → the corresponding chromatic hue
+     * - neutral → -1 (signals saturation=0, hue irrelevant)
+     */
+    const uiToneHue = computed((): number => {
+        switch (uiToneSource.value) {
+            case "secondary": return secondaryHue.value;
+            case "tertiary": return tertiaryHue.value;
+            case "neutral": return -1;
+            default: return primaryHue.value;
+        }
+    });
+
+    /**
+     * Label for the currently selected UI tone.
+     */
+    const uiToneLabel = computed((): string => {
+        switch (uiToneSource.value) {
+            case "secondary": return secondaryGreyName.value;
+            case "tertiary": return tertiaryGreyName.value;
+            case "neutral": return "Neutral";
+            default: return primaryGreyName.value;
+        }
+    });
+
+    /**
+     * Available tone options based on current state.
+     * Neutral first, then chromatic tones with "Name (role hue)" labels.
+     * Tertiary is only available when showTertiary is true.
+     */
+    const availableTones = computed(() => {
+        const tones: { value: UiToneSource; label: string; hue: number }[] = [
+            { value: "neutral", label: "Neutral", hue: -1 },
+            { value: "secondary", label: `${secondaryGreyName.value} (secondary hue)`, hue: secondaryHue.value },
+            { value: "primary", label: `${primaryGreyName.value} (primary hue)`, hue: primaryHue.value }
+        ];
+        if (showTertiary.value) {
+            tones.push({ value: "tertiary", label: `${tertiaryGreyName.value} (tertiary hue)`, hue: tertiaryHue.value });
+        }
+        return tones;
+    });
+
     return {
         hueOffset,
+        uiToneSource,
+        uiToneHue,
+        uiToneLabel,
+        availableTones,
         primaryHue,
         secondaryHue,
         tertiaryHue,
