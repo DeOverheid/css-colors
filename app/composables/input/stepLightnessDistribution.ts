@@ -1,33 +1,28 @@
 /**
  * Step: Lightness Distribution
- * Handles bezier curve control points for lightness mapping
+ * Handles bezier curve control points for lightness mapping.
+ * Stores per-theme bezier state so user edits are preserved when switching themes.
  */
 import { generateLightnessSteps } from "~/composables/utils/bezierCurve";
+import { themes } from "~/composables/themes";
+import type { BezierCurve } from "~/composables/themes/lib/types";
 
 export function stepLightnessDistribution() {
-    const { currentTheme } = useThemes();
+    const { currentTheme, currentThemeId } = useThemes();
 
-    // Bezier control points (initialized from current theme)
-    const x1 = useState("bezier-x1", () => currentTheme.value.bezier.x1);
-    const y1 = useState("bezier-y1", () => currentTheme.value.bezier.y1);
-    const x2 = useState("bezier-x2", () => currentTheme.value.bezier.x2);
-    const y2 = useState("bezier-y2", () => currentTheme.value.bezier.y2);
-
-    // Watch for theme changes and update bezier values
-    watch(currentTheme, (newTheme) => {
-        x1.value = newTheme.bezier.x1;
-        y1.value = newTheme.bezier.y1;
-        x2.value = newTheme.bezier.x2;
-        y2.value = newTheme.bezier.y2;
+    // Per-theme bezier state (preserves user edits per theme, same pattern as stepHueSpectrum)
+    const perThemeBezier = useState<Record<string, BezierCurve>>("per-theme-bezier", () => {
+        const state: Record<string, BezierCurve> = {};
+        for (const theme of themes) {
+            state[theme.id] = { ...theme.bezier };
+        }
+        return state;
     });
 
     /** Convenience computed: current bezier as a plain object */
-    const bezierValues = computed(() => ({
-        x1: x1.value,
-        y1: y1.value,
-        x2: x2.value,
-        y2: y2.value
-    }));
+    const bezierValues = computed(() => {
+        return perThemeBezier.value[currentThemeId.value] ?? currentTheme.value.bezier;
+    });
 
     /** Grayscale bezier (falls back to main bezier when theme has none) */
     const grayscaleBezierValues = computed(() => {
@@ -61,27 +56,20 @@ export function stepLightnessDistribution() {
     const fullGrayscaleLightnessSteps = computed(() => [0, ...grayscaleLightnessSteps.value, 100]);
 
     /**
-     * Update bezier values
+     * Update bezier values for the current theme
      */
     function updateBezier(values: { x1: number; y1: number; x2: number; y2: number }) {
-        x1.value = values.x1;
-        y1.value = values.y1;
-        x2.value = values.x2;
-        y2.value = values.y2;
+        perThemeBezier.value[currentThemeId.value] = { ...values };
     }
 
     /**
-     * Reset to theme defaults
+     * Reset current theme's bezier to its defaults
      */
     function resetToThemeDefaults() {
-        x1.value = currentTheme.value.bezier.x1;
-        y1.value = currentTheme.value.bezier.y1;
-        x2.value = currentTheme.value.bezier.x2;
-        y2.value = currentTheme.value.bezier.y2;
+        perThemeBezier.value[currentThemeId.value] = { ...currentTheme.value.bezier };
     }
 
     return {
-        bezier: { x1, y1, x2, y2 },
         bezierValues,
         grayscaleBezierValues,
         lightnessSteps,

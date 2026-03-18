@@ -80,7 +80,7 @@ const markerIndex = computed(() => {
 });
 
 /** Per-swatch grey saturation array following TW distribution, scaled by saturation slider */
-const greySaturations = computed(() => greySaturationSteps(props.saturation));
+const greySaturations = computed(() => greySaturationSteps(props.saturation, props.totalSteps));
 
 const chromaticLabels: Record<string, string> = {
     primary: "Primary",

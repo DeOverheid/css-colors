@@ -14,8 +14,6 @@ const MAX_SATURATION = 25;
 /** Saturation at the lightest swatch when slider = 100 */
 const MIN_SATURATION = 3;
 
-const TOTAL_STEPS = 13;
-
 /**
  * Evaluate a cubic bezier curve at parameter t (0–1).
  * Control points: P0=(0,0), P1=(x1,y1), P2=(x2,y2), P3=(1,1).
@@ -42,10 +40,10 @@ function cubicBezierY(x1: number, y1: number, x2: number, y2: number, x: number)
 }
 
 /**
- * Generate 13 saturation values using a bezier curve (dark → light),
+ * Generate saturation values using a bezier curve (dark → light),
  * scaled by the user's saturation slider (0–100).
  *
- * Index 0 = black (highest saturation), index 12 = white (lowest saturation).
+ * Index 0 = black (highest saturation), last index = white (lowest saturation).
  * Curve: cubic-bezier(0.80, 0.00, 0.50, 1.00) — flat in mids, steep in darks.
  *
  * Output range: MIN_SATURATION → MAX_SATURATION, both scaled by slider.
@@ -53,15 +51,16 @@ function cubicBezierY(x1: number, y1: number, x2: number, y2: number, x: number)
  * At slider 0: 0% → 0%.
  *
  * @param sliderValue - The saturation slider value (0–100)
- * @returns Array of 13 saturation percentages
+ * @param totalSteps - Total number of steps including endpoints (default 13)
+ * @returns Array of totalSteps saturation percentages
  */
-export function greySaturationSteps(sliderValue: number): number[] {
+export function greySaturationSteps(sliderValue: number, totalSteps = 13): number[] {
     const fraction = sliderValue / 100;
     const max = fraction * MAX_SATURATION;
     const min = fraction * MIN_SATURATION;
-    return Array.from({ length: TOTAL_STEPS }, (_, i) => {
-        // t: 1 at darkest (i=0), 0 at lightest (i=12)
-        const t = 1 - i / (TOTAL_STEPS - 1);
+    return Array.from({ length: totalSteps }, (_, i) => {
+        // t: 1 at darkest (i=0), 0 at lightest (i=last)
+        const t = 1 - i / (totalSteps - 1);
         const curved = cubicBezierY(0.80, 0.00, 0.50, 1.00, t);
         return Math.round((min + curved * (max - min)) * 100) / 100;
     });
