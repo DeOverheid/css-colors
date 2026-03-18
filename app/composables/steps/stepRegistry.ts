@@ -39,7 +39,7 @@ export const steps: StepDefinition[] = [
     {
         id: "select-theme",
         title: "Select Theme",
-        description: "Choose a color system theme — Tailwind, Mathematical, or your own custom preset",
+        description: "Pick a color system preset. Use Save Custom in the bottom-right to store your tweaks.",
         inputComponent: "ThemeSelector"
     },
     {

@@ -34,16 +34,6 @@
                 {{ colorSettings.saturation.value }}%
             </div>
         </div>
-
-        <div class="color-preview swatch__group">
-            <div class="preview-swatches swatch__row">
-                <span class="preview-label swatch__label">Primary</span>
-                <span
-                    class="preview-swatch swatch__cell"
-                    :style="{ background: `hsl(${colorSettings.hue.value}, ${colorSettings.saturation.value}%, ${colorSettings.lightness.value}%)` }" />
-                <span class="preview-value swatch__value">{{ colorSettings.hue.value }}°</span>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -105,42 +95,5 @@ function handleColorInput() {
 
 .input-field {
     width: 100%;
-}
-
-.color-preview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.preview-swatches {
-    display: flex;
-    align-items: center;
-    gap: 0;
-}
-
-.preview-swatch {
-    width: 360px;
-    height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.preview-label {
-    font-family: var(--font-family-header);
-    font-weight: 600;
-    color: var(--ui-text-muted);
-    font-size: 0.75rem;
-    padding: 0 0.5rem;
-    white-space: nowrap;
-}
-
-.preview-value {
-    font-family: var(--font-family-header);
-    font-variant-numeric: tabular-nums;
-    color: var(--ui-text-muted);
-    font-size: 0.75rem;
-    padding: 0 0.5rem;
-    white-space: nowrap;
 }
 </style>

@@ -45,14 +45,9 @@
             </div>
         </div>
 
-        <div class="input-row">
+        <div class="input-row input-row--tone">
             <label class="input-label">UI Tone</label>
-            <RadioSelector
-                :model-value="uiToneSource"
-                name="ui-tone"
-                :options="toneOptions"
-                @update:model-value="uiToneSource = $event as UiToneSource"
-            />
+            <RadioSelector :model-value="uiToneSource" name="ui-tone" :options="toneOptions" @update:model-value="uiToneSource = $event as UiToneSource" />
         </div>
     </div>
 </template>
@@ -107,6 +102,16 @@ const thumbColor = computed(() => {
     grid-template-columns: var(--label-column-width, 80px) 1fr var(--label-column-width, 80px);
     gap: 1rem;
     align-items: center;
+}
+
+.input-row--tone {
+    grid-template-columns: var(--label-column-width, 80px) 1fr;
+    align-items: start;
+}
+
+.input-row--tone .input-label {
+    padding-top: 0.25rem;
+    line-height: 1.5;
 }
 
 .input-label {
