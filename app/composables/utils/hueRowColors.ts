@@ -41,6 +41,7 @@ export function formatOffset(value: number): string {
 /**
  * Adjust lightness based on:
  * 1. Entry's lightnessOffset (per-color adjustment, scaled by distance from extremes)
+ *    — currently disabled; uniform offset handles this instead
  * 2. Hue-based lightness compensation via applyAdjustment callback
  */
 export function getAdjustedLightness(
@@ -53,13 +54,14 @@ export function getAdjustedLightness(
 ): number {
     let adjusted = lightness;
 
-    if (lightnessOffset !== 0) {
-        // Scale offset based on distance from extremes (0 and 100)
-        // Maximum effect at lightness 50, tapering to 0 at extremes
-        const distanceFromExtreme = Math.min(lightness, 100 - lightness) / 50;
-        const multiplier = 1 + (lightnessOffset / 100) * distanceFromExtreme;
-        adjusted = Math.max(0, Math.min(100, adjusted * multiplier));
-    }
+    // Per-hue lightnessOffset is preserved but not applied.
+    // Uniform dark/light offset (applyUniformLightnessOffset) replaces this.
+    // To re-enable: uncomment the block below.
+    // if (lightnessOffset !== 0) {
+    //     const distanceFromExtreme = Math.min(lightness, 100 - lightness) / 50;
+    //     const multiplier = 1 + (lightnessOffset / 100) * distanceFromExtreme;
+    //     adjusted = Math.max(0, Math.min(100, adjusted * multiplier));
+    // }
 
     return applyAdjustment(adjusted, hue, index, totalSteps);
 }

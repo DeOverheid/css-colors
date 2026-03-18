@@ -12,7 +12,8 @@
                 :min="offsetRange.min"
                 :max="offsetRange.max"
                 class="offset-slider"
-                @input="$emit('update:darkOffset', Number(($event.target as HTMLInputElement).value))">
+                @input="$emit('update:darkOffset', Number(($event.target as HTMLInputElement).value))"
+            >
         </div>
 
         <!-- Dark offset value -->
@@ -26,7 +27,8 @@
                     :key="item.originalIndex"
                     :hue="hueForStep(item.originalIndex)"
                     :saturation="adjustedSaturation(item.originalIndex)"
-                    :lightness="adjustedLightness(item.step, item.originalIndex)" />
+                    :lightness="adjustedLightness(item.step, item.originalIndex)"
+                />
             </div>
         </div>
 
@@ -45,7 +47,8 @@
                 :min="offsetRange.min"
                 :max="offsetRange.max"
                 class="offset-slider"
-                @input="$emit('update:lightOffset', Number(($event.target as HTMLInputElement).value))">
+                @input="$emit('update:lightOffset', Number(($event.target as HTMLInputElement).value))"
+            >
         </div>
     </div>
 </template>
@@ -53,7 +56,9 @@
 <script setup lang="ts">
 import type { HueEntry } from "~/composables/input/stepHueSpectrum";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
+import { stepUniformLightnessOffset } from "~/composables/input/stepUniformLightnessOffset";
 import { getHueForStep, formatOffset, getAdjustedLightness, getAdjustedSaturation } from "~/composables/utils/hueRowColors";
+import { applyUniformLightnessOffset } from "~/composables/utils/lightnessOffset";
 
 const props = defineProps<{
     entry: HueEntry;
@@ -70,6 +75,7 @@ defineEmits<{
 }>();
 
 const { applyAdjustment } = useLightnessAdjustment();
+const { darkOffset: uniformDark, lightOffset: uniformLight } = stepUniformLightnessOffset();
 
 const totalSteps = computed(() => props.lightnessSteps.length);
 
@@ -88,7 +94,8 @@ function hueForStep(index: number): number {
 
 function adjustedLightness(lightness: number, index: number): number {
     const hue = hueForStep(index);
-    return getAdjustedLightness(lightness, index, totalSteps.value, props.entry.lightnessOffset ?? 0, hue, applyAdjustment);
+    const withOffset = applyUniformLightnessOffset(lightness, uniformDark.value, uniformLight.value);
+    return getAdjustedLightness(withOffset, index, totalSteps.value, props.entry.lightnessOffset ?? 0, hue, applyAdjustment);
 }
 
 function adjustedSaturation(index: number): number {
