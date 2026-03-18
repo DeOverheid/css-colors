@@ -44,8 +44,6 @@ export const customTheme: ThemeConfig = {
     name: "Custom",
     totalSteps: 13,
     swatchLabels: ["0", "950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50", "1000"],
-    lightnessMin: 29,
-    lightnessMax: 97,
     bezier: {
         x1: 0.46,
         y1: 0.13,
@@ -61,6 +59,10 @@ export const customTheme: ThemeConfig = {
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
+    defaultRainbowDarkShift: 30,
+    defaultRainbowLightShift: 0,
+    defaultGreyDarkShift: 30,
+    defaultGreyLightShift: 0,
     description: "Standard custom CSS color scale with 50-950 naming"
 };
 

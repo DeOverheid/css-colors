@@ -52,6 +52,10 @@ export const mathematicalTheme: ThemeConfig = {
         y2: 0.94
     },
     lightnessAdjustment: { ...DEFAULT_LIGHTNESS_ADJUSTMENT, enabled: true },
+    defaultRainbowDarkShift: 0,
+    defaultRainbowLightShift: 0,
+    defaultGreyDarkShift: 0,
+    defaultGreyLightShift: 0,
     description: "Simple sequential numbering with visually even distributed lightness"
 };
 

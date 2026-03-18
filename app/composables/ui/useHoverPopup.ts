@@ -25,6 +25,7 @@ import type { DirectiveBinding, ObjectDirective } from "vue";
 interface PopupState {
     el: HTMLElement;
     popup: HTMLElement;
+    binding: DirectiveBinding;
     onEnter: (e: MouseEvent) => void;
     onMove: (e: MouseEvent) => void;
     onLeave: () => void;
@@ -99,8 +100,18 @@ function mount(el: HTMLElement, binding: DirectiveBinding) {
 
     const popup = createPopupElement();
 
-    const onEnter = (e: MouseEvent) => {
-        const html = getContent(el, binding);
+    // Store a mutable binding reference so onEnter always reads the latest directive value
+    const state: PopupState = {
+        el,
+        popup,
+        binding,
+        onEnter: null!,
+        onMove: null!,
+        onLeave: null!
+    };
+
+    state.onEnter = (e: MouseEvent) => {
+        const html = getContent(el, state.binding);
         if (!html) return;
         popup.innerHTML = html;
         document.body.appendChild(popup);
@@ -111,11 +122,11 @@ function mount(el: HTMLElement, binding: DirectiveBinding) {
         popup.style.opacity = "1";
     };
 
-    const onMove = (e: MouseEvent) => {
+    state.onMove = (e: MouseEvent) => {
         if (popup.parentNode) positionPopup(popup, e.clientX, e.clientY);
     };
 
-    const onLeave = () => {
+    state.onLeave = () => {
         popup.style.opacity = "0";
         // Remove after transition
         setTimeout(() => {
@@ -123,11 +134,11 @@ function mount(el: HTMLElement, binding: DirectiveBinding) {
         }, 150);
     };
 
-    el.addEventListener("mouseenter", onEnter);
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
+    el.addEventListener("mouseenter", state.onEnter);
+    el.addEventListener("mousemove", state.onMove);
+    el.addEventListener("mouseleave", state.onLeave);
 
-    stateMap.set(el, { el, popup, onEnter, onMove, onLeave });
+    stateMap.set(el, state);
 }
 
 function unmount(el: HTMLElement) {
@@ -141,10 +152,13 @@ function unmount(el: HTMLElement) {
 }
 
 function update(el: HTMLElement, binding: DirectiveBinding) {
-    // On value change, just update content — popup will pick up new value on next hover
+    // On value change, store the latest binding so onEnter reads current content
     if (el.hasAttribute("title")) el.removeAttribute("title");
     const state = stateMap.get(el);
-    if (state && state.popup.parentNode) {
+    if (!state) return;
+    state.binding = binding;
+    // Also update visible popup immediately
+    if (state.popup.parentNode) {
         const html = getContent(el, binding);
         if (html) state.popup.innerHTML = html;
     }

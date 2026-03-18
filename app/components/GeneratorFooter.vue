@@ -30,6 +30,7 @@
                 v-if="showSaveCustom"
                 :disabled="currentThemeId === 'custom'"
                 icon="i-lucide-save"
+                :color="buttonColor"
                 variant="soft"
                 size="xs"
                 @click="handleSaveAsCustom"
@@ -38,7 +39,7 @@
             </UButton>
             <UButton
                 :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
-                :color="isDevModeEnabled ? 'primary' : 'neutral'"
+                :color="isDevModeEnabled ? buttonColor : 'neutral'"
                 variant="soft"
                 size="xs"
                 @click="toggleDevMode"
@@ -74,6 +75,9 @@ const { bezierValues } = stepLightnessDistribution();
 const { isUnlocked } = useSwatchUnlock();
 
 const showSaveCustom = computed(() => isUnlocked('save-custom'));
+
+/** Use secondary color for buttons once complementary colors step is visited */
+const buttonColor = computed(() => isUnlocked('secondary') ? 'secondary' : 'primary');
 
 function handleSaveAsCustom() {
     saveAsCustom(bezierValues.value);

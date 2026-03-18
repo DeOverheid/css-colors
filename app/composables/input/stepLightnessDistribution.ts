@@ -31,7 +31,7 @@ export function stepLightnessDistribution() {
         return currentTheme.value.grayscaleBezier ?? bezierValues.value;
     });
 
-    /** Lightness steps computed from bezier + current theme + squeeze */
+    /** Lightness steps computed from bezier + current theme + rainbow squeeze */
     const lightnessSteps = computed(() => {
         const { darkShift, lightShift } = stepUniformLightnessShift();
         return generateLightnessSteps(
@@ -47,16 +47,16 @@ export function stepLightnessDistribution() {
     /** Full lightness steps including 0 (black) and 100 (white) */
     const fullLightnessSteps = computed(() => [0, ...lightnessSteps.value, 100]);
 
-    /** Grayscale lightness steps (uses grayscaleBezier + grayscale range + squeeze) */
+    /** Grayscale lightness steps (uses grayscaleBezier + grayscale range + grey squeeze) */
     const grayscaleLightnessSteps = computed(() => {
-        const { darkShift, lightShift } = stepUniformLightnessShift();
+        const { greyDarkShift, greyLightShift } = stepUniformLightnessShift();
         return generateLightnessSteps(
             grayscaleBezierValues.value,
             currentTheme.value.totalSteps,
             currentTheme.value.grayscaleLightnessMin ?? 0,
             currentTheme.value.grayscaleLightnessMax ?? 100,
-            sliderToSqueeze(darkShift.value),
-            sliderToSqueeze(lightShift.value)
+            sliderToSqueeze(greyDarkShift.value),
+            sliderToSqueeze(greyLightShift.value)
         );
     });
 

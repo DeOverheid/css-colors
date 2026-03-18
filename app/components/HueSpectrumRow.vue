@@ -12,8 +12,7 @@
                 :min="offsetRange.min"
                 :max="offsetRange.max"
                 class="offset-slider"
-                @input="$emit('update:darkOffset', Number(($event.target as HTMLInputElement).value))"
-            >
+                @input="$emit('update:darkOffset', Number(($event.target as HTMLInputElement).value))">
         </div>
 
         <!-- Dark offset value -->
@@ -27,8 +26,7 @@
                     :key="item.originalIndex"
                     :hue="hueForStep(item.originalIndex)"
                     :saturation="adjustedSaturation(item.originalIndex)"
-                    :lightness="adjustedLightness(item.step, item.originalIndex)"
-                />
+                    :lightness="adjustedLightness(item.step, item.originalIndex)" />
             </div>
         </div>
 
@@ -47,8 +45,7 @@
                 :min="offsetRange.min"
                 :max="offsetRange.max"
                 class="offset-slider"
-                @input="$emit('update:lightOffset', Number(($event.target as HTMLInputElement).value))"
-            >
+                @input="$emit('update:lightOffset', Number(($event.target as HTMLInputElement).value))">
         </div>
     </div>
 </template>

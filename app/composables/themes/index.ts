@@ -65,6 +65,10 @@ export function useThemes() {
         custom.lightnessAdjustment = source.lightnessAdjustment
             ? JSON.parse(JSON.stringify(source.lightnessAdjustment))
             : undefined;
+        custom.defaultRainbowDarkShift = source.defaultRainbowDarkShift;
+        custom.defaultRainbowLightShift = source.defaultRainbowLightShift;
+        custom.defaultGreyDarkShift = source.defaultGreyDarkShift;
+        custom.defaultGreyLightShift = source.defaultGreyLightShift;
         custom.description = `Snapshot based on ${source.name}`;
 
         // Initialize the custom theme's per-theme bezier state

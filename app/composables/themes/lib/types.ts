@@ -62,6 +62,14 @@ export interface ThemeConfig {
     defaultDarkSqueeze?: number;
     /** Default light squeeze slider value (0–100) */
     defaultLightSqueeze?: number;
+    /** Default rainbow (chromatic) dark shift (0–100) */
+    defaultRainbowDarkShift?: number;
+    /** Default rainbow (chromatic) light shift (0–100) */
+    defaultRainbowLightShift?: number;
+    /** Default grey dark shift (0–100) */
+    defaultGreyDarkShift?: number;
+    /** Default grey light shift (0–100) */
+    defaultGreyLightShift?: number;
     /** Description of the theme */
     description?: string;
 }
