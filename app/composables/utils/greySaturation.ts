@@ -8,36 +8,12 @@
  * When slider = 100 → darkest = 25%, lightest = 3%
  * When slider = 0   → all = 0%
  */
+import { getBezierY } from "~/composables/utils/bezierCurve";
 
 /** Saturation at the darkest swatch when slider = 100 */
 const MAX_SATURATION = 25;
 /** Saturation at the lightest swatch when slider = 100 */
 const MIN_SATURATION = 3;
-
-/**
- * Evaluate a cubic bezier curve at parameter t (0–1).
- * Control points: P0=(0,0), P1=(x1,y1), P2=(x2,y2), P3=(1,1).
- * We solve for the Y value at a given X using Newton's method.
- */
-function cubicBezierY(x1: number, y1: number, x2: number, y2: number, x: number): number {
-    // Find t for given x using Newton-Raphson
-    let t = x; // initial guess
-    for (let i = 0; i < 8; i++) {
-        const currentX = 3 * (1 - t) * (1 - t) * t * x1
-            + 3 * (1 - t) * t * t * x2
-            + t * t * t;
-        const dx = 3 * (1 - t) * (1 - t) * x1
-            + 6 * (1 - t) * t * (x2 - x1)
-            + 3 * t * t * (1 - x2);
-        if (Math.abs(dx) < 1e-6) break;
-        t -= (currentX - x) / dx;
-        t = Math.max(0, Math.min(1, t));
-    }
-    // Evaluate Y at t
-    return 3 * (1 - t) * (1 - t) * t * y1
-        + 3 * (1 - t) * t * t * y2
-        + t * t * t;
-}
 
 /**
  * Generate saturation values using a bezier curve (dark → light),
@@ -61,7 +37,7 @@ export function greySaturationSteps(sliderValue: number, totalSteps = 13): numbe
     return Array.from({ length: totalSteps }, (_, i) => {
         // t: 1 at darkest (i=0), 0 at lightest (i=last)
         const t = 1 - i / (totalSteps - 1);
-        const curved = cubicBezierY(0.80, 0.00, 0.50, 1.00, t);
+        const curved = getBezierY(t, 0.80, 0.00, 0.50, 1.00);
         return Math.round((min + curved * (max - min)) * 100) / 100;
     });
 }
