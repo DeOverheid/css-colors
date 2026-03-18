@@ -3,8 +3,7 @@
         <fieldset class="radio-selector__fieldset">
             <legend
                 v-if="legend"
-                class="radio-selector__legend"
-            >
+                class="radio-selector__legend">
                 {{ legend }}
             </legend>
             <label
@@ -12,21 +11,18 @@
                 :key="option.value"
                 class="radio-selector__option"
                 :class="{ 'radio-selector__option--active': modelValue === option.value }"
-                :title="option.title"
-            >
+                :title="option.title">
                 <input
                     type="radio"
                     :name="name"
                     :value="option.value"
                     :checked="modelValue === option.value"
                     class="radio-selector__input"
-                    @change="$emit('update:modelValue', option.value)"
-                >
+                    @change="$emit('update:modelValue', option.value)">
                 <span
                     v-if="option.swatch"
                     class="radio-selector__swatch"
-                    :style="{ background: option.swatch }"
-                />
+                    :style="{ background: option.swatch }" />
                 <span class="radio-selector__label">{{ option.label }}</span>
             </label>
         </fieldset>
