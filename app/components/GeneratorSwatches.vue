@@ -4,8 +4,7 @@
         <div class="swatch-group swatch__group swatch__group--chromatic">
             <template
                 v-for="row in chromaticRows"
-                :key="row.rowId"
-            >
+                :key="row.rowId">
                 <div class="swatch-row swatch__row swatch__row--chromatic">
                     <div class="swatch-row-label swatch__label">
                         {{ row.label }}
@@ -17,8 +16,7 @@
                         :total-steps="totalSteps"
                         :show-marker="row.rowId === 'primary'"
                         :marker-index="row.rowId === 'primary' ? markerIndex : undefined"
-                        class="swatch-row-swatches"
-                    />
+                        class="swatch-row-swatches" />
                     <div class="swatch-row-value swatch__value">
                         {{ row.hue }}°
                     </div>
@@ -27,14 +25,8 @@
         </div>
 
         <!-- Grey companion rows: sec. grey, primary grey, tert. grey -->
-        <div
-            v-if="greyRows.length > 0"
-            class="swatch-group swatch__group swatch__group--grey"
-        >
-            <template
-                v-for="row in greyRows"
-                :key="row.rowId"
-            >
+        <div v-if="greyRows.length > 0" class="swatch-group swatch__group swatch__group--grey">
+            <template v-for="row in greyRows" :key="row.rowId">
                 <div class="swatch-row swatch__row swatch__row--grey">
                     <div class="swatch-row-label swatch__label">
                         {{ row.label }}
@@ -44,28 +36,18 @@
                         :saturation="greySaturations"
                         :lightness-steps="greyLightnessSteps"
                         :total-steps="totalSteps"
-                        class="swatch-row-swatches"
-                    />
+                        class="swatch-row-swatches" />
                 </div>
             </template>
         </div>
 
         <!-- Neutral row (always last) -->
-        <div
-            v-if="isUnlocked('neutral')"
-            class="swatch-group swatch__group swatch__group--neutral"
-        >
+        <div v-if="isUnlocked('neutral')" class="swatch-group swatch__group swatch__group--neutral">
             <div class="swatch-row swatch__row swatch__row--neutral">
                 <div class="swatch-row-label swatch__label">
                     Neutral
                 </div>
-                <ColorSwatchRow
-                    :hue="hue"
-                    :saturation="0"
-                    :lightness-steps="greyLightnessSteps"
-                    :total-steps="totalSteps"
-                    class="swatch-row-swatches"
-                />
+                <ColorSwatchRow :hue="hue" :saturation="0" :lightness-steps="greyLightnessSteps" :total-steps="totalSteps" class="swatch-row-swatches" />
             </div>
         </div>
     </section>
@@ -98,7 +80,7 @@ const markerIndex = computed(() => {
 });
 
 /** Per-swatch grey saturation array following TW distribution, scaled by saturation slider */
-const greySaturations = computed(() => greySaturationSteps(props.saturation));
+const greySaturations = computed(() => greySaturationSteps(props.saturation, props.totalSteps));
 
 const chromaticLabels: Record<string, string> = {
     primary: "Primary",

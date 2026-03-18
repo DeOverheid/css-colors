@@ -1,4 +1,4 @@
-import type { ThemeConfig } from "./lib/types";
+import type { BezierCurve, ThemeConfig } from "./lib/types";
 import { tailwindTheme } from "./lib/tailwind";
 import { mathematicalTheme } from "./lib/mathematical";
 import { customTheme } from "./lib/custom";
@@ -43,10 +43,44 @@ export function useThemes() {
         }
     }
 
+    /**
+     * Snapshot the current state into the custom theme slot.
+     * Takes the user-edited bezier (from stepLightnessDistribution's per-theme state)
+     * and copies the rest from the current theme config.
+     * Switches to the custom theme after saving.
+     */
+    function saveAsCustom(bezier: BezierCurve) {
+        const source = currentTheme.value;
+        const custom = themes.find(t => t.id === "custom");
+        if (!custom) return;
+
+        custom.totalSteps = source.totalSteps;
+        custom.swatchLabels = [...source.swatchLabels];
+        custom.bezier = { ...bezier };
+        custom.grayscaleBezier = source.grayscaleBezier ? { ...source.grayscaleBezier } : undefined;
+        custom.lightnessMin = source.lightnessMin;
+        custom.lightnessMax = source.lightnessMax;
+        custom.grayscaleLightnessMin = source.grayscaleLightnessMin;
+        custom.grayscaleLightnessMax = source.grayscaleLightnessMax;
+        custom.lightnessAdjustment = source.lightnessAdjustment
+            ? JSON.parse(JSON.stringify(source.lightnessAdjustment))
+            : undefined;
+        custom.description = `Snapshot based on ${source.name}`;
+
+        // Initialize the custom theme's per-theme bezier state
+        const perThemeBezier = useState<Record<string, BezierCurve>>("per-theme-bezier");
+        if (perThemeBezier.value) {
+            perThemeBezier.value.custom = { ...bezier };
+        }
+
+        currentThemeId.value = "custom";
+    }
+
     return {
         currentThemeId,
         currentTheme,
         availableThemes,
-        setTheme
+        setTheme,
+        saveAsCustom
     };
 }

@@ -37,6 +37,12 @@ export const steps: StepDefinition[] = [
         unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
     },
     {
+        id: "select-theme",
+        title: "Select Theme",
+        description: "Pick a color system preset. Use Save Custom in the bottom-right to store your tweaks.",
+        inputComponent: "ThemeSelector"
+    },
+    {
         id: "lightness-distribution",
         title: "Lightness Distribution",
         description: "Adjust the bezier curve to control lightness distribution",

@@ -45,14 +45,9 @@
             </div>
         </div>
 
-        <div class="input-row">
+        <div class="input-row input-row--tone">
             <label class="input-label">UI Tone</label>
-            <div class="tone-picker">
-                <button v-for="tone in availableTones" :key="tone.value" class="tone-option" :class="{ 'tone-option--active': uiToneSource === tone.value }" :style="{ '--tone-bg': toneSwatchColor(tone) }" @click="uiToneSource = tone.value">
-                    <span class="tone-swatch" />
-                    <span class="tone-label">{{ tone.label }}</span>
-                </button>
-            </div>
+            <RadioSelector :model-value="uiToneSource" name="ui-tone" :options="toneOptions" @update:model-value="uiToneSource = $event as UiToneSource" />
         </div>
     </div>
 </template>
@@ -60,6 +55,7 @@
 <script setup lang="ts">
 import { useComplementaryColors, type UiToneSource } from "~/composables/input/useComplementaryColors";
 import { useColorSettings } from "~/composables/core/useColorSettings";
+import type { RadioOption } from "~/components/RadioSelector.vue";
 
 const colorSettings = useColorSettings();
 const { hueOffset, secondaryHue, tertiaryHue, showTertiary, uiToneSource, availableTones } = useComplementaryColors();
@@ -67,6 +63,15 @@ const { hueOffset, secondaryHue, tertiaryHue, showTertiary, uiToneSource, availa
 const primaryHue = computed(() => colorSettings.hue.value);
 const saturation = computed(() => colorSettings.saturation.value);
 const lightness = computed(() => colorSettings.lightness.value);
+
+/** Map tone data to RadioSelector options */
+const toneOptions = computed<RadioOption[]>(() =>
+    availableTones.value.map(tone => ({
+        value: tone.value,
+        label: tone.label,
+        swatch: tone.value === "neutral" ? "hsl(0, 0%, 46%)" : `hsl(${tone.hue}, 10%, 46%)`
+    }))
+);
 
 /** Track gradient: primary hue in center (offset 0), offset ±180 at edges */
 const trackGradient = computed(() => {
@@ -82,12 +87,6 @@ const trackGradient = computed(() => {
 const thumbColor = computed(() => {
     return `hsl(${secondaryHue.value}, 80%, 50%)`;
 });
-
-/** Swatch color for a tone option (mid-shade preview) */
-function toneSwatchColor(tone: { value: UiToneSource; hue: number }) {
-    if (tone.value === "neutral") return `hsl(0, 0%, 46%)`;
-    return `hsl(${tone.hue}, 10%, 46%)`;
-}
 </script>
 
 <style scoped>
@@ -103,6 +102,16 @@ function toneSwatchColor(tone: { value: UiToneSource; hue: number }) {
     grid-template-columns: var(--label-column-width, 80px) 1fr var(--label-column-width, 80px);
     gap: 1rem;
     align-items: center;
+}
+
+.input-row--tone {
+    grid-template-columns: var(--label-column-width, 80px) 1fr;
+    align-items: start;
+}
+
+.input-row--tone .input-label {
+    padding-top: 0.25rem;
+    line-height: 1.5;
 }
 
 .input-label {
@@ -207,47 +216,5 @@ function toneSwatchColor(tone: { value: UiToneSource; hue: number }) {
     font-size: 0.75rem;
     font-style: italic;
     margin: 0;
-}
-
-.tone-picker {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.tone-option {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    border: 1.5px solid var(--ui-border);
-    background: transparent;
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    font-family: var(--font-family-header);
-    font-weight: 600;
-    font-size: 0.75rem;
-    color: var(--ui-text-muted);
-}
-
-.tone-option:hover {
-    border-color: var(--ui-border-hover);
-    background: var(--ui-bg-elevated);
-}
-
-.tone-option--active {
-    border-color: var(--ui-color-primary-400);
-    background: var(--ui-bg-elevated);
-    color: var(--ui-text);
-}
-
-.tone-swatch {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border-radius: 3px;
-    background: var(--tone-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>

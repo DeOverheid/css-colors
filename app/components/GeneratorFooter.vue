@@ -24,8 +24,18 @@
             />
         </div>
 
-        <!-- Right: Dev Mode button (persistent) -->
+        <!-- Right: Save Custom + Dev Mode buttons (persistent) -->
         <div class="footer-right">
+            <UButton
+                v-if="isSelectThemeStep"
+                :disabled="currentThemeId === 'custom'"
+                icon="i-lucide-save"
+                variant="soft"
+                size="xs"
+                @click="handleSaveAsCustom"
+            >
+                Save Custom
+            </UButton>
             <UButton
                 :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
                 :color="isDevModeEnabled ? 'primary' : 'neutral'"
@@ -43,6 +53,8 @@
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useDevMode } from "~/composables/ui/useDevMode";
 import { useSteps } from "~/composables/input/useSteps";
+import { useThemes } from "~/composables/themes";
+import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 import type { Component } from "vue";
 
@@ -56,6 +68,14 @@ const { activeStep } = useStepNavigation();
 const { isDevModeEnabled, toggleDevMode } = useDevMode();
 const { lightnessDistribution } = useSteps();
 const { lightnessSteps } = lightnessDistribution;
+const { currentThemeId, saveAsCustom } = useThemes();
+const { bezierValues } = stepLightnessDistribution();
+
+const isSelectThemeStep = computed(() => activeStep.value.id === "select-theme");
+
+function handleSaveAsCustom() {
+    saveAsCustom(bezierValues.value);
+}
 
 /** Map step footerComponent names to lazy-loaded components */
 const footerComponentMap: Record<string, Component> = {
@@ -127,5 +147,6 @@ const markedSampleLightness = computed(() => {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 0.5rem;
 }
 </style>

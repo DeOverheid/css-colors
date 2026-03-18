@@ -127,11 +127,11 @@ export function useComplementaryColors() {
     const availableTones = computed(() => {
         const tones: { value: UiToneSource; label: string; hue: number }[] = [
             { value: "neutral", label: "Neutral", hue: -1 },
-            { value: "secondary", label: `${secondaryGreyName.value} (secondary hue)`, hue: secondaryHue.value },
-            { value: "primary", label: `${primaryGreyName.value} (primary hue)`, hue: primaryHue.value }
+            { value: "secondary", label: secondaryGreyName.value, hue: secondaryHue.value },
+            { value: "primary", label: primaryGreyName.value, hue: primaryHue.value }
         ];
         if (showTertiary.value) {
-            tones.push({ value: "tertiary", label: `${tertiaryGreyName.value} (tertiary hue)`, hue: tertiaryHue.value });
+            tones.push({ value: "tertiary", label: tertiaryGreyName.value, hue: tertiaryHue.value });
         }
         return tones;
     });
