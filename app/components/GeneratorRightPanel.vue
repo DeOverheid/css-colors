@@ -1,64 +1,61 @@
 <template>
-    <aside class="panel offset-panel">
+    <aside class="panel shift-panel">
         <div
-            v-if="showOffsetSliders"
-            class="offset-slider-wrapper">
+            v-if="showShiftSliders"
+            class="shift-slider-wrapper">
             <label
-                for="uniform-light-offset"
-                class="offset-label">
-                Light offset
+                for="uniform-light-shift"
+                class="shift-label">
+                Light shift
             </label>
             <div class="slider-track-container slider-track-container--rtl">
                 <input
-                    id="uniform-light-offset"
+                    id="uniform-light-shift"
                     type="range"
-                    :value="lightOffset"
+                    :value="lightShift"
                     min="0"
                     max="100"
-                    class="offset-slider offset-slider--light"
+                    class="shift-slider shift-slider--light"
                     :style="{ '--primary-hsl': primaryHsl }"
-                    @input="setLightOffset(Number(($event.target as HTMLInputElement).value))">
+                    @input="setLightShift(Number(($event.target as HTMLInputElement).value))">
             </div>
-            <span class="offset-value">{{ lightOffset }}</span>
+            <span class="shift-value">{{ lightShift }}</span>
         </div>
     </aside>
 </template>
 
 <script setup lang="ts">
-import { stepUniformLightnessOffset } from "~/composables/input/stepUniformLightnessOffset";
+import { stepUniformLightnessShift } from "~/composables/input/stepUniformLightnessShift";
 import { useColorSettings } from "~/composables/core/useColorSettings";
-import { useStepNavigation } from "~/composables/steps/useStepNavigation";
-import { steps } from "~/composables/steps/stepRegistry";
+import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 
-const { lightOffset, setLightOffset } = stepUniformLightnessOffset();
+const { lightShift, setLightShift } = stepUniformLightnessShift();
 const colorSettings = useColorSettings();
-const { activeIndex } = useStepNavigation();
+const { isUnlocked } = useSwatchUnlock();
 
 const primaryHsl = computed(() =>
     `hsl(${colorSettings.hue.value}, ${colorSettings.saturation.value}%, 50%)`
 );
 
-// Show offset sliders from lightness-distribution step onward
-const lightnessStepIndex = steps.findIndex(s => s.id === "lightness-distribution");
-const showOffsetSliders = computed(() => activeIndex.value >= lightnessStepIndex);
+const showShiftSliders = computed(() => isUnlocked('shift-sliders'));
 </script>
 
 <style scoped>
-.offset-panel {
+.shift-panel {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 1rem 0.5rem;
 }
 
-.offset-slider-wrapper {
+.shift-slider-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
 }
 
-.offset-label {
+.shift-label {
     font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -70,7 +67,7 @@ const showOffsetSliders = computed(() => activeIndex.value >= lightnessStepIndex
     width: 100%;
 }
 
-.offset-slider {
+.shift-slider {
     width: 100%;
     height: 8px;
     -webkit-appearance: none;
@@ -79,15 +76,15 @@ const showOffsetSliders = computed(() => activeIndex.value >= lightnessStepIndex
     outline: none;
 }
 
-.offset-slider--light {
-    background: linear-gradient(to right, white, var(--primary-hsl));
+.shift-slider--light {
+    background: linear-gradient(to right, var(--primary-hsl), white);
 }
 
 .slider-track-container--rtl {
     direction: rtl;
 }
 
-.offset-slider::-webkit-slider-thumb {
+.shift-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 18px;
@@ -98,7 +95,7 @@ const showOffsetSliders = computed(() => activeIndex.value >= lightnessStepIndex
     cursor: pointer;
 }
 
-.offset-slider::-moz-range-thumb {
+.shift-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -107,7 +104,7 @@ const showOffsetSliders = computed(() => activeIndex.value >= lightnessStepIndex
     cursor: pointer;
 }
 
-.offset-value {
+.shift-value {
     font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
     opacity: 0.6;

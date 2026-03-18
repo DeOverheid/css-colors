@@ -91,7 +91,7 @@ function hueForStep(index: number): number {
 
 function adjustedLightness(lightness: number, index: number): number {
     const hue = hueForStep(index);
-    return getAdjustedLightness(lightness, index, totalSteps.value, props.entry.lightnessOffset ?? 0, hue, applyAdjustment);
+    return getAdjustedLightness(lightness, index, totalSteps.value, 0, hue, applyAdjustment);
 }
 
 function adjustedSaturation(index: number): number {

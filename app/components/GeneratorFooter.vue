@@ -27,7 +27,7 @@
         <!-- Right: Save Custom + Dev Mode buttons (persistent) -->
         <div class="footer-right">
             <UButton
-                v-if="isSelectThemeStep"
+                v-if="showSaveCustom"
                 :disabled="currentThemeId === 'custom'"
                 icon="i-lucide-save"
                 variant="soft"
@@ -56,6 +56,7 @@ import { useSteps } from "~/composables/input/useSteps";
 import { useThemes } from "~/composables/themes";
 import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
+import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import type { Component } from "vue";
 
 const props = defineProps<{
@@ -70,8 +71,9 @@ const { lightnessDistribution } = useSteps();
 const { lightnessSteps } = lightnessDistribution;
 const { currentThemeId, saveAsCustom } = useThemes();
 const { bezierValues } = stepLightnessDistribution();
+const { isUnlocked } = useSwatchUnlock();
 
-const isSelectThemeStep = computed(() => activeStep.value.id === "select-theme");
+const showSaveCustom = computed(() => isUnlocked('save-custom'));
 
 function handleSaveAsCustom() {
     saveAsCustom(bezierValues.value);
@@ -145,8 +147,8 @@ const markedSampleLightness = computed(() => {
 
 .footer-right {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.375rem;
 }
 </style>

@@ -1,5 +1,5 @@
 import { useLightnessAdjustment } from "./stepLightnessAdjustment";
-import { stepUniformLightnessOffset } from "./stepUniformLightnessOffset";
+import { stepUniformLightnessShift } from "./stepUniformLightnessShift";
 
 /**
  * Steps Orchestrator
@@ -12,14 +12,14 @@ export function useSteps() {
     const lightnessDistribution = stepLightnessDistribution();
     const baseColor = stepBaseColor();
     const lightnessAdjustment = useLightnessAdjustment();
-    const uniformLightnessOffset = stepUniformLightnessOffset();
+    const uniformLightnessShift = stepUniformLightnessShift();
     const hueSpectrum = stepHueSpectrum();
 
     return {
         baseColor,
         lightnessDistribution,
         lightnessAdjustment,
-        uniformLightnessOffset,
+        uniformLightnessShift,
         hueSpectrum
     };
 }

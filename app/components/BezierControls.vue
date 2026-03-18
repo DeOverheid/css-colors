@@ -1,6 +1,8 @@
 <template>
     <div class="step2-title">
         <h2>{{ activeStep.title }}</h2>
+    </div>
+    <div class="step2-text">
         <p>{{ activeStep.description }}</p>
     </div>
     <div class="step2-results">
@@ -17,7 +19,8 @@
                 <span class="bezier-label">CSS:</span>
                 <ClickToCopy
                     :value="`cubic-bezier(${bezierValues.x1.toFixed(2)}, ${bezierValues.y1.toFixed(2)}, ${bezierValues.x2.toFixed(2)}, ${bezierValues.y2.toFixed(2)})`"
-                    class="bezier-css">
+                    class="bezier-css"
+                >
                     cubic-bezier({{ bezierValues.x1.toFixed(2) }}, {{ bezierValues.y1.toFixed(2) }}, {{ bezierValues.x2.toFixed(2) }}, {{ bezierValues.y2.toFixed(2) }})
                 </ClickToCopy>
             </div>
@@ -30,7 +33,8 @@
             :initial-y1="bezierValues.y1"
             :initial-x2="bezierValues.x2"
             :initial-y2="bezierValues.y2"
-            @update="updateBezier" />
+            @update="updateBezier"
+        />
     </div>
 </template>
 
@@ -46,14 +50,27 @@ const { currentThemeId } = useThemes();
 </script>
 
 <style scoped>
+.step2-title {
+    grid-area: title;
+}
+
 .step2-title h2 {
     font-weight: 600;
     margin: 0 0 0.25rem 0;
 }
 
-.step2-title p {
+.step2-text {
+    grid-area: text;
+}
+
+.step2-text p {
     color: var(--ui-text-muted);
     margin: 0;
+}
+
+.step2-results {
+    grid-area: results;
+    padding-left: 15%;
 }
 
 .step2-bezier {

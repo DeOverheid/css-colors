@@ -81,10 +81,11 @@ const inputComponent = computed(() =>
 .generator-input--bezier {
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) 1fr 1fr var(--panel-column-width, 15%);
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto 1fr;
     grid-template-areas:
-        "title  title  bezier  ."
-        ".      results bezier  .";
-    gap: 1rem;
+        "title   title   bezier  ."
+        "text    text    bezier  ."
+        "results results bezier  .";
+    gap: 0.75rem 1rem;
 }
 </style>

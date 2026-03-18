@@ -1,29 +1,29 @@
 /**
- * Swatch Unlock
- * Tracks which swatch rows have been unlocked by visiting steps.
- * Once unlocked, a row stays unlocked even if the user returns to a previous step.
+ * Feature & Swatch Unlock
+ * Tracks which features/rows have been unlocked by visiting steps.
+ * Once unlocked, an item stays unlocked even if the user returns to a previous step.
  */
 import type { StepDefinition } from "./stepRegistry";
 
 export function useSwatchUnlock() {
-    const unlockedRows = useState<string[]>("unlocked-swatch-rows", () => ["primary", "grey", "neutral"]);
+    const unlockedItems = useState<string[]>("unlocked-items", () => ["primary", "grey", "neutral"]);
 
     function visitStep(step: StepDefinition) {
         if (step.unlocks) {
-            for (const row of step.unlocks) {
-                if (!unlockedRows.value.includes(row)) {
-                    unlockedRows.value.push(row);
+            for (const item of step.unlocks) {
+                if (!unlockedItems.value.includes(item)) {
+                    unlockedItems.value.push(item);
                 }
             }
         }
     }
 
-    function isUnlocked(rowId: string): boolean {
-        return unlockedRows.value.includes(rowId);
+    function isUnlocked(itemId: string): boolean {
+        return unlockedItems.value.includes(itemId);
     }
 
     return {
-        unlockedRows,
+        unlockedRows: unlockedItems,
         visitStep,
         isUnlocked
     };
