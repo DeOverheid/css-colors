@@ -65,6 +65,8 @@ export const tailwindTheme: ThemeConfig = {
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
+    defaultDarkSqueeze: 0,
+    defaultLightSqueeze: 0,
     description: "Standard Tailwind CSS color scale with 50-950 naming"
 };
 

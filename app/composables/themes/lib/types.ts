@@ -58,6 +58,10 @@ export interface ThemeConfig {
     grayscaleLightnessMax?: number;
     /** Hue-based lightness compensation settings */
     lightnessAdjustment?: LightnessAdjustmentConfig;
+    /** Default dark squeeze slider value (0–100) */
+    defaultDarkSqueeze?: number;
+    /** Default light squeeze slider value (0–100) */
+    defaultLightSqueeze?: number;
     /** Description of the theme */
     description?: string;
 }

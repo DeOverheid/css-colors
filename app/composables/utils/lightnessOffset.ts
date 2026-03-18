@@ -1,42 +1,41 @@
 /**
- * Uniform Lightness Offset
+ * Lightness Squeeze
  *
- * Pure functions for applying a uniform dark/light offset to bezier-distributed
- * lightness values. Both offsets use a tapering effect so they have maximum
- * impact at mid-lightness and zero impact at the extremes (0 and 100).
+ * Squeezes the X-axis input to the bezier curve, narrowing the range
+ * of the curve that gets sampled. This produces a tighter lightness
+ * distribution without changing the curve shape.
  *
- * Dark offset: subtracts lightness (pushes swatches darker)
- * Light offset: adds lightness (pushes swatches lighter)
+ * Dark squeeze: shifts X start away from 0 — darkest swatch gets a brighter result
+ * Light squeeze: shifts X end away from 1 — lightest swatch gets a darker result
  *
- * This runs on top of the bezier distribution — it provides adjustments
- * the bezier curve alone cannot achieve.
+ * Slider 0 = no squeeze, 100 = max squeeze (0.5 of the bezier X range).
  */
+
+/** Maximum X-axis squeeze per side when slider is at 100 */
+const MAX_SQUEEZE = 0.5;
 
 /**
- * Apply uniform dark and light lightness offsets to a single lightness value.
+ * Remap an X value (0–1) into a squeezed sub-range of the bezier X-axis.
  *
- * The taper ensures no effect at L=0 or L=100, with maximum effect at L=50.
- * Dark offset darkens (subtracts), light offset brightens (adds).
- *
- * @param lightness - Base lightness from bezier distribution (0–100)
- * @param darkOffset - How much to darken (0 = none, 100 = maximum)
- * @param lightOffset - How much to lighten (0 = none, 100 = maximum)
- * @returns Adjusted lightness (0–100)
+ * @param x - Original evenly-spaced X value (0–1)
+ * @param darkSqueeze - How much to squeeze the dark end (0 = none, 0.5 = max)
+ * @param lightSqueeze - How much to squeeze the light end (0 = none, 0.5 = max)
+ * @returns Squeezed X value still in 0–1 range
  */
-export function applyUniformLightnessOffset(
-    lightness: number,
-    darkOffset: number,
-    lightOffset: number
-): number {
-    if (darkOffset === 0 && lightOffset === 0) return lightness;
+export function squeezeX(x: number, darkSqueeze: number, lightSqueeze: number): number {
+    if (darkSqueeze === 0 && lightSqueeze === 0) return x;
 
-    // Taper: 0 at extremes (0 or 100), 1 at midpoint (50)
-    const taper = Math.min(lightness, 100 - lightness) / 50;
+    // Clamp so total squeeze never exceeds 1.0
+    const totalSqueeze = Math.min(darkSqueeze + lightSqueeze, 0.99);
+    const dSq = darkSqueeze * (totalSqueeze / (darkSqueeze + lightSqueeze || 1));
+    const lSq = lightSqueeze * (totalSqueeze / (darkSqueeze + lightSqueeze || 1));
 
-    // Scale offsets: slider 0–100 maps to 0–30 lightness points max effect
-    const MAX_EFFECT = 30;
-    const darkDelta = -(darkOffset / 100) * MAX_EFFECT * taper;
-    const lightDelta = (lightOffset / 100) * MAX_EFFECT * taper;
+    return dSq + x * (1 - dSq - lSq);
+}
 
-    return Math.max(0, Math.min(100, lightness + darkDelta + lightDelta));
+/**
+ * Convert a slider value (0–100) to a squeeze factor (0–MAX_SQUEEZE).
+ */
+export function sliderToSqueeze(sliderValue: number): number {
+    return (sliderValue / 100) * MAX_SQUEEZE;
 }

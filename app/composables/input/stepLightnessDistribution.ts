@@ -5,6 +5,8 @@
  */
 import { generateLightnessSteps } from "~/composables/utils/bezierCurve";
 import { themes } from "~/composables/themes";
+import { sliderToSqueeze } from "~/composables/utils/lightnessOffset";
+import { stepUniformLightnessOffset } from "~/composables/input/stepUniformLightnessOffset";
 import type { BezierCurve } from "~/composables/themes/lib/types";
 
 export function stepLightnessDistribution() {
@@ -29,26 +31,32 @@ export function stepLightnessDistribution() {
         return currentTheme.value.grayscaleBezier ?? bezierValues.value;
     });
 
-    /** Lightness steps computed from bezier + current theme */
+    /** Lightness steps computed from bezier + current theme + squeeze */
     const lightnessSteps = computed(() => {
+        const { darkOffset, lightOffset } = stepUniformLightnessOffset();
         return generateLightnessSteps(
             bezierValues.value,
             currentTheme.value.totalSteps,
             currentTheme.value.lightnessMin ?? 0,
-            currentTheme.value.lightnessMax ?? 100
+            currentTheme.value.lightnessMax ?? 100,
+            sliderToSqueeze(darkOffset.value),
+            sliderToSqueeze(lightOffset.value)
         );
     });
 
     /** Full lightness steps including 0 (black) and 100 (white) */
     const fullLightnessSteps = computed(() => [0, ...lightnessSteps.value, 100]);
 
-    /** Grayscale lightness steps (uses grayscaleBezier + grayscale range if available) */
+    /** Grayscale lightness steps (uses grayscaleBezier + grayscale range + squeeze) */
     const grayscaleLightnessSteps = computed(() => {
+        const { darkOffset, lightOffset } = stepUniformLightnessOffset();
         return generateLightnessSteps(
             grayscaleBezierValues.value,
             currentTheme.value.totalSteps,
             currentTheme.value.grayscaleLightnessMin ?? 0,
-            currentTheme.value.grayscaleLightnessMax ?? 100
+            currentTheme.value.grayscaleLightnessMax ?? 100,
+            sliderToSqueeze(darkOffset.value),
+            sliderToSqueeze(lightOffset.value)
         );
     });
 

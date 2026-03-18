@@ -4,7 +4,8 @@
         <div class="swatch-group swatch__group swatch__group--chromatic">
             <template
                 v-for="row in chromaticRows"
-                :key="row.rowId">
+                :key="row.rowId"
+            >
                 <div class="swatch-row swatch__row swatch__row--chromatic">
                     <div class="swatch-row-label swatch__label">
                         {{ row.label }}
@@ -12,11 +13,12 @@
                     <ColorSwatchRow
                         :hue="row.hue"
                         :saturation="row.saturation"
-                        :lightness-steps="adjustedLightnessSteps"
+                        :lightness-steps="lightnessSteps"
                         :total-steps="totalSteps"
                         :show-marker="row.rowId === 'primary'"
                         :marker-index="row.rowId === 'primary' ? markerIndex : undefined"
-                        class="swatch-row-swatches" />
+                        class="swatch-row-swatches"
+                    />
                     <div class="swatch-row-value swatch__value">
                         {{ row.hue }}°
                     </div>
@@ -25,8 +27,14 @@
         </div>
 
         <!-- Grey companion rows: sec. grey, primary grey, tert. grey -->
-        <div v-if="greyRows.length > 0" class="swatch-group swatch__group swatch__group--grey">
-            <template v-for="row in greyRows" :key="row.rowId">
+        <div
+            v-if="greyRows.length > 0"
+            class="swatch-group swatch__group swatch__group--grey"
+        >
+            <template
+                v-for="row in greyRows"
+                :key="row.rowId"
+            >
                 <div class="swatch-row swatch__row swatch__row--grey">
                     <div class="swatch-row-label swatch__label">
                         {{ row.label }}
@@ -34,20 +42,30 @@
                     <ColorSwatchRow
                         :hue="row.hue"
                         :saturation="greySaturations"
-                        :lightness-steps="adjustedGreyLightnessSteps"
+                        :lightness-steps="greyLightnessSteps"
                         :total-steps="totalSteps"
-                        class="swatch-row-swatches" />
+                        class="swatch-row-swatches"
+                    />
                 </div>
             </template>
         </div>
 
         <!-- Neutral row (always last) -->
-        <div v-if="isUnlocked('neutral')" class="swatch-group swatch__group swatch__group--neutral">
+        <div
+            v-if="isUnlocked('neutral')"
+            class="swatch-group swatch__group swatch__group--neutral"
+        >
             <div class="swatch-row swatch__row swatch__row--neutral">
                 <div class="swatch-row-label swatch__label">
                     Neutral
                 </div>
-                <ColorSwatchRow :hue="hue" :saturation="0" :lightness-steps="adjustedGreyLightnessSteps" :total-steps="totalSteps" class="swatch-row-swatches" />
+                <ColorSwatchRow
+                    :hue="hue"
+                    :saturation="0"
+                    :lightness-steps="greyLightnessSteps"
+                    :total-steps="totalSteps"
+                    class="swatch-row-swatches"
+                />
             </div>
         </div>
     </section>
@@ -59,8 +77,6 @@ import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
 import { greySaturationSteps } from "~/composables/utils/greySaturation";
 import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
-import { stepUniformLightnessOffset } from "~/composables/input/stepUniformLightnessOffset";
-import { applyUniformLightnessOffset } from "~/composables/utils/lightnessOffset";
 
 const props = defineProps<{
     hue: number;
@@ -71,23 +87,12 @@ const props = defineProps<{
 }>();
 
 const { grayscaleLightnessSteps: greyLightnessSteps } = stepLightnessDistribution();
-const { darkOffset, lightOffset } = stepUniformLightnessOffset();
 
 const { isUnlocked } = useSwatchUnlock();
 const { orderedRows, greyCompanionRows, primaryGreyName } = useComplementaryColors();
 
-/** Lightness steps with uniform dark/light offset applied */
-const adjustedLightnessSteps = computed(() =>
-    props.lightnessSteps.map(l => applyUniformLightnessOffset(l, darkOffset.value, lightOffset.value))
-);
-
-/** Grey lightness steps with uniform offset applied */
-const adjustedGreyLightnessSteps = computed(() =>
-    greyLightnessSteps.value.map(l => applyUniformLightnessOffset(l, darkOffset.value, lightOffset.value))
-);
-
 const markerIndex = computed(() => {
-    const baseIndex = findClosestLightnessIndex(adjustedLightnessSteps.value, props.targetLightness);
+    const baseIndex = findClosestLightnessIndex(props.lightnessSteps, props.targetLightness);
     // Shift one step darker (lower lightness = higher index toward black)
     return Math.max(0, baseIndex - 1);
 });

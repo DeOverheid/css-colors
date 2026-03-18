@@ -56,9 +56,7 @@
 <script setup lang="ts">
 import type { HueEntry } from "~/composables/input/stepHueSpectrum";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
-import { stepUniformLightnessOffset } from "~/composables/input/stepUniformLightnessOffset";
 import { getHueForStep, formatOffset, getAdjustedLightness, getAdjustedSaturation } from "~/composables/utils/hueRowColors";
-import { applyUniformLightnessOffset } from "~/composables/utils/lightnessOffset";
 
 const props = defineProps<{
     entry: HueEntry;
@@ -75,7 +73,6 @@ defineEmits<{
 }>();
 
 const { applyAdjustment } = useLightnessAdjustment();
-const { darkOffset: uniformDark, lightOffset: uniformLight } = stepUniformLightnessOffset();
 
 const totalSteps = computed(() => props.lightnessSteps.length);
 
@@ -94,8 +91,7 @@ function hueForStep(index: number): number {
 
 function adjustedLightness(lightness: number, index: number): number {
     const hue = hueForStep(index);
-    const withOffset = applyUniformLightnessOffset(lightness, uniformDark.value, uniformLight.value);
-    return getAdjustedLightness(withOffset, index, totalSteps.value, props.entry.lightnessOffset ?? 0, hue, applyAdjustment);
+    return getAdjustedLightness(lightness, index, totalSteps.value, props.entry.lightnessOffset ?? 0, hue, applyAdjustment);
 }
 
 function adjustedSaturation(index: number): number {

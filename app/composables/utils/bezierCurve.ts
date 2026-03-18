@@ -3,6 +3,7 @@
  * Pure functions — no Vue reactivity needed.
  */
 import type { BezierCurve } from "~/composables/themes/lib/types";
+import { squeezeX } from "~/composables/utils/lightnessOffset";
 
 /**
  * Calculate a point on a cubic bezier curve
@@ -64,13 +65,17 @@ export function getBezierY(x: number, x1: number, y1: number, x2: number, y2: nu
  * @param totalSteps - Total steps including black/white endpoints (e.g. 13)
  * @param lightnessMin - Lightness % at the dark end (bezier 0), default 0
  * @param lightnessMax - Lightness % at the light end (bezier 1), default 100
+ * @param darkSqueeze - X-axis squeeze from dark end (0–0.5), default 0
+ * @param lightSqueeze - X-axis squeeze from light end (0–0.5), default 0
  * @returns Array of (totalSteps - 2) lightness percentages, dark → light
  */
 export function generateLightnessSteps(
     curve: BezierCurve,
     totalSteps: number,
     lightnessMin = 0,
-    lightnessMax = 100
+    lightnessMax = 100,
+    darkSqueeze = 0,
+    lightSqueeze = 0
 ): number[] {
     const numberOfCalculatedSteps = totalSteps - 2;
     const divisor = totalSteps - 1;
@@ -78,7 +83,8 @@ export function generateLightnessSteps(
     const range = lightnessMax - lightnessMin;
 
     return steps.map((step) => {
-        const y = getBezierY(step, curve.x1, curve.y1, curve.x2, curve.y2);
+        const squeezed = squeezeX(step, darkSqueeze, lightSqueeze);
+        const y = getBezierY(squeezed, curve.x1, curve.y1, curve.x2, curve.y2);
         // Map bezier output (0-1) to lightness range (min-max)
         const lightness = lightnessMin + y * range;
         return Math.round(lightness);
