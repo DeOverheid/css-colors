@@ -37,13 +37,6 @@ export const steps: StepDefinition[] = [
         unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
     },
     {
-        id: "select-theme",
-        title: "Select Theme",
-        description: "Pick a color system preset. Use Save Custom in the bottom-right to store your tweaks.",
-        inputComponent: "ThemeSelector",
-        unlocks: ["save-custom"]
-    },
-    {
         id: "lightness-distribution",
         title: "Lightness Distribution",
         description: "Adjust the bezier curve to control lightness distribution",
@@ -62,6 +55,12 @@ export const steps: StepDefinition[] = [
         title: "Hue Spectrum",
         description: "Expand your palette with additional hue variations",
         inputComponent: "HueSpectrumControls"
+    },
+    {
+        id: "select-theme",
+        title: "Compare Presets",
+        description: "Compare your custom palette with Tailwind and Mathematical presets",
+        inputComponent: "ThemeSelector"
     },
     {
         id: "export",

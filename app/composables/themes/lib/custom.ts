@@ -59,9 +59,9 @@ export const customTheme: ThemeConfig = {
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
-    defaultRainbowDarkShift: 30,
+    defaultRainbowDarkShift: 0,
     defaultRainbowLightShift: 0,
-    defaultGreyDarkShift: 30,
+    defaultGreyDarkShift: 0,
     defaultGreyLightShift: 0,
     description: "Standard custom CSS color scale with 50-950 naming"
 };

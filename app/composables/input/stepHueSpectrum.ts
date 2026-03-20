@@ -41,11 +41,20 @@ export function stepHueSpectrum() {
         }))
     );
 
+    // Custom starts as a copy of Tailwind hue rows
+    const customRowStates = useState<HueRowState[]>("custom-hue-row-states", () =>
+        tailwindHues.map(entry => ({
+            entry,
+            lightOffset: entry.lightOffset,
+            darkOffset: entry.darkOffset
+        }))
+    );
+
     // Current row states based on selected theme
     const hueRowStates = computed(() => {
-        return currentThemeId.value === "mathematical"
-            ? mathematicalRowStates.value
-            : tailwindRowStates.value;
+        if (currentThemeId.value === "mathematical") return mathematicalRowStates.value;
+        if (currentThemeId.value === "custom") return customRowStates.value;
+        return tailwindRowStates.value;
     });
 
     // Current offset range based on selected theme
@@ -72,11 +81,14 @@ export function stepHueSpectrum() {
     /**
      * Set the light offset for a specific color row
      */
+    function getThemeRowStates() {
+        if (currentThemeId.value === "mathematical") return mathematicalRowStates.value;
+        if (currentThemeId.value === "custom") return customRowStates.value;
+        return tailwindRowStates.value;
+    }
+
     function setLightOffset(name: string, value: number) {
-        const states = currentThemeId.value === "mathematical"
-            ? mathematicalRowStates.value
-            : tailwindRowStates.value;
-        const row = states.find(r => r.entry.name === name);
+        const row = getThemeRowStates().find(r => r.entry.name === name);
         if (row) {
             row.lightOffset = value;
         }
@@ -86,10 +98,7 @@ export function stepHueSpectrum() {
      * Set the dark offset for a specific color row
      */
     function setDarkOffset(name: string, value: number) {
-        const states = currentThemeId.value === "mathematical"
-            ? mathematicalRowStates.value
-            : tailwindRowStates.value;
-        const row = states.find(r => r.entry.name === name);
+        const row = getThemeRowStates().find(r => r.entry.name === name);
         if (row) {
             row.darkOffset = value;
         }
@@ -99,9 +108,7 @@ export function stepHueSpectrum() {
      * Reset a row to its default values
      */
     function resetRow(name: string) {
-        const states = currentThemeId.value === "mathematical"
-            ? mathematicalRowStates.value
-            : tailwindRowStates.value;
+        const states = getThemeRowStates();
         const row = states.find(r => r.entry.name === name);
         if (row) {
             row.lightOffset = row.entry.lightOffset;
@@ -113,9 +120,7 @@ export function stepHueSpectrum() {
      * Reset all rows to default values
      */
     function resetAll() {
-        const states = currentThemeId.value === "mathematical"
-            ? mathematicalRowStates.value
-            : tailwindRowStates.value;
+        const states = getThemeRowStates();
         for (const row of states) {
             row.lightOffset = row.entry.lightOffset;
             row.darkOffset = row.entry.darkOffset;

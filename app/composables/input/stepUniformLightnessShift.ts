@@ -9,57 +9,89 @@
  *
  * Rainbow shifts apply to chromatic (color) swatch rows.
  * Grey shifts apply to grey/neutral swatch rows.
+ *
+ * State is stored per-theme so each preset preserves its own values.
  */
-import { useThemes } from "~/composables/themes";
+import { useThemes, getThemeById, themes } from "~/composables/themes";
 
-/** Reactive state for the shift sliders */
+interface ShiftValues {
+    darkShift: number;
+    lightShift: number;
+    greyDarkShift: number;
+    greyLightShift: number;
+}
+
+function defaultsForTheme(themeId: string): ShiftValues {
+    const theme = getThemeById(themeId);
+    return {
+        darkShift: theme?.defaultRainbowDarkShift ?? 0,
+        lightShift: theme?.defaultRainbowLightShift ?? 0,
+        greyDarkShift: theme?.defaultGreyDarkShift ?? 0,
+        greyLightShift: theme?.defaultGreyLightShift ?? 0
+    };
+}
+
+/** Reactive state for the shift sliders, stored per theme */
 export function stepUniformLightnessShift() {
-    const { currentTheme } = useThemes();
+    const { currentThemeId } = useThemes();
 
-    // Rainbow (chromatic) shifts
-    const darkShift = useState<number>("uniform-lightness-dark-shift", () =>
-        currentTheme.value.defaultRainbowDarkShift ?? currentTheme.value.defaultDarkSqueeze ?? 0
-    );
-    const lightShift = useState<number>("uniform-lightness-light-shift", () =>
-        currentTheme.value.defaultRainbowLightShift ?? currentTheme.value.defaultLightSqueeze ?? 0
-    );
+    // Per-theme shift state: { [themeId]: ShiftValues }
+    const perThemeShifts = useState<Record<string, ShiftValues>>("per-theme-shifts", () => {
+        const map: Record<string, ShiftValues> = {};
+        for (const theme of themes) {
+            map[theme.id] = defaultsForTheme(theme.id);
+        }
+        return map;
+    });
 
-    // Grey shifts
-    const greyDarkShift = useState<number>("uniform-grey-dark-shift", () =>
-        currentTheme.value.defaultGreyDarkShift ?? 0
-    );
-    const greyLightShift = useState<number>("uniform-grey-light-shift", () =>
-        currentTheme.value.defaultGreyLightShift ?? 0
-    );
+    // Ensure current theme always has an entry
+    function getShifts(): ShiftValues {
+        const id = currentThemeId.value;
+        if (!perThemeShifts.value[id]) {
+            perThemeShifts.value[id] = defaultsForTheme(id);
+        }
+        return perThemeShifts.value[id];
+    }
+
+    const darkShift = computed(() => getShifts().darkShift);
+    const lightShift = computed(() => getShifts().lightShift);
+    const greyDarkShift = computed(() => getShifts().greyDarkShift);
+    const greyLightShift = computed(() => getShifts().greyLightShift);
+
+    function clamp(value: number) {
+        return Math.max(0, Math.min(100, value));
+    }
 
     function setDarkShift(value: number) {
-        darkShift.value = Math.max(0, Math.min(100, value));
+        getShifts().darkShift = clamp(value);
     }
 
     function setLightShift(value: number) {
-        lightShift.value = Math.max(0, Math.min(100, value));
+        getShifts().lightShift = clamp(value);
     }
 
     function setGreyDarkShift(value: number) {
-        greyDarkShift.value = Math.max(0, Math.min(100, value));
+        getShifts().greyDarkShift = clamp(value);
     }
 
     function setGreyLightShift(value: number) {
-        greyLightShift.value = Math.max(0, Math.min(100, value));
+        getShifts().greyLightShift = clamp(value);
     }
 
     function reset() {
-        darkShift.value = currentTheme.value.defaultRainbowDarkShift ?? 0;
-        lightShift.value = currentTheme.value.defaultRainbowLightShift ?? 0;
-        greyDarkShift.value = currentTheme.value.defaultGreyDarkShift ?? 0;
-        greyLightShift.value = currentTheme.value.defaultGreyLightShift ?? 0;
+        const defaults = defaultsForTheme(currentThemeId.value);
+        const shifts = getShifts();
+        shifts.darkShift = defaults.darkShift;
+        shifts.lightShift = defaults.lightShift;
+        shifts.greyDarkShift = defaults.greyDarkShift;
+        shifts.greyLightShift = defaults.greyLightShift;
     }
 
     return {
-        darkShift: readonly(darkShift),
-        lightShift: readonly(lightShift),
-        greyDarkShift: readonly(greyDarkShift),
-        greyLightShift: readonly(greyLightShift),
+        darkShift,
+        lightShift,
+        greyDarkShift,
+        greyLightShift,
         setDarkShift,
         setLightShift,
         setGreyDarkShift,

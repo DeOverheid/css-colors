@@ -24,19 +24,8 @@
             />
         </div>
 
-        <!-- Right: Save Custom + Dev Mode buttons (persistent) -->
+        <!-- Right: Dev Mode button (persistent) -->
         <div class="footer-right">
-            <UButton
-                v-if="showSaveCustom"
-                :disabled="currentThemeId === 'custom'"
-                icon="i-lucide-save"
-                :color="buttonColor"
-                variant="soft"
-                size="xs"
-                @click="handleSaveAsCustom"
-            >
-                Save Custom
-            </UButton>
             <UButton
                 :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
                 :color="isDevModeEnabled ? buttonColor : 'neutral'"
@@ -54,8 +43,6 @@
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useDevMode } from "~/composables/ui/useDevMode";
 import { useSteps } from "~/composables/input/useSteps";
-import { useThemes } from "~/composables/themes";
-import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
 import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import type { Component } from "vue";
@@ -70,18 +57,10 @@ const { activeStep } = useStepNavigation();
 const { isDevModeEnabled, toggleDevMode } = useDevMode();
 const { lightnessDistribution } = useSteps();
 const { lightnessSteps } = lightnessDistribution;
-const { currentThemeId, saveAsCustom } = useThemes();
-const { bezierValues } = stepLightnessDistribution();
 const { isUnlocked } = useSwatchUnlock();
-
-const showSaveCustom = computed(() => isUnlocked('save-custom'));
 
 /** Use secondary color for buttons once complementary colors step is visited */
 const buttonColor = computed(() => isUnlocked('secondary') ? 'secondary' : 'primary');
-
-function handleSaveAsCustom() {
-    saveAsCustom(bezierValues.value);
-}
 
 /** Map step footerComponent names to lazy-loaded components */
 const footerComponentMap: Record<string, Component> = {

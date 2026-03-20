@@ -1,7 +1,7 @@
 <template>
     <div class="theme-selector">
         <div class="input-row">
-            <label class="input-label">Theme</label>
+            <label class="input-label">Preset</label>
             <RadioSelector
                 :model-value="currentThemeId"
                 name="theme"

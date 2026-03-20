@@ -16,7 +16,7 @@ export const themes: ThemeConfig[] = [
 /**
  * Default theme ID
  */
-export const defaultThemeId = "tailwind";
+export const defaultThemeId = "custom";
 
 /**
  * Get a theme by its ID
