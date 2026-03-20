@@ -64,6 +64,7 @@ export const tailwindTheme: ThemeConfig = {
     defaultGreyDarkShift: 38,
     defaultGreyLightShift: 0,
     defaultUiTone: "neutral",
+    defaultSaturation: 86,
     description: "Standard Tailwind CSS color scale with 50-950 naming"
 };
 

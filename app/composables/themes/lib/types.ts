@@ -70,6 +70,8 @@ export interface ThemeConfig {
     defaultGreyLightShift?: number;
     /** Default UI tone source for the app background */
     defaultUiTone?: "primary" | "secondary" | "tertiary" | "neutral";
+    /** Default saturation for the theme (0–100) */
+    defaultSaturation?: number;
     /** Description of the theme */
     description?: string;
 }

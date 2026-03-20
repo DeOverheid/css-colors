@@ -58,6 +58,7 @@ export const customTheme: ThemeConfig = {
     defaultGreyDarkShift: 0,
     defaultGreyLightShift: 0,
     defaultUiTone: "neutral",
+    defaultSaturation: 66,
     description: "Standard custom CSS color scale with 50-950 naming"
 };
 
