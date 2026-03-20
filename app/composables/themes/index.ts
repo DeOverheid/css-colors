@@ -57,7 +57,6 @@ export function useThemes() {
         custom.totalSteps = source.totalSteps;
         custom.swatchLabels = [...source.swatchLabels];
         custom.bezier = { ...bezier };
-        custom.grayscaleBezier = source.grayscaleBezier ? { ...source.grayscaleBezier } : undefined;
         custom.lightnessMin = source.lightnessMin;
         custom.lightnessMax = source.lightnessMax;
         custom.grayscaleLightnessMin = source.grayscaleLightnessMin;

@@ -16,6 +16,7 @@ const MAX_SQUEEZE = 0.5;
 
 /**
  * Remap an X value (0–1) into a squeezed sub-range of the bezier X-axis.
+ * Uses weighted squeeze so each slider affects its own side more strongly.
  *
  * @param x - Original evenly-spaced X value (0–1)
  * @param darkSqueeze - How much to squeeze the dark end (0 = none, 0.5 = max)
@@ -30,7 +31,14 @@ export function squeezeX(x: number, darkSqueeze: number, lightSqueeze: number): 
     const dSq = darkSqueeze * (totalSqueeze / (darkSqueeze + lightSqueeze || 1));
     const lSq = lightSqueeze * (totalSqueeze / (darkSqueeze + lightSqueeze || 1));
 
-    return dSq + x * (1 - dSq - lSq);
+    // Weight: dark squeeze affects dark end (x near 0) more, light end less
+    const darkWeight = 1 - x;
+    const lightWeight = x;
+
+    const offset = dSq * darkWeight;
+    const ceiling = 1 - lSq * lightWeight;
+
+    return offset + x * (ceiling - offset);
 }
 
 /**

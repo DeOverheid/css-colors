@@ -45,16 +45,10 @@ export const customTheme: ThemeConfig = {
     totalSteps: 13,
     swatchLabels: ["0", "950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50", "1000"],
     bezier: {
-        x1: 0.46,
-        y1: 0.13,
-        x2: 0.72,
-        y2: 0.92
-    },
-    grayscaleBezier: {
-        x1: 0.45,
-        y1: 0.03,
-        x2: 0.55,
-        y2: 0.99
+        x1: 0.00,
+        y1: 0.00,
+        x2: 0.50,
+        y2: 0.90
     },
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
@@ -63,6 +57,7 @@ export const customTheme: ThemeConfig = {
     defaultRainbowLightShift: 0,
     defaultGreyDarkShift: 0,
     defaultGreyLightShift: 0,
+    defaultUiTone: "neutral",
     description: "Standard custom CSS color scale with 50-950 naming"
 };
 

@@ -74,7 +74,7 @@ const inputComponent = computed(() =>
     flex: 1;
     overflow: auto;
     display: grid;
-    grid-template-columns: var(--panel-column-width, 15%) auto var(--panel-column-width, 15%);
+    grid-template-columns: var(--panel-column-width, 15%) 1fr var(--panel-column-width, 15%);
     gap: 0 1rem;
     align-content: start;
 }

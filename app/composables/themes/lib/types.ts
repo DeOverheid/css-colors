@@ -46,8 +46,6 @@ export interface ThemeConfig {
     swatchLabels: string[];
     /** Default bezier curve for color hues */
     bezier: BezierCurve;
-    /** Optional separate bezier curve for grayscale (uses bezier if not specified) */
-    grayscaleBezier?: BezierCurve;
     /** Minimum lightness value (darkest shade, maps to bezier 0) */
     lightnessMin?: number;
     /** Maximum lightness value (lightest shade, maps to bezier 1) */
@@ -70,6 +68,8 @@ export interface ThemeConfig {
     defaultGreyDarkShift?: number;
     /** Default grey light shift (0–100) */
     defaultGreyLightShift?: number;
+    /** Default UI tone source for the app background */
+    defaultUiTone?: "primary" | "secondary" | "tertiary" | "neutral";
     /** Description of the theme */
     description?: string;
 }

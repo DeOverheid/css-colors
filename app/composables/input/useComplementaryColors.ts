@@ -1,5 +1,6 @@
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { closestGreyName } from "~/composables/utils/closestGreyName";
+import { useThemes, getThemeById, themes as allThemes } from "~/composables/themes";
 
 /** Which grey tone feeds the app's UI neutral palette */
 export type UiToneSource = "primary" | "secondary" | "tertiary" | "neutral";
@@ -20,10 +21,33 @@ export type UiToneSource = "primary" | "secondary" | "tertiary" | "neutral";
 export function useComplementaryColors() {
     const colorSettings = useColorSettings();
 
+    const { currentThemeId } = useThemes();
+
     const hueOffset = useState<number>("complementary-hue-offset", () => 120);
 
+    /** Per-theme UI tone state */
+    const perThemeUiTone = useState<Record<string, UiToneSource>>("per-theme-ui-tone", () => {
+        const map: Record<string, UiToneSource> = {};
+        for (const theme of allThemes) {
+            map[theme.id] = theme.defaultUiTone ?? "neutral";
+        }
+        return map;
+    });
+
     /** Which grey tone is selected as the app's UI background color */
-    const uiToneSource = useState<UiToneSource>("ui-tone-source", () => "neutral");
+    const uiToneSource = computed({
+        get: () => {
+            const id = currentThemeId.value;
+            if (!perThemeUiTone.value[id]) {
+                const theme = getThemeById(id);
+                perThemeUiTone.value[id] = theme?.defaultUiTone ?? "neutral";
+            }
+            return perThemeUiTone.value[id];
+        },
+        set: (value: UiToneSource) => {
+            perThemeUiTone.value[currentThemeId.value] = value;
+        }
+    });
 
     const primaryHue = computed(() => colorSettings.hue.value);
 

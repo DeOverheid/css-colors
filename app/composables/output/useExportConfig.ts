@@ -103,16 +103,6 @@ export function useExportConfig() {
         y2: ${theme.bezier.y2}
     },`;
 
-        if (theme.grayscaleBezier) {
-            configStr += `
-    grayscaleBezier: {
-        x1: ${theme.grayscaleBezier.x1},
-        y1: ${theme.grayscaleBezier.y1},
-        x2: ${theme.grayscaleBezier.x2},
-        y2: ${theme.grayscaleBezier.y2}
-    },`;
-        }
-
         configStr += `
     lightnessAdjustment: {
         enabled: ${adj.enabled},
@@ -262,15 +252,6 @@ ${hueConfig}
         const gsLightnessMaxStr = theme.grayscaleLightnessMax !== undefined
             ? `\n    grayscaleLightnessMax: ${theme.grayscaleLightnessMax},`
             : "";
-        const grayscaleBezierStr = theme.grayscaleBezier
-            ? `
-    grayscaleBezier: {
-        x1: ${theme.grayscaleBezier.x1},
-        y1: ${theme.grayscaleBezier.y1},
-        x2: ${theme.grayscaleBezier.x2},
-        y2: ${theme.grayscaleBezier.y2}
-    },`
-            : "";
 
         return `// ============================================================================
 // REPLACEABLE CONFIG - START
@@ -287,7 +268,7 @@ export const customTheme: ThemeConfig = {
         y1: ${theme.bezier.y1},
         x2: ${theme.bezier.x2},
         y2: ${theme.bezier.y2}
-    },${grayscaleBezierStr}${gsLightnessMinStr}${gsLightnessMaxStr}
+    },${gsLightnessMinStr}${gsLightnessMaxStr}
     lightnessAdjustment: {
         enabled: ${adj.enabled},
         darkening: {

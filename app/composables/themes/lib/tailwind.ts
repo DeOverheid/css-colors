@@ -54,12 +54,6 @@ export const tailwindTheme: ThemeConfig = {
         x2: 0.72,
         y2: 0.92
     },
-    grayscaleBezier: {
-        x1: 0.45,
-        y1: 0.03,
-        x2: 0.55,
-        y2: 0.99
-    },
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
@@ -69,6 +63,7 @@ export const tailwindTheme: ThemeConfig = {
     defaultRainbowLightShift: 0,
     defaultGreyDarkShift: 38,
     defaultGreyLightShift: 0,
+    defaultUiTone: "neutral",
     description: "Standard Tailwind CSS color scale with 50-950 naming"
 };
 

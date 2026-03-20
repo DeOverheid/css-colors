@@ -56,6 +56,7 @@ export const mathematicalTheme: ThemeConfig = {
     defaultRainbowLightShift: 0,
     defaultGreyDarkShift: 0,
     defaultGreyLightShift: 0,
+    defaultUiTone: "neutral",
     description: "Simple sequential numbering with visually even distributed lightness"
 };
 

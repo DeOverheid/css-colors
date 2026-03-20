@@ -29,7 +29,7 @@ export function useCssVariables() {
     const colorSettings = useColorSettings();
     const { currentTheme } = useThemes();
     const { uiToneSource, uiToneHue, secondaryHue } = useComplementaryColors();
-    const { bezierValues, grayscaleBezierValues } = stepLightnessDistribution();
+    const { bezierValues } = stepLightnessDistribution();
     const { darkShift, lightShift, greyDarkShift, greyLightShift } = stepUniformLightnessShift();
     const { isUnlocked } = useSwatchUnlock();
 
@@ -47,7 +47,7 @@ export function useCssVariables() {
 
     const uiGreyLightness = computed(() =>
         generateLightnessSteps(
-            grayscaleBezierValues.value,
+            bezierValues.value,
             UI_TOTAL_STEPS,
             currentTheme.value.grayscaleLightnessMin ?? 0,
             currentTheme.value.grayscaleLightnessMax ?? 100,
