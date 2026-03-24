@@ -17,6 +17,8 @@ export interface StepDefinition {
     inputLayout?: "default" | "bezier" | "hue-wheel" | "lightness-adjustment";
     /** Component name for the footer middle slot (undefined = keep persistent) */
     footerComponent?: string;
+    /** Whether the left/right side panels are visible on this step (default: true once unlocked) */
+    sidePanels?: boolean;
     /** Swatch row IDs unlocked upon first visiting this step */
     unlocks?: string[];
 }

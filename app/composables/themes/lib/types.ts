@@ -81,7 +81,7 @@ export interface ThemeConfig {
  * Darkening: warm hues (30–210°), Brightening: cool hues (210–300°).
  */
 export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
-    enabled: false,
+    enabled: true,
     darkening: {
         enabled: true,
         start: 30,

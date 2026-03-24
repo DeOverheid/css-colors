@@ -5,8 +5,7 @@
             'generator-input--bezier': activeStep.inputLayout === 'bezier',
             'generator-input--hue-wheel': activeStep.inputLayout === 'hue-wheel',
             'generator-input--lightness-adjustment': activeStep.inputLayout === 'lightness-adjustment'
-        }"
-    >
+        }">
         <!-- Bezier layout: component fills entire panel -->
         <template v-if="activeStep.inputLayout === 'bezier' || activeStep.inputLayout === 'hue-wheel'">
             <component :is="inputComponent" />
@@ -22,8 +21,7 @@
             <div class="input-content">
                 <component
                     :is="inputComponent"
-                    v-model:user-input-lightness="userInputLightness"
-                />
+                    v-model:user-input-lightness="userInputLightness" />
             </div>
         </template>
     </section>
