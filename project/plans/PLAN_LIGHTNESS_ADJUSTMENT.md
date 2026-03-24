@@ -30,7 +30,6 @@ Redesign Step 4 (Lightness Adjustment) to provide an intuitive, visual way to co
 - Always enabled (darkening + brightening always active)
 - Swatch display reordered: hue 0° at top, 30° steps, P/S/T snapped
 - Left panel = dark adjustment controls, right panel = light adjustment controls
-- Visual oval/gradient overlay to show effect shape
 
 ---
 
@@ -39,29 +38,32 @@ Redesign Step 4 (Lightness Adjustment) to provide an intuitive, visual way to co
 ### Step 4 Layout
 
 **Top panel (center content area):**
+
 - Title: "Lightness Adjustment"
-- Description: "Visually some colors look brighter (like orange) or darker (like blues) than the average. To create a visually balanced palette, we will make some local adjustments."
+- Description: "Some colors look brighter (like yellow and orange) or darker (like blues or purples) than the average. To create a visually balanced palette, we will make some local adjustments."
 
 **Swatch area:**
-- All chromatic hue rows unlocked at this step (not just P/S/T — all 12 hues at 30° intervals)
-- Rows sorted by hue ascending, starting from the primary hue's nearest 30° step
-- Primary row stays at its exact hue (defines the 0° anchor for the 30° grid)
-- Secondary and tertiary are snapped to the nearest 30° step for visual alignment
+
+- All 12 chromatic hue rows at 30° intervals, anchored to primary's offset within its band
+- Rows sorted by hue ascending, starting from the row in the 0°–30° band (red)
+- Primary row stays at its exact hue; other rows are offset + N×30°
+- Secondary and tertiary are **not shown** but their values remain stored
+- Grey companion rows hidden — only keep Neutral row and the grey matching the UI tone
 - Each row shows the hue value on the right
+- The primary row is marked with a bold label
 
 **Left panel — Dark adjustment:**
 Vertical slider track aligned with the swatch rows (top = hue 0° row, bottom = hue 330° row):
+
 1. **Center handle** — marks the hue where the darkening effect is strongest
 2. **Falloff handle** — marks where the effect fades to 0 (above the center)
 3. **Mirror handle** — automatically mirrors the falloff below the center (moves opposite)
 
-Below the hue slider, next to the grey swatches:
-4. **Strength slider** (0–100%) — overall amplitude of the darkening effect
-5. **Light falloff slider** (0–100%) — how much the effect diminishes across the swatch width (dark swatches → light swatches). 0% = uniform across all swatches, 100% = only affects the darkest swatches
-6. **Hue falloff curve** (0–100%) — controls the gradient shape between center hue and the 0-effect boundary. 0% = sharp cutoff, 100% = smooth bell curve
+Below the Vertical slider, next to the grey swatches and in the left and right panels are the following horizontal sliders (like the dark shift sliders): 4. **Strength slider** (0–100%) — overall amplitude of the darkening effect 5. **Light falloff slider** (0–100%) — how much the effect diminishes across the swatch width (dark swatches → light swatches). 0% = uniform across all swatches, 100% = only affects the darkest swatches 6. **Hue falloff curve** (0–100%) — controls the gradient shape between center hue and the 0-effect boundary. 0% = sharp cutoff, 100% = smooth bell curve
 
 **Right panel — Light adjustment:**
 Identical layout to the left panel but for brightening:
+
 1. **Center handle** — hue where brightening is strongest
 2. **Falloff handle** — where the effect fades to 0
 3. **Mirror handle** — auto-mirrors opposite
@@ -74,22 +76,22 @@ Identical layout to the left panel but for brightening:
 The adjustment effect can be visualized as an oval gradient centered on the darkest swatch (left edge) at the center hue:
 
 ```
-     hue falloff=0
+     hue falloff=0, modified by Hue falloff curve
      │
      ▼
   ┌──────────────────────────┐
-  │          ░░░░░░░          │  ← falloff zone (gradient 0→100%)
-  │       ░░████████░░        │
-  │     ░░████████████░░      │  ← center zone (100% effect)
-  │       ░░████████░░        │
-  │          ░░░░░░░          │
+  │ ░░░░░░░░░░░░░░           │  ← falloff zone (gradient 0→100%)
+  │ ████████░░░░░░░░░░       │
+  │ █████████████████░░░░    │  ← center zone (100% effect modified by lightness falloff)
+  │ ████████░░░░░░░░░░       │
+  │ ░░░░░░░░░░░░░░           │
   └──────────────────────────┘
   ▲                           ▲
   dark (max effect)     light (0 effect)
 ```
 
 - **Vertical axis**: hue rows — center handle is the peak, falloff handles define where it reaches 0
-- **Horizontal axis**: swatch position (dark → light) — the "light falloff" controls how quickly the effect diminishes toward lighter swatches
+- **Horizontal axis**: swatch position (dark → light) — shaped by `cubic-bezier(0.60, 0.00, 1.00, 1.00)`. Effect stays heavy through darker swatches, then tapers off quickly near lightness=100%. Both dark and light adjustments share this same lightness curve (center at lightness 0 / dark side)
 - **Effect merges**: darkening and brightening are additive (can overlap, net effect is the sum)
 
 ### Swatch Row Ordering
@@ -97,15 +99,28 @@ The adjustment effect can be visualized as an oval gradient centered on the dark
 For Step 4 only, the swatch display changes from the normal P/S/T view to a 12-hue chromatic view:
 
 1. Determine the primary hue (e.g., 155°)
-2. Compute 12 hue slots at 30° intervals starting from primary: 155°, 185°, 215°, ..., 125°
-3. Snap secondary and tertiary hues to the nearest 30° slot
-4. Fill remaining slots with pure hue values
-5. Each row gets the primary saturation (or could use per-row saturation later)
-6. All rows use the same lightness steps from the bezier curve
+2. Compute the primary's offset within its 30° band: `155 % 30 = 5°`
+3. Generate 12 hue rows using that offset: 5°, 35°, 65°, 95°, 125°, **155°** (primary), 185°, 215°, 245°, 275°, 305°, 335°
+4. The first row is the one nearest red (0°–30° band), i.e., 5° in this example
+5. Primary stays at its exact hue; the other 11 are primary's offset + multiples of 30°
+6. Secondary and tertiary are **not shown** as distinct rows — their values are stored but hidden. The 12-row grid uses uniform saturation (primary saturation for all rows)
+7. All rows use the same lightness steps from the bezier curve
+8. Only the primary row is visually marked (bold label)
+
+### Lightness Falloff Curve
+
+The effect's tapering from dark swatches to light swatches follows a fixed bezier curve:
+
+**`cubic-bezier(0.60, 0.00, 1.00, 1.00)`**
+
+This keeps the effect heavy through the darker swatch positions, then drops off quickly near the light end. This is a separate curve from the main lightness distribution bezier — it only shapes the adjustment falloff.
+
+The "Light falloff" slider (0–100%) scales how much of this curve is applied: 0% = uniform effect across all swatches, 100% = full bezier-shaped falloff.
 
 ### Vertical Hue Slider
 
 The slider track is aligned with the 12 hue rows in the swatch area:
+
 - Track height matches the swatch group height
 - 12 tick marks correspond to the 12 hue rows
 - **Center handle**: large, colored with the hue at its position
@@ -119,13 +134,13 @@ The slider track is aligned with the 12 hue rows in the swatch area:
 
 The new UI controls will map to the existing adjustment model:
 
-| New UI control | Maps to |
-|---|---|
-| Center handle position | `start` and `end` computed from center ± span |
-| Falloff handle distance | `hueFalloff` (degrees from center to 0-boundary) |
-| Strength slider | `lightnessAmplitude` (0–100% maps to 0–30) |
-| Light/Dark falloff slider | `lightnessFalloffLight` / `lightnessFalloffDark` |
-| Hue falloff curve | Additional shaping parameter (may need new field) |
+| New UI control            | Maps to                                           |
+| ------------------------- | ------------------------------------------------- |
+| Center handle position    | `start` and `end` computed from center ± span     |
+| Falloff handle distance   | `hueFalloff` (degrees from center to 0-boundary)  |
+| Strength slider           | `lightnessAmplitude` (0–100% maps to 0–30)        |
+| Light/Dark falloff slider | `lightnessFalloffLight` / `lightnessFalloffDark`  |
+| Hue falloff curve         | Additional shaping parameter (may need new field) |
 
 The `enabled` flag will always be `true` — no toggle needed.
 
@@ -136,10 +151,11 @@ The `enabled` flag will always be `true` — no toggle needed.
 ### Phase 1: Swatch row reordering for Step 4
 
 - Add `inputLayout: "lightness-adjustment"` to the step registry
-- Create computed in GeneratorSwatches that produces 12 hue rows at 30° intervals anchored to primary
-- Snap S/T to nearest 30° slot
+- Create computed that produces 12 hue rows: `(primaryHue % 30) + N×30` for N=0..11, sorted ascending
+- Primary row keeps exact hue, marked with bold label
+- S/T values stored but rows not rendered
+- Grey companions hidden — only Neutral row + UI tone grey shown
 - Show all 12 rows when on Step 4 (other steps keep the normal P/S/T view)
-- Each row labeled with its hue degree
 
 ### Phase 2: Vertical hue slider component
 
@@ -173,23 +189,27 @@ The `enabled` flag will always be `true` — no toggle needed.
 
 ---
 
-## Open Questions
+## Resolved Questions
 
-1. Should the 12-hue view persist after leaving Step 4, or revert to P/S/T?
-2. Should grey companion rows also show for all 12 hues, or only for P/S/T?
-3. Should the hue falloff curve be a simple slider or a mini bezier curve?
-4. What are good defaults for the center hue? (Yellow ~60° for darkening, Blue ~240° for brightening?)
-5. Should the vertical slider snap to 30° hue steps or allow free positioning?
+1. **12-hue view scope**: S/T values stored but not shown. All 12 hues displayed at 30° intervals based on primary's offset.
+2. **Grey rows**: Hidden except Neutral row and the grey matching the selected UI tone.
+3. **Hue falloff curve**: Simple slider (0–100%) for now, no mini bezier editor.
+4. **Default center hues**: Yellow ~60° for darkening, Blue ~240° for brightening.
+5. **Vertical slider positioning**: Free (continuous), not snapped to 30° steps. Effect is interpolated gradually as the handle crosses hue boundaries.
+6. **Lightness falloff curve**: `cubic-bezier(0.60, 0.00, 1.00, 1.00)` — heavy through dark swatches, quick taper near light end. Separate from the main lightness distribution bezier.
+7. **Side panel layout**: Both panels have identical structure (vertical hue slider + 3 horizontal sliders). Both adjustments (dark and light) center at lightness 0 (dark side).
 
 ---
 
 ## Files to Create/Modify
 
 ### New files
+
 - `app/components/HueRangeSlider.vue` — vertical 3-handle slider
 - `app/components/LightnessAdjustmentSwatches.vue` — 12-hue row swatch display (if separate from main swatches)
 
 ### Modified files
+
 - `app/composables/input/stepLightnessAdjustment.ts` — remove toggle, add center+span model
 - `app/composables/themes/lib/types.ts` — update AdjustmentRange type
 - `app/composables/steps/stepRegistry.ts` — add inputLayout for step 4
