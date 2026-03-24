@@ -212,6 +212,31 @@
         border-radius: 8px;
         padding: 1rem;
     }
+
+    /* Rounded group: rounds outer corners of first/last direct children */
+    .rounded-group > * {
+        border-radius: 0;
+    }
+
+    .rounded-group--vertical > :first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .rounded-group--vertical > :last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .rounded-group--horizontal > :first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .rounded-group--horizontal > :last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
 }
 
 @theme static {

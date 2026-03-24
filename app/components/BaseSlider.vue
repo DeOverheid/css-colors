@@ -46,10 +46,6 @@ defineEmits<{
 </script>
 
 <style scoped>
-.base-slider {
-    margin-bottom: 1rem;
-}
-
 .slider-row {
     display: flex;
     align-items: center;

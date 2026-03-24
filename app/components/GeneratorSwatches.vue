@@ -1,7 +1,7 @@
 <template>
     <section class="swatches-preview panel">
         <!-- Chromatic rows: Secondary, Primary, Tertiary -->
-        <div class="swatch-group swatch__group swatch__group--chromatic">
+        <div class="swatch-group swatch__group swatch__group--chromatic rounded-group rounded-group--horizontal">
             <template
                 v-for="row in chromaticRows"
                 :key="row.rowId"

@@ -20,16 +20,18 @@
         <div class="color-preview swatch__group">
             <div class="preview-swatches swatch__row">
                 <span class="preview-label swatch__label">Secondary</span>
-                <span
-                    class="preview-swatch swatch__cell"
-                    :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }" />
-                <span
-                    class="preview-swatch swatch__cell"
-                    :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }" />
-                <span
-                    v-if="showTertiary"
-                    class="preview-swatch swatch__cell"
-                    :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }" />
+                <div class="preview-swatch-group rounded-group rounded-group--horizontal">
+                    <span
+                        class="preview-swatch swatch__cell"
+                        :style="{ background: `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)` }" />
+                    <span
+                        class="preview-swatch swatch__cell"
+                        :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }" />
+                    <span
+                        v-if="showTertiary"
+                        class="preview-swatch swatch__cell"
+                        :style="{ background: `hsl(${tertiaryHue}, ${saturation}%, ${lightness}%)` }" />
+                </div>
                 <span
                     v-if="showTertiary"
                     class="preview-label preview-label--right swatch__label">Tertiary</span>
@@ -178,8 +180,13 @@ const thumbColor = computed(() => {
 
 .preview-swatch {
     width: 120px;
-    height: 40px;
+    height: 20px;
     border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.preview-swatch-group {
+    display: flex;
+    gap: 0;
 }
 
 .preview-swatch+.preview-swatch {

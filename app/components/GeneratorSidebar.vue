@@ -5,8 +5,10 @@
             <h1>Bespoke for the masses!</h1>
         </div>
 
+        <hr class="sidebar-divider">
+
         <!-- Step Navigation -->
-        <nav class="step-navigation">
+        <nav class="step-navigation rounded-group rounded-group--vertical">
             <button
                 v-for="(step, index) in steps"
                 :key="step.id"
@@ -64,33 +66,41 @@ const themeOptions = computed(() =>
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
 }
 
 .sidebar-logo h1 {
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     margin: 0;
     white-space: nowrap;
+    text-align: center;
+}
+
+.sidebar-divider {
+    border: none;
+    border-top: 1px solid var(--ui-border);
+    margin: 0;
 }
 
 .step-navigation {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0;
     flex: 3;
 }
 
 .step-nav-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    gap: 10px;
+    padding: 10px;
+    margin: 0;
     border: none;
     background: transparent;
-    border-radius: 6px;
     cursor: pointer;
     text-align: left;
+    font-size: 13px;
     transition: background-color 0.15s;
 }
 
@@ -100,22 +110,13 @@ const themeOptions = computed(() =>
 
 .step-nav-item.active {
     background: var(--ui-primary);
-    color: white;
+    color: var(--color-neutral-900);
 }
 
 .step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--ui-bg-accented);
+    width: 1em;
+    flex-shrink: 0;
     font-weight: 600;
-}
-
-.step-nav-item.active .step-number {
-    background: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-theme {
