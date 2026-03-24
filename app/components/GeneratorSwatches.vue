@@ -1,7 +1,58 @@
 <template>
     <section class="swatches-preview panel">
-        <!-- Chromatic rows: Secondary, Primary, Tertiary -->
-        <div class="swatch-group swatch__group swatch__group--chromatic rounded-group rounded-group--horizontal">
+        <!-- 12-hue chromatic rows for lightness adjustment step -->
+        <template v-if="isAdjustmentStep">
+            <div class="swatch-group swatch__group swatch__group--chromatic rounded-group rounded-group--horizontal">
+                <div
+                    v-for="row in adjustmentHueRows"
+                    :key="row.hue"
+                    class="swatch-row swatch__row swatch__row--chromatic"
+                >
+                    <div
+                        class="swatch-row-label swatch__label"
+                        :class="{ 'swatch-row-label--primary': row.isPrimary }"
+                    >
+                        {{ row.label }}
+                    </div>
+                    <ColorSwatchRow
+                        :hue="row.hue"
+                        :saturation="saturation"
+                        :lightness-steps="lightnessSteps"
+                        :total-steps="totalSteps"
+                        :show-marker="row.isPrimary"
+                        :marker-index="row.isPrimary ? markerIndex : undefined"
+                        class="swatch-row-swatches"
+                    />
+                    <div class="swatch-row-value swatch__value">
+                        {{ row.hue }}°
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neutral row -->
+            <div
+                v-if="isUnlocked('neutral')"
+                class="swatch-group swatch__group swatch__group--neutral"
+            >
+                <div class="swatch-row swatch__row swatch__row--neutral">
+                    <div class="swatch-row-label swatch__label">
+                        Neutral
+                    </div>
+                    <ColorSwatchRow
+                        :hue="hue"
+                        :saturation="0"
+                        :lightness-steps="greyLightnessSteps"
+                        :total-steps="totalSteps"
+                        class="swatch-row-swatches"
+                    />
+                </div>
+            </div>
+        </template>
+
+        <!-- Normal P/S/T view for other steps -->
+        <template v-else>
+            <!-- Chromatic rows: Secondary, Primary, Tertiary -->
+            <div class="swatch-group swatch__group swatch__group--chromatic rounded-group rounded-group--horizontal">
             <template
                 v-for="row in chromaticRows"
                 :key="row.rowId"
@@ -68,6 +119,7 @@
                 />
             </div>
         </div>
+        </template>
     </section>
 </template>
 
@@ -77,6 +129,7 @@ import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useComplementaryColors } from "~/composables/input/useComplementaryColors";
 import { greySaturationSteps } from "~/composables/utils/greySaturation";
 import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 
 const props = defineProps<{
     hue: number;
@@ -90,6 +143,28 @@ const { grayscaleLightnessSteps: greyLightnessSteps } = stepLightnessDistributio
 
 const { isUnlocked } = useSwatchUnlock();
 const { orderedRows, greyCompanionRows, primaryGreyName, complementarySaturation } = useComplementaryColors();
+const { activeStepId } = useStepNavigation();
+
+const isAdjustmentStep = computed(() => activeStepId.value === 'lightness-adjustment');
+
+const HUE_NAMES: Record<number, string> = {
+    0: 'Red', 30: 'Orange', 60: 'Yellow', 90: 'Chartreuse',
+    120: 'Green', 150: 'Spring', 180: 'Cyan', 210: 'Azure',
+    240: 'Blue', 270: 'Violet', 300: 'Magenta', 330: 'Rose'
+};
+
+const adjustmentHueRows = computed(() => {
+    const offset = props.hue % 30;
+    return Array.from({ length: 12 }, (_, i) => {
+        const hue = (offset + i * 30) % 360;
+        const nearest30 = Math.round(hue / 30) * 30 % 360;
+        return {
+            hue,
+            isPrimary: hue === props.hue % 360,
+            label: HUE_NAMES[nearest30] ?? `${hue}°`
+        };
+    });
+});
 
 const markerIndex = computed(() => {
     const baseIndex = findClosestLightnessIndex(props.lightnessSteps, props.targetLightness);
@@ -177,6 +252,11 @@ defineExpose({ markedSampleLightness });
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
+}
+
+.swatch-row-label--primary {
+    font-weight: 700;
+    color: var(--ui-text);
 }
 
 .swatch-row-value {

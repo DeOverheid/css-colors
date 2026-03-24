@@ -3,7 +3,8 @@
         class="generator-input panel"
         :class="{
             'generator-input--bezier': activeStep.inputLayout === 'bezier',
-            'generator-input--hue-wheel': activeStep.inputLayout === 'hue-wheel'
+            'generator-input--hue-wheel': activeStep.inputLayout === 'hue-wheel',
+            'generator-input--lightness-adjustment': activeStep.inputLayout === 'lightness-adjustment'
         }"
     >
         <!-- Bezier layout: component fills entire panel -->
@@ -104,5 +105,10 @@ const inputComponent = computed(() =>
         "text    text    wheel  ."
         "controls controls wheel  .";
     gap: 0.75rem 1rem;
+}
+
+/* Lightness-adjustment layout: simple header + content, no side padding */
+.generator-input--lightness-adjustment .input-content {
+    grid-template-columns: 1fr;
 }
 </style>

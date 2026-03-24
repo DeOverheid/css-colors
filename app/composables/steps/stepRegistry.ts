@@ -14,7 +14,7 @@ export interface StepDefinition {
     /** Component name rendered in the input panel */
     inputComponent: string;
     /** Layout variant for the input panel */
-    inputLayout?: "default" | "bezier" | "hue-wheel";
+    inputLayout?: "default" | "bezier" | "hue-wheel" | "lightness-adjustment";
     /** Component name for the footer middle slot (undefined = keep persistent) */
     footerComponent?: string;
     /** Swatch row IDs unlocked upon first visiting this step */
@@ -49,7 +49,8 @@ export const steps: StepDefinition[] = [
         id: "lightness-adjustment",
         title: "Lightness Adjustment",
         description: "Fine-tune individual color lightness values",
-        inputComponent: "LightnessAdjustmentPanel"
+        inputComponent: "LightnessAdjustmentPanel",
+        inputLayout: "lightness-adjustment"
     },
     {
         id: "hue-spectrum",
