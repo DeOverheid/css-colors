@@ -19,8 +19,7 @@
                 <span class="bezier-label">CSS:</span>
                 <ClickToCopy
                     :value="`cubic-bezier(${bezierValues.x1.toFixed(2)}, ${bezierValues.y1.toFixed(2)}, ${bezierValues.x2.toFixed(2)}, ${bezierValues.y2.toFixed(2)})`"
-                    class="bezier-css"
-                >
+                    class="bezier-css">
                     cubic-bezier({{ bezierValues.x1.toFixed(2) }}, {{ bezierValues.y1.toFixed(2) }}, {{ bezierValues.x2.toFixed(2) }}, {{ bezierValues.y2.toFixed(2) }})
                 </ClickToCopy>
             </div>
@@ -33,8 +32,7 @@
             :initial-y1="bezierValues.y1"
             :initial-x2="bezierValues.x2"
             :initial-y2="bezierValues.y2"
-            @update="updateBezier"
-        />
+            @update="updateBezier" />
     </div>
 </template>
 

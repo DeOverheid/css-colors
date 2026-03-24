@@ -33,7 +33,7 @@
                 for="grey-light-shift"
                 class="shift-label"
             >
-                Grey light
+                Grey shift
             </label>
             <div class="slider-track-container slider-track-container--rtl">
                 <input

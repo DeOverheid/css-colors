@@ -62,6 +62,7 @@ satRatio = complementarySaturation / primarySaturation
 - Final values are always clamped to 0–100
 
 **Example:**
+
 - P = 100, S = 80 → `satRatio = 0.8`
 - User drags P to 90 → S becomes `90 × 0.8 = 72`, T also becomes 72
 - P = 50, S = 60 → `satRatio = 1.2`
@@ -97,15 +98,15 @@ satRatio = complementarySaturation / primarySaturation
 
 ### Offset Symmetry Rules
 
-| Action               | P     | S                           | T                              | hueOffset slider  |
-| -------------------- | ----- | --------------------------- | ------------------------------ | ----------------- |
-| Drag P (hue)         | moves | follows (P + offset)        | follows (P - offset)           | unchanged         |
-| Drag P (sat)         | moves | follows proportionally (×R) | follows proportionally (×R)    | unchanged         |
-| Drag S (hue)         | fixed | moves                       | mirrors (360 - new offset)     | updates           |
-| Drag S (sat)         | fixed | moves, recalcs ratio        | follows (same new ratio)       | unchanged         |
-| Drag T (hue)         | fixed | mirrors                     | moves                          | updates           |
-| Drag T (sat)         | fixed | follows (same new ratio)    | moves, recalcs ratio           | unchanged         |
-| Adjust offset slider | fixed | follows                     | follows                        | — (is the source) |
+| Action               | P     | S                           | T                           | hueOffset slider  |
+| -------------------- | ----- | --------------------------- | --------------------------- | ----------------- |
+| Drag P (hue)         | moves | follows (P + offset)        | follows (P - offset)        | unchanged         |
+| Drag P (sat)         | moves | follows proportionally (×R) | follows proportionally (×R) | unchanged         |
+| Drag S (hue)         | fixed | moves                       | mirrors (360 - new offset)  | updates           |
+| Drag S (sat)         | fixed | moves, recalcs ratio        | follows (same new ratio)    | unchanged         |
+| Drag T (hue)         | fixed | mirrors                     | moves                       | updates           |
+| Drag T (sat)         | fixed | follows (same new ratio)    | moves, recalcs ratio        | unchanged         |
+| Adjust offset slider | fixed | follows                     | follows                     | — (is the source) |
 
 ## Outer Marker
 
@@ -232,9 +233,9 @@ Step 1 sliders ──→ useColorSettings (hue, saturation, lightness)
 
 ## Files to Create/Modify
 
-| File                                              | Action | Purpose                                                          |
-| ------------------------------------------------- | ------ | ---------------------------------------------------------------- |
-| `app/composables/input/useWheelInteraction.ts`    | Create | Drag logic, coordinate math, state wiring                        |
-| `app/components/HueSaturationWheel.vue`           | Modify | Add SVG overlay, handles, ring, outer marker, overflow visible   |
-| `app/composables/input/useComplementaryColors.ts` | Modify | Add satRatio ref, computed complementarySaturation               |
-| `app/components/ComplementaryColorPicker.vue`     | Modify | Connect wheel events, remove redundant controls if needed        |
+| File                                              | Action | Purpose                                                        |
+| ------------------------------------------------- | ------ | -------------------------------------------------------------- |
+| `app/composables/input/useWheelInteraction.ts`    | Create | Drag logic, coordinate math, state wiring                      |
+| `app/components/HueSaturationWheel.vue`           | Modify | Add SVG overlay, handles, ring, outer marker, overflow visible |
+| `app/composables/input/useComplementaryColors.ts` | Modify | Add satRatio ref, computed complementarySaturation             |
+| `app/components/ComplementaryColorPicker.vue`     | Modify | Connect wheel events, remove redundant controls if needed      |

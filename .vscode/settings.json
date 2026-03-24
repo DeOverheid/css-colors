@@ -1,62 +1,67 @@
 {
-  // Vue/HTML formatting
-  "volar.format.initialIndent": {
-    "html": true,
-    "css": true,
-    "javascript": true,
-    "typescript": true
-  },
+    // Vue/HTML formatting
+    "volar.format.initialIndent": {
+        "html": true,
+        "css": true,
+        "javascript": true,
+        "typescript": true
+    },
 
-  // Keep attributes on same line, but allow content to wrap
-  "html.format.wrapLineLength": 0,
-  "html.format.wrapAttributes": "preserve",
-  "html.format.preserveNewLines": true,
+    // Keep attributes on same line, but allow content to wrap
+    "html.format.wrapLineLength": 0,
+    "html.format.wrapAttributes": "preserve",
+    "html.format.preserveNewLines": true,
 
-  // Vue-specific formatting
-  "[vue]": {
-    "editor.defaultFormatter": "Vue.volar",
-    "editor.formatOnSave": true,
+    // Vue-specific formatting
+    "[vue]": {
+        "editor.defaultFormatter": "Vue.volar",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+
+    // TypeScript/JavaScript formatting
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+
+    // CSS formatting
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+
+    // General editor settings - 4 spaces for all files
     "editor.tabSize": 4,
-    "editor.insertSpaces": true
-  },
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
 
-  // TypeScript/JavaScript formatting
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true
-  },
+    // File associations
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
 
-  // CSS formatting
-  "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true
-  },
-
-  // General editor settings - 4 spaces for all files
-  "editor.tabSize": 4,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-
-  // File associations
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-
-  // Tailwind CSS IntelliSense
-  "tailwindCSS.experimental.classRegex": [
-    ["ui:\\s*{([^)]*)\\s*}", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ]
+    // Tailwind CSS IntelliSense
+    "tailwindCSS.experimental.classRegex": [
+        ["ui:\\s*{([^)]*)\\s*}", "[\"'`]([^\"'`]*).*?[\"'`]"]
+    ],
+    "chat.tools.terminal.autoApprove": {
+        "git checkout": true,
+        "git merge": true,
+        "git push": true
+    }
 }

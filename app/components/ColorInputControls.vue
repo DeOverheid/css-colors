@@ -6,7 +6,14 @@
                 v-model="colorInput"
                 placeholder="#hex, rgb(), or hsl()"
                 class="input-field"
-                @input="handleColorInput" />
+                @keydown.enter="applyColor" />
+            <button
+                class="color-apply-btn"
+                :disabled="!colorInput.trim()"
+                @click="applyColor"
+            >
+                Update
+            </button>
         </div>
         <div class="input-row">
             <label class="input-label">Hue</label>
@@ -46,7 +53,7 @@ const colorSettings = useColorSettings();
 const colorInput = ref("");
 const userInputLightness = defineModel<number | null>("userInputLightness");
 
-function handleColorInput() {
+function applyColor() {
     const parsed = parseColor(colorInput.value);
     if (parsed) {
         colorSettings.hue.value = parsed.hue;
@@ -74,7 +81,7 @@ function handleColorInput() {
 
 .input-row-color {
     display: grid;
-    grid-template-columns: var(--label-column-width, 80px) 0.5fr;
+    grid-template-columns: var(--label-column-width, 80px) 0.5fr auto;
     gap: 1rem;
     align-items: center;
 }
@@ -83,6 +90,23 @@ function handleColorInput() {
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
+}
+
+.color-apply-btn {
+    width: fit-content;
+    border: 1px solid var(--ui-text-muted);
+    color: var(--ui-text-muted);
+    background: transparent;
+    padding: 0 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    align-self: stretch;
+}
+
+.color-apply-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
 }
 
 .input-value {
