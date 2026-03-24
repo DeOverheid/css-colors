@@ -170,18 +170,18 @@ Chronological record of features and refactors. Grouped by phase/branch. Use thi
 ### Interactive Hue-Saturation Wheel (commit `5bac71d`)
 
 - **HueSaturationWheel.vue**: CSS conic-gradient wheel + SVG overlay
-  - Three draggable handles (primary, secondary, tertiary) with pointer capture
-  - Three reference rings: step 1 snapshot (fixed), live primary saturation, complementary saturation (dashed)
-  - Outer marker fixed at step 1 hue with snap-back click
-  - Red at top (0°), clockwise rotation matching coordinate math
-  - Radial grey center fading from 10% to transparent at 70%
-  - Secondary/tertiary handles at 80% opacity
+    - Three draggable handles (primary, secondary, tertiary) with pointer capture
+    - Three reference rings: step 1 snapshot (fixed), live primary saturation, complementary saturation (dashed)
+    - Outer marker fixed at step 1 hue with snap-back click
+    - Red at top (0°), clockwise rotation matching coordinate math
+    - Radial grey center fading from 10% to transparent at 70%
+    - Secondary/tertiary handles at 80% opacity
 - **useWheelInteraction.ts**: Polar↔cartesian coordinate conversion, drag handling
-  - Step 1 hue/saturation snapshots for reference ring + outer marker
-  - Handle types: primary (hue+sat), secondary/tertiary (offset+compSat)
+    - Step 1 hue/saturation snapshots for reference ring + outer marker
+    - Handle types: primary (hue+sat), secondary/tertiary (offset+compSat)
 - **Saturation ratio model** in useComplementaryColors: `satRatio = compSat / primarySat`
-  - Proportional behavior: changing primary saturation scales complementary proportionally
-  - Edge case: P=0 preserves last absolute complementary value
+    - Proportional behavior: changing primary saturation scales complementary proportionally
+    - Edge case: P=0 preserves last absolute complementary value
 - Removed offset slider from ComplementaryColorPicker — wheel is sole input
 - Redesigned preview swatches as 3x3 grid (labels/swatches/degrees in rows)
 - RadioSelector: added `background` property for option buttons (used by tone selector)

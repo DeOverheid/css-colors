@@ -2,50 +2,44 @@
     <aside class="panel shift-panel">
         <div
             v-if="showShiftSliders"
-            class="shift-slider-wrapper"
-        >
+            class="shift-slider-wrapper">
             <label
                 for="uniform-light-shift"
-                class="shift-label"
-            >
+                class="shift-label">
                 Light shift
             </label>
-            <div class="slider-track-container slider-track-container--rtl">
+            <div class="slider-track-container">
                 <input
                     id="uniform-light-shift"
                     type="range"
-                    :value="lightShift"
+                    :value="100 - lightShift"
                     min="0"
                     max="100"
                     class="shift-slider shift-slider--light"
-                    :style="{ '--primary-hsl': primaryHsl }"
-                    @input="setLightShift(Number(($event.target as HTMLInputElement).value))"
-                >
+                    :style="{ '--primary-hsl': primaryHsl, '--thumb-color': lightThumbColor(100 - lightShift) }"
+                    @input="setLightShift(100 - Number(($event.target as HTMLInputElement).value))">
             </div>
             <span class="shift-value">{{ lightShift }}</span>
         </div>
 
         <div
             v-if="showShiftSliders"
-            class="shift-slider-wrapper shift-slider-wrapper--grey"
-        >
+            class="shift-slider-wrapper shift-slider-wrapper--grey">
             <label
                 for="grey-light-shift"
-                class="shift-label"
-            >
+                class="shift-label">
                 Grey shift
             </label>
-            <div class="slider-track-container slider-track-container--rtl">
+            <div class="slider-track-container">
                 <input
                     id="grey-light-shift"
                     type="range"
-                    :value="greyLightShift"
+                    :value="100 - greyLightShift"
                     min="0"
                     max="100"
                     class="shift-slider shift-slider--light"
-                    :style="{ '--primary-hsl': greyHsl }"
-                    @input="setGreyLightShift(Number(($event.target as HTMLInputElement).value))"
-                >
+                    :style="{ '--primary-hsl': greyHsl, '--thumb-color': lightThumbColor(100 - greyLightShift, 10) }"
+                    @input="setGreyLightShift(100 - Number(($event.target as HTMLInputElement).value))">
             </div>
             <span class="shift-value">{{ greyLightShift }}</span>
         </div>
@@ -70,6 +64,14 @@ const greyHsl = computed(() =>
 );
 
 const showShiftSliders = computed(() => isUnlocked("shift-sliders"));
+
+/** Compute thumb color by mixing target → white based on slider position */
+function lightThumbColor(value: number, sat: number = colorSettings.saturation.value) {
+    const t = value / 100;
+    const h = colorSettings.hue.value;
+    const lightness = 50 + (50 * t);
+    return `hsl(${h}, ${Math.round(sat * (1 - t))}%, ${Math.round(lightness)}%)`;
+}
 </script>
 
 <style scoped>
@@ -112,17 +114,13 @@ const showShiftSliders = computed(() => isUnlocked("shift-sliders"));
     background: linear-gradient(to right, var(--primary-hsl), white);
 }
 
-.slider-track-container--rtl {
-    direction: rtl;
-}
-
 .shift-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--color-gray-300);
+    background: var(--thumb-color, var(--color-gray-300));
     border: 2px solid white;
     cursor: pointer;
 }
@@ -131,7 +129,7 @@ const showShiftSliders = computed(() => isUnlocked("shift-sliders"));
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--color-gray-300);
+    background: var(--thumb-color, var(--color-gray-300));
     border: 2px solid white;
     cursor: pointer;
 }

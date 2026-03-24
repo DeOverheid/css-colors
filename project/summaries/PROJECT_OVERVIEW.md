@@ -40,15 +40,15 @@ project/
 
 ## Wizard Steps (current order)
 
-| #   | Step ID                | Component                | Purpose                                                 |
-| --- | ---------------------- | ------------------------ | ------------------------------------------------------- |
-| 1   | primary-color          | ColorInputControls       | Set base hue + saturation (hex/rgb/hsl input + sliders) |
+| #   | Step ID                | Component                | Purpose                                                     |
+| --- | ---------------------- | ------------------------ | ----------------------------------------------------------- |
+| 1   | primary-color          | ColorInputControls       | Set base hue + saturation (hex/rgb/hsl input + sliders)     |
 | 2   | complementary-colors   | ComplementaryColorPicker | Hue-saturation wheel for secondary/tertiary, UI tone picker |
-| 3   | lightness-distribution | BezierControls           | Bezier curve editor for lightness mapping               |
-| 4   | lightness-adjustment   | LightnessAdjustmentPanel | Hue-based perceptual compensation                       |
-| 5   | hue-spectrum           | HueSpectrumControls      | Expand palette with additional hue rows + offsets       |
-| 6   | select-theme           | ThemeSelector            | Compare Custom vs Tailwind vs Mathematical presets      |
-| 7   | export                 | ExportPanel              | Review and export palette config                        |
+| 3   | lightness-distribution | BezierControls           | Bezier curve editor for lightness mapping                   |
+| 4   | lightness-adjustment   | LightnessAdjustmentPanel | Hue-based perceptual compensation                           |
+| 5   | hue-spectrum           | HueSpectrumControls      | Expand palette with additional hue rows + offsets           |
+| 6   | select-theme           | ThemeSelector            | Compare Custom vs Tailwind vs Mathematical presets          |
+| 7   | export                 | ExportPanel              | Review and export palette config                            |
 
 ---
 

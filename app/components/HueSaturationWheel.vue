@@ -161,15 +161,15 @@ const outerMarkerStyle = computed(() => {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 10%;
 }
 
 .hue-wheel-wrapper {
     position: relative;
-    width: 100%;
-    max-height: 100%;
+    height: 100%;
     aspect-ratio: 1 / 1;
+    max-width: 100%;
     overflow: visible;
 }
 

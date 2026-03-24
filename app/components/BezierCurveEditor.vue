@@ -4,10 +4,19 @@
             <svg
                 ref="svgElement"
                 class="bezier-editor__svg"
-                viewBox="0 0 100 100"
+                viewBox="-5 -5 110 110"
                 preserveAspectRatio="xMidYMid meet"
                 @mousedown="handleSvgMouseDown"
                 @touchstart="handleSvgTouchStart">
+                <!-- White background with border -->
+                <rect
+                    x="0"
+                    y="0"
+                    width="100"
+                    height="100"
+                    fill="white"
+                    stroke="rgba(0,0,0,0.15)"
+                    stroke-width="0.5" />
                 <!-- Grid lines -->
                 <g
                     class="bezier-editor__grid"
@@ -80,6 +89,8 @@
                     :cy="p1.y"
                     r="4"
                     fill="var(--ui-primary)"
+                    stroke="white"
+                    stroke-width="1"
                     class="bezier-editor__handle"
                     @mousedown.stop="startDrag(1, $event)"
                     @touchstart.stop="startDrag(1, $event)" />
@@ -88,6 +99,8 @@
                     :cy="p2.y"
                     r="4"
                     fill="var(--ui-primary)"
+                    stroke="white"
+                    stroke-width="1"
                     class="bezier-editor__handle"
                     @mousedown.stop="startDrag(2, $event)"
                     @touchstart.stop="startDrag(2, $event)" />
@@ -171,9 +184,11 @@ function handleDrag(event: MouseEvent | TouchEvent) {
         clientY = touch.clientY;
     }
 
-    // Convert to SVG coordinates
-    const x = ((clientX - rect.left) / rect.width) * 100;
-    const y = ((clientY - rect.top) / rect.height) * 100;
+    // Convert to SVG coordinates (accounting for viewBox padding)
+    const pad = 5;
+    const svgSize = 110;
+    const x = ((clientX - rect.left) / rect.width) * svgSize - pad;
+    const y = ((clientY - rect.top) / rect.height) * svgSize - pad;
 
     // Clamp to 0-100 range
     const clampedX = Math.max(0, Math.min(100, x));

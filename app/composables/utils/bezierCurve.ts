@@ -21,21 +21,41 @@ function cubicBezier(t: number, x1: number, y1: number, x2: number, y2: number):
 }
 
 /**
- * Solve for t given x using Newton-Raphson method
+ * Solve for t given x using Newton-Raphson with binary search fallback.
+ * The derivative of X(t) = 3(1-t)²t·x1 + 3(1-t)t²·x2 + t³ is:
+ * dX/dt = 3(1-t)²·x1 + 6(1-t)t·(x2-x1) + 3t²·(1-x2)
  */
 function solveBezierX(x: number, x1: number, x2: number): number {
-    // Simple approach: approximate t ≈ x for initial guess
     let t = x;
 
     // Newton-Raphson iterations
     for (let i = 0; i < 8; i++) {
-        const currentX = 3 * (1 - t) * (1 - t) * t * x1 + 3 * (1 - t) * t * t * x2 + t * t * t;
-        const currentSlope = 3 * (1 - t) * (1 - t) * x1 - 6 * (1 - t) * t * x1 + 3 * (1 - t) * t * x2 + 3 * t * t * (1 - x1) + 3 * t * t * x2;
+        const mt = 1 - t;
+        const currentX = 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t;
+        const slope = 3 * mt * mt * x1 + 6 * mt * t * (x2 - x1) + 3 * t * t * (1 - x2);
 
-        if (Math.abs(currentSlope) < 1e-6) break;
+        if (Math.abs(slope) < 1e-6) break;
 
-        t = t - (currentX - x) / currentSlope;
-        t = Math.max(0, Math.min(1, t));
+        const nextT = t - (currentX - x) / slope;
+        t = Math.max(0, Math.min(1, nextT));
+
+        if (Math.abs(currentX - x) < 1e-7) return t;
+    }
+
+    // Binary search fallback for extreme curves where Newton-Raphson fails
+    let lo = 0;
+    let hi = 1;
+    t = x;
+    for (let i = 0; i < 20; i++) {
+        const mt = 1 - t;
+        const currentX = 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t;
+        if (Math.abs(currentX - x) < 1e-7) return t;
+        if (currentX < x) {
+            lo = t;
+        } else {
+            hi = t;
+        }
+        t = (lo + hi) / 2;
     }
 
     return t;
