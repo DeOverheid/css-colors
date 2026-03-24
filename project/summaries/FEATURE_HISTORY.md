@@ -149,3 +149,48 @@ Chronological record of features and refactors. Grouped by phase/branch. Use thi
 - Custom button styling (grey border, fit-content)
 - Input content grid: `auto` → `1fr` for proper 15% padding layout
 - Skillset profile side-project (PLAN_SKILLSET.md)
+
+---
+
+## Phase 10: UI Polish & Hue-Saturation Wheel
+
+**Branch:** `color-wheel` → merged to `master`
+**Commits:** `da517e4` → `9a79b80`
+
+### UI Polish (commit `a573990`)
+
+- Sidebar title centered with HR divider below
+- Step nav: compact buttons (10px padding, 0 gap, 13px font)
+- Step numbers left-aligned with 1em width, 10px gap to text
+- Active step uses `var(--color-neutral-900)` instead of white
+- `.rounded-group` CSS utility in main.css with `--vertical` and `--horizontal` variants
+- Applied rounded-group to nav (vertical) and swatch preview (horizontal)
+- Removed `margin-bottom: 1rem` from BaseSlider
+
+### Interactive Hue-Saturation Wheel (commit `5bac71d`)
+
+- **HueSaturationWheel.vue**: CSS conic-gradient wheel + SVG overlay
+  - Three draggable handles (primary, secondary, tertiary) with pointer capture
+  - Three reference rings: step 1 snapshot (fixed), live primary saturation, complementary saturation (dashed)
+  - Outer marker fixed at step 1 hue with snap-back click
+  - Red at top (0°), clockwise rotation matching coordinate math
+  - Radial grey center fading from 10% to transparent at 70%
+  - Secondary/tertiary handles at 80% opacity
+- **useWheelInteraction.ts**: Polar↔cartesian coordinate conversion, drag handling
+  - Step 1 hue/saturation snapshots for reference ring + outer marker
+  - Handle types: primary (hue+sat), secondary/tertiary (offset+compSat)
+- **Saturation ratio model** in useComplementaryColors: `satRatio = compSat / primarySat`
+  - Proportional behavior: changing primary saturation scales complementary proportionally
+  - Edge case: P=0 preserves last absolute complementary value
+- Removed offset slider from ComplementaryColorPicker — wheel is sole input
+- Redesigned preview swatches as 3x3 grid (labels/swatches/degrees in rows)
+- RadioSelector: added `background` property for option buttons (used by tone selector)
+- `stepRegistry.ts`: added `"hue-wheel"` inputLayout type
+- `GeneratorInput.vue`: grid layout for hue-wheel steps
+
+### Smaller Tweaks (commit `9a79b80`)
+
+- Grey shift label rename: "Grey dark"/"Grey light" → "Grey shift" in both side panels
+- Removed `padding-left: 15%` from ComplementaryColorPicker step controls
+- Color input parser fix and Update button committed
+- Project summaries and memory files added

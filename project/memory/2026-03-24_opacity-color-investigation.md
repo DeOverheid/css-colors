@@ -59,4 +59,4 @@ The washed-out appearance likely comes from:
 
 ## Status
 
-Under investigation — not yet resolved.
+Resolved — the washed-out appearance was caused by the IDE's dark mode bleeding into the Simple Browser preview. Colors render correctly in a standalone browser window. No code changes needed.

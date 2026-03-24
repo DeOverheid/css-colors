@@ -18,16 +18,19 @@ app/
     core/         → useColorSettings (hue, saturation — per-theme), baseConfig
     input/        → Step composables (baseColor, complementary, lightnessDistribution,
                     lightnessAdjustment, hueSpectrum, uniformLightnessShift)
+                    + useWheelInteraction (polar/cartesian drag math for hue wheel)
     output/       → useExportConfig (dev export, user export, URL params)
     steps/        → stepRegistry (declarative step definitions), useStepNavigation, useSwatchUnlock
     themes/       → useThemes, theme configs (tailwind, mathematical, custom)
     ui/           → useCssVariables (200+ CSS vars), useDevMode, useHoverPopup
     utils/        → bezierCurve, lightnessOffset (squeeze), parseColor, greySaturation, etc.
-  components/     → Generator panels, sliders, swatches, selectors
+  components/     → Generator panels, sliders, swatches, selectors, HueSaturationWheel
   pages/          → index, generator, tailwind (reference)
   data/           → tailwindColors.ts (TW v4 reference values)
 project/
   plans/          → Living plan documents (per feature)
+  memory/         → Session memory notes
+  summaries/      → Project overview, feature history, decisions log
   notes/          → SESSION_NOTES.md (early session notes, partially outdated)
   scripts/        → deploy.mjs (FTP deploy)
   legacy-js/      → Original vanilla JS implementation
@@ -40,7 +43,7 @@ project/
 | #   | Step ID                | Component                | Purpose                                                 |
 | --- | ---------------------- | ------------------------ | ------------------------------------------------------- |
 | 1   | primary-color          | ColorInputControls       | Set base hue + saturation (hex/rgb/hsl input + sliders) |
-| 2   | complementary-colors   | ComplementaryColorPicker | Hue offset for secondary/tertiary, UI tone picker       |
+| 2   | complementary-colors   | ComplementaryColorPicker | Hue-saturation wheel for secondary/tertiary, UI tone picker |
 | 3   | lightness-distribution | BezierControls           | Bezier curve editor for lightness mapping               |
 | 4   | lightness-adjustment   | LightnessAdjustmentPanel | Hue-based perceptual compensation                       |
 | 5   | hue-spectrum           | HueSpectrumControls      | Expand palette with additional hue rows + offsets       |
@@ -73,6 +76,7 @@ Tailwind starts with its own bezier, rainbow dark shift 65, grey dark shift 38, 
 - **Bezier lightness:** `generateLightnessSteps()` samples a cubic bezier curve at evenly-spaced X points, with X-axis squeeze (shift sliders narrow the sampled range).
 - **Weighted squeeze:** Dark slider affects dark swatches more than light, and vice versa. Uses position-based linear weights.
 - **Greys follow rainbow bezier** — same curve, different shift sliders.
+- **Hue-saturation wheel:** Interactive CSS conic-gradient + SVG overlay with 3 draggable handles. Coordinate system: 0°=top, clockwise. Saturation ratio model keeps complementary saturation proportional to primary.
 - **Unlock system:** Each step visit unlocks swatch row groups (e.g., visiting complementary colors unlocks secondary/tertiary rows).
 
 ---

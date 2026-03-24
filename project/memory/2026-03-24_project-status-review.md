@@ -7,16 +7,16 @@ CSS Colors — Nuxt 4 / Vue 3 / TypeScript color palette generator with 7-step w
 ## Git Status
 
 - **Branch:** master (up to date with origin/master)
-- **Last commit:** 72f0cf2 — feat: per-theme saturation defaults
-- **Local branches:** master, lightness, select-theme, code-cleanup
+- **Last commit:** 9a79b80 — chore: UI tweaks, grey shift labels, padding, docs updates
+- **Local branches:** master, color-wheel, lightness, select-theme, code-cleanup
 
-### Uncommitted changes
+### Recent commits (March 24)
 
-- Modified: .vscode/settings.json, ColorInputControls.vue, parseColor.ts
-- Untracked: project/summaries/ (3 summary docs)
-- Color input parser fix with explicit "Update" button replacing live parsing
-
-## Recent commits
+- 9a79b80 — chore: UI tweaks, grey shift labels, padding, docs updates
+- 5bac71d — feat: interactive hue-saturation wheel for step 2
+- 9a5e52f — docs: add interactive hue-saturation wheel plan
+- a573990 — feat: UI polish — sidebar layout, rounded-group utility, swatch preview refinements
+- da517e4 — docs: add session memory notes
 
 - Per-theme saturation defaults
 - Remove grayscale bezier, weighted squeeze

@@ -51,6 +51,22 @@ Key discussions, decisions, and reasoning from AI pair-programming sessions. Org
 - Solution: removed live parsing, added explicit "Update" button + Enter key
 - Matches user preference: explicit control over magic behavior
 
+### Hue-saturation wheel replaces offset slider
+
+- Step 2 (complementary colors) replaced the hue offset slider with an interactive wheel
+- CSS conic-gradient for color display, SVG overlay for handles and rings
+- Coordinate system: 0° = top (red), clockwise rotation. `from 0deg` in conic-gradient aligns with polar math `(hue-90)°`
+- Three handles: Primary (hue + saturation), Secondary/Tertiary (offset + complementary saturation)
+- Saturation ratio model: `satRatio = complementarySaturation / primarySaturation`. Dragging secondary/tertiary updates the ratio; changing primary scales complementary proportionally
+- Step 1 snapshot: outer marker and reference ring remember hue/saturation from step 1 so they stay fixed during wheel interaction
+- Three concentric reference rings: step 1 snapshot (25% opacity), live primary (50%), complementary (35%, dashed)
+
+### `.rounded-group` CSS utility
+
+- Created in main.css with `--vertical` and `--horizontal` modifier classes
+- Strips inner border-radius, applies 5px radius only on outer corners
+- Applied to sidebar nav (vertical) and swatch previews (horizontal)
+
 ---
 
 ## UI & Styling Decisions
@@ -94,7 +110,8 @@ Key discussions, decisions, and reasoning from AI pair-programming sessions. Org
 ## Open / Pending
 
 - FTP deploy times out (March 20-23) — server issue at `ftp.geenkaas.nl`
-- Color input parsing improvements uncommitted
 - Skillset profile side-project (PLAN_SKILLSET.md) — not project-related, lives in plans/
 - Various plans exist for future work: derived colors, expansion, export improvements, stepper refactor
 - `saveAsCustom` function still exists in `themes/index.ts` but the button was removed — could be cleaned up
+- RadioSelector tone button restyle partially done (background property added, visual polish pending)
+- Hue wheel: step 1 snapshot update mechanism needs to be triggered from step 1 slider changes

@@ -2,8 +2,7 @@
     <div class="hue-wheel-container">
         <div
             ref="wheelRef"
-            class="hue-wheel-wrapper"
-        >
+            class="hue-wheel-wrapper">
             <!-- CSS gradient wheel -->
             <div class="hue-wheel" />
 
@@ -11,8 +10,7 @@
             <div
                 class="outer-marker"
                 :style="outerMarkerStyle"
-                @click="snapToStep1Hue"
-            />
+                @click="snapToStep1Hue" />
 
             <!-- SVG overlay for interactive elements -->
             <svg
@@ -20,8 +18,7 @@
                 viewBox="0 0 100 100"
                 @pointermove="handlePointerMove"
                 @pointerup="handlePointerUp"
-                @pointerleave="handlePointerUp"
-            >
+                @pointerleave="handlePointerUp">
                 <!-- Step 1 saturation reference ring (fixed, half opacity) -->
                 <circle
                     class="sat-ring sat-ring--step1"
@@ -30,8 +27,7 @@
                     :r="step1SatRingRadius * 50"
                     fill="none"
                     stroke="rgba(255,255,255,0.25)"
-                    stroke-width="0.5"
-                />
+                    stroke-width="0.5" />
 
                 <!-- Live saturation ring -->
                 <circle
@@ -41,8 +37,7 @@
                     :r="satRingRadius * 50"
                     fill="none"
                     stroke="rgba(255,255,255,0.5)"
-                    stroke-width="0.5"
-                />
+                    stroke-width="0.5" />
 
                 <!-- Complementary saturation ring -->
                 <circle
@@ -53,8 +48,7 @@
                     fill="none"
                     stroke="rgba(255,255,255,0.35)"
                     stroke-width="0.5"
-                    stroke-dasharray="2 2"
-                />
+                    stroke-dasharray="2 2" />
 
                 <!-- Tertiary handle (lower z-order) -->
                 <circle
@@ -67,8 +61,7 @@
                     stroke-width="1"
                     opacity="0.8"
                     cursor="pointer"
-                    @pointerdown.prevent="startDrag('tertiary', $event)"
-                />
+                    @pointerdown.prevent="startDrag('tertiary', $event)" />
 
                 <!-- Secondary handle (higher z-order than T) -->
                 <circle
@@ -81,8 +74,7 @@
                     stroke-width="1"
                     opacity="0.8"
                     cursor="pointer"
-                    @pointerdown.prevent="startDrag('secondary', $event)"
-                />
+                    @pointerdown.prevent="startDrag('secondary', $event)" />
 
                 <!-- Primary handle (highest z-order) -->
                 <circle
@@ -94,10 +86,8 @@
                     stroke="white"
                     stroke-width="1.5"
                     cursor="pointer"
-                    @pointerdown.prevent="startDrag('primary', $event)"
-                />
+                    @pointerdown.prevent="startDrag('primary', $event)" />
             </svg>
-
         </div>
     </div>
 </template>
@@ -189,12 +179,9 @@ const outerMarkerStyle = computed(() => {
     border-radius: 50%;
     background:
         radial-gradient(circle,
-            hsl(0, 0%, 50%) 0%,
-            hsl(0, 0%, 50%) 10%,
-            transparent 70%
-        ),
-        conic-gradient(
-            from 0deg,
+            hsl(0, 0%, 50%) 15%,
+            transparent 95%),
+        conic-gradient(from 0deg,
             hsl(0, 100%, 50%),
             hsl(30, 100%, 50%),
             hsl(60, 100%, 50%),
@@ -207,8 +194,7 @@ const outerMarkerStyle = computed(() => {
             hsl(270, 100%, 50%),
             hsl(300, 100%, 50%),
             hsl(330, 100%, 50%),
-            hsl(360, 100%, 50%)
-        );
+            hsl(360, 100%, 50%));
 }
 
 .wheel-overlay {
