@@ -14,7 +14,7 @@ export interface StepDefinition {
     /** Component name rendered in the input panel */
     inputComponent: string;
     /** Layout variant for the input panel */
-    inputLayout?: "default" | "bezier";
+    inputLayout?: "default" | "bezier" | "hue-wheel";
     /** Component name for the footer middle slot (undefined = keep persistent) */
     footerComponent?: string;
     /** Swatch row IDs unlocked upon first visiting this step */
@@ -34,6 +34,7 @@ export const steps: StepDefinition[] = [
         title: "Complementary Colors",
         description: "Choose secondary and tertiary hues by setting the hue offset, then pick a UI tone for the app background",
         inputComponent: "ComplementaryColorPicker",
+        inputLayout: "hue-wheel",
         unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
     },
     {

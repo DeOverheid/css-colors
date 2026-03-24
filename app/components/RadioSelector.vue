@@ -11,6 +11,7 @@
                 :key="option.value"
                 class="radio-selector__option"
                 :class="{ 'radio-selector__option--active': modelValue === option.value }"
+                :style="option.background ? { background: option.background, color: 'white' } : {}"
                 :title="option.title">
                 <input
                     type="radio"
@@ -20,7 +21,7 @@
                     class="radio-selector__input"
                     @change="$emit('update:modelValue', option.value)">
                 <span
-                    v-if="option.swatch"
+                    v-if="option.swatch && !option.background"
                     class="radio-selector__swatch"
                     :style="{ background: option.swatch }" />
                 <span class="radio-selector__label">{{ option.label }}</span>
@@ -39,6 +40,8 @@ export interface RadioOption {
     title?: string;
     /** Optional swatch color (CSS color string) */
     swatch?: string;
+    /** Optional background color for the entire button */
+    background?: string;
 }
 
 defineProps<{

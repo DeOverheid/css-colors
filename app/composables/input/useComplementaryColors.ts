@@ -25,6 +25,33 @@ export function useComplementaryColors() {
 
     const hueOffset = useState<number>("complementary-hue-offset", () => 120);
 
+    /**
+     * Saturation ratio: complementary saturation relative to primary.
+     * 1.0 = same as primary, 0.8 = 80% of primary, 1.2 = 120% of primary.
+     */
+    const satRatio = useState<number>("complementary-sat-ratio", () => 1.0);
+
+    /** Last absolute complementary saturation — used when primary is 0 */
+    const _lastAbsCompSat = useState<number>("complementary-last-abs-sat", () => -1);
+
+    /** Computed complementary saturation from ratio × primary, clamped 0–100 */
+    const complementarySaturation = computed(() => {
+        const pSat = colorSettings.saturation.value;
+        if (pSat === 0 && _lastAbsCompSat.value >= 0) {
+            return _lastAbsCompSat.value;
+        }
+        return Math.min(100, Math.max(0, pSat * satRatio.value));
+    });
+
+    /** Update satRatio from an absolute S/T saturation value */
+    function setComplementarySaturation(absSat: number) {
+        const pSat = colorSettings.saturation.value;
+        _lastAbsCompSat.value = absSat;
+        if (pSat > 0) {
+            satRatio.value = absSat / pSat;
+        }
+    }
+
     /** Per-theme UI tone state */
     const perThemeUiTone = useState<Record<string, UiToneSource>>("per-theme-ui-tone", () => {
         const map: Record<string, UiToneSource> = {};
@@ -162,6 +189,9 @@ export function useComplementaryColors() {
 
     return {
         hueOffset,
+        satRatio,
+        complementarySaturation,
+        setComplementarySaturation,
         uiToneSource,
         uiToneHue,
         uiToneLabel,

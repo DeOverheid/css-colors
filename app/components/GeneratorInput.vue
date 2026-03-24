@@ -1,10 +1,13 @@
 <template>
     <section
         class="generator-input panel"
-        :class="{ 'generator-input--bezier': activeStep.inputLayout === 'bezier' }"
+        :class="{
+            'generator-input--bezier': activeStep.inputLayout === 'bezier',
+            'generator-input--hue-wheel': activeStep.inputLayout === 'hue-wheel'
+        }"
     >
         <!-- Bezier layout: component fills entire panel -->
-        <template v-if="activeStep.inputLayout === 'bezier'">
+        <template v-if="activeStep.inputLayout === 'bezier' || activeStep.inputLayout === 'hue-wheel'">
             <component :is="inputComponent" />
         </template>
 
@@ -88,6 +91,18 @@ const inputComponent = computed(() =>
         "title   title   bezier  ."
         "text    text    bezier  ."
         "results results bezier  .";
+    gap: 0.75rem 1rem;
+}
+
+/* Hue-wheel layout: controls left, wheel right */
+.generator-input--hue-wheel {
+    display: grid;
+    grid-template-columns: var(--panel-column-width, 15%) 1fr 1fr var(--panel-column-width, 15%);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+        "title   title   wheel  ."
+        "text    text    wheel  ."
+        "controls controls wheel  .";
     gap: 0.75rem 1rem;
 }
 </style>

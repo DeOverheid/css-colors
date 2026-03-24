@@ -89,7 +89,7 @@ const props = defineProps<{
 const { grayscaleLightnessSteps: greyLightnessSteps } = stepLightnessDistribution();
 
 const { isUnlocked } = useSwatchUnlock();
-const { orderedRows, greyCompanionRows, primaryGreyName } = useComplementaryColors();
+const { orderedRows, greyCompanionRows, primaryGreyName, complementarySaturation } = useComplementaryColors();
 
 const markerIndex = computed(() => {
     const baseIndex = findClosestLightnessIndex(props.lightnessSteps, props.targetLightness);
@@ -114,7 +114,7 @@ const chromaticRows = computed(() =>
             rowId: row.rowId,
             hue: row.hue,
             label: chromaticLabels[row.rowId] ?? row.rowId,
-            saturation: props.saturation
+            saturation: row.rowId === "primary" ? props.saturation : complementarySaturation.value
         }))
 );
 
