@@ -3,7 +3,9 @@
         <!-- Step 4: Dark adjustment controls -->
         <template v-if="isAdjustmentStep">
             <div class="adjustment-panel">
-                <div class="adjustment-panel-label">Dark adjustment</div>
+                <div class="adjustment-panel-label">
+                    Dark adjustment
+                </div>
                 <div class="adjustment-slider-area">
                     <HueRangeSlider
                         :hue-rows="hueRows"
