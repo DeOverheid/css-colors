@@ -79,6 +79,16 @@ A complete CSS color palette generator that takes you from picking a base hue to
 - **CSS export**: Layered CSS file system (config → variables → theme → semantic → examples)
 - **JSON export**: Raw color data for programmatic use
 
+#### Developer Tools (see PLAN_DEV_TOOLS.md)
+
+Standalone utility pages outside the wizard, accessible anytime:
+- **Contrast Checker** (`/contrast`) — WCAG ratio matrix for all palette combinations
+- **Color Blindness Simulator** (`/simulate`) — 8 CVD filters on the full palette
+- **Palette Visualizer** (`/visualize`) — realistic UI mockups using the active palette
+- **Variable Reference** (`/reference`) — searchable, copyable list of all CSS variables
+- **Import & Diff** (`/import`) — paste an existing palette, compare ΔE per swatch
+- **Quick Bookmarks** (`/bookmarks`) — save/recall palette snapshots, shareable URLs
+
 ---
 
 ## Architecture
@@ -121,6 +131,7 @@ User Input → Composable State → Computed Lightness Steps → applyAdjustment
 6. **Phase 13: Per-Swatch Hue Adjustment** (see PLAN_HUE_ADJUSTMENT.md)
 7. **Phase 14: Theme Builder Redesign** (see PLAN_THEME_BUILDER.md)
 8. **Phase 15: Export System** (see PLAN_EXPORT_SYSTEM.md)
+9. **Phase 16: Developer Tools** (see PLAN_DEV_TOOLS.md) — can be built in parallel with anything
 
 ---
 
@@ -132,5 +143,6 @@ User Input → Composable State → Computed Lightness Steps → applyAdjustment
 | Per-Swatch Hue Adjustment | `PLAN_HUE_ADJUSTMENT.md`           |
 | Theme Builder             | `PLAN_THEME_BUILDER.md`            |
 | Export System             | `PLAN_EXPORT_SYSTEM.md`            |
+| Developer Tools           | `PLAN_DEV_TOOLS.md`                |
 | Feature History           | `../summaries/FEATURE_HISTORY.md`  |
 | Project Overview          | `../summaries/PROJECT_OVERVIEW.md` |
