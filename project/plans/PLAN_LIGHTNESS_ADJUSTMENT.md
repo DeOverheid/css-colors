@@ -45,7 +45,7 @@ Redesign Step 4 (Lightness Adjustment) to provide an intuitive, visual way to co
 **Swatch area:**
 
 - All 12 chromatic hue rows at 30° intervals, anchored to primary's offset within its band
-- Rows sorted by hue ascending, starting from the row in the 0°–30° band (red)
+- Rows sorted by hue ascending, starting from the row in the 0°–30° band (red (0-15) or orange (15-30) )
 - Primary row stays at its exact hue; other rows are offset + N×30°
 - Secondary and tertiary are **not shown** but their values remain stored
 - Grey companion rows hidden — only keep Neutral row and the grey matching the UI tone
@@ -53,11 +53,12 @@ Redesign Step 4 (Lightness Adjustment) to provide an intuitive, visual way to co
 - The primary row is marked with a bold label
 
 **Left panel — Dark adjustment:**
-Vertical slider track aligned with the swatch rows (top = hue 0° row, bottom = hue 330° row):
+Vertical slider track aligned with the swatch rows (top = top of hue 0° row, bottom = bottom of hue 330° row):
 
 1. **Center handle** — marks the hue where the darkening effect is strongest
 2. **Falloff handle** — marks where the effect fades to 0 (above the center)
 3. **Mirror handle** — automatically mirrors the falloff below the center (moves opposite)
+Use as much plain HTML as possible, otherwise look for NUXT UI components and if nothing matches, create a component yourself
 
 Below the Vertical slider, next to the grey swatches and in the left and right panels are the following horizontal sliders (like the dark shift sliders): 4. **Strength slider** (0–100%) — overall amplitude of the darkening effect 5. **Light falloff slider** (0–100%) — how much the effect diminishes across the swatch width (dark swatches → light swatches). 0% = uniform across all swatches, 100% = only affects the darkest swatches 6. **Hue falloff curve** (0–100%) — controls the gradient shape between center hue and the 0-effect boundary. 0% = sharp cutoff, 100% = smooth bell curve
 
@@ -218,3 +219,34 @@ The `enabled` flag will always be `true` — no toggle needed.
 - `app/components/GeneratorRightPanel.vue` — light adjustment controls
 - `app/components/GeneratorSwatches.vue` — 12-hue row mode for step 4
 - `app/components/GeneratorInput.vue` — layout support for lightness-adjustment step
+
+---
+
+## Implementation Status
+
+### Completed
+
+- [x] **Phase 1**: 12-hue swatch rows for step 4 (`63b5726`)
+- [x] **Phase 2**: HueRangeSlider.vue — vertical 3-handle slider component (`3c9712f`)
+- [x] **Phase 3**: Side panel controls — dark/light adjustment in left/right panels (`3c9712f`)
+- [x] **Wiring**: `applyAdjustment()` plugged into `ColorSwatchRow.vue` — adjustment is now live
+- [x] **Defaults updated**: Dark center 240° ± 45°, str 15, falloff 60%/30%. Light center 120° ± 90°, str 12, falloff 90%/50%
+- [x] **Panel labels**: "Dark adjustment" / "Light adjustment" headers
+- [x] **Always enabled**: No toggle; `DEFAULT_LIGHTNESS_ADJUSTMENT.enabled = true`
+
+### Follow-up Tasks
+
+1. **Verify swatch rendering**: Confirm 12-hue rows visually show the adjustment effect (darker blues, brighter greens)
+2. **Fine-tune default values**: Test with various primary hues and tweak center/falloff if needed
+3. **Composable refactor (Phase 4)**: 
+   - Remove `enabled` boolean from `AdjustmentRange` — ranges are always active (amplitude=0 = disabled)
+   - Replace start/end model with center+span internally for cleaner code
+   - Keep `applyAdjustment()` signature unchanged
+4. **Export integration**: Ensure exported CSS variables include adjusted lightness values
+5. **Per-theme adjustment settings**: Store adjustment state per-theme like shifts
+6. **Visual effect overlay (Phase 5, stretch)**: SVG/CSS gradient overlay on swatches showing the oval effect shape
+7. **HueRangeSlider polish**:
+   - Make track gradient dynamic (show actual hue row colors, not generic rainbow)
+   - Sync track height with swatch group height via ResizeObserver
+   - Consider tick marks at 12 hue row positions
+8. **Hue falloff curve slider**: Currently linear — may want the bezier-shaped curve option later

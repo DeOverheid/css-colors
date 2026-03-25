@@ -194,3 +194,62 @@ Chronological record of features and refactors. Grouped by phase/branch. Use thi
 - Removed `padding-left: 15%` from ComplementaryColorPicker step controls
 - Color input parser fix and Update button committed
 - Project summaries and memory files added
+
+---
+
+## Phase 11: Bezier Fix & UI Polish
+
+**Branch:** `master`
+**Commits:** `2543a38`
+
+- **Bezier solver fix**: Corrected Newton-Raphson derivative in `solveBezierX`, added 20-iteration binary search fallback when slope ≈ 0
+- Bezier editor: expanded viewBox (`-5 -5 110 110`), white opaque background, smaller handles (r=4)
+- Shift slider thumb colors: pick up track color at thumb position via `--thumb-color` CSS variable
+- Light slider direction fix: removed RTL hack, inverted display mapping (`100 - shift`)
+- Grey slider thumb saturation parameter (grey sliders pass `10`)
+- Wheel layout fix: `height: 100%` + `aspect-ratio: 1/1` + `max-width: 100%`, right-aligned
+
+---
+
+## Phase 12: Lightness Adjustment Redesign
+
+**Branch:** `lightness-adjustment`
+**Commits:** `63b5726` (Phase 1), `3c9712f` (Phase 2-3), in-progress...
+
+### Phase 1: 12-Hue Swatch Rows (commit `63b5726`)
+
+- **GeneratorSwatches.vue**: Conditional `v-if/v-else` showing 12 hue rows at 30° intervals when on step 4 (lightness-adjustment), normal P/S/T view otherwise
+- Hue rows: `(primaryHue % 30) + N×30` for N=0..11, sorted ascending from red band
+- Primary row highlighted with bold label + hue name (Red, Orange, Yellow, etc.)
+- **GeneratorInput.vue**: `lightness-adjustment` layout class, no side padding
+- **stepRegistry.ts**: Extended `inputLayout` type with `"lightness-adjustment"`
+
+### Phase 2-3: Vertical Hue Range Slider + Side Panel Controls (commit `3c9712f`)
+
+- **New `HueRangeSlider.vue`**: Vertical 3-handle slider component
+    - Center handle (large, hue-colored): marks peak effect hue
+    - Falloff handles (smaller, semi-transparent): mark zero-boundary above/below center
+    - Mirror handle auto-mirrors opposite side of center
+    - Active zone highlighted between falloff handles
+    - Pointer capture drag with hue↔pixel conversion
+- **GeneratorLeftPanel.vue**: Dark adjustment mode on step 4
+    - HueRangeSlider for darkening range
+    - Strength slider (0–30, `lightnessAmplitude`)
+    - Light falloff slider (0–100%, `lightnessFalloffLight`)
+    - Hue falloff slider (0–90°, `hueFalloff`)
+    - "Dark adjustment" label at top
+- **GeneratorRightPanel.vue**: Light adjustment mode on step 4
+    - HueRangeSlider for brightening range
+    - Strength slider (0–30, `lightnessAmplitude`)
+    - Dark falloff slider (0–100%, `lightnessFalloffDark`)
+    - Hue falloff slider (0–90°, `hueFalloff`)
+    - "Light adjustment" label at top
+- **LightnessAdjustmentPanel.vue**: Simplified to description text
+- **`sidePanels`** property on `StepDefinition` for per-step panel visibility
+- **`showSidePanels`** computed exported from `useStepNavigation`
+- Adjustment always enabled (no toggle) — set strength to 0 to disable
+
+### Wiring & Defaults (in progress)
+
+- **ColorSwatchRow.vue**: `applyAdjustment(baseLightness, hue, index, count)` called for every swatch — adjustment is now live and reactive
+- **New defaults**: Dark: center 240° ± 45° (blues), str 15, falloff 60%/30%. Light: center 120° ± 90° (greens), str 12, falloff 90%/50%

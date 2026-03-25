@@ -3,6 +3,7 @@
         <!-- Step 4: Light adjustment controls -->
         <template v-if="isAdjustmentStep">
             <div class="adjustment-panel">
+                <div class="adjustment-panel-label">Light adjustment</div>
                 <div class="adjustment-slider-area">
                     <HueRangeSlider
                         :hue-rows="hueRows"
@@ -181,6 +182,15 @@ function lightThumbColor(value: number, sat: number = colorSettings.saturation.v
     flex-direction: column;
     height: 100%;
     gap: 0.75rem;
+}
+
+.adjustment-panel-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+    opacity: 0.7;
 }
 
 .adjustment-slider-area {

@@ -173,22 +173,20 @@ onUnmounted(() => {
     left: 50%;
     transform: translateX(-50%);
     border-radius: 4px;
-    background: linear-gradient(
-        to bottom,
-        hsl(0, 70%, 50%),
-        hsl(30, 70%, 50%),
-        hsl(60, 70%, 50%),
-        hsl(90, 70%, 50%),
-        hsl(120, 70%, 50%),
-        hsl(150, 70%, 50%),
-        hsl(180, 70%, 50%),
-        hsl(210, 70%, 50%),
-        hsl(240, 70%, 50%),
-        hsl(270, 70%, 50%),
-        hsl(300, 70%, 50%),
-        hsl(330, 70%, 50%),
-        hsl(360, 70%, 50%)
-    );
+    background: linear-gradient(to bottom,
+            hsl(0, 70%, 50%),
+            hsl(30, 70%, 50%),
+            hsl(60, 70%, 50%),
+            hsl(90, 70%, 50%),
+            hsl(120, 70%, 50%),
+            hsl(150, 70%, 50%),
+            hsl(180, 70%, 50%),
+            hsl(210, 70%, 50%),
+            hsl(240, 70%, 50%),
+            hsl(270, 70%, 50%),
+            hsl(300, 70%, 50%),
+            hsl(330, 70%, 50%),
+            hsl(360, 70%, 50%));
     opacity: 0.4;
 }
 
