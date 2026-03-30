@@ -5,8 +5,8 @@
 Replace the current minimal export with a comprehensive export system that produces production-ready files. Three export modes depending on theme:
 
 1. **Tailwind export** (Custom + Tailwind themes) → `tailwind.config.ts` color section
-2. **CSS layered export** (Custom + Mathematical themes) → 5-file CSS system
-3. **JSON export** (all themes) → raw color data
+2. **CSS layered export** (Custom + Mathematical themes) → tiered CSS system
+3. **JSON export** (all themes) → raw color data (hex values)
 
 ---
 
@@ -50,6 +50,7 @@ export default {
 
 - Maps our 11-step scale to Tailwind's 50-950 naming convention
 - Includes all unlocked color rows (primary, secondary, tertiary, greys, neutral)
+- Also includes all TW Rainbow hues as named swatches.
 - HSL format with actual computed values (post-adjustment)
 - Copy-paste ready for `tailwind.config.ts`
 - Optional: include the config parameters as comments so user can recreate
@@ -60,7 +61,7 @@ export default {
 
 ### Architecture
 
-Five CSS files that build on each other in a clean cascade:
+Tiered CSS files that build on each other in a clean cascade:
 
 ```
 1-config.css → 2-variables.css → 3-theme.css → 4-semantic.css → 5-examples.css
@@ -101,7 +102,23 @@ Raw configuration values. The "source of truth" that feeds everything else.
 Builds all HSL colors from the config. Every hue × every lightness step.
 
 ```css
-:root {
+Note,
+when drawing these files,
+assume they will not be edited by hand,
+prefer more data on a single line,
+it
+    actually
+    improves
+    readability
+    by
+    being
+    able
+    to
+    scan
+    rowns
+    and
+    columns.
+    :root {
     /* Primary palette */
     --color-primary-50: hsl(
         var(--config-primary-hue),

@@ -34,21 +34,22 @@ A complete CSS color palette generator that takes you from picking a base hue to
 
 - 12-hue chromatic swatch rows at 30° intervals
 - Vertical hue range sliders with 3 handles (center, falloff-top, falloff-bottom)
-- Dark adjustment panel (left): darken blues/violets
-- Light adjustment panel (right): brighten greens/yellows
+- Dark adjustment panel (left): brightens blues/violets
+- Light adjustment panel (right): darkens greens/yellows
 - Strength, lightness falloff, and hue falloff controls
 - `applyAdjustment()` wired into every swatch via ColorSwatchRow
 
 #### Step 5: Hue Spectrum
 
-- Expand palette with additional hue rows
 - Per-hue configuration
+- Adjust the hue offset for the dark side and the light side to shift results
 
 #### Step 6: Compare Presets
 
 - Radio selector: Custom / Tailwind / Mathematical
 - Per-theme state preservation (bezier, shifts, saturation)
-- Side-by-side comparison of palette output
+- toggling themes allows comparison of palette output
+- Individual theme settings for amount of hues and swatches
 
 #### Step 7: Export
 
@@ -59,13 +60,15 @@ A complete CSS color palette generator that takes you from picking a base hue to
 
 ### Planned Additions
 
-#### Step 4b: Per-Swatch Hue Adjustment (see PLAN_HUE_ADJUSTMENT.md)
+#### Step 5 replacement: Per-Swatch Hue Adjustment (see PLAN_HUE_ADJUSTMENT.md)
 
 - Individual hue tweaks per swatch position (per lightness step)
 - Fine-tune specific swatches without affecting the whole row
 - Visual hue-shift indicators on affected swatches
 
 #### Step 6 Redesign: Theme Builder (see PLAN_THEME_BUILDER.md)
+
+I don't think we will do this, the custom theme allows a user to build their own using sane presets.
 
 - Replace simple "Compare Presets" with interactive theme builder
 - Pick and choose settings from any preset
@@ -82,6 +85,7 @@ A complete CSS color palette generator that takes you from picking a base hue to
 #### Developer Tools (see PLAN_DEV_TOOLS.md)
 
 Standalone utility pages outside the wizard, accessible anytime:
+
 - **Contrast Checker** (`/contrast`) — WCAG ratio matrix for all palette combinations
 - **Color Blindness Simulator** (`/simulate`) — 8 CVD filters on the full palette
 - **Palette Visualizer** (`/visualize`) — realistic UI mockups using the active palette

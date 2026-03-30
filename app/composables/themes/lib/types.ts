@@ -84,20 +84,20 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
     enabled: true,
     darkening: {
         enabled: true,
-        start: 195,
-        end: 285,
+        start: 20,
+        end: 180,
         hueFalloff: 30,
-        lightnessFalloffLight: 0.6,
+        lightnessFalloffLight: 0.76,
         lightnessAmplitude: 15,
-        lightnessFalloffDark: 0.3
+        lightnessFalloffDark: 0.33
     },
     brightening: {
         enabled: true,
-        start: 30,
-        end: 210,
+        start: 200,
+        end: 280,
         hueFalloff: 30,
-        lightnessFalloffLight: 0.9,
-        lightnessAmplitude: 12,
-        lightnessFalloffDark: 0.5
+        lightnessFalloffLight: 0.5,
+        lightnessAmplitude: 6,
+        lightnessFalloffDark: 0.3
     }
 };

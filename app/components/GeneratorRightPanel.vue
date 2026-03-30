@@ -6,14 +6,6 @@
                 <div class="adjustment-panel-label">
                     Light adjustment
                 </div>
-                <div class="adjustment-slider-area">
-                    <HueRangeSlider
-                        :hue-rows="hueRows"
-                        :center-hue="brighteningCenterHue"
-                        :falloff-span="brighteningFalloffSpan"
-                        @update:center-hue="setBrighteningCenter"
-                        @update:falloff-span="setBrighteningFalloff" />
-                </div>
 
                 <div class="adjustment-controls">
                     <div class="adjustment-control">
@@ -31,16 +23,16 @@
                     </div>
 
                     <div class="adjustment-control">
-                        <label class="shift-label">Dark falloff</label>
+                        <label class="shift-label">Light falloff</label>
                         <input
                             type="range"
-                            :value="Math.round(adjustmentSettings.brightening.lightnessFalloffDark * 100)"
+                            :value="Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100)"
                             min="0"
                             max="100"
                             class="shift-slider shift-slider--light"
                             :style="{ '--primary-hsl': primaryHsl }"
-                            @input="adjustmentSettings.brightening.lightnessFalloffDark = Number(($event.target as HTMLInputElement).value) / 100">
-                        <span class="shift-value">{{ Math.round(adjustmentSettings.brightening.lightnessFalloffDark * 100) }}%</span>
+                            @input="adjustmentSettings.brightening.lightnessFalloffLight = Number(($event.target as HTMLInputElement).value) / 100">
+                        <span class="shift-value">{{ Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100) }}%</span>
                     </div>
 
                     <div class="adjustment-control">
@@ -55,6 +47,15 @@
                             @input="adjustmentSettings.brightening.hueFalloff = Number(($event.target as HTMLInputElement).value)">
                         <span class="shift-value">{{ adjustmentSettings.brightening.hueFalloff }}°</span>
                     </div>
+                </div>
+
+                <div class="adjustment-slider-area">
+                    <HueRangeSlider
+                        :hue-rows="hueRows"
+                        :center-hue="brighteningCenterHue"
+                        :falloff-span="brighteningFalloffSpan"
+                        @update:center-hue="setBrighteningCenter"
+                        @update:falloff-span="setBrighteningFalloff" />
                 </div>
             </div>
         </template>

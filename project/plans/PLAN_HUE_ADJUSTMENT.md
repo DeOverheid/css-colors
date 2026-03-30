@@ -18,37 +18,32 @@ This feature adds per-swatch hue offsets that are applied on top of the row's ba
 
 ### Where in the Wizard
 
-This could be:
+This will be:
 
-- **Option A**: A sub-feature within Step 4 (Lightness Adjustment) — toggle between "lightness mode" and "hue mode"
-- **Option B**: A new Step 4b between Lightness Adjustment and Hue Spectrum
-- **Option C**: Part of Step 5 (Hue Spectrum) since it's hue-related
-
-**Recommendation**: Option A — keep it in Step 4 as a mode toggle. The 12-hue swatch rows are already displayed. Add a "Hue shift" toggle that switches the side panels from lightness controls to hue controls.
+- Replacing step 5. Hue Spectrum, we will remove the input and swatches on top
+- The hue adjustment sliders will be placed in the left and right panels
+- the sliders will match the vertical position of the swatches they will adjust.
 
 ### UI
 
 **Swatch area (unchanged):**
 
 - Same 12 chromatic hue rows at 30° intervals
-- When hue shift is active, swatches visually show the shifted hue
+- When hue shift sliders are adjusted, swatches visually show the shifted in real time.
 
 **Side panels in "Hue shift" mode:**
 
 - Instead of vertical hue range sliders, show a **per-swatch hue offset grid**
-- One row of offset controls per lightness position (matching swatch columns)
-- Small +/- buttons or a mini-slider (-30° to +30°) for each swatch position
-- Or a single "hue curve" — a bezier or spline that maps lightness position → hue offset
-
-**Simpler alternative: Hue Shift Curve**
-
-- Single curve editor (like the bezier editor in Step 3)
-- X-axis = lightness position (dark → light)
-- Y-axis = hue offset (-30° to +30°)
-- Curve defines how much hue shifts at each lightness level
-- Same curve applied to all hue rows (universal correction)
+- Two sets offset controls per hue swatch row
+- Sliders on the left panel control the hue offset for darker swatches
+- Sliders on the right panel control lighter swatches
+- A horizontal mini-slider (-30° to +30°)
+- sliders are positioned to match the hue vertical position (same grid height)
+- the offset is applied with a tapering effect, 100% at the darkest (or lightest) swatch in that hue row, and 0 effect on the middle swatch. (example: dark: 3 Swatches +3 +2 +1 center: no offset -2 -4 -6 at light: -6 )
 
 ### Data Model
+
+Update the model to the changes made above since the plan was drafted
 
 ```typescript
 interface HueShiftConfig {
@@ -101,10 +96,15 @@ const adjustedHue = baseHue + getHueShift(lightnessPosition);
 ## Open Questions
 
 1. Should hue shift be a universal curve or per-hue-row? Universal is simpler; per-row allows fixing specific problem hues
+   Answer: We will do a per hue shift, two sliders per hue, one left for the darker tones, and a slider on the right for the lighter tones, Each hue can be adjusted individually, experience shows the sliders actually form a sinus like pattern across the hues, so a single modifier would be useless.
 2. Should the shift be relative (offset from base) or absolute (snap to specific hue)?
+   A: relative. the user has set the base Hue already in step 1 or 2, adjustmenst will be made on the lightness swatches for that hue with the two sliders. For example if they set red: 0. The dark reds could be shifted to a more ourple red with -15 and the lighter colors would be made more orange with +15. The middle will always be exacly what they chose before, so the middle swatch is unaffected by any slider, but the effect grows larger if you move to the lightest or darkest swatches in a linear fashion.
 3. Do we need different curves for different themes, or is one curve universal?
+   We will store defaults per theme, the mathematical will be a handpicked sine curve, custom will remain at 0 to start and Tailwind will have a custom adjustment we will figure out from comparing their own swatches and finding close defaults.
 4. Maximum shift range: ±15°? ±30°? ±45°?
+   A: Use +/- 30 degrees for now, I used 45 in the past but you never use those extremes as you will enter the next or previous swatch.
 5. Should this also shift saturation slightly? (Some colors lose saturation at extreme lightness)
+   A: No, this will be handled already by the saturation setup from before. We will check but we are already using a custom saturation distribution that more or less follows the Tailwind swatches. If now, we will add it back in step 1.
 
 ---
 
