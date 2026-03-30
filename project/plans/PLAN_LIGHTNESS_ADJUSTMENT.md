@@ -230,9 +230,11 @@ The `enabled` flag will always be `true` — no toggle needed.
 - [x] **Phase 2**: HueRangeSlider.vue — vertical 3-handle slider component (`3c9712f`)
 - [x] **Phase 3**: Side panel controls — dark/light adjustment in left/right panels (`3c9712f`)
 - [x] **Wiring**: `applyAdjustment()` plugged into `ColorSwatchRow.vue` — adjustment is now live
-- [x] **Defaults updated**: Dark center 240° ± 45°, str 15, falloff 60%/30%. Light center 120° ± 90°, str 12, falloff 90%/50%
+- [x] **Defaults updated**: Dark center 100° ± 80° (start 20, end 180), str 15, falloff 76%/33%. Light center 240° ± 40° (start 200, end 280), str 6, falloff 50%/30%
 - [x] **Panel labels**: "Dark adjustment" / "Light adjustment" headers
 - [x] **Always enabled**: No toggle; `DEFAULT_LIGHTNESS_ADJUSTMENT.enabled = true`
+- [x] **Bug fix**: Right panel falloff direction corrected — now uses `lightnessFalloffLight` so both adjustments are strongest on dark swatches
+- [x] **Right panel layout**: Horizontal sliders moved above vertical HueRangeSlider
 
 ### Follow-up Tasks
 

@@ -101,43 +101,17 @@ Raw configuration values. The "source of truth" that feeds everything else.
 
 Builds all HSL colors from the config. Every hue × every lightness step.
 
+**Formatting note**: Since these files are not edited by hand, prefer compact single-line format per variable. This improves readability by allowing users to scan rows and columns.
+
 ```css
-Note,
-when drawing these files,
-assume they will not be edited by hand,
-prefer more data on a single line,
-it
-    actually
-    improves
-    readability
-    by
-    being
-    able
-    to
-    scan
-    rowns
-    and
-    columns.
-    :root {
+:root {
     /* Primary palette */
-    --color-primary-50: hsl(
-        var(--config-primary-hue),
-        var(--config-primary-saturation),
-        var(--config-lightness-50)
-    );
-    --color-primary-100: hsl(
-        var(--config-primary-hue),
-        var(--config-primary-saturation),
-        var(--config-lightness-100)
-    );
+    --color-primary-50: hsl(var(--config-primary-hue), var(--config-primary-saturation), var(--config-lightness-50));
+    --color-primary-100: hsl(var(--config-primary-hue), var(--config-primary-saturation), var(--config-lightness-100));
     /* ... through 950 */
 
     /* Secondary palette */
-    --color-secondary-50: hsl(
-        var(--config-secondary-hue),
-        var(--config-secondary-saturation),
-        var(--config-lightness-50)
-    );
+    --color-secondary-50: hsl(var(--config-secondary-hue), var(--config-secondary-saturation), var(--config-lightness-50));
     /* ... */
 
     /* Grey palette (with per-step saturation) */

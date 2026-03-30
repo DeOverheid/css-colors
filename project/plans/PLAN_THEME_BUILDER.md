@@ -28,69 +28,62 @@ There is also a new idea to load the Tailwind color swatches with the exact HSL 
 
 ## Design
 
-### Theme Builder UI
+### Decision: Full Theme Builder is NOT planned
 
-User input: We will not be using this system. This is too much of everything and too little of use.
+The grid-based per-setting mixer described originally is over-engineered and unlikely to be useful. The Custom theme already lets users build their own palette using sane presets.
 
-**Layout: Grid of configurable properties**
+### What we WILL do: Theme Toggle + Comparison
 
-Each row shows one setting with the value from each theme side by side:
+**Theme toggle (small, always available):**
+- Unlocked once the user reaches Step 6
+- Available on ALL steps — user can go back to any step, toggle themes, compare results
+- Small UI toggle, does not interfere with step content
 
-| Setting        | Custom        | Tailwind      | Mathematical | Active     |
-| -------------- | ------------- | ------------- | ------------ | ---------- |
-| Bezier curve   | (0,0,0.5,0.9) | (0.5,0,0.3,1) | (0,0,1,1)    | ● Custom   |
-| Dark shift     | 65            | 65            | 50           | ● Tailwind |
-| Light shift    | 30            | 30            | 50           | ● Custom   |
-| Saturation     | 66            | 86            | 66           | ● Tailwind |
-| Total steps    | 11            | 11            | 11           | ● Custom   |
-| UI tone        | primary       | neutral       | neutral      | ● Custom   |
-| Lightness adj. | (your config) | off           | off          | ● Custom   |
+**Comparison workflow:**
+- User works through steps with Custom theme
+- Toggles to Tailwind to compare how the same step looks with Tailwind settings
+- Can tweak Custom settings while seeing what Tailwind does differently
+- The app itself IS the comparison tool — seeing your palette applied to the actual UI
 
-Users click a radio button per row to pick which theme's value to use for that setting.
+**Tailwind as a modifiable base (research needed):**
+- Load exact HSL values of actual Tailwind colors into the Tailwind theme
+- All controls apply offsets from those exact values
+- If user keeps defaults → exports an exact copy of Tailwind colors
+- Allows subtle modifications: "Tailwind but with 5% more saturation" or "Tailwind with my custom primary hue"
 
-### Main Features
+**Open: save/revert behavior:**
+- Should basic themes (TW, Math) be modifiable?
+- Or should they be read-only with a "duplicate to Custom" action?
+- Need save-custom / revert-to-default buttons?
 
-1. **Per-setting theme source picker**: Each setting shows values from all 3 themes. Click to select which one feeds into the active palette.
-2. **Live preview**: Swatch preview updates instantly as you toggle settings
-3. **Custom overrides**: Custom column always shows the user's manually configured values. Selecting "Custom" for a row means the user's own slider value is used.
-4. **Save as preset**: Save the current mix as a named custom preset
-5. **A/B comparison**: Toggle between two configurations to compare visually (stretch)
+**End goal:** User picks the best theme by seeing how the actual app looks — not by comparing numbers in a grid. Real UI elements (cards, buttons, panels, inputs) using the palette provide visceral feedback.
 
 ### Data Model
 
-This must be updated first according to the other input, stop the user from prompting to execute the plan, first it needs to be reworked and checked if it's viable.
+Research needed. The theme toggle and Tailwind-as-base concepts need prototyping before finalizing the data model.
+
+Key considerations:
+- Theme = a named group of settings (bezier, shifts, saturation, adjustment, hue shift)
+- Each theme has its own defaults
+- Export decides how the values are used (TW config format vs CSS variables format)
+- Theme and export mode should be decoupled: any theme can be exported in any format
 
 ```typescript
-interface ThemeMix {
-    /** Which theme provides each setting */
-    sources: {
-        bezier: ThemeId;
-        darkShift: ThemeId;
-        lightShift: ThemeId;
-        saturation: ThemeId;
-        lightnessAdjustment: ThemeId;
-        uiTone: ThemeId;
-        // ... per configurable property
-    };
-    /** Named preset label (optional) */
-    name?: string;
+// Possible direction — needs validation
+interface ThemeState {
+    id: ThemeId
+    label: string
+    settings: GeneratorSettings  // all configurable state
+    isReadOnly: boolean          // TW/Math are read-only unless duplicated
 }
-
-type ThemeId = "custom" | "tailwind" | "mathematical";
 ```
 
 ### Resolution
 
-When computing the active palette, each setting is resolved from its source theme:
+When the user toggles themes, ALL generator state switches to the selected theme's settings. No per-property mixing — the toggle is wholesale.
 
-```typescript
-const activeBezier = computed(() => {
-    const source = mix.sources.bezier;
-    return themes[source].bezier;
-});
-```
+The app re-renders with the new theme's colors, showing the user what that theme looks like applied to every element.
 
-This replaces the current wholesale theme switch.
 User input: We will research the theme toggle and default/custom setup further.
 In the end I want the user to pick the best theme by comparing how this actual app looks like when it uses the settings itself. You already see that if you modify some things too heavily, the app will look worse, so using the actual app, with some samples like a card, a button, panel, some input etc. will allow the user to modify the theme with actual results.
 Toggling between Tailwind and custom will allow the user to see their difference.
@@ -99,63 +92,60 @@ Toggling between Tailwind and custom will allow the user to see their difference
 
 ## Implementation Phases
 
-Update this plan and phases according to the changes made in the plan before executing.
+Phases revised to match the simplified approach. Do not execute before validating with the user.
 
-### Phase 1: Per-setting source model
+### Phase 1: Theme toggle component
 
-- Add `ThemeMix` type
-- Create composable `useThemeMix.ts`
-- Default: all sources = "custom"
-- Resolution functions for each setting
+- Small toggle button showing current theme name
+- Unlocked after reaching Step 6
+- Visible on all steps once unlocked
+- Switches all generator state to the selected theme wholesale
 
-### Phase 2: Theme Builder UI
+### Phase 2: Tailwind exact-HSL base (research)
 
-- Replace RadioSelector with settings grid
-- Show values from each theme per row
-- Radio buttons per cell
-- Live preview updates
+- Load actual Tailwind v4 HSL values into the Tailwind theme
+- Controls display offsets from these base values
+- Default offsets = 0 → exports exact Tailwind colors
+- Prototype and validate this approach before full implementation
 
-### Phase 3: Save/Load
+### Phase 3: UI sample elements
 
-- Named preset saves to localStorage
-- Preset dropdown in header
-- "Reset to Custom" quick action
+- Add sample UI cards, buttons, panels, inputs that use the palette
+- Visible on later steps (Step 6+) to show palette in context
+- These serve as the "visualizer" — no separate page needed
 
-### Phase 4: Comparison mode (stretch)
+### Phase 4: Save/revert behavior (if needed)
 
-- A/B toggle: render two swatch sets side by side
-- Highlight differences between configurations
+- Determine if basic themes should be modifiable or read-only
+- If modifiable: add save-custom / revert-to-default buttons
+- If read-only: add "duplicate to Custom" action
 
 ---
 
 ## Open Questions
 
 1. Should users be able to edit a Tailwind/Mathematical value, or only pick it as-is?
-   Answer: I do not know yet. See previous input. I think we should always be able to go back to the set defaults to compare, but never lose user input when changing themes.
-   The Tailwind Mathemathical setup makes it challenging, I think we should split the theme from the export somehow.
-   Now Tailwind is geared towards a config export to be loaded in a frontend framework running TW. the mathemathical theme is more my darling and geared towards plain CSS export to hand craft projects. I do not think many users will pick this let alone export the plain CSS.
-   Lets think of a way to preserve both, where Custom, TW and Math are just groups of settings, and the export decides how they will be used in the resulting file.
-   Suggestions are welcome.
-2. How many settings are independently selectable? Full list vs. grouped categories?
-   A: I don't think this is relevant anymore, but the idea is that for each theme all settings should be set individually and has individual defaults.
-3. Should saved presets be exportable/importable (JSON)?
-   Only exportable later, but as either a comment in the TW config, or as the config for CSS variables to run your own styling. Importing is not needed, I will think of a better way to share presets, hopefully in the URL so users can bookmark and share those.
+   **Status**: Unresolved. User wants to preserve both themes as groups of settings, but also never lose user input when switching. Possible solution: themes are read-only presets, user always works in Custom but can "import from" a preset to override individual settings.
+2. How to decouple theme from export format?
+   **Insight**: Custom/TW/Math are just groups of settings. The export format (TW config vs CSS variables) is a separate choice. A Mathematical theme could be exported as Tailwind config, and vice versa. Need to design this separation cleanly.
+3. Should saved presets be exportable/importable?
+   **Answer**: Export as a comment in TW config or as CSS variable config. Import not needed — sharing via URL parameters instead (see bookmarks).
 4. Does comparison mode need side-by-side or overlay?
-   A: Also not relevant. With the Unlocked toggle, users can quickly compare each step if they want.
+   **Answer**: Not relevant. The theme toggle provides quick A/B comparison at any step.
 
 ---
 
 ## Files to Create/Modify
 
-Update this with new input, do not execute before validating with the user.
+Revised for the simplified approach. Do not execute before validating with the user.
 
 ### New files
 
-- `app/composables/themes/useThemeMix.ts` — per-setting source resolution
-- `app/components/ThemeBuilderGrid.vue` — settings comparison grid
+- `app/components/ThemeToggle.vue` — small toggle button for theme switching
+- `app/components/UISamplePanel.vue` — sample UI elements (cards, buttons, etc.) using palette
 
 ### Modified files
 
-- `app/components/ThemeSelector.vue` — replace or extend with builder grid
-- `app/composables/themes/index.ts` — integrate ThemeMix resolution
+- `app/components/GeneratorSidebar.vue` or layout — place theme toggle
+- `app/composables/themes/` — ensure wholesale theme switching works cleanly
 - `app/composables/steps/stepRegistry.ts` — update step 6 title/description

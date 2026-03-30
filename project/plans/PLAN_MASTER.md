@@ -30,14 +30,16 @@ A complete CSS color palette generator that takes you from picking a base hue to
 - Generates 11-step lightness scale from black to white
 - Separate grey lightness distribution
 
-#### Step 4: Lightness Adjustment (Phase 12 — in progress)
+#### Step 4: Lightness Adjustment (Phase 12 — nearly complete)
 
 - 12-hue chromatic swatch rows at 30° intervals
 - Vertical hue range sliders with 3 handles (center, falloff-top, falloff-bottom)
-- Dark adjustment panel (left): brightens blues/violets
-- Light adjustment panel (right): darkens greens/yellows
+- Dark adjustment panel (left): darkens warm hues (yellows/greens)
+- Light adjustment panel (right): brightens cool hues (blues/purples)
 - Strength, lightness falloff, and hue falloff controls
 - `applyAdjustment()` wired into every swatch via ColorSwatchRow
+- Default values tuned: dark 100°±80° str 15, light 240°±40° str 6
+- Remaining: composable cleanup, HueRangeSlider polish, per-theme storage
 
 #### Step 5: Hue Spectrum
 
@@ -62,19 +64,22 @@ A complete CSS color palette generator that takes you from picking a base hue to
 
 #### Step 5 replacement: Per-Swatch Hue Adjustment (see PLAN_HUE_ADJUSTMENT.md)
 
-- Individual hue tweaks per swatch position (per lightness step)
-- Fine-tune specific swatches without affecting the whole row
-- Visual hue-shift indicators on affected swatches
+- Replaces current Step 5 (Hue Spectrum) — removes top input/swatches
+- Two sliders per hue row: left panel for dark tones, right panel for light tones
+- Tapering effect: 100% at darkest/lightest swatch, 0% at middle
+- Per-hue individual control (sliders form a sinusoidal pattern across hues)
+- ±30° range, stored per theme with preset defaults
 
-#### Step 6 Redesign: Theme Builder (see PLAN_THEME_BUILDER.md)
+#### Step 6: Theme Comparison (see PLAN_THEME_BUILDER.md)
 
-I don't think we will do this, the custom theme allows a user to build their own using sane presets.
+**Decision: Full Theme Builder is unlikely.** The Custom theme already lets users build their own using sane presets.
 
-- Replace simple "Compare Presets" with interactive theme builder
-- Pick and choose settings from any preset
-- Mix Tailwind lightness with Custom hues, or Mathematical bezier with Custom saturation
-- Save/load named custom themes
-- A/B comparison mode: overlay two themes
+**What we will do instead:**
+- Small theme toggle (unlocked once Step 6 is reached) available on ALL steps
+- Users go back to any step, toggle between themes, compare results, tweak
+- Explore: Tailwind as exact-HSL base with offset controls (modify slightly, or export exact copy)
+- Research needed: should basic themes have save-custom / revert-to-default?
+- End goal: user picks the best theme by seeing how the actual app looks with those settings
 
 #### Step 7 Redesign: Export System (see PLAN_EXPORT_SYSTEM.md)
 
@@ -84,14 +89,14 @@ I don't think we will do this, the custom theme allows a user to build their own
 
 #### Developer Tools (see PLAN_DEV_TOOLS.md)
 
-Standalone utility pages outside the wizard, accessible anytime:
+Rethought approach — most tools integrated into the app rather than separate pages:
 
-- **Contrast Checker** (`/contrast`) — WCAG ratio matrix for all palette combinations
-- **Color Blindness Simulator** (`/simulate`) — 8 CVD filters on the full palette
-- **Palette Visualizer** (`/visualize`) — realistic UI mockups using the active palette
-- **Variable Reference** (`/reference`) — searchable, copyable list of all CSS variables
-- **Import & Diff** (`/import`) — paste an existing palette, compare ΔE per swatch
-- **Quick Bookmarks** (`/bookmarks`) — save/recall palette snapshots, shareable URLs
+- **Contrast Checker** — in-app toggle available from anywhere (not a separate page)
+- **Color Blindness Simulator** — in-app toggle like contrast checker
+- **Palette Visualizer** — the app itself acts as a mockup; add sample UI elements (card, button, panel, input) at later steps to show the palette in context
+- **Variable Reference** — deferred; difficult, revisit later
+- **Import & Diff** — not a feature; one-off dev task to export/import settings as config defaults
+- **Quick Bookmarks** — solved via URL parameters (encode palette state in URL for sharing/bookmarking)
 
 ---
 
@@ -131,11 +136,11 @@ User Input → Composable State → Computed Lightness Steps → applyAdjustment
 2. ~~Phase 4-9: UI Overhaul, Cleanup, Complementary, Grey Theme, Select Theme, Shifts~~ ✅
 3. ~~Phase 10: Hue-Saturation Wheel~~ ✅
 4. ~~Phase 11: Bezier Fix & UI Polish~~ ✅
-5. **Phase 12: Lightness Adjustment Redesign** ⏳ (wiring done, polish remaining)
-6. **Phase 13: Per-Swatch Hue Adjustment** (see PLAN_HUE_ADJUSTMENT.md)
-7. **Phase 14: Theme Builder Redesign** (see PLAN_THEME_BUILDER.md)
+5. **Phase 12: Lightness Adjustment Redesign** ⏳ (functional, polish remaining)
+6. **Phase 13: Per-Swatch Hue Adjustment** (replaces Step 5 — see PLAN_HUE_ADJUSTMENT.md)
+7. **Phase 14: Theme Comparison + Toggle** (simplified from builder — see PLAN_THEME_BUILDER.md)
 8. **Phase 15: Export System** (see PLAN_EXPORT_SYSTEM.md)
-9. **Phase 16: Developer Tools** (see PLAN_DEV_TOOLS.md) — can be built in parallel with anything
+9. **Phase 16: Developer Tools** (integrated toggles + URL params — see PLAN_DEV_TOOLS.md)
 
 ---
 

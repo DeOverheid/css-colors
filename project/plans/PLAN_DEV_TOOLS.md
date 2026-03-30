@@ -1,18 +1,27 @@
-# Plan: Developer Tools & Reference Pages
+# Plan: Developer Tools & Integrated Features
 
 ## Goal
 
-Add standalone utility pages and tools that complement the core generator wizard. These are separate from the 7-step flow — accessible via the sidebar or top nav. They provide value to developers who already have a palette (from this tool or elsewhere) and want to inspect, validate, or adapt it.
+Provide developer-facing tools that complement the core generator wizard. **Key decision**: most tools will be integrated into the app as toggles or UI elements rather than separate standalone pages. This keeps the experience cohesive and avoids building features nobody navigates to.
 
-Think of these as the "toolbox drawer" next to the main workbench.
+### Approach Summary
+
+| Tool | Approach | Status |
+|------|----------|--------|
+| Contrast Checker | **In-app toggle** available from anywhere | Planned |
+| Color Blindness Simulator | **In-app toggle** available from anywhere | Planned |
+| Palette Visualizer | **Built into the app** — sample UI elements at later steps | Planned |
+| Variable Reference | **Deferred** — difficult, revisit later | On hold |
+| Import & Diff | **Not a feature** — one-off dev task for config defaults | Dropped as feature |
+| Quick Bookmarks | **URL parameters** — encode state in URL for sharing | Planned |
 
 ---
 
-## Tool 1: Contrast Checker (`/contrast`)
+## Tool 1: Contrast Checker (in-app toggle)
 
 ### What it does
 
-Shows WCAG 2.1 contrast ratios for every foreground/background combination in the active palette. Helps developers pick accessible text/background pairs.
+Shows WCAG 2.1 contrast ratios for the active palette. **Integrated as a toggle overlay** available from any step — not a separate page.
 
 ### Layout
 
@@ -34,11 +43,11 @@ Reads directly from the active palette state (same composables as the generator)
 
 ---
 
-## Tool 2: Color Blindness Simulator (`/simulate`)
+## Tool 2: Color Blindness Simulator (in-app toggle)
 
 ### What it does
 
-Renders the full palette through 8 color vision deficiency filters so developers can verify their palette works for all users.
+Renders the full palette through color vision deficiency filters. **Integrated as a toggle overlay** like the contrast checker — not a separate page.
 
 ### Simulations
 
@@ -66,11 +75,11 @@ Renders the full palette through 8 color vision deficiency filters so developers
 
 ---
 
-## Tool 3: Palette Visualizer (`/visualize`)
+## Tool 3: Palette Visualizer (built into app)
 
 ### What it does
 
-Shows the active palette applied to realistic UI components so developers can judge how colors feel in context before exporting.
+Shows the active palette applied to realistic UI components. **Not a separate page** — the app itself acts as the visualization. Sample UI elements (cards, buttons, panels, inputs) are added at later steps (Step 6+) to let users see their palette in context.
 
 ### Sections
 
@@ -106,11 +115,13 @@ Shows the active palette applied to realistic UI components so developers can ju
 
 ---
 
-## Tool 4: Variable Reference (`/reference`)
+## Tool 4: Variable Reference (deferred)
 
 ### What it does
 
-A searchable, copyable reference page listing every CSS variable the generator produces. Serves as a living style guide.
+A searchable, copyable reference page listing every CSS variable the generator produces.
+
+**Status: ON HOLD** — this is difficult and needs more thought. Revisit after the export system is built, as the variable names will be defined there.
 
 ### Features
 
@@ -132,11 +143,13 @@ Computed from the active palette state. Includes:
 
 ---
 
-## Tool 5: Palette Import & Diff (`/import`)
+## Tool 5: Palette Import & Diff (dropped as feature)
 
 ### What it does
 
-Import an existing palette (from CSS variables, Tailwind config, or JSON) and compare it against the generated palette. Useful for migration: "I have Tailwind's slate, how close can I get with this generator?"
+~~Import an existing palette and compare it against the generated palette.~~
+
+**Status: DROPPED as a user-facing feature.** Instead, this will be a one-off developer task: export all current settings as a config/theme JSON, and import it back to set defaults. No UI needed — it's a dev workflow, not a user feature.
 
 ### Features
 
@@ -155,11 +168,13 @@ Import an existing palette (from CSS variables, Tailwind config, or JSON) and co
 
 ---
 
-## Tool 6: Quick Palette Bookmarks (`/bookmarks`)
+## Tool 6: Quick Palette Bookmarks (URL parameters)
 
 ### What it does
 
-Save and recall palette snapshots without the full theme system. Like browser bookmarks but for color configurations.
+~~Save and recall palette snapshots.~~
+
+**Status: Solved via URL parameters.** Palette state will be encoded in the URL hash so users can bookmark and share configurations. No separate bookmarks page needed.
 
 ### Features
 
@@ -195,42 +210,32 @@ interface PaletteBookmark {
 
 ## Implementation Priority
 
-| Priority | Tool                | Effort | Value                                      |
-| -------- | ------------------- | ------ | ------------------------------------------ |
-| 1        | Variable Reference  | Small  | High — devs need this daily                |
-| 2        | Contrast Checker    | Medium | High — accessibility is non-negotiable     |
-| 3        | Quick Bookmarks     | Small  | Medium — saves time during exploration     |
-| 4        | Palette Visualizer  | Medium | Medium — sells the palette, catches issues |
-| 5        | Color Blindness Sim | Medium | Medium — important but less frequent       |
-| 6        | Import & Diff       | Large  | Medium — great for migration but niche     |
+| Priority | Tool                    | Approach          | Effort | Notes                                         |
+| -------- | ----------------------- | ----------------- | ------ | --------------------------------------------- |
+| 1        | Contrast Checker        | In-app toggle     | Medium | Accessibility is non-negotiable               |
+| 2        | Color Blindness Sim     | In-app toggle     | Medium | Can share toggle infrastructure with #1       |
+| 3        | URL Bookmarks           | URL params        | Small  | Encode state in hash, no UI page needed       |
+| 4        | Palette Visualizer      | Built into app    | Medium | Sample UI elements at Step 6+                 |
+| 5        | Variable Reference      | Deferred          | -      | Revisit after export system is built          |
+| -        | Import & Diff           | Dropped           | -      | One-off dev task, not a user feature          |
 
-**Recommendation**: Start with Variable Reference (quick win, immediately useful) and Contrast Checker (high value, medium effort). Bookmarks are a quality-of-life feature that pays off quickly.
+**Recommendation**: Start with Contrast Checker + CVD Simulator together (shared toggle infrastructure). URL bookmarks is a quick win. Palette visualizer ties into the Theme Builder sample elements.
 
 ---
 
 ## Architecture Notes
 
-### Routing
+### No separate routing needed
 
-Each tool gets its own page under `/tools/`:
+Since the main tools are now in-app toggles rather than separate pages, no new routes are needed. The contrast checker and CVD simulator are overlay components toggled via a button in the sidebar or toolbar.
 
-```
-/tools/contrast
-/tools/simulate
-/tools/visualize
-/tools/reference
-/tools/import
-/tools/bookmarks
-```
+### Toggle infrastructure
 
-Or keep flat: `/contrast`, `/simulate`, etc. (simpler routing, matches the existing `/tailwind` page pattern).
-
-### Navigation
-
-- Add a "Tools" section to the sidebar below the step navigation
-- Each tool is a link, not a wizard step
-- Tools are always accessible (don't need to complete the wizard)
-- Tools page layout uses the `default` layout (not the generator `blank` layout)
+Both the contrast checker and CVD simulator share the same pattern:
+- Toggle button in sidebar/toolbar
+- Overlay or panel that renders on top of / alongside the existing content
+- Reads from the same composable singletons as the generator
+- Changes in the wizard are reflected live
 
 ### Shared state
 
@@ -248,36 +253,23 @@ Changes in the generator are reflected live in any open tool page.
 
 ## Files to Create
 
-### Pages
-
-- `app/pages/tools/contrast.vue`
-- `app/pages/tools/simulate.vue`
-- `app/pages/tools/visualize.vue`
-- `app/pages/tools/reference.vue`
-- `app/pages/tools/import.vue`
-- `app/pages/tools/bookmarks.vue`
-
 ### Components
 
-- `app/components/ContrastMatrix.vue`
-- `app/components/ContrastPairChecker.vue`
-- `app/components/ColorBlindnessFilter.vue`
-- `app/components/PaletteVisualizer.vue`
-- `app/components/VariableReference.vue`
-- `app/components/PaletteDiff.vue`
-- `app/components/BookmarkCard.vue`
+- `app/components/ContrastCheckerOverlay.vue` — toggle overlay showing contrast matrix
+- `app/components/ContrastPairChecker.vue` — quick two-color checker
+- `app/components/ColorBlindnessOverlay.vue` — toggle overlay with CVD filters
+- `app/components/UISampleElements.vue` — sample cards, buttons, inputs using palette
 
 ### Composables
 
 - `app/composables/utils/contrastRatio.ts` — luminance + ratio calculation
-- `app/composables/utils/colorBlindness.ts` — CVD simulation matrices
-- `app/composables/utils/colorConvert.ts` — HSL ↔ RGB ↔ Hex ↔ Lab
-- `app/composables/utils/paletteBookmarks.ts` — localStorage bookmark management
-- `app/composables/utils/paletteImport.ts` — CSS/TW/JSON parser
+- `app/composables/utils/colorBlindness.ts` — CVD simulation matrices (SVG feColorMatrix)
+- `app/composables/utils/colorConvert.ts` — HSL ↔ RGB ↔ Hex (if not already existing)
+- `app/composables/utils/urlState.ts` — encode/decode generator state in URL hash
 
 ### No new dependencies needed
 
 - Contrast calculation: pure math
 - Color blindness: feColorMatrix SVG filters
-- Color conversion: pure math (no chroma.js needed)
-- Storage: localStorage + JSON.stringify
+- Color conversion: pure math
+- URL state: native URL API + base64

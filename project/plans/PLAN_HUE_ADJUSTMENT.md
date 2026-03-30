@@ -18,78 +18,103 @@ This feature adds per-swatch hue offsets that are applied on top of the row's ba
 
 ### Where in the Wizard
 
-This will be:
-
-- Replacing step 5. Hue Spectrum, we will remove the input and swatches on top
-- The hue adjustment sliders will be placed in the left and right panels
-- the sliders will match the vertical position of the swatches they will adjust.
+- **Replaces Step 5** (Hue Spectrum). The old top input area and swatch preview are removed.
+- Hue adjustment sliders live in the **left and right panels**
+- Sliders are positioned to match the vertical position of the swatch rows they adjust
+- The swatch area continues to show the 12 chromatic hue rows from Step 4
 
 ### UI
 
-**Swatch area (unchanged):**
+**Swatch area (unchanged from Step 4):**
 
 - Same 12 chromatic hue rows at 30° intervals
-- When hue shift sliders are adjusted, swatches visually show the shifted in real time.
+- When hue shift sliders are adjusted, swatches update in real time
 
-**Side panels in "Hue shift" mode:**
+**Left panel — Dark hue shift:**
 
-- Instead of vertical hue range sliders, show a **per-swatch hue offset grid**
-- Two sets offset controls per hue swatch row
-- Sliders on the left panel control the hue offset for darker swatches
-- Sliders on the right panel control lighter swatches
-- A horizontal mini-slider (-30° to +30°)
-- sliders are positioned to match the hue vertical position (same grid height)
-- the offset is applied with a tapering effect, 100% at the darkest (or lightest) swatch in that hue row, and 0 effect on the middle swatch. (example: dark: 3 Swatches +3 +2 +1 center: no offset -2 -4 -6 at light: -6 )
+- One horizontal mini-slider per hue row (-30° to +30°)
+- Each slider is vertically aligned with its corresponding swatch row
+- Controls the hue offset for the **darker** swatches in that row
+- Tapering effect: 100% at the darkest swatch, linearly decreasing to 0% at the middle swatch
+- Example for dark side (3 swatches before center): +3°, +2°, +1°, center: 0°
+
+**Right panel — Light hue shift:**
+
+- One horizontal mini-slider per hue row (-30° to +30°)
+- Each slider is vertically aligned with its corresponding swatch row
+- Controls the hue offset for the **lighter** swatches in that row
+- Tapering effect: 100% at the lightest swatch, linearly decreasing to 0% at the middle swatch
+- Example for light side (3 swatches after center): center: 0°, -2°, -4°, -6°
+
+**Combined effect:**
+
+For a row where the user sets dark shift = +15° and light shift = -6°:
+- Darkest swatch: +15° (more purple-red)
+- Middle swatch: exactly the base hue (unaffected)
+- Lightest swatch: -6° (more orange-red)
+- Intermediate swatches: linearly interpolated
 
 ### Data Model
-
-Update the model to the changes made above since the plan was drafted
 
 ```typescript
 interface HueShiftConfig {
     /** Whether per-swatch hue shifting is enabled */
-    enabled: boolean;
-    /** Hue shift curve: maps lightness position (0-1) to hue offset (-30 to +30) */
-    curve: BezierCurve; // or array of control points
-    /** Per-row overrides (optional, for fine-tuning specific hues) */
-    overrides?: Record<number, number[]>; // hue → per-swatch offsets
+    enabled: boolean
+    /** Per-hue-row shift values: hue degree → { dark shift, light shift } */
+    rows: Record<number, { dark: number; light: number }>
 }
 ```
+
+Note: The `rows` record is keyed by the hue degree of each row (0, 30, 60, ..., 330 offset by primary). Each entry stores two values: the dark-side shift and the light-side shift. The tapering is computed, not stored.
+
+Per-theme defaults:
+- **Custom**: all shifts start at 0°
+- **Mathematical**: handpicked sinusoidal curve across hues
+- **Tailwind**: derived by comparing Tailwind's actual swatch hues and finding best-fit offsets
 
 ### Application
 
 In `ColorSwatchRow.vue`, after `applyAdjustment()` for lightness:
 
 ```typescript
-const adjustedHue = baseHue + getHueShift(lightnessPosition);
+const adjustedHue = baseHue + getHueShift(hue, swatchIndex, swatchCount, darkShift, lightShift)
 ```
+
+Where `getHueShift` computes the linear taper:
+- For swatches on the dark side (index < middle): `darkShift * (1 - index / middleIndex)`
+- For swatches on the light side (index > middle): `lightShift * ((index - middleIndex) / (count - 1 - middleIndex))`
+- For the middle swatch: 0° (no shift)
 
 ---
 
 ## Implementation Phases
 
-### Phase 1: Data model + curve editor
+### Phase 1: Data model + composable
 
 - Add `HueShiftConfig` to types
-- Add composable `stepHueShift.ts`
-- Reuse bezier curve editor component (or create a simpler spline editor)
+- Add composable `stepHueShift.ts` with per-row shift state
+- Initialize 12 rows with 0° shifts for Custom theme
+- Store/restore per-theme defaults
 
 ### Phase 2: Wire into rendering
 
 - Apply hue shift in `ColorSwatchRow.vue` after lightness adjustment
+- Compute linear taper per swatch based on position relative to middle
 - Show shifted hue values in swatch tooltips
 
-### Phase 3: UI controls
+### Phase 3: UI controls — side panel sliders
 
-- Mode toggle in Step 4 sidebar (lightness vs hue mode)
-- Curve editor in side panel or main content area
-- Live preview as curve is adjusted
+- Left panel: 12 horizontal mini-sliders (-30° to +30°), one per hue row
+- Right panel: 12 horizontal mini-sliders (-30° to +30°), one per hue row
+- Vertical alignment: each slider matches the vertical position of its swatch row
+- Live preview as sliders are adjusted
 
 ### Phase 4: Defaults + presets
 
-- Default hue shift curve for common corrections (yellow→green at high lightness)
-- Preset curves: "Warm shift", "Cool shift", "Natural"
-- Reset to flat (no shift)
+- **Custom**: all shifts at 0°
+- **Mathematical**: handpicked sinusoidal curve (analyze perceptual hue drift)
+- **Tailwind**: compare Tailwind's actual per-swatch hue values, derive best-fit offsets
+- Reset all to 0° button
 
 ---
 
@@ -112,11 +137,13 @@ const adjustedHue = baseHue + getHueShift(lightnessPosition);
 
 ### New files
 
-- `app/composables/input/stepHueShift.ts` — hue shift composable
+- `app/composables/input/stepHueShift.ts` — hue shift composable with per-row state
 - `app/composables/themes/lib/types.ts` — add `HueShiftConfig`
+- `app/components/HueShiftSliders.vue` — 12 mini-sliders aligned with swatch rows (used in both panels)
 
 ### Modified files
 
 - `app/components/ColorSwatchRow.vue` — apply hue shift after lightness adjustment
-- `app/components/GeneratorLeftPanel.vue` / `GeneratorRightPanel.vue` — mode toggle
-- `app/composables/steps/stepRegistry.ts` — if adding a new step
+- `app/components/GeneratorLeftPanel.vue` — show dark hue shift sliders on Step 5
+- `app/components/GeneratorRightPanel.vue` — show light hue shift sliders on Step 5
+- `app/composables/steps/stepRegistry.ts` — update step 5 definition
