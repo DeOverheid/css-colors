@@ -51,9 +51,12 @@ const satValues = computed((): number[] => {
 /** All lightness values with adjustment applied: [0, ...steps, 100] */
 const adjustedLightness = computed((): number[] => {
     const allBase = [0, ...props.lightnessSteps, 100];
-    return allBase.map((baseLightness, index) =>
-        applyAdjustment(baseLightness, props.hue, index, props.totalSteps)
-    );
+    const lastIndex = allBase.length - 1;
+    return allBase.map((baseLightness, index) => {
+        // Black (index 0) and white (last index) are fixed endpoints
+        if (index === 0 || index === lastIndex) return baseLightness;
+        return applyAdjustment(baseLightness, props.hue, index, props.totalSteps);
+    });
 });
 </script>
 
