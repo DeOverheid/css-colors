@@ -75,6 +75,7 @@ A complete CSS color palette generator that takes you from picking a base hue to
 **Decision: Full Theme Builder is unlikely.** The Custom theme already lets users build their own using sane presets.
 
 **What we will do instead:**
+
 - Small theme toggle (unlocked once Step 6 is reached) available on ALL steps
 - Users go back to any step, toggle between themes, compare results, tweak
 - Explore: Tailwind as exact-HSL base with offset controls (modify slightly, or export exact copy)

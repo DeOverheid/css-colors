@@ -106,12 +106,24 @@ Builds all HSL colors from the config. Every hue × every lightness step.
 ```css
 :root {
     /* Primary palette */
-    --color-primary-50: hsl(var(--config-primary-hue), var(--config-primary-saturation), var(--config-lightness-50));
-    --color-primary-100: hsl(var(--config-primary-hue), var(--config-primary-saturation), var(--config-lightness-100));
+    --color-primary-50: hsl(
+        var(--config-primary-hue),
+        var(--config-primary-saturation),
+        var(--config-lightness-50)
+    );
+    --color-primary-100: hsl(
+        var(--config-primary-hue),
+        var(--config-primary-saturation),
+        var(--config-lightness-100)
+    );
     /* ... through 950 */
 
     /* Secondary palette */
-    --color-secondary-50: hsl(var(--config-secondary-hue), var(--config-secondary-saturation), var(--config-lightness-50));
+    --color-secondary-50: hsl(
+        var(--config-secondary-hue),
+        var(--config-secondary-saturation),
+        var(--config-lightness-50)
+    );
     /* ... */
 
     /* Grey palette (with per-step saturation) */

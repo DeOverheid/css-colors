@@ -6,14 +6,14 @@ Provide developer-facing tools that complement the core generator wizard. **Key 
 
 ### Approach Summary
 
-| Tool | Approach | Status |
-|------|----------|--------|
-| Contrast Checker | **In-app toggle** available from anywhere | Planned |
-| Color Blindness Simulator | **In-app toggle** available from anywhere | Planned |
-| Palette Visualizer | **Built into the app** — sample UI elements at later steps | Planned |
-| Variable Reference | **Deferred** — difficult, revisit later | On hold |
-| Import & Diff | **Not a feature** — one-off dev task for config defaults | Dropped as feature |
-| Quick Bookmarks | **URL parameters** — encode state in URL for sharing | Planned |
+| Tool                      | Approach                                                   | Status             |
+| ------------------------- | ---------------------------------------------------------- | ------------------ |
+| Contrast Checker          | **In-app toggle** available from anywhere                  | Planned            |
+| Color Blindness Simulator | **In-app toggle** available from anywhere                  | Planned            |
+| Palette Visualizer        | **Built into the app** — sample UI elements at later steps | Planned            |
+| Variable Reference        | **Deferred** — difficult, revisit later                    | On hold            |
+| Import & Diff             | **Not a feature** — one-off dev task for config defaults   | Dropped as feature |
+| Quick Bookmarks           | **URL parameters** — encode state in URL for sharing       | Planned            |
 
 ---
 
@@ -210,14 +210,14 @@ interface PaletteBookmark {
 
 ## Implementation Priority
 
-| Priority | Tool                    | Approach          | Effort | Notes                                         |
-| -------- | ----------------------- | ----------------- | ------ | --------------------------------------------- |
-| 1        | Contrast Checker        | In-app toggle     | Medium | Accessibility is non-negotiable               |
-| 2        | Color Blindness Sim     | In-app toggle     | Medium | Can share toggle infrastructure with #1       |
-| 3        | URL Bookmarks           | URL params        | Small  | Encode state in hash, no UI page needed       |
-| 4        | Palette Visualizer      | Built into app    | Medium | Sample UI elements at Step 6+                 |
-| 5        | Variable Reference      | Deferred          | -      | Revisit after export system is built          |
-| -        | Import & Diff           | Dropped           | -      | One-off dev task, not a user feature          |
+| Priority | Tool                | Approach       | Effort | Notes                                   |
+| -------- | ------------------- | -------------- | ------ | --------------------------------------- |
+| 1        | Contrast Checker    | In-app toggle  | Medium | Accessibility is non-negotiable         |
+| 2        | Color Blindness Sim | In-app toggle  | Medium | Can share toggle infrastructure with #1 |
+| 3        | URL Bookmarks       | URL params     | Small  | Encode state in hash, no UI page needed |
+| 4        | Palette Visualizer  | Built into app | Medium | Sample UI elements at Step 6+           |
+| 5        | Variable Reference  | Deferred       | -      | Revisit after export system is built    |
+| -        | Import & Diff       | Dropped        | -      | One-off dev task, not a user feature    |
 
 **Recommendation**: Start with Contrast Checker + CVD Simulator together (shared toggle infrastructure). URL bookmarks is a quick win. Palette visualizer ties into the Theme Builder sample elements.
 
@@ -232,6 +232,7 @@ Since the main tools are now in-app toggles rather than separate pages, no new r
 ### Toggle infrastructure
 
 Both the contrast checker and CVD simulator share the same pattern:
+
 - Toggle button in sidebar/toolbar
 - Overlay or panel that renders on top of / alongside the existing content
 - Reads from the same composable singletons as the generator

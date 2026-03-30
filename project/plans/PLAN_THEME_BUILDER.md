@@ -35,23 +35,27 @@ The grid-based per-setting mixer described originally is over-engineered and unl
 ### What we WILL do: Theme Toggle + Comparison
 
 **Theme toggle (small, always available):**
+
 - Unlocked once the user reaches Step 6
 - Available on ALL steps — user can go back to any step, toggle themes, compare results
 - Small UI toggle, does not interfere with step content
 
 **Comparison workflow:**
+
 - User works through steps with Custom theme
 - Toggles to Tailwind to compare how the same step looks with Tailwind settings
 - Can tweak Custom settings while seeing what Tailwind does differently
 - The app itself IS the comparison tool — seeing your palette applied to the actual UI
 
 **Tailwind as a modifiable base (research needed):**
+
 - Load exact HSL values of actual Tailwind colors into the Tailwind theme
 - All controls apply offsets from those exact values
 - If user keeps defaults → exports an exact copy of Tailwind colors
 - Allows subtle modifications: "Tailwind but with 5% more saturation" or "Tailwind with my custom primary hue"
 
 **Open: save/revert behavior:**
+
 - Should basic themes (TW, Math) be modifiable?
 - Or should they be read-only with a "duplicate to Custom" action?
 - Need save-custom / revert-to-default buttons?
@@ -63,6 +67,7 @@ The grid-based per-setting mixer described originally is over-engineered and unl
 Research needed. The theme toggle and Tailwind-as-base concepts need prototyping before finalizing the data model.
 
 Key considerations:
+
 - Theme = a named group of settings (bezier, shifts, saturation, adjustment, hue shift)
 - Each theme has its own defaults
 - Export decides how the values are used (TW config format vs CSS variables format)
@@ -71,10 +76,10 @@ Key considerations:
 ```typescript
 // Possible direction — needs validation
 interface ThemeState {
-    id: ThemeId
-    label: string
-    settings: GeneratorSettings  // all configurable state
-    isReadOnly: boolean          // TW/Math are read-only unless duplicated
+    id: ThemeId;
+    label: string;
+    settings: GeneratorSettings; // all configurable state
+    isReadOnly: boolean; // TW/Math are read-only unless duplicated
 }
 ```
 

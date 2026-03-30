@@ -49,6 +49,7 @@ This feature adds per-swatch hue offsets that are applied on top of the row's ba
 **Combined effect:**
 
 For a row where the user sets dark shift = +15° and light shift = -6°:
+
 - Darkest swatch: +15° (more purple-red)
 - Middle swatch: exactly the base hue (unaffected)
 - Lightest swatch: -6° (more orange-red)
@@ -59,15 +60,16 @@ For a row where the user sets dark shift = +15° and light shift = -6°:
 ```typescript
 interface HueShiftConfig {
     /** Whether per-swatch hue shifting is enabled */
-    enabled: boolean
+    enabled: boolean;
     /** Per-hue-row shift values: hue degree → { dark shift, light shift } */
-    rows: Record<number, { dark: number; light: number }>
+    rows: Record<number, { dark: number; light: number }>;
 }
 ```
 
 Note: The `rows` record is keyed by the hue degree of each row (0, 30, 60, ..., 330 offset by primary). Each entry stores two values: the dark-side shift and the light-side shift. The tapering is computed, not stored.
 
 Per-theme defaults:
+
 - **Custom**: all shifts start at 0°
 - **Mathematical**: handpicked sinusoidal curve across hues
 - **Tailwind**: derived by comparing Tailwind's actual swatch hues and finding best-fit offsets
@@ -77,10 +79,12 @@ Per-theme defaults:
 In `ColorSwatchRow.vue`, after `applyAdjustment()` for lightness:
 
 ```typescript
-const adjustedHue = baseHue + getHueShift(hue, swatchIndex, swatchCount, darkShift, lightShift)
+const adjustedHue =
+    baseHue + getHueShift(hue, swatchIndex, swatchCount, darkShift, lightShift);
 ```
 
 Where `getHueShift` computes the linear taper:
+
 - For swatches on the dark side (index < middle): `darkShift * (1 - index / middleIndex)`
 - For swatches on the light side (index > middle): `lightShift * ((index - middleIndex) / (count - 1 - middleIndex))`
 - For the middle swatch: 0° (no shift)

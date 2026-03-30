@@ -83,39 +83,28 @@ export function stepLightnessAdjustment() {
     }
 
     /**
-     * Compute lightness position falloff factor
-     * index: which swatch (0 = darkest, count-1 = lightest)
-     * count: total swatches
+     * Compute lightness position falloff factor (currently disabled)
      */
-    function computeLightnessFalloffFactor(
-        index: number,
-        count: number,
-        falloffLight: number,
-        falloffDark: number
+    function _computeLightnessFalloffFactor(
+        _index: number,
+        _count: number,
+        _falloff: number
     ): number {
-        if (count <= 1) return 1;
+        return 1;
+    }
 
-        const normalizedIndex = clamp(index / (count - 1), 0, 1);
-        const normFalloffLight = clamp(falloffLight, 0, 1);
-        const normFalloffDark = clamp(falloffDark, 0, 1);
-
-        // fromLight: how much the light end affects this position
-        const fromLight = normFalloffLight > 0
-            ? Math.min(1, normalizedIndex / normFalloffLight)
-            : 1;
-
-        // fromDark: how much the dark end affects this position
-        const fromDark = normFalloffDark > 0
-            ? Math.min(1, (1 - normalizedIndex) / normFalloffDark)
-            : 1;
-
-        return Math.min(fromLight, fromDark);
+    /**
+     * Check if a hue falls within a range (binary yes/no, no falloff)
+     */
+    function isHueInRange(hue: number, rangeSettings: AdjustmentRange): boolean {
+        const placement = computeHuePlacement(hue, rangeSettings);
+        return placement !== null;
     }
 
     /**
      * Compute hue contribution for a single range
      */
-    function computeHueContribution(hue: number, rangeSettings: AdjustmentRange, direction: number): number {
+    function _computeHueContribution(hue: number, rangeSettings: AdjustmentRange, direction: number): number {
         if (!rangeSettings.enabled) return 0;
 
         const amplitude = rangeSettings.lightnessAmplitude || 0;
@@ -131,26 +120,34 @@ export function stepLightnessAdjustment() {
     }
 
     /**
-     * Compute range effect with lightness position falloff
+     * Compute range effect — strength only, no lightness falloff.
+     * Darkening: interpolates lightness toward 0.
+     * Brightening: interpolates lightness toward 100.
+     * Strength 0 = no effect, strength 30 (max) = fully black or white.
      */
     function computeRangeEffect(
         hue: number,
-        index: number,
-        count: number,
+        baseLightness: number,
         rangeSettings: AdjustmentRange,
         direction: number
     ): number {
-        const baseContribution = computeHueContribution(hue, rangeSettings, direction);
-        if (baseContribution === 0) return 0;
+        if (!rangeSettings.enabled) return 0;
 
-        const lightnessFactor = computeLightnessFalloffFactor(
-            index,
-            count,
-            rangeSettings.lightnessFalloffLight,
-            rangeSettings.lightnessFalloffDark
-        );
+        const amplitude = rangeSettings.lightnessAmplitude || 0;
+        if (amplitude === 0) return 0;
 
-        return baseContribution * lightnessFactor;
+        if (!isHueInRange(hue, rangeSettings)) return 0;
+
+        // Normalize strength to 0-1 (slider goes 0-30)
+        const strength = clamp(amplitude / 30, 0, 1);
+
+        if (direction < 0) {
+            // Darkening: pull lightness toward 0
+            return -baseLightness * strength;
+        } else {
+            // Brightening: push lightness toward 100
+            return (100 - baseLightness) * strength;
+        }
     }
 
     /**
@@ -162,7 +159,7 @@ export function stepLightnessAdjustment() {
      * @param count - Total number of swatches
      * @returns Adjusted lightness (0-100)
      */
-    function applyAdjustment(baseLightness: number, hue: number, index: number, count: number): number {
+    function applyAdjustment(baseLightness: number, hue: number, _index: number, _count: number): number {
         const adjustedBase = clamp(baseLightness, 0, 100);
 
         if (!settings.value.enabled) {
@@ -171,11 +168,9 @@ export function stepLightnessAdjustment() {
 
         const { darkening, brightening } = settings.value;
 
-        // Darkening reduces lightness (negative direction)
-        // Brightening increases lightness (positive direction)
         const delta
-            = computeRangeEffect(hue, index, count, brightening, 1)
-            + computeRangeEffect(hue, index, count, darkening, -1);
+            = computeRangeEffect(hue, adjustedBase, brightening, 1)
+            + computeRangeEffect(hue, adjustedBase, darkening, -1);
 
         if (delta === 0) return adjustedBase;
 
