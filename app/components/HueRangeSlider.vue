@@ -2,37 +2,60 @@
     <div
         ref="trackRef"
         class="hue-range-slider"
-        @pointerdown="onTrackPointerDown">
+        @pointerdown="onTrackPointerDown"
+    >
         <!-- Track background: vertical hue gradient matching swatch rows -->
         <div class="hue-range-track">
             <!-- Active zone highlight between falloff handles -->
             <div
                 class="hue-range-zone"
-                :style="zoneStyle" />
+                :style="zoneStyle"
+            />
         </div>
 
         <!-- Falloff handle (top) -->
         <div
             class="hue-range-handle hue-range-handle--falloff"
             :style="{ 'top': falloffTopPx + 'px', '--handle-hue-color': hueColorAt(falloffTopHue) }"
-            @pointerdown.stop="startDrag('falloff-top', $event)">
+            @pointerdown.stop="startDrag('falloff-top', $event)"
+        >
             <div class="hue-range-handle-thumb" />
+            <span
+                class="hue-range-label"
+                :class="labelClass"
+            >
+                {{ falloffSpan }}°
+            </span>
         </div>
 
         <!-- Center handle -->
         <div
             class="hue-range-handle hue-range-handle--center"
             :style="{ 'top': centerPx + 'px', '--handle-hue-color': hueColorAt(centerHue) }"
-            @pointerdown.stop="startDrag('center', $event)">
+            @pointerdown.stop="startDrag('center', $event)"
+        >
             <div class="hue-range-handle-thumb" />
+            <span
+                class="hue-range-label"
+                :class="labelClass"
+            >
+                {{ Math.round(centerHue) }}°
+            </span>
         </div>
 
         <!-- Mirror handle (bottom) -->
         <div
             class="hue-range-handle hue-range-handle--falloff"
             :style="{ 'top': falloffBottomPx + 'px', '--handle-hue-color': hueColorAt(falloffBottomHue) }"
-            @pointerdown.stop="startDrag('falloff-bottom', $event)">
+            @pointerdown.stop="startDrag('falloff-bottom', $event)"
+        >
             <div class="hue-range-handle-thumb" />
+            <span
+                class="hue-range-label"
+                :class="labelClass"
+            >
+                {{ falloffSpan }}°
+            </span>
         </div>
     </div>
 </template>
@@ -45,6 +68,8 @@ const props = defineProps<{
     centerHue: number;
     /** Falloff span in degrees from center to zero-boundary */
     falloffSpan: number;
+    /** Which side to show floating labels: 'left' or 'right' */
+    labelSide?: "left" | "right";
 }>();
 
 const emit = defineEmits<{
@@ -53,6 +78,10 @@ const emit = defineEmits<{
 
 const trackRef = ref<HTMLElement | null>(null);
 const dragging = ref<"center" | "falloff-top" | "falloff-bottom" | null>(null);
+
+const labelClass = computed(() =>
+    props.labelSide === "left" ? "hue-range-label--left" : "hue-range-label--right"
+);
 
 const totalHueSpan = 360;
 
@@ -225,5 +254,24 @@ onUnmounted(() => {
     border: 2px solid white;
     opacity: 0.7;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.hue-range-label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.625rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.hue-range-label--right {
+    left: calc(100% + 10px);
+}
+
+.hue-range-label--left {
+    right: calc(100% + 10px);
 }
 </style>

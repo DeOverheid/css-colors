@@ -14,8 +14,8 @@
                             type="range"
                             :value="adjustmentSettings.brightening.lightnessAmplitude"
                             min="0"
-                            max="30"
-                            step="0.5"
+                            max="100"
+                            step="1"
                             class="shift-slider shift-slider--light"
                             :style="{ '--primary-hsl': primaryHsl }"
                             @input="adjustmentSettings.brightening.lightnessAmplitude = Number(($event.target as HTMLInputElement).value)">
@@ -41,11 +41,11 @@
                             type="range"
                             :value="adjustmentSettings.brightening.hueFalloff"
                             min="0"
-                            max="90"
+                            max="100"
                             class="shift-slider shift-slider--light"
                             :style="{ '--primary-hsl': primaryHsl }"
                             @input="adjustmentSettings.brightening.hueFalloff = Number(($event.target as HTMLInputElement).value)">
-                        <span class="shift-value">{{ adjustmentSettings.brightening.hueFalloff }}°</span>
+                        <span class="shift-value">{{ adjustmentSettings.brightening.hueFalloff }}%</span>
                     </div>
                 </div>
 
@@ -54,6 +54,7 @@
                         :hue-rows="hueRows"
                         :center-hue="brighteningCenterHue"
                         :falloff-span="brighteningFalloffSpan"
+                        label-side="left"
                         @update:center-hue="setBrighteningCenter"
                         @update:falloff-span="setBrighteningFalloff" />
                 </div>

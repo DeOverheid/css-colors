@@ -53,7 +53,6 @@ const adjustedLightness = computed((): number[] => {
     const allBase = [0, ...props.lightnessSteps, 100];
     const lastIndex = allBase.length - 1;
     return allBase.map((baseLightness, index) => {
-        // Black (index 0) and white (last index) are fixed endpoints
         if (index === 0 || index === lastIndex) return baseLightness;
         return applyAdjustment(baseLightness, props.hue, index, props.totalSteps);
     });

@@ -6,6 +6,8 @@
 import type { AdjustmentRange, LightnessAdjustmentConfig } from "~/composables/themes/lib/types";
 import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "~/composables/themes/lib/types";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
+import { computeHueStrengthFactor } from "~/composables/utils/hueFalloff";
+import { computeLightnessFalloffFactor } from "~/composables/utils/lightnessFalloff";
 
 export function stepLightnessAdjustment() {
     // Reactive state
@@ -98,7 +100,7 @@ export function stepLightnessAdjustment() {
     /**
      * Check if a hue falls within a range (binary yes/no, no falloff)
      */
-    function isHueInRange(hue: number, rangeSettings: AdjustmentRange): boolean {
+    function _isHueInRange(hue: number, rangeSettings: AdjustmentRange): boolean {
         const placement = computeHuePlacement(hue, rangeSettings);
         return placement !== null;
     }
@@ -122,29 +124,42 @@ export function stepLightnessAdjustment() {
     }
 
     /**
-     * Compute range effect — strength only, no lightness falloff.
-     * Applies a flat lightness delta to all swatches in the hue range.
-     * Darkening subtracts lightness, brightening adds lightness.
-     * Strength 0 = no effect, strength 30 (max) = ±30 lightness points.
+     * Compute effective strength for a range (0–1).
+     * Combines base amplitude, hue falloff, and lightness falloff.
      */
-    function computeRangeEffect(
+    function computeEffectiveStrength(
         hue: number,
-        rangeSettings: AdjustmentRange,
-        direction: number
+        baseLightness: number,
+        rangeSettings: AdjustmentRange
     ): number {
         if (!rangeSettings.enabled) return 0;
 
         const amplitude = rangeSettings.lightnessAmplitude || 0;
         if (amplitude === 0) return 0;
 
-        if (!isHueInRange(hue, rangeSettings)) return 0;
+        // Get hue strength factor (0–1) with falloff applied
+        const hueFactor = computeHueStrengthFactor(
+            hue,
+            rangeSettings.start,
+            rangeSettings.end,
+            rangeSettings.hueFalloff
+        );
+        if (hueFactor <= 0) return 0;
 
-        // Flat delta: direction * amplitude (darkening = negative, brightening = positive)
-        return direction * amplitude;
+        // Get lightness falloff factor (0–1): strongest at dark, tapers toward light
+        const lightnessFactor = computeLightnessFalloffFactor(
+            baseLightness,
+            rangeSettings.lightnessFalloffLight * 100
+        );
+
+        return clamp(amplitude / 100, 0, 1) * hueFactor * lightnessFactor;
     }
 
     /**
      * Apply lightness adjustment to a base lightness value
+     *
+     * Darkening compresses toward 0:   result = L * (1 - strength)
+     * Brightening compresses toward 100: result = 100 - (100 - L) * (1 - strength)
      *
      * @param baseLightness - Original lightness (0-100)
      * @param hue - Hue of the color (0-360)
@@ -161,13 +176,21 @@ export function stepLightnessAdjustment() {
 
         const { darkening, brightening } = settings.value;
 
-        const delta
-            = computeRangeEffect(hue, brightening, 1)
-            + computeRangeEffect(hue, darkening, -1);
+        let result = adjustedBase;
 
-        if (delta === 0) return adjustedBase;
+        // Darkening: compress toward 0 (black)
+        const darkStrength = computeEffectiveStrength(hue, adjustedBase, darkening);
+        if (darkStrength > 0) {
+            result = result * (1 - darkStrength);
+        }
 
-        return clamp(adjustedBase + delta, 0, 100);
+        // Brightening: compress toward 100 (white) — mirror of darkening
+        const brightStrength = computeEffectiveStrength(hue, adjustedBase, brightening);
+        if (brightStrength > 0) {
+            result = 100 - (100 - result) * (1 - brightStrength);
+        }
+
+        return clamp(result, 0, 100);
     }
 
     /**

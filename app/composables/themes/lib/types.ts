@@ -16,7 +16,7 @@ export interface AdjustmentRange {
     start: number;
     /** End hue of the affected range (degrees) */
     end: number;
-    /** Hue falloff zone in degrees (smooth transition at range edges) */
+    /** Hue falloff percentage (0–100, how much of the range edge fades) */
     hueFalloff: number;
     /** Lightness falloff for light shades (0-1, higher = more effect on light shades) */
     lightnessFalloffLight: number;
@@ -85,19 +85,19 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
     darkening: {
         enabled: true,
         start: 20,
-        end: 180,
-        hueFalloff: 30,
-        lightnessFalloffLight: 0.76,
-        lightnessAmplitude: 15,
+        end: 220,
+        hueFalloff: 25,
+        lightnessFalloffLight: 0.50,
+        lightnessAmplitude: 5,
         lightnessFalloffDark: 0.33
     },
     brightening: {
         enabled: true,
-        start: 200,
-        end: 280,
-        hueFalloff: 30,
-        lightnessFalloffLight: 0.76,
-        lightnessAmplitude: 6,
+        start: 214,
+        end: 278,
+        hueFalloff: 15,
+        lightnessFalloffLight: 0.69,
+        lightnessAmplitude: 25,
         lightnessFalloffDark: 0.33
     }
 };

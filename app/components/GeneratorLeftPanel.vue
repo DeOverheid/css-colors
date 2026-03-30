@@ -11,6 +11,7 @@
                         :hue-rows="hueRows"
                         :center-hue="darkeningCenterHue"
                         :falloff-span="darkeningFalloffSpan"
+                        label-side="right"
                         @update:center-hue="setDarkeningCenter"
                         @update:falloff-span="setDarkeningFalloff" />
                 </div>
@@ -22,8 +23,8 @@
                             type="range"
                             :value="adjustmentSettings.darkening.lightnessAmplitude"
                             min="0"
-                            max="30"
-                            step="0.5"
+                            max="100"
+                            step="1"
                             class="shift-slider shift-slider--dark"
                             :style="{ '--primary-hsl': primaryHsl }"
                             @input="adjustmentSettings.darkening.lightnessAmplitude = Number(($event.target as HTMLInputElement).value)">
@@ -49,11 +50,11 @@
                             type="range"
                             :value="adjustmentSettings.darkening.hueFalloff"
                             min="0"
-                            max="90"
+                            max="100"
                             class="shift-slider shift-slider--dark"
                             :style="{ '--primary-hsl': primaryHsl }"
                             @input="adjustmentSettings.darkening.hueFalloff = Number(($event.target as HTMLInputElement).value)">
-                        <span class="shift-value">{{ adjustmentSettings.darkening.hueFalloff }}°</span>
+                        <span class="shift-value">{{ adjustmentSettings.darkening.hueFalloff }}%</span>
                     </div>
                 </div>
             </div>
