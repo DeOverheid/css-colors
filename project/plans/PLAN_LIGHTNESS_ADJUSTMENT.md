@@ -235,6 +235,8 @@ The `enabled` flag will always be `true` — no toggle needed.
 - [x] **Always enabled**: No toggle; `DEFAULT_LIGHTNESS_ADJUSTMENT.enabled = true`
 - [x] **Bug fix**: Right panel falloff direction corrected — now uses `lightnessFalloffLight` so both adjustments are strongest on dark swatches
 - [x] **Right panel layout**: Horizontal sliders moved above vertical HueRangeSlider
+- [x] **Simplified to strength-only**: Strength interpolates toward 0 (darken) or 100 (brighten), uniform across all swatches in the selected hue range. Lightness falloff and hue falloff disconnected (inputs preserved for later)
+- [x] **Black/white exempt**: Index 0 (black) and last index (white) are fixed endpoints, never modified by adjustment
 
 ### Follow-up Tasks
 

@@ -252,4 +252,6 @@ Chronological record of features and refactors. Grouped by phase/branch. Use thi
 ### Wiring & Defaults (in progress)
 
 - **ColorSwatchRow.vue**: `applyAdjustment(baseLightness, hue, index, count)` called for every swatch — adjustment is now live and reactive
-- **New defaults**: Dark: center 240° ± 45° (blues), str 15, falloff 60%/30%. Light: center 120° ± 90° (greens), str 12, falloff 90%/50%
+- **Black/white exempt**: Black (index 0) and white (last index) are fixed endpoints and are never modified by adjustment — only swatches 50–950 are affected
+- **Strength model**: Strength interpolates lightness toward 0 (darkening) or 100 (brightening), applied uniformly across all swatches in the hue range
+- **New defaults**: Dark: center 100° ± 80°, str 15. Light: center 240° ± 40°, str 6

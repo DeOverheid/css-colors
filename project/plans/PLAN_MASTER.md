@@ -38,6 +38,8 @@ A complete CSS color palette generator that takes you from picking a base hue to
 - Light adjustment panel (right): brightens cool hues (blues/purples)
 - Strength, lightness falloff, and hue falloff controls
 - `applyAdjustment()` wired into every swatch via ColorSwatchRow
+- Black and white endpoint swatches are exempt — only 50–950 are adjusted
+- Strength interpolates toward 0 (darkening) or 100 (brightening); uniform across all swatches
 - Default values tuned: dark 100°±80° str 15, light 240°±40° str 6
 - Remaining: composable cleanup, HueRangeSlider polish, per-theme storage
 
@@ -123,7 +125,7 @@ Rethought approach — most tools integrated into the app rather than separate p
 
 ```
 User Input → Composable State → Computed Lightness Steps → applyAdjustment() → ColorSwatchRow → ColorSwatch → HSL render
-                                                                                       ↓
+                                                           (skips black/white)          ↓
                                                                               CSS Variables (200+)
                                                                                        ↓
                                                                               Export (TW/CSS/JSON)

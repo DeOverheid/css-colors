@@ -121,13 +121,12 @@ export function stepLightnessAdjustment() {
 
     /**
      * Compute range effect — strength only, no lightness falloff.
-     * Darkening: interpolates lightness toward 0.
-     * Brightening: interpolates lightness toward 100.
-     * Strength 0 = no effect, strength 30 (max) = fully black or white.
+     * Applies a flat lightness delta to all swatches in the hue range.
+     * Darkening subtracts lightness, brightening adds lightness.
+     * Strength 0 = no effect, strength 30 (max) = ±30 lightness points.
      */
     function computeRangeEffect(
         hue: number,
-        baseLightness: number,
         rangeSettings: AdjustmentRange,
         direction: number
     ): number {
@@ -138,16 +137,8 @@ export function stepLightnessAdjustment() {
 
         if (!isHueInRange(hue, rangeSettings)) return 0;
 
-        // Normalize strength to 0-1 (slider goes 0-30)
-        const strength = clamp(amplitude / 30, 0, 1);
-
-        if (direction < 0) {
-            // Darkening: pull lightness toward 0
-            return -baseLightness * strength;
-        } else {
-            // Brightening: push lightness toward 100
-            return (100 - baseLightness) * strength;
-        }
+        // Flat delta: direction * amplitude (darkening = negative, brightening = positive)
+        return direction * amplitude;
     }
 
     /**
@@ -169,8 +160,8 @@ export function stepLightnessAdjustment() {
         const { darkening, brightening } = settings.value;
 
         const delta
-            = computeRangeEffect(hue, adjustedBase, brightening, 1)
-            + computeRangeEffect(hue, adjustedBase, darkening, -1);
+            = computeRangeEffect(hue, brightening, 1)
+            + computeRangeEffect(hue, darkening, -1);
 
         if (delta === 0) return adjustedBase;
 
