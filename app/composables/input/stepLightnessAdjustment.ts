@@ -5,10 +5,12 @@
  */
 import type { AdjustmentRange, LightnessAdjustmentConfig } from "~/composables/themes/lib/types";
 import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "~/composables/themes/lib/types";
+import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 
 export function stepLightnessAdjustment() {
     // Reactive state
     const settings = ref<LightnessAdjustmentConfig>(structuredClone(DEFAULT_LIGHTNESS_ADJUSTMENT));
+    const { isUnlocked } = useSwatchUnlock();
 
     /**
      * Normalize hue to 0-360 range
@@ -153,7 +155,7 @@ export function stepLightnessAdjustment() {
     function applyAdjustment(baseLightness: number, hue: number, _index: number, _count: number): number {
         const adjustedBase = clamp(baseLightness, 0, 100);
 
-        if (!settings.value.enabled) {
+        if (!settings.value.enabled || !isUnlocked("lightness-adjustment")) {
             return adjustedBase;
         }
 

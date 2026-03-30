@@ -52,12 +52,13 @@ export const steps: StepDefinition[] = [
         title: "Lightness Adjustment",
         description: "Fine-tune individual color lightness values",
         inputComponent: "LightnessAdjustmentPanel",
-        inputLayout: "lightness-adjustment"
+        inputLayout: "lightness-adjustment",
+        unlocks: ["lightness-adjustment"]
     },
     {
         id: "hue-spectrum",
         title: "Hue Spectrum",
-        description: "Expand your palette with additional hue variations",
+        description: "Tweak your palette with additional hue variations",
         inputComponent: "HueSpectrumControls"
     },
     {
