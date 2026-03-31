@@ -12,7 +12,7 @@
                 :max="maxOffset"
                 step="1"
                 class="hue-shift-slider"
-                :style="{ '--handle-hue-color': hueColor(row) }"
+                :style="trackStyle(row)"
                 @input="emitOffset(row, Number(($event.target as HTMLInputElement).value))"
             >
             <span class="hue-shift-value">{{ formatOffset(getOffset(row)) }}</span>
@@ -21,13 +21,19 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
     /** The 12 hue values matching the swatch rows */
     hueRows: number[];
     /** 'dark' or 'light' side */
     side: "dark" | "light";
     /** Function to get the current offset for a hue row */
     getOffset: (hue: number) => number;
+    /** User-set saturation (0-100) */
+    saturation: number;
+    /** Lightness for the dark end of the track (e.g. 800 swatch) */
+    darkLightness: number;
+    /** Lightness for the light end of the track (e.g. 200 swatch) */
+    lightLightness: number;
 }>();
 
 const emit = defineEmits<{
@@ -40,8 +46,17 @@ function emitOffset(hue: number, value: number) {
     emit("update:offset", hue, value);
 }
 
-function hueColor(hue: number): string {
-    return `hsl(${hue}, 70%, 55%)`;
+function trackStyle(hue: number) {
+    const sat = props.saturation;
+    const dL = props.darkLightness;
+    const lL = props.lightLightness;
+    const left = `hsl(${(hue - 30 + 360) % 360}, ${sat}%, ${dL}%)`;
+    const mid = `hsl(${hue}, ${sat}%, ${(dL + lL) / 2}%)`;
+    const right = `hsl(${(hue + 30) % 360}, ${sat}%, ${lL}%)`;
+    return {
+        "background": `linear-gradient(to right, ${left}, ${mid}, ${right})`,
+        "--handle-hue-color": `hsl(${hue}, ${sat}%, 55%)`
+    };
 }
 
 function formatOffset(value: number): string {
@@ -57,6 +72,7 @@ function formatOffset(value: number): string {
     flex-direction: column;
     gap: 0;
     width: 100%;
+    max-width: 100%;
 }
 
 .hue-shift-slider-row {
@@ -64,22 +80,17 @@ function formatOffset(value: number): string {
     align-items: center;
     gap: 0.25rem;
     height: var(--swatch-row-height, 28px);
+    max-width: 100%;
 }
 
 .hue-shift-slider {
     flex: 1;
+    min-width: 0;
     height: 6px;
     -webkit-appearance: none;
     appearance: none;
     border-radius: 3px;
     outline: none;
-    background: linear-gradient(
-        to right,
-        var(--handle-hue-color),
-        var(--ui-bg-muted, #e5e5e5) 50%,
-        var(--handle-hue-color)
-    );
-    opacity: 0.6;
 }
 
 .hue-shift-slider::-webkit-slider-thumb {

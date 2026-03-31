@@ -63,18 +63,16 @@
 
         <!-- Step 5: Light hue shift sliders -->
         <template v-else-if="isHueAdjustmentStep">
-            <div class="adjustment-panel">
-                <div class="adjustment-panel-label">
-                    Light hue shift
-                </div>
-                <div class="hue-shift-area">
-                    <HueShiftSliders
-                        :hue-rows="hueRows"
-                        side="light"
-                        :get-offset="getLightOffset"
-                        @update:offset="setLightOffset"
-                    />
-                </div>
+            <div class="hue-shift-area">
+                <HueShiftSliders
+                    :hue-rows="hueRows"
+                    side="light"
+                    :get-offset="getLightOffset"
+                    :saturation="colorSettings.saturation.value"
+                    :dark-lightness="fullLightnessSteps[9] ?? 20"
+                    :light-lightness="fullLightnessSteps[3] ?? 80"
+                    @update:offset="setLightOffset"
+                />
             </div>
         </template>
 
@@ -130,6 +128,7 @@ import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
 import { useHueShift } from "~/composables/input/stepHueShift";
+import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
 
 const { lightShift, setLightShift, greyLightShift, setGreyLightShift } = stepUniformLightnessShift();
 const colorSettings = useColorSettings();
@@ -137,6 +136,7 @@ const { isUnlocked } = useSwatchUnlock();
 const { activeStepId, showSidePanels } = useStepNavigation();
 const { settings: adjustmentSettings } = useLightnessAdjustment();
 const { getLightOffset, setLightOffset } = useHueShift();
+const { fullLightnessSteps } = stepLightnessDistribution();
 
 const isLightnessAdjustmentStep = computed(() => activeStepId.value === "lightness-adjustment");
 const isHueAdjustmentStep = computed(() => activeStepId.value === "hue-adjustment");

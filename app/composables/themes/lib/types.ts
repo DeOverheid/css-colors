@@ -119,9 +119,23 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
 };
 
 /**
- * Default hue shift settings — all rows start at 0° shift.
+ * Default hue shift settings — mathematical defaults derived from perceptual analysis.
+ * Keys are canonical hue degrees (0, 30, 60, ..., 330).
  */
 export const DEFAULT_HUE_SHIFT: HueShiftConfig = {
     enabled: true,
-    rows: {}
+    rows: {
+        0: { dark: -3, light: 25 },
+        30: { dark: -13, light: 23 },
+        60: { dark: -20, light: 13 },
+        90: { dark: -6, light: -14 },
+        120: { dark: 9, light: -7 },
+        150: { dark: 13, light: 0 },
+        180: { dark: 4, light: 8 },
+        210: { dark: 0, light: 11 },
+        240: { dark: 1, light: 7 },
+        270: { dark: 0, light: 0 },
+        300: { dark: 4, light: -6 },
+        330: { dark: 9, light: -13 }
+    }
 };

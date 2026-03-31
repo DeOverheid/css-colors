@@ -59,7 +59,7 @@ export const steps: StepDefinition[] = [
         id: "hue-adjustment",
         title: "Hue Adjustment",
         description: "Shift hue per swatch to compensate for perceptual drift at extreme lightness",
-        inputComponent: "HueSpectrumControls",
+        inputComponent: "HueAdjustmentPanel",
         inputLayout: "lightness-adjustment",
         unlocks: ["hue-adjustment"]
     },

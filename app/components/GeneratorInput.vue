@@ -42,6 +42,7 @@ const componentMap: Record<string, Component> = {
     BezierControls: defineAsyncComponent(() => import("~/components/BezierControls.vue")),
     LightnessAdjustmentPanel: defineAsyncComponent(() => import("~/components/LightnessAdjustmentPanel.vue")),
     HueSpectrumControls: defineAsyncComponent(() => import("~/components/HueSpectrumControls.vue")),
+    HueAdjustmentPanel: defineAsyncComponent(() => import("~/components/HueAdjustmentPanel.vue")),
     ExportPanel: defineAsyncComponent(() => import("~/components/ExportPanel.vue"))
 };
 
