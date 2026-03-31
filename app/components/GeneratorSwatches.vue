@@ -122,7 +122,9 @@ const { isUnlocked } = useSwatchUnlock();
 const { orderedRows, greyCompanionRows, primaryGreyName, complementarySaturation } = useComplementaryColors();
 const { activeStepId } = useStepNavigation();
 
-const isAdjustmentStep = computed(() => activeStepId.value === "lightness-adjustment");
+const isAdjustmentStep = computed(() =>
+    activeStepId.value === "lightness-adjustment" || activeStepId.value === "hue-adjustment"
+);
 
 const HUE_NAMES: Record<number, string> = {
     0: "Red", 30: "Orange", 60: "Yellow", 90: "Chartreuse",

@@ -35,6 +35,20 @@ export interface LightnessAdjustmentConfig {
     brightening: AdjustmentRange;
 }
 
+export interface HueShiftRow {
+    /** Hue offset for dark swatches (±30°) */
+    dark: number;
+    /** Hue offset for light swatches (±30°) */
+    light: number;
+}
+
+export interface HueShiftConfig {
+    /** Whether per-swatch hue shifting is enabled */
+    enabled: boolean;
+    /** Per-hue-row shift values keyed by hue degree */
+    rows: Record<number, HueShiftRow>;
+}
+
 export interface ThemeConfig {
     /** Unique identifier for the theme */
     id: string;
@@ -56,6 +70,8 @@ export interface ThemeConfig {
     grayscaleLightnessMax?: number;
     /** Hue-based lightness compensation settings */
     lightnessAdjustment?: LightnessAdjustmentConfig;
+    /** Per-swatch hue shift settings */
+    hueShift?: HueShiftConfig;
     /** Default dark squeeze slider value (0–100) */
     defaultDarkSqueeze?: number;
     /** Default light squeeze slider value (0–100) */
@@ -100,4 +116,12 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
         lightnessAmplitude: 20,
         lightnessFalloffDark: 0.33
     }
+};
+
+/**
+ * Default hue shift settings — all rows start at 0° shift.
+ */
+export const DEFAULT_HUE_SHIFT: HueShiftConfig = {
+    enabled: true,
+    rows: {}
 };

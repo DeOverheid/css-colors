@@ -56,10 +56,12 @@ export const steps: StepDefinition[] = [
         unlocks: ["lightness-adjustment"]
     },
     {
-        id: "hue-spectrum",
-        title: "Hue Spectrum",
-        description: "Tweak your palette with additional hue variations",
-        inputComponent: "HueSpectrumControls"
+        id: "hue-adjustment",
+        title: "Hue Adjustment",
+        description: "Shift hue per swatch to compensate for perceptual drift at extreme lightness",
+        inputComponent: "HueSpectrumControls",
+        inputLayout: "lightness-adjustment",
+        unlocks: ["hue-adjustment"]
     },
     {
         id: "select-theme",

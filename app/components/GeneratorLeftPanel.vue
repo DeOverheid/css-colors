@@ -1,7 +1,7 @@
 <template>
     <aside class="panel shift-panel">
         <!-- Step 4: Dark adjustment controls -->
-        <template v-if="isAdjustmentStep">
+        <template v-if="isLightnessAdjustmentStep">
             <div class="adjustment-panel">
                 <div class="adjustment-panel-label">
                     Dark adjustment
@@ -60,6 +60,23 @@
             </div>
         </template>
 
+        <!-- Step 5: Dark hue shift sliders -->
+        <template v-else-if="isHueAdjustmentStep">
+            <div class="adjustment-panel">
+                <div class="adjustment-panel-label">
+                    Dark hue shift
+                </div>
+                <div class="hue-shift-area">
+                    <HueShiftSliders
+                        :hue-rows="hueRows"
+                        side="dark"
+                        :get-offset="getDarkOffset"
+                        @update:offset="setDarkOffset"
+                    />
+                </div>
+            </div>
+        </template>
+
         <!-- Other steps: shift sliders -->
         <template v-else-if="showShiftSliders">
             <div class="shift-slider-wrapper">
@@ -111,14 +128,17 @@ import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
+import { useHueShift } from "~/composables/input/stepHueShift";
 
 const { darkShift, setDarkShift, greyDarkShift, setGreyDarkShift } = stepUniformLightnessShift();
 const colorSettings = useColorSettings();
 const { isUnlocked } = useSwatchUnlock();
 const { activeStepId, showSidePanels } = useStepNavigation();
 const { settings: adjustmentSettings } = useLightnessAdjustment();
+const { getDarkOffset, setDarkOffset } = useHueShift();
 
-const isAdjustmentStep = computed(() => activeStepId.value === "lightness-adjustment");
+const isLightnessAdjustmentStep = computed(() => activeStepId.value === "lightness-adjustment");
+const isHueAdjustmentStep = computed(() => activeStepId.value === "hue-adjustment");
 
 const primaryHsl = computed(() =>
     `hsl(${colorSettings.hue.value}, ${colorSettings.saturation.value}%, 50%)`
@@ -200,6 +220,14 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
     display: flex;
     justify-content: center;
     min-height: 0;
+}
+
+.hue-shift-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0.25rem;
 }
 
 .adjustment-controls {
