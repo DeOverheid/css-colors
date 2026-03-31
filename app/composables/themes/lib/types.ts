@@ -93,11 +93,11 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
     },
     brightening: {
         enabled: true,
-        start: 214,
-        end: 278,
-        hueFalloff: 15,
-        lightnessFalloffLight: 0.69,
-        lightnessAmplitude: 25,
+        start: 198,
+        end: 302,
+        hueFalloff: 100,
+        lightnessFalloffLight: 0,
+        lightnessAmplitude: 20,
         lightnessFalloffDark: 0.33
     }
 };
