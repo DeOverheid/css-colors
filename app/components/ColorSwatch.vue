@@ -43,7 +43,7 @@ function handleCopy() {
 <style scoped>
 .color-swatch {
     width: 100%;
-    aspect-ratio: 1;
+    height: 100%;
     cursor: pointer;
     position: relative;
 }

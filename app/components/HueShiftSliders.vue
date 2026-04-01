@@ -3,8 +3,7 @@
         <div
             v-for="row in hueRows"
             :key="row"
-            class="hue-shift-slider-row"
-        >
+            class="hue-shift-slider-row">
             <input
                 type="range"
                 :value="getOffset(row)"
@@ -13,14 +12,17 @@
                 step="1"
                 class="hue-shift-slider"
                 :style="trackStyle(row)"
-                @input="emitOffset(row, Number(($event.target as HTMLInputElement).value))"
-            >
-            <span class="hue-shift-value">{{ formatOffset(getOffset(row)) }}</span>
+                :title="formatOffset(getOffset(row))"
+                @input="emitOffset(row, Number(($event.target as HTMLInputElement).value))">
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useSwatchRowHeight } from "~/composables/ui/useSwatchRowHeight";
+
+const swatchRowHeight = useSwatchRowHeight();
+
 const props = defineProps<{
     /** The 12 hue values matching the swatch rows */
     hueRows: number[];
@@ -30,10 +32,8 @@ const props = defineProps<{
     getOffset: (hue: number) => number;
     /** User-set saturation (0-100) */
     saturation: number;
-    /** Lightness for the dark end of the track (e.g. 800 swatch) */
-    darkLightness: number;
-    /** Lightness for the light end of the track (e.g. 200 swatch) */
-    lightLightness: number;
+    /** Fixed lightness for all slider tracks (e.g. 800-swatch lightness for dark, 200-swatch for light) */
+    trackLightness: number;
 }>();
 
 const emit = defineEmits<{
@@ -48,13 +48,12 @@ function emitOffset(hue: number, value: number) {
 
 function trackStyle(hue: number) {
     const sat = props.saturation;
-    const dL = props.darkLightness;
-    const lL = props.lightLightness;
-    const left = `hsl(${(hue - 30 + 360) % 360}, ${sat}%, ${dL}%)`;
-    const mid = `hsl(${hue}, ${sat}%, ${(dL + lL) / 2}%)`;
-    const right = `hsl(${(hue + 30) % 360}, ${sat}%, ${lL}%)`;
+    const l = props.trackLightness;
+    const left = `hsl(${(hue - 30 + 360) % 360}, ${sat}%, ${l}%)`;
+    const mid = `hsl(${hue}, ${sat}%, ${l}%)`;
+    const right = `hsl(${(hue + 30) % 360}, ${sat}%, ${l}%)`;
     return {
-        "background": `linear-gradient(to right, ${left}, ${mid}, ${right})`,
+        "background": `linear-gradient(to right, ${left}, ${mid}, ${mid}, ${right})`,
         "--handle-hue-color": `hsl(${hue}, ${sat}%, 55%)`
     };
 }
@@ -78,8 +77,7 @@ function formatOffset(value: number): string {
 .hue-shift-slider-row {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    height: var(--swatch-row-height, 28px);
+    height: v-bind(swatchRowHeight + 'px');
     max-width: 100%;
 }
 
@@ -113,14 +111,5 @@ function formatOffset(value: number): string {
     border: 2px solid white;
     cursor: pointer;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.hue-shift-value {
-    font-size: 0.625rem;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    width: 2.5rem;
-    text-align: right;
-    opacity: 0.6;
 }
 </style>

@@ -68,10 +68,8 @@
                     side="dark"
                     :get-offset="getDarkOffset"
                     :saturation="colorSettings.saturation.value"
-                    :dark-lightness="fullLightnessSteps[9] ?? 20"
-                    :light-lightness="fullLightnessSteps[3] ?? 80"
-                    @update:offset="setDarkOffset"
-                />
+                    :track-lightness="fullLightnessSteps[3] ?? 20"
+                    @update:offset="setDarkOffset" />
             </div>
         </template>
 
@@ -128,6 +126,8 @@ import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
 import { useHueShift } from "~/composables/input/stepHueShift";
 import { stepLightnessDistribution } from "~/composables/input/stepLightnessDistribution";
+import { getChromaticEntriesForTheme } from "~/composables/utils/hueShiftDefaults";
+import { useThemes } from "~/composables/themes";
 
 const { darkShift, setDarkShift, greyDarkShift, setGreyDarkShift } = stepUniformLightnessShift();
 const colorSettings = useColorSettings();
@@ -136,6 +136,7 @@ const { activeStepId, showSidePanels } = useStepNavigation();
 const { settings: adjustmentSettings } = useLightnessAdjustment();
 const { getDarkOffset, setDarkOffset } = useHueShift();
 const { fullLightnessSteps } = stepLightnessDistribution();
+const { currentTheme } = useThemes();
 
 const isLightnessAdjustmentStep = computed(() => activeStepId.value === "lightness-adjustment");
 const isHueAdjustmentStep = computed(() => activeStepId.value === "hue-adjustment");
@@ -150,10 +151,21 @@ const greyHsl = computed(() =>
 
 const showShiftSliders = computed(() => isUnlocked("shift-sliders") && showSidePanels.value);
 
-/** 12 hue rows matching the swatch display */
+/** Hue rows matching the swatch display, derived from theme entries */
 const hueRows = computed(() => {
-    const offset = colorSettings.hue.value % 30;
-    return Array.from({ length: 12 }, (_, i) => (offset + i * 30) % 360);
+    const entries = getChromaticEntriesForTheme(currentTheme.value.id);
+    const primaryHue = colorSettings.hue.value % 360;
+    let primaryIdx = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < entries.length; i++) {
+        const d = Math.abs(entries[i]!.baseHue - primaryHue);
+        const dist = d > 180 ? 360 - d : d;
+        if (dist < bestDist) {
+            bestDist = dist;
+            primaryIdx = i;
+        }
+    }
+    return entries.map((e, i) => i === primaryIdx ? primaryHue : e.baseHue);
 });
 
 /** Center hue derived from darkening start/end */
@@ -226,8 +238,6 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 0 0.25rem;
 }
 
 .adjustment-controls {

@@ -42,11 +42,16 @@ export interface HueShiftRow {
     light: number;
 }
 
+export interface HueShiftEntry extends HueShiftRow {
+    /** The entry's base hue (degrees) — used for proximity matching */
+    baseHue: number;
+}
+
 export interface HueShiftConfig {
     /** Whether per-swatch hue shifting is enabled */
     enabled: boolean;
-    /** Per-hue-row shift values keyed by hue degree */
-    rows: Record<number, HueShiftRow>;
+    /** Per-entry shift values keyed by color name (e.g. "crimson", "red") */
+    rows: Record<string, HueShiftEntry>;
 }
 
 export interface ThemeConfig {
@@ -119,23 +124,22 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
 };
 
 /**
- * Default hue shift settings — mathematical defaults derived from perceptual analysis.
- * Keys are canonical hue degrees (0, 30, 60, ..., 330).
+ * Default hue shift config — matches mathematical theme entries.
  */
 export const DEFAULT_HUE_SHIFT: HueShiftConfig = {
     enabled: true,
     rows: {
-        0: { dark: -3, light: 25 },
-        30: { dark: -13, light: 23 },
-        60: { dark: -20, light: 13 },
-        90: { dark: -6, light: -14 },
-        120: { dark: 9, light: -7 },
-        150: { dark: 13, light: 0 },
-        180: { dark: 4, light: 8 },
-        210: { dark: 0, light: 11 },
-        240: { dark: 1, light: 7 },
-        270: { dark: 0, light: 0 },
-        300: { dark: 4, light: -6 },
-        330: { dark: 9, light: -13 }
+        crimson: { baseHue: 0, dark: -3, light: 25 },
+        flame: { baseHue: 30, dark: -13, light: 23 },
+        wheat: { baseHue: 60, dark: -20, light: 13 },
+        lime: { baseHue: 90, dark: -6, light: -14 },
+        grass: { baseHue: 120, dark: 9, light: -7 },
+        sea: { baseHue: 150, dark: 13, light: 0 },
+        sky: { baseHue: 180, dark: 4, light: 8 },
+        corn: { baseHue: 210, dark: 0, light: 11 },
+        dusk: { baseHue: 240, dark: 1, light: 7 },
+        plum: { baseHue: 270, dark: 0, light: 0 },
+        candy: { baseHue: 300, dark: 4, light: -6 },
+        salmon: { baseHue: 330, dark: 9, light: -13 }
     }
 };
