@@ -218,7 +218,12 @@ const markerIndex = computed(() => {
     return Math.max(0, baseIndex - 1);
 });
 
-const greySaturations = computed(() => greySaturationSteps(props.saturation, props.totalSteps));
+const greySaturations = computed(() => greySaturationSteps(
+    props.saturation,
+    props.totalSteps,
+    currentTheme.value.greySaturationMax ?? 25,
+    currentTheme.value.greySaturationMin ?? 3
+));
 
 const chromaticLabels: Record<string, string> = {
     primary: "Primary",

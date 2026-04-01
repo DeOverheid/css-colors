@@ -52,6 +52,8 @@ export const mathematicalTheme: ThemeConfig = {
         y2: 0.94
     },
     lightnessAdjustment: { ...DEFAULT_LIGHTNESS_ADJUSTMENT, enabled: true },
+    greySaturationMax: 20,
+    greySaturationMin: 5,
     defaultRainbowDarkShift: 0,
     defaultRainbowLightShift: 0,
     defaultGreyDarkShift: 0,

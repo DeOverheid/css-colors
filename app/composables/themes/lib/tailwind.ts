@@ -56,6 +56,8 @@ export const tailwindTheme: ThemeConfig = {
     },
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
+    greySaturationMax: 25,
+    greySaturationMin: 3,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
     defaultDarkSqueeze: 0,
     defaultLightSqueeze: 0,

@@ -73,6 +73,10 @@ export interface ThemeConfig {
     grayscaleLightnessMin?: number;
     /** Maximum lightness for greyscale shades (defaults to 100) */
     grayscaleLightnessMax?: number;
+    /** Max grey saturation at darkest swatch when slider = 100 (defaults to 25) */
+    greySaturationMax?: number;
+    /** Min grey saturation at lightest swatch when slider = 100 (defaults to 3) */
+    greySaturationMin?: number;
     /** Hue-based lightness compensation settings */
     lightnessAdjustment?: LightnessAdjustmentConfig;
     /** Per-swatch hue shift settings */

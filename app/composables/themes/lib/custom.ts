@@ -52,6 +52,8 @@ export const customTheme: ThemeConfig = {
     },
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,
+    greySaturationMax: 10,
+    greySaturationMin: 2,
     lightnessAdjustment: DEFAULT_LIGHTNESS_ADJUSTMENT,
     defaultRainbowDarkShift: 0,
     defaultRainbowLightShift: 0,

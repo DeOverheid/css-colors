@@ -215,7 +215,12 @@ export function useCssVariables() {
                 );
             });
         } else {
-            const saturations = greySaturationSteps(colorSettings.saturation.value);
+            const saturations = greySaturationSteps(
+                colorSettings.saturation.value,
+                UI_TOTAL_STEPS,
+                currentTheme.value.greySaturationMax ?? 25,
+                currentTheme.value.greySaturationMin ?? 3
+            );
             GREY_SHADE_LABELS.forEach((label, i) => {
                 document.documentElement.style.setProperty(
                     `--grey-saturation-${label}`,
