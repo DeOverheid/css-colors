@@ -5,8 +5,8 @@ export default defineAppConfig({
         }
     },
     colors: {
-        hue: 186,
-        saturation: 87,
+        hue: 180,
+        saturation: 75,
         lightness: 66,
         mutedSaturationMultiplier: 0.1
     },

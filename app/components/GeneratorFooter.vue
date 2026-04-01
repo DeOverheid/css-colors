@@ -22,6 +22,13 @@
                 :is="footerComponent"
                 v-if="footerComponent"
             />
+            <button
+                v-if="!footerComponent && !isLast"
+                class="next-step-btn"
+                @click="next"
+            >
+                Next step
+            </button>
         </div>
 
         <!-- Right: Dev Mode button (persistent) -->
@@ -53,7 +60,7 @@ const props = defineProps<{
     targetLightness: number;
 }>();
 
-const { activeStep } = useStepNavigation();
+const { activeStep, isLast, next } = useStepNavigation();
 const { isDevModeEnabled, toggleDevMode } = useDevMode();
 const { lightnessDistribution } = useSteps();
 const { lightnessSteps } = lightnessDistribution;
@@ -133,5 +140,21 @@ const markedSampleLightness = computed(() => {
     flex-direction: column;
     align-items: flex-end;
     gap: 0.375rem;
+}
+
+.next-step-btn {
+    padding: 0.4rem 1.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--ui-border-color, #555);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ui-text);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.next-step-btn:hover {
+    background: var(--ui-bg-elevated, #333);
 }
 </style>
