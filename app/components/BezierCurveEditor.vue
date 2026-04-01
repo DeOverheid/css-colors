@@ -8,19 +8,16 @@
                 preserveAspectRatio="xMidYMid meet"
                 @mousedown="handleSvgMouseDown"
                 @touchstart="handleSvgTouchStart">
-                <!-- White background with border -->
+                <!-- Background -->
                 <rect
                     x="0"
                     y="0"
                     width="100"
                     height="100"
-                    fill="white"
-                    stroke="rgba(0,0,0,0.15)"
+                    class="bezier-editor__bg"
                     stroke-width="0.5" />
                 <!-- Grid lines -->
-                <g
-                    class="bezier-editor__grid"
-                    opacity="0.1">
+                <g class="bezier-editor__grid">
                     <line
                         v-for="i in 10"
                         :key="`v-${i}`"
@@ -28,7 +25,6 @@
                         y1="0"
                         :x2="i * 10"
                         y2="100"
-                        stroke="currentColor"
                         stroke-width="0.5" />
                     <line
                         v-for="i in 10"
@@ -37,7 +33,6 @@
                         :y1="i * 10"
                         x2="100"
                         :y2="i * 10"
-                        stroke="currentColor"
                         stroke-width="0.5" />
                 </g>
 
@@ -259,6 +254,26 @@ onUnmounted(() => {
 
 .bezier-editor__curve {
     stroke: var(--ui-primary);
+}
+
+.bezier-editor__bg {
+    fill: white;
+    stroke: rgba(0, 0, 0, 0.15);
+}
+
+.bezier-editor__grid line {
+    stroke: var(--ui-color-primary-500);
+    opacity: 0.35;
+}
+
+:global(.dark) .bezier-editor__bg {
+    fill: var(--ui-color-primary-800);
+    stroke: var(--ui-color-primary-700);
+}
+
+:global(.dark) .bezier-editor__grid line {
+    stroke: var(--ui-color-primary-500);
+    opacity: 0.25;
 }
 
 .bezier-editor__handle {
