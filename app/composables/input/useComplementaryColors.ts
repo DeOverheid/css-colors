@@ -82,18 +82,8 @@ export function useComplementaryColors() {
 
     const tertiaryHue = computed(() => ((primaryHue.value - hueOffset.value) % 360 + 360) % 360);
 
-    /** At offset 0 or ±180, secondary and tertiary overlap — hide tertiary */
-    const showTertiary = computed(() => {
-        const abs = Math.abs(hueOffset.value);
-        return abs > 0 && abs < 180;
-    });
-
-    // If tertiary is hidden but tone was set to tertiary, fall back to neutral
-    watch(showTertiary, (visible) => {
-        if (!visible && uiToneSource.value === "tertiary") {
-            uiToneSource.value = "neutral";
-        }
-    });
+    // If tertiary overlaps with secondary (offset 0 or ±180), they share the same hue
+    // but we still show tertiary in the UI for layout stability
 
     /** Closest TW grey name for each color hue */
     const primaryGreyName = computed(() => closestGreyName(primaryHue.value));
@@ -107,12 +97,9 @@ export function useComplementaryColors() {
     const orderedRows = computed(() => {
         const rows: { rowId: "primary" | "secondary" | "tertiary"; hue: number }[] = [
             { rowId: "secondary", hue: secondaryHue.value },
-            { rowId: "primary", hue: primaryHue.value }
+            { rowId: "primary", hue: primaryHue.value },
+            { rowId: "tertiary", hue: tertiaryHue.value }
         ];
-
-        if (showTertiary.value) {
-            rows.push({ rowId: "tertiary", hue: tertiaryHue.value });
-        }
 
         return rows;
     });
@@ -132,14 +119,12 @@ export function useComplementaryColors() {
             parentId: "secondary"
         });
 
-        if (showTertiary.value) {
-            rows.push({
-                rowId: "tertiary-grey",
-                hue: tertiaryHue.value,
-                label: tertiaryGreyName.value,
-                parentId: "tertiary"
-            });
-        }
+        rows.push({
+            rowId: "tertiary-grey",
+            hue: tertiaryHue.value,
+            label: tertiaryGreyName.value,
+            parentId: "tertiary"
+        });
 
         return rows;
     });
@@ -172,18 +157,15 @@ export function useComplementaryColors() {
 
     /**
      * Available tone options based on current state.
-     * Neutral first, then chromatic tones with "Name (role hue)" labels.
-     * Tertiary is only available when showTertiary is true.
+     * Neutral first, then chromatic tones.
      */
     const availableTones = computed(() => {
         const tones: { value: UiToneSource; label: string; hue: number }[] = [
             { value: "neutral", label: "Neutral", hue: -1 },
             { value: "secondary", label: secondaryGreyName.value, hue: secondaryHue.value },
-            { value: "primary", label: primaryGreyName.value, hue: primaryHue.value }
+            { value: "primary", label: primaryGreyName.value, hue: primaryHue.value },
+            { value: "tertiary", label: tertiaryGreyName.value, hue: tertiaryHue.value }
         ];
-        if (showTertiary.value) {
-            tones.push({ value: "tertiary", label: tertiaryGreyName.value, hue: tertiaryHue.value });
-        }
         return tones;
     });
 
@@ -199,7 +181,6 @@ export function useComplementaryColors() {
         primaryHue,
         secondaryHue,
         tertiaryHue,
-        showTertiary,
         primaryGreyName,
         secondaryGreyName,
         tertiaryGreyName,

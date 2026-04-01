@@ -6,14 +6,22 @@
         <p>{{ activeStep.description }}</p>
     </div>
     <div class="step-controls">
+        <div class="input-row--tone">
+            <label class="input-label">UI Tone</label>
+            <RadioSelector
+                :model-value="uiToneSource"
+                name="ui-tone"
+                :options="toneOptions"
+                segmented
+                @update:model-value="uiToneSource = $event as UiToneSource" />
+        </div>
+
         <div class="color-preview">
             <!-- Labels row -->
             <div class="preview-grid">
                 <span class="preview-label">Secondary</span>
                 <span class="preview-label">Primary</span>
-                <span
-                    v-if="showTertiary"
-                    class="preview-label">Tertiary</span>
+                <span class="preview-label">Tertiary</span>
             </div>
             <!-- Swatches row -->
             <div class="preview-grid rounded-group rounded-group--horizontal">
@@ -24,7 +32,6 @@
                     class="preview-swatch"
                     :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }" />
                 <span
-                    v-if="showTertiary"
                     class="preview-swatch"
                     :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }" />
             </div>
@@ -32,15 +39,8 @@
             <div class="preview-grid">
                 <span class="degrees-value">{{ secondaryHue }}°</span>
                 <span class="degrees-value">{{ primaryHue }}°</span>
-                <span
-                    v-if="showTertiary"
-                    class="degrees-value">{{ tertiaryHue }}°</span>
+                <span class="degrees-value">{{ tertiaryHue }}°</span>
             </div>
-        </div>
-
-        <div class="input-row--tone">
-            <label class="input-label">UI Tone</label>
-            <RadioSelector :model-value="uiToneSource" name="ui-tone" :options="toneOptions" segmented @update:model-value="uiToneSource = $event as UiToneSource" />
         </div>
     </div>
     <div class="step-wheel">
@@ -56,7 +56,7 @@ import type { RadioOption } from "~/components/RadioSelector.vue";
 
 const colorSettings = useColorSettings();
 const { activeStep } = useStepNavigation();
-const { hueOffset, secondaryHue, tertiaryHue, showTertiary, uiToneSource, availableTones, complementarySaturation } = useComplementaryColors();
+const { hueOffset, secondaryHue, tertiaryHue, uiToneSource, availableTones, complementarySaturation } = useComplementaryColors();
 
 const primaryHue = computed(() => colorSettings.hue.value);
 const saturation = computed(() => colorSettings.saturation.value);
