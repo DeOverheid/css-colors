@@ -1,6 +1,8 @@
 <template>
     <form class="radio-selector">
-        <fieldset class="radio-selector__fieldset">
+        <fieldset
+            class="radio-selector__fieldset"
+            :class="{ 'radio-selector__fieldset--segmented': segmented }">
             <legend
                 v-if="legend"
                 class="radio-selector__legend">
@@ -21,7 +23,7 @@
                     class="radio-selector__input"
                     @change="$emit('update:modelValue', option.value)">
                 <span
-                    v-if="option.swatch && !option.background"
+                    v-if="option.swatch && !option.background && !segmented"
                     class="radio-selector__swatch"
                     :style="{ background: option.swatch }" />
                 <span class="radio-selector__label">{{ option.label }}</span>
@@ -53,6 +55,8 @@ defineProps<{
     options: RadioOption[];
     /** Optional fieldset legend */
     legend?: string;
+    /** Segmented control appearance: no gaps, first/last rounding only */
+    segmented?: boolean;
 }>();
 
 defineEmits<{
@@ -127,5 +131,36 @@ defineEmits<{
     border-radius: 3px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
+}
+
+/* Segmented variant: connected button group */
+.radio-selector__fieldset--segmented {
+    gap: 0;
+}
+
+.radio-selector__fieldset--segmented .radio-selector__option {
+    border-radius: 0;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+}
+
+.radio-selector__fieldset--segmented .radio-selector__option + .radio-selector__option {
+    margin-left: -1.5px;
+}
+
+.radio-selector__fieldset--segmented .radio-selector__option:first-of-type {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.radio-selector__fieldset--segmented .radio-selector__option:last-of-type {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.radio-selector__fieldset--segmented .radio-selector__option--active {
+    position: relative;
+    z-index: 1;
 }
 </style>

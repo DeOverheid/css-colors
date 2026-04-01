@@ -40,7 +40,7 @@
 
         <div class="input-row--tone">
             <label class="input-label">UI Tone</label>
-            <RadioSelector :model-value="uiToneSource" name="ui-tone" :options="toneOptions" @update:model-value="uiToneSource = $event as UiToneSource" />
+            <RadioSelector :model-value="uiToneSource" name="ui-tone" :options="toneOptions" segmented @update:model-value="uiToneSource = $event as UiToneSource" />
         </div>
     </div>
     <div class="step-wheel">
@@ -76,6 +76,7 @@ const toneOptions = computed<RadioOption[]>(() =>
 <style scoped>
 .step-title {
     grid-area: title;
+    align-self: end;
 }
 
 .step-title h2 {
@@ -102,12 +103,13 @@ const toneOptions = computed<RadioOption[]>(() =>
 .step-wheel {
     grid-area: wheel;
     height: 100%;
+    aspect-ratio: 1;
     overflow: visible;
 }
 
 .input-row--tone {
     display: grid;
-    grid-template-columns: var(--label-column-width, 80px) 1fr;
+    grid-template-columns: auto 1fr;
     align-items: start;
     gap: 1rem;
 }
