@@ -6,7 +6,8 @@
         <p>{{ activeStep.description }}</p>
     </div>
     <div class="step-controls">
-        <label class="input-label">Choose a UI tone</label>
+        <label class="input-label">1. Adjust the color wheel</label>
+        <label class="input-label">2. Choose a UI tone</label>
 
         <div class="tone-grid">
             <!-- Names row -->
@@ -85,7 +86,7 @@ const lightness = computed(() => colorSettings.lightness.value);
     grid-area: controls;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 5px;
 }
 
 .step-wheel {
@@ -99,18 +100,20 @@ const lightness = computed(() => colorSettings.lightness.value);
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .tone-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    row-gap: 0.25rem;
+    row-gap: 5px;
 }
 
 .tone-swatch {
-    height: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    height: 30px;
     cursor: pointer;
     padding: 0;
     outline: none;

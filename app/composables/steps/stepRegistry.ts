@@ -32,7 +32,7 @@ export const steps: StepDefinition[] = [
     {
         id: "complementary-colors",
         title: "Complementary Colors",
-        description: "Use the wheel to pick complimentary colors and pick a UI tone",
+        description: "A good theme uses complementary colors for added contrast",
         inputComponent: "ComplementaryColorPicker",
         inputLayout: "hue-wheel",
         unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
