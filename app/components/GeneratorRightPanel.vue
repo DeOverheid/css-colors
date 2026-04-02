@@ -16,60 +16,38 @@
                 <div class="adjustment-controls">
                     <div class="adjustment-control">
                         <label class="shift-label">Strength</label>
-                        <div class="slider-with-tooltip">
-                            <input
-                                type="range"
-                                :value="adjustmentSettings.brightening.lightnessAmplitude"
-                                min="0"
-                                max="100"
-                                step="1"
-                                class="shift-slider shift-slider--light"
-                                :style="{ '--primary-hsl': primaryHsl }"
-                                @input="adjustmentSettings.brightening.lightnessAmplitude = Number(($event.target as HTMLInputElement).value)">
-                            <span
-                                class="slider-tooltip"
-                                :style="{ left: adjustmentSettings.brightening.lightnessAmplitude + '%' }">
-                                {{ adjustmentSettings.brightening.lightnessAmplitude }}
-                            </span>
-                        </div>
+                        <TooltipSlider
+                            :model-value="adjustmentSettings.brightening.lightnessAmplitude"
+                            :min="0"
+                            :max="100"
+                            :step="1"
+                            class="shift-slider shift-slider--light"
+                            :style="{ '--primary-hsl': primaryHsl }"
+                            @update:model-value="adjustmentSettings.brightening.lightnessAmplitude = $event" />
                     </div>
 
                     <div class="adjustment-control">
                         <label class="shift-label">Light falloff</label>
-                        <div class="slider-with-tooltip">
-                            <input
-                                type="range"
-                                :value="Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100)"
-                                min="0"
-                                max="100"
-                                class="shift-slider shift-slider--light"
-                                :style="{ '--primary-hsl': primaryHsl }"
-                                @input="adjustmentSettings.brightening.lightnessFalloffLight = Number(($event.target as HTMLInputElement).value) / 100">
-                            <span
-                                class="slider-tooltip"
-                                :style="{ left: Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100) + '%' }">
-                                {{ Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100) }}%
-                            </span>
-                        </div>
+                        <TooltipSlider
+                            :model-value="Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100)"
+                            :min="0"
+                            :max="100"
+                            :display-value="Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100) + '%'"
+                            class="shift-slider shift-slider--light"
+                            :style="{ '--primary-hsl': primaryHsl }"
+                            @update:model-value="adjustmentSettings.brightening.lightnessFalloffLight = $event / 100" />
                     </div>
 
                     <div class="adjustment-control">
                         <label class="shift-label">Hue falloff</label>
-                        <div class="slider-with-tooltip">
-                            <input
-                                type="range"
-                                :value="adjustmentSettings.brightening.hueFalloff"
-                                min="0"
-                                max="100"
-                                class="shift-slider shift-slider--light"
-                                :style="{ '--primary-hsl': primaryHsl }"
-                                @input="adjustmentSettings.brightening.hueFalloff = Number(($event.target as HTMLInputElement).value)">
-                            <span
-                                class="slider-tooltip"
-                                :style="{ left: adjustmentSettings.brightening.hueFalloff + '%' }">
-                                {{ adjustmentSettings.brightening.hueFalloff }}%
-                            </span>
-                        </div>
+                        <TooltipSlider
+                            :model-value="adjustmentSettings.brightening.hueFalloff"
+                            :min="0"
+                            :max="100"
+                            :display-value="adjustmentSettings.brightening.hueFalloff + '%'"
+                            class="shift-slider shift-slider--light"
+                            :style="{ '--primary-hsl': primaryHsl }"
+                            @update:model-value="adjustmentSettings.brightening.hueFalloff = $event" />
                     </div>
                 </div>
             </div>
@@ -96,18 +74,15 @@
                     class="shift-label">
                     Light shift
                 </label>
-                <div class="slider-track-container">
-                    <input
-                        id="uniform-light-shift"
-                        type="range"
-                        :value="100 - lightShift"
-                        min="0"
-                        max="100"
-                        class="shift-slider shift-slider--light"
-                        :style="{ '--primary-hsl': primaryHsl, '--thumb-color': lightThumbColor(100 - lightShift) }"
-                        @input="setLightShift(100 - Number(($event.target as HTMLInputElement).value))">
-                </div>
-                <span class="shift-value">{{ lightShift }}</span>
+                <TooltipSlider
+                    id="uniform-light-shift"
+                    :model-value="100 - lightShift"
+                    :min="0"
+                    :max="100"
+                    :display-value="lightShift"
+                    class="shift-slider shift-slider--light"
+                    :style="{ '--primary-hsl': primaryHsl, '--thumb-color': lightThumbColor(100 - lightShift) }"
+                    @update:model-value="setLightShift(100 - $event)" />
             </div>
 
             <div class="shift-slider-wrapper shift-slider-wrapper--grey">
@@ -116,18 +91,15 @@
                     class="shift-label">
                     Grey shift
                 </label>
-                <div class="slider-track-container">
-                    <input
-                        id="grey-light-shift"
-                        type="range"
-                        :value="100 - greyLightShift"
-                        min="0"
-                        max="100"
-                        class="shift-slider shift-slider--light"
-                        :style="{ '--primary-hsl': greyHsl, '--thumb-color': lightThumbColor(100 - greyLightShift, 10) }"
-                        @input="setGreyLightShift(100 - Number(($event.target as HTMLInputElement).value))">
-                </div>
-                <span class="shift-value">{{ greyLightShift }}</span>
+                <TooltipSlider
+                    id="grey-light-shift"
+                    :model-value="100 - greyLightShift"
+                    :min="0"
+                    :max="100"
+                    :display-value="greyLightShift"
+                    class="shift-slider shift-slider--light"
+                    :style="{ '--primary-hsl': greyHsl, '--thumb-color': lightThumbColor(100 - greyLightShift, 10) }"
+                    @update:model-value="setGreyLightShift(100 - $event)" />
             </div>
         </template>
     </aside>
@@ -274,10 +246,6 @@ function lightThumbColor(value: number, sat: number = colorSettings.saturation.v
     opacity: 0.7;
 }
 
-.slider-track-container {
-    width: 100%;
-}
-
 .shift-slider {
     width: 100%;
     height: 8px;
@@ -309,39 +277,6 @@ function lightThumbColor(value: number, sat: number = colorSettings.saturation.v
     background: var(--thumb-color, var(--color-gray-300));
     border: 2px solid white;
     cursor: pointer;
-}
-
-.shift-value {
-    font-size: 0.75rem;
-    font-variant-numeric: tabular-nums;
-    opacity: 0.6;
-}
-
-.slider-with-tooltip {
-    position: relative;
-    width: 100%;
-}
-
-.slider-tooltip {
-    position: absolute;
-    bottom: calc(100% + 6px);
-    transform: translateX(-50%);
-    font-size: 0.6875rem;
-    font-variant-numeric: tabular-nums;
-    background: var(--ui-color-primary-900, #1a1a2e);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s;
-}
-
-.slider-with-tooltip:hover .slider-tooltip,
-.slider-with-tooltip:active .slider-tooltip,
-.slider-with-tooltip:has(input:active) .slider-tooltip {
-    opacity: 1;
 }
 
 .shift-slider-wrapper--grey {

@@ -5,18 +5,15 @@
             <label :for="`dark-offset-${entry.name}`">
                 {{ entry.name }} dark
             </label>
-            <input
+            <TooltipSlider
                 :id="`dark-offset-${entry.name}`"
-                type="range"
-                :value="darkOffset"
+                :model-value="darkOffset"
                 :min="offsetRange.min"
                 :max="offsetRange.max"
+                :display-value="formatOffset(darkOffset)"
                 class="offset-slider"
-                @input="$emit('update:darkOffset', Number(($event.target as HTMLInputElement).value))">
+                @update:model-value="$emit('update:darkOffset', $event)" />
         </div>
-
-        <!-- Dark offset value -->
-        <span class="offset-value">{{ formatOffset(darkOffset) }}</span>
 
         <!-- Middle column: Color swatches -->
         <div class="swatches-column">
@@ -30,22 +27,19 @@
             </div>
         </div>
 
-        <!-- Light offset value -->
-        <span class="offset-value">{{ formatOffset(lightOffset) }}</span>
-
         <!-- Light offset slider -->
         <div class="slider-column">
             <label :for="`light-offset-${entry.name}`">
                 {{ entry.name }} light
             </label>
-            <input
+            <TooltipSlider
                 :id="`light-offset-${entry.name}`"
-                type="range"
-                :value="lightOffset"
+                :model-value="lightOffset"
                 :min="offsetRange.min"
                 :max="offsetRange.max"
+                :display-value="formatOffset(lightOffset)"
                 class="offset-slider"
-                @input="$emit('update:lightOffset', Number(($event.target as HTMLInputElement).value))">
+                @update:model-value="$emit('update:lightOffset', $event)" />
         </div>
     </div>
 </template>
@@ -102,7 +96,7 @@ function adjustedSaturation(index: number): number {
 <style scoped>
 .hue-spectrum-row {
     display: grid;
-    grid-template-columns: 100px 40px 1fr 40px 100px;
+    grid-template-columns: 100px 1fr 100px;
     gap: 0.25rem;
     align-items: center;
 }
@@ -120,12 +114,6 @@ function adjustedSaturation(index: number): number {
 
 .offset-slider {
     width: 100%;
-}
-
-.offset-value {
-    font-size: 0.625rem;
-    font-variant-numeric: tabular-nums;
-    text-align: center;
 }
 
 .swatches-column {
