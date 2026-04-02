@@ -6,8 +6,7 @@
                 :model-value="currentThemeId"
                 name="theme"
                 :options="themeOptions"
-                @update:model-value="setTheme($event)"
-            />
+                @update:model-value="setTheme($event)" />
         </div>
     </div>
 </template>
@@ -32,14 +31,14 @@ const themeOptions = computed<RadioOption[]>(() =>
 .theme-selector {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 5px;
     grid-column: 2;
 }
 
 .input-row {
     display: grid;
     grid-template-columns: var(--label-column-width, 80px) 1fr;
-    gap: 1rem;
+    gap: 10px;
     align-items: start;
 }
 

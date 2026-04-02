@@ -47,7 +47,7 @@ function getLightnessStepsForEntry(entry: HueEntry): number[] {
 .hue-spectrum-controls {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 10px;
     height: 100%;
     grid-column: 2;
 }

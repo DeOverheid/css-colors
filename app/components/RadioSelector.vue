@@ -97,7 +97,7 @@ defineEmits<{
 .radio-selector__option {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: 5px;
     padding: 5px 5px;
     border-radius: 6px;
     border: 1.5px solid var(--ui-border);

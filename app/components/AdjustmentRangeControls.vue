@@ -109,7 +109,7 @@ const componentId = useId();
 .adjustment-section {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 5px;
 }
 
 .section-header {

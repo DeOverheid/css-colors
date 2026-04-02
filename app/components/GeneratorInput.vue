@@ -91,7 +91,7 @@ const inputComponent = computed(() =>
     overflow: auto;
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) 1fr var(--panel-column-width, 15%);
-    gap: 0 1rem;
+    gap: 0 10px;
     align-content: start;
 }
 
@@ -105,7 +105,7 @@ const inputComponent = computed(() =>
         "text    text    bezier  ."
         "results results bezier  ."
         "action  .       .       .";
-    gap: 0.75rem 1rem;
+    gap: 5px 10px;
 }
 
 /* Hue-wheel layout: controls left, wheel right */
@@ -118,7 +118,7 @@ const inputComponent = computed(() =>
         "text    text    wheel  ."
         ".       controls wheel  ."
         "action  .       .      .";
-    gap: 0.75rem 1rem;
+    gap: 5px 10px;
 }
 
 /* Lightness-adjustment layout: simple header + content, no side padding */

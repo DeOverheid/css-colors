@@ -1,44 +1,45 @@
 <template>
     <section
         ref="containerRef"
-        class="swatches-preview panel">
-        <!-- Chromatic section: 17 slots -->
+        class="panel panel--preview">
         <div
-            class="swatch-section swatch-section--chromatic"
-            :style="{ height: chromaticHeight + 'px' }">
-            <!-- Adjustment steps: 12 hue rows -->
-            <template v-if="isAdjustmentStep">
-                <div
-                    v-for="(row, idx) in adjustmentHueRows"
-                    :ref="setSwatchRowRef(idx)"
-                    :key="row.hue"
-                    class="swatch-row swatch__row swatch__row--chromatic"
-                    :style="{ height: rowHeight + 'px' }">
+            v-show="containerHeight > 0"
+            class="swatches-preview">
+            <!-- Chromatic section -->
+            <div
+                class="swatch-section swatch-section--chromatic"
+                :style="isStep1 ? { minHeight: (rowHeight * 3) + 'px' } : undefined">
+                <!-- Adjustment steps: all hue rows -->
+                <template v-if="isAdjustmentStep">
                     <div
-                        class="swatch-row-label swatch__label"
-                        :class="{ 'swatch-row-label--primary': row.isPrimary }">
-                        {{ row.label }}
+                        v-for="(row, idx) in adjustmentHueRows"
+                        :ref="setSwatchRowRef(idx)"
+                        :key="row.hue"
+                        class="swatch-row swatch__row swatch__row--chromatic"
+                        :style="{ height: rowHeight + 'px' }">
+                        <div
+                            class="swatch-row-label swatch__label"
+                            :class="{ 'swatch-row-label--primary': row.isPrimary }">
+                            {{ row.label }}
+                        </div>
+                        <ColorSwatchRow
+                            :hue="row.hue"
+                            :saturation="saturation"
+                            :lightness-steps="lightnessSteps"
+                            :total-steps="totalSteps"
+                            :show-marker="false"
+                            class="swatch-row-swatches" />
+                        <div class="swatch-row-value swatch__value">
+                            {{ row.hue }}°
+                        </div>
                     </div>
-                    <ColorSwatchRow
-                        :hue="row.hue"
-                        :saturation="saturation"
-                        :lightness-steps="lightnessSteps"
-                        :total-steps="totalSteps"
-                        :show-marker="false"
-                        class="swatch-row-swatches" />
-                    <div class="swatch-row-value swatch__value">
-                        {{ row.hue }}°
-                    </div>
-                </div>
-            </template>
+                </template>
 
-            <!-- Normal steps: up to 17 chromatic slots -->
-            <template v-else>
-                <template
-                    v-for="row in chromaticSlots"
-                    :key="row.slotIndex">
+                <!-- Normal steps: visible chromatic rows only -->
+                <template v-else>
                     <div
-                        v-if="row.visible"
+                        v-for="row in chromaticRows"
+                        :key="row.rowId"
                         class="swatch-row swatch__row swatch__row--chromatic"
                         :style="{ height: rowHeight + 'px' }">
                         <div class="swatch-row-label swatch__label">
@@ -55,41 +56,18 @@
                             {{ row.hue }}°
                         </div>
                     </div>
-                    <div
-                        v-else
-                        class="swatch-row swatch-row--empty"
-                        :style="{ height: rowHeight + 'px' }" />
                 </template>
-            </template>
-        </div>
+            </div>
 
-        <!-- 10px gap -->
-        <div class="swatch-section-gap" />
-
-        <!-- Grey section: 5 slots -->
-        <div class="swatch-section swatch-section--grey" :style="{ height: greyHeight + 'px' }">
-            <template v-for="slot in greySlots" :key="slot.slotIndex">
-                <div
-                    v-if="slot.visible"
-                    class="swatch-row swatch__row"
-                    :class="slot.isNeutral ? 'swatch__row--neutral' : 'swatch__row--grey'"
-                    :style="{ height: rowHeight + 'px' }">
+            <!-- Grey section -->
+            <div class="swatch-section swatch-section--grey">
+                <div v-for="row in greyRowsData" :key="row.rowId" class="swatch-row swatch__row" :class="row.isNeutral ? 'swatch__row--neutral' : 'swatch__row--grey'" :style="{ height: rowHeight + 'px' }">
                     <div class="swatch-row-label swatch__label">
-                        {{ slot.label }}
+                        {{ row.label }}
                     </div>
-                    <ColorSwatchRow
-                        :hue="slot.hue"
-                        :saturation="slot.saturation"
-                        :lightness-steps="greyLightnessSteps"
-                        :total-steps="totalSteps"
-                        skip-adjustment
-                        class="swatch-row-swatches" />
+                    <ColorSwatchRow :hue="row.hue" :saturation="row.saturation" :lightness-steps="greyLightnessSteps" :total-steps="totalSteps" skip-adjustment class="swatch-row-swatches" />
                 </div>
-                <div
-                    v-else
-                    class="swatch-row swatch-row--empty"
-                    :style="{ height: rowHeight + 'px' }" />
-            </template>
+            </div>
         </div>
     </section>
 </template>
@@ -106,10 +84,10 @@ import { getChromaticEntriesForTheme } from "~/composables/utils/hueShiftDefault
 import { useThemes } from "~/composables/themes";
 import { SWATCH_SLOT_CONFIG } from "~/composables/utils/swatchSlotConfig";
 
-const { chromaticSlots: CHROMATIC_SLOTS, greySlots: GREY_SLOTS, maxVisibleRows: MAX_VISIBLE_ROWS, gapPx: GAP_PX } = SWATCH_SLOT_CONFIG;
+const { maxVisibleRows: MAX_VISIBLE_ROWS } = SWATCH_SLOT_CONFIG;
 
 const containerRef = ref<HTMLElement | null>(null);
-const containerHeight = ref(400);
+const containerHeight = ref(0);
 
 const swatchRowRef = ref<HTMLElement | null>(null);
 
@@ -142,9 +120,7 @@ onUnmounted(() => {
     containerObserver?.disconnect();
 });
 
-const rowHeight = computed(() => Math.max(10, (containerHeight.value - GAP_PX) / MAX_VISIBLE_ROWS));
-const chromaticHeight = computed(() => rowHeight.value * CHROMATIC_SLOTS);
-const greyHeight = computed(() => rowHeight.value * GREY_SLOTS);
+const rowHeight = computed(() => Math.max(10, containerHeight.value / MAX_VISIBLE_ROWS));
 
 const props = defineProps<{
     hue: number;
@@ -163,6 +139,8 @@ const { activeStepId } = useStepNavigation();
 const isAdjustmentStep = computed(() =>
     activeStepId.value === "lightness-adjustment" || activeStepId.value === "hue-adjustment"
 );
+
+const isStep1 = computed(() => activeStepId.value === "primary-color");
 
 const { currentTheme } = useThemes();
 
@@ -217,28 +195,6 @@ const chromaticRows = computed(() =>
         }))
 );
 
-/** 17 chromatic slots — filled rows placed at top, rest empty */
-const chromaticSlots = computed(() => {
-    const rows = chromaticRows.value;
-    const slots: Array<{
-        slotIndex: number;
-        visible: boolean;
-        rowId: string;
-        hue: number;
-        label: string;
-        saturation: number;
-    }> = [];
-    for (let i = 0; i < CHROMATIC_SLOTS; i++) {
-        const row = rows[i];
-        if (row) {
-            slots.push({ slotIndex: i, visible: true, ...row });
-        } else {
-            slots.push({ slotIndex: i, visible: false, rowId: "", hue: 0, label: "", saturation: 0 });
-        }
-    }
-    return slots;
-});
-
 /** Grey companion rows data (only unlocked ones) — neutral always on top */
 const greyRowsData = computed(() => {
     const greyLabelByParent: Record<string, string> = {};
@@ -260,47 +216,29 @@ const greyRowsData = computed(() => {
     }
 
     // Grey companions below neutral
-    const isStep2 = activeStepId.value === "complementary-colors";
+    const stepId = activeStepId.value;
+    const isStep2 = stepId === "complementary-colors";
     for (const row of orderedRows.value) {
         if (!isUnlocked(row.rowId)) continue;
-        // Step 2: show all companion greys
-        // All other steps: only show the one matching uiToneSource (hide all if "neutral")
-        if (!isStep2) {
+        // Step 1: only show primary grey
+        if (isStep1.value) {
+            if (row.rowId !== "primary") continue;
+            // Step 2: show all companion greys
+        } else if (!isStep2) {
+            // All other steps: only show the one matching uiToneSource (hide all if "neutral")
             if (uiToneSource.value === "neutral" || row.rowId !== uiToneSource.value) continue;
         }
+        const greyLabels: Record<string, string> = { primary: "Grey-P", secondary: "Grey-S", tertiary: "Grey-T" };
         rows.push({
             rowId: `${row.rowId}-grey`,
             hue: row.hue,
-            label: row.rowId === "primary" ? primaryGreyName.value : (greyLabelByParent[row.rowId] ?? "Gray"),
+            label: (isStep1.value || isStep2) ? (greyLabels[row.rowId] ?? "Grey") : (row.rowId === "primary" ? primaryGreyName.value : (greyLabelByParent[row.rowId] ?? "Gray")),
             isNeutral: false,
             saturation: greySaturations.value
         });
     }
 
     return rows;
-});
-
-/** 5 grey slots — filled rows placed at top, rest empty */
-const greySlots = computed(() => {
-    const rows = greyRowsData.value;
-    const slots: Array<{
-        slotIndex: number;
-        visible: boolean;
-        rowId: string;
-        hue: number;
-        label: string;
-        isNeutral: boolean;
-        saturation: number[] | number;
-    }> = [];
-    for (let i = 0; i < GREY_SLOTS; i++) {
-        const row = rows[i];
-        if (row) {
-            slots.push({ slotIndex: i, visible: true, ...row });
-        } else {
-            slots.push({ slotIndex: i, visible: false, rowId: "", hue: 0, label: "", isNeutral: false, saturation: 0 });
-        }
-    }
-    return slots;
 });
 
 const markedSampleLightness = computed(() => {
@@ -313,63 +251,32 @@ defineExpose({ markedSampleLightness });
 
 <style scoped>
 .swatches-preview {
-    grid-column: 2;
-    grid-row: 2;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    gap: 10px;
 }
 
-.swatch-section {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-}
-
-.swatch-section-gap {
-    height: 10px;
-    flex-shrink: 0;
-}
+.swatch-section {}
 
 .swatch-row {
     display: grid;
+    font-family: var(--font-family-header);
     grid-template-columns: var(--label-column-width, 80px) 1fr var(--label-column-width, 80px);
-    gap: 1rem;
     align-items: center;
 }
 
-.swatch-row--empty {
-    display: block;
-}
-
-.swatch-row-label {
-    font-family: var(--font-family-header);
-    font-weight: 600;
-    color: var(--ui-text-muted);
-}
+.swatch-row-label {}
 
 .swatch-row-label--primary {
-    font-weight: 700;
-    color: var(--ui-text);
+    font-weight: 800;
 }
 
 .swatch-row-value {
-    font-family: var(--font-family-header);
-    font-weight: 600;
     font-variant-numeric: tabular-nums;
     text-align: right;
-    color: var(--ui-text-muted);
 }
 
 .swatch-row-swatches {
     width: 100%;
-}
-
-@media (max-width: 1024px) {
-    .swatches-preview {
-        grid-column: 1;
-        grid-row: 2;
-        height: auto;
-    }
 }
 </style>

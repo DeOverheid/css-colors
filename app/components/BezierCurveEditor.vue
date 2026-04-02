@@ -240,7 +240,7 @@ onUnmounted(() => {
 .bezier-editor {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 10px;
     height: 100%;
 }
 

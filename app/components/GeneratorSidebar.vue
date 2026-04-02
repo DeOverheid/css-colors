@@ -109,7 +109,7 @@ const themeOptions = computed(() =>
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 10px;
 }
 
 .sidebar-logo h1 {
@@ -182,7 +182,7 @@ const themeOptions = computed(() =>
 .sidebar-export {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 5px;
     flex: 1;
 }
 
@@ -194,7 +194,7 @@ const themeOptions = computed(() =>
 .sidebar-sample {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 5px;
 }
 
 .sidebar-sample__swatch {

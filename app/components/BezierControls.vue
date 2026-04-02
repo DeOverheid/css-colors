@@ -89,7 +89,7 @@ const { currentThemeId } = useThemes();
 .bezier-values {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 5px;
 }
 
 .bezier-value-row {

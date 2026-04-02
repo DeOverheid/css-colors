@@ -15,7 +15,7 @@
 .lightness-adjustment-panel {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 5px;
 }
 
 .adjustment-hint {

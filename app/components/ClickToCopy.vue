@@ -3,8 +3,7 @@
         class="click-to-copy"
         :class="{ 'click-to-copy--copied': copied }"
         :title="copied ? 'Copied!' : 'Click to copy'"
-        @click="handleCopy"
-    >
+        @click="handleCopy">
         <slot />
         <span
             v-if="copied"

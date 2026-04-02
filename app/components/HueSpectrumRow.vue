@@ -89,7 +89,7 @@ function adjustedSaturation(index: number): number {
 .hue-spectrum-row {
     display: grid;
     grid-template-columns: 100px 1fr 100px;
-    gap: 0.25rem;
+    gap: 5px;
     align-items: center;
 }
 
