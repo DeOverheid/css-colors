@@ -106,7 +106,7 @@ import { getChromaticEntriesForTheme } from "~/composables/utils/hueShiftDefault
 import { useThemes } from "~/composables/themes";
 import { SWATCH_SLOT_CONFIG } from "~/composables/utils/swatchSlotConfig";
 
-const { chromaticSlots: CHROMATIC_SLOTS, greySlots: GREY_SLOTS, totalSlots: TOTAL_SLOTS, gapPx: GAP_PX } = SWATCH_SLOT_CONFIG;
+const { chromaticSlots: CHROMATIC_SLOTS, greySlots: GREY_SLOTS, maxVisibleRows: MAX_VISIBLE_ROWS, gapPx: GAP_PX } = SWATCH_SLOT_CONFIG;
 
 const containerRef = ref<HTMLElement | null>(null);
 const containerHeight = ref(400);
@@ -142,7 +142,7 @@ onUnmounted(() => {
     containerObserver?.disconnect();
 });
 
-const rowHeight = computed(() => Math.max(10, (containerHeight.value - GAP_PX) / TOTAL_SLOTS));
+const rowHeight = computed(() => Math.max(10, (containerHeight.value - GAP_PX) / MAX_VISIBLE_ROWS));
 const chromaticHeight = computed(() => rowHeight.value * CHROMATIC_SLOTS);
 const greyHeight = computed(() => rowHeight.value * GREY_SLOTS);
 

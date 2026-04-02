@@ -38,6 +38,8 @@ function computeSlotConfig() {
         chromaticSlots: maxChromatic,
         greySlots: maxGrey,
         totalSlots: maxChromatic + maxGrey,
+        /** Max visible rows for height calculation: rainbow swatches + 2 grey */
+        maxVisibleRows: maxChromatic + 2,
         gapPx: 10
     };
 }
