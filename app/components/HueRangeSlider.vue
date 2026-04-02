@@ -4,7 +4,7 @@
         class="hue-range-slider"
         @pointerdown="onTrackPointerDown">
         <!-- Track background: vertical hue gradient matching swatch rows -->
-        <div class="hue-range-track">
+        <div class="hue-range-track" :style="trackStyle">
             <!-- Active zone highlight between falloff handles -->
             <div
                 class="hue-range-zone"
@@ -60,6 +60,8 @@ const props = defineProps<{
     centerHue: number;
     /** Falloff span in degrees from center to zero-boundary */
     falloffSpan: number;
+    /** Saturation percentage (from step 1) */
+    saturation: number;
     /** Which side to show floating labels: 'left' or 'right' */
     labelSide?: "left" | "right";
 }>();
@@ -123,9 +125,15 @@ const zoneStyle = computed(() => {
     };
 });
 
+const trackStyle = computed(() => {
+    const s = props.saturation;
+    const stops = Array.from({ length: 13 }, (_, i) => `hsl(${i * 30}, ${s}%, 50%)`);
+    return { background: `linear-gradient(to bottom, ${stops.join(', ')})` };
+});
+
 /** HSL color string for a given hue */
 function hueColorAt(hue: number): string {
-    return `hsl(${hue}, 80%, 55%)`;
+    return `hsl(${hue}, ${props.saturation}%, 55%)`;
 }
 
 function startDrag(handle: "center" | "falloff-top" | "falloff-bottom", event: PointerEvent) {
@@ -189,20 +197,6 @@ onUnmounted(() => {
     left: 50%;
     transform: translateX(-50%);
     border-radius: 4px;
-    background: linear-gradient(to bottom,
-            hsl(0, 70%, 50%),
-            hsl(30, 70%, 50%),
-            hsl(60, 70%, 50%),
-            hsl(90, 70%, 50%),
-            hsl(120, 70%, 50%),
-            hsl(150, 70%, 50%),
-            hsl(180, 70%, 50%),
-            hsl(210, 70%, 50%),
-            hsl(240, 70%, 50%),
-            hsl(270, 70%, 50%),
-            hsl(300, 70%, 50%),
-            hsl(330, 70%, 50%),
-            hsl(360, 70%, 50%));
     opacity: 0.4;
 }
 

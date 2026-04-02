@@ -8,6 +8,7 @@
                         :hue-rows="hueRows"
                         :center-hue="darkeningCenterHue"
                         :falloff-span="darkeningFalloffSpan"
+                        :saturation="colorSettings.saturation.value"
                         label-side="right"
                         @update:center-hue="setDarkeningCenter"
                         @update:falloff-span="setDarkeningFalloff" />
@@ -38,7 +39,7 @@
                         :min="0"
                         :max="100"
                         :display-value="adjustmentSettings.darkening.hueFalloff + '%'"
-                        :style="{ '--track-background': 'linear-gradient(to right, hsl(30,100%,50%), hsl(120,100%,50%))', '--thumb-color': darkHueFalloffThumb(adjustmentSettings.darkening.hueFalloff) }"
+                        :style="{ '--track-background': `linear-gradient(to right, hsl(30,${colorSettings.saturation.value}%,50%), hsl(120,${colorSettings.saturation.value}%,50%))`, '--thumb-color': darkHueFalloffThumb(adjustmentSettings.darkening.hueFalloff) }"
                         @update:model-value="adjustmentSettings.darkening.hueFalloff = $event" />
                 </div>
             </div>
@@ -189,6 +190,6 @@ function darkLightFalloffThumb(value: number) {
 /** Hue falloff thumb: hsl(30) → hsl(120) */
 function darkHueFalloffThumb(value: number) {
     const t = value / 100;
-    return `hsl(${Math.round(30 + 90 * t)}, 100%, 50%)`;
+    return `hsl(${Math.round(30 + 90 * t)}, ${colorSettings.saturation.value}%, 50%)`;
 }
 </script>

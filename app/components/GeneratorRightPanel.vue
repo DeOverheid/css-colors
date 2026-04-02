@@ -8,6 +8,7 @@
                         :hue-rows="hueRows"
                         :center-hue="brighteningCenterHue"
                         :falloff-span="brighteningFalloffSpan"
+                        :saturation="colorSettings.saturation.value"
                         label-side="left"
                         @update:center-hue="setBrighteningCenter"
                         @update:falloff-span="setBrighteningFalloff" />
@@ -38,7 +39,7 @@
                         :min="0"
                         :max="100"
                         :display-value="adjustmentSettings.brightening.hueFalloff + '%'"
-                        :style="{ '--track-background': 'linear-gradient(to right, hsl(180,100%,50%), hsl(270,100%,50%))', '--thumb-color': lightHueFalloffThumb(adjustmentSettings.brightening.hueFalloff) }"
+                        :style="{ '--track-background': `linear-gradient(to right, hsl(180,${colorSettings.saturation.value}%,50%), hsl(270,${colorSettings.saturation.value}%,50%))`, '--thumb-color': lightHueFalloffThumb(adjustmentSettings.brightening.hueFalloff) }"
                         @update:model-value="adjustmentSettings.brightening.hueFalloff = $event" />
                 </div>
             </div>
@@ -192,7 +193,7 @@ function lightLightFalloffThumb(value: number) {
 /** Hue falloff thumb: hsl(180) → hsl(270) */
 function lightHueFalloffThumb(value: number) {
     const t = value / 100;
-    return `hsl(${Math.round(180 + 90 * t)}, 100%, 50%)`;
+    return `hsl(${Math.round(180 + 90 * t)}, ${colorSettings.saturation.value}%, 50%)`;
 }
 </script>
 
