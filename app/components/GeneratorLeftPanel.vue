@@ -61,7 +61,7 @@
         <!-- Other steps: shift sliders -->
         <template v-else-if="showShiftSliders">
             <div class="sidepanel__content">
-                <div class="sidepanel__top">
+                <div class="sidepanel__middle">
                     <TooltipSlider
                         label="Dark shift"
                         :model-value="darkShift"

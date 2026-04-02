@@ -4,16 +4,14 @@
             v-for="row in hueRows"
             :key="row"
             class="hue-shift-slider-row">
-            <input
-                type="range"
-                :value="getOffset(row)"
+            <TooltipSlider
+                :model-value="getOffset(row)"
                 :min="-maxOffset"
                 :max="maxOffset"
-                step="1"
-                class="hue-shift-slider"
-                :style="trackStyle(row)"
-                :title="formatOffset(getOffset(row))"
-                @input="emitOffset(row, Number(($event.target as HTMLInputElement).value))">
+                :step="1"
+                :display-value="formatOffset(getOffset(row))"
+                :style="sliderStyle(row)"
+                @update:model-value="emitOffset(row, $event)" />
         </div>
     </div>
 </template>
@@ -46,15 +44,15 @@ function emitOffset(hue: number, value: number) {
     emit("update:offset", hue, value);
 }
 
-function trackStyle(hue: number) {
+function sliderStyle(hue: number) {
     const sat = props.saturation;
     const l = props.trackLightness;
     const left = `hsl(${(hue - 30 + 360) % 360}, ${sat}%, ${l}%)`;
     const mid = `hsl(${hue}, ${sat}%, ${l}%)`;
     const right = `hsl(${(hue + 30) % 360}, ${sat}%, ${l}%)`;
     return {
-        "background": `linear-gradient(to right, ${left}, ${mid}, ${mid}, ${right})`,
-        "--handle-hue-color": `hsl(${hue}, ${sat}%, 55%)`
+        '--track-background': `linear-gradient(to right, ${left}, ${mid}, ${mid}, ${right})`,
+        '--thumb-color': `hsl(${hue}, ${sat}%, 55%)`
     };
 }
 
@@ -79,37 +77,5 @@ function formatOffset(value: number): string {
     align-items: center;
     height: v-bind(swatchRowHeight + 'px');
     max-width: 100%;
-}
-
-.hue-shift-slider {
-    flex: 1;
-    min-width: 0;
-    height: 6px;
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: 3px;
-    outline: none;
-}
-
-.hue-shift-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--handle-hue-color);
-    border: 2px solid white;
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.hue-shift-slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--handle-hue-color);
-    border: 2px solid white;
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 </style>

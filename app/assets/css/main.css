@@ -209,7 +209,7 @@
     /* Shared panel appearance */
     .panel {
         background: var(--ui-bg-elevated);
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 10px;
     }
 

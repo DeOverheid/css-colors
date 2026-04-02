@@ -27,6 +27,11 @@
     width: 100%;
 }
 
+.sidepanel__middle {
+    display: flex;
+    flex-direction: column;
+}
+
 .sidepanel__bottom {
     flex-shrink: 0;
     display: flex;
