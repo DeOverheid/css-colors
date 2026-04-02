@@ -3,11 +3,7 @@
         <p class="adjustment-hint">
             Lightness compensation adjusts brightness across hues so warm tones
             (yellows, oranges) are darkened and cool tones (blues, purples)
-            are brightened for perceptual uniformity.
-        </p>
-        <p class="adjustment-hint">
-            Use the <strong>left panel</strong> to control darkening and the
-            <strong>right panel</strong> to control brightening.
+            are brightened for perceptual uniformity. (The AI means "look the same").
         </p>
     </div>
 </template>

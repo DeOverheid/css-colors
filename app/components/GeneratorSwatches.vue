@@ -82,6 +82,7 @@
                         :saturation="0"
                         :lightness-steps="greyLightnessSteps"
                         :total-steps="totalSteps"
+                        skip-adjustment
                         class="swatch-row-swatches" />
                 </div>
                 <div
@@ -108,6 +109,7 @@
                             :saturation="slot.saturation"
                             :lightness-steps="greyLightnessSteps"
                             :total-steps="totalSteps"
+                            skip-adjustment
                             class="swatch-row-swatches" />
                     </div>
                     <div
@@ -265,7 +267,7 @@ const chromaticSlots = computed(() => {
     return slots;
 });
 
-/** Grey companion rows data (only unlocked ones) */
+/** Grey companion rows data (only unlocked ones) — neutral always on top */
 const greyRowsData = computed(() => {
     const greyLabelByParent: Record<string, string> = {};
     for (const g of greyCompanionRows.value) {
@@ -274,17 +276,7 @@ const greyRowsData = computed(() => {
 
     const rows: Array<{ rowId: string; hue: number; label: string; isNeutral: boolean; saturation: number[] | number }> = [];
 
-    for (const row of orderedRows.value) {
-        if (!isUnlocked(row.rowId)) continue;
-        rows.push({
-            rowId: `${row.rowId}-grey`,
-            hue: row.hue,
-            label: row.rowId === "primary" ? primaryGreyName.value : (greyLabelByParent[row.rowId] ?? "Gray"),
-            isNeutral: false,
-            saturation: greySaturations.value
-        });
-    }
-
+    // Neutral always first
     if (isUnlocked("neutral")) {
         rows.push({
             rowId: "neutral",
@@ -292,6 +284,21 @@ const greyRowsData = computed(() => {
             label: "Neutral",
             isNeutral: true,
             saturation: 0
+        });
+    }
+
+    // Grey companions below neutral
+    const isStep2 = activeStepId.value === "complementary-colors";
+    for (const row of orderedRows.value) {
+        if (!isUnlocked(row.rowId)) continue;
+        // Step 3+: only show primary grey
+        if (!isStep2 && row.rowId !== "primary") continue;
+        rows.push({
+            rowId: `${row.rowId}-grey`,
+            hue: row.hue,
+            label: row.rowId === "primary" ? primaryGreyName.value : (greyLabelByParent[row.rowId] ?? "Gray"),
+            isNeutral: false,
+            saturation: greySaturations.value
         });
     }
 

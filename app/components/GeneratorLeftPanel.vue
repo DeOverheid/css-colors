@@ -3,9 +3,6 @@
         <!-- Step 4: Dark adjustment controls -->
         <template v-if="isLightnessAdjustmentStep">
             <div class="adjustment-panel">
-                <div class="adjustment-panel-label">
-                    Dark adjustment
-                </div>
                 <div class="adjustment-slider-area">
                     <HueRangeSlider
                         :hue-rows="hueRows"
@@ -19,42 +16,60 @@
                 <div class="adjustment-controls">
                     <div class="adjustment-control">
                         <label class="shift-label">Strength</label>
-                        <input
-                            type="range"
-                            :value="adjustmentSettings.darkening.lightnessAmplitude"
-                            min="0"
-                            max="100"
-                            step="1"
-                            class="shift-slider shift-slider--dark"
-                            :style="{ '--primary-hsl': primaryHsl }"
-                            @input="adjustmentSettings.darkening.lightnessAmplitude = Number(($event.target as HTMLInputElement).value)">
-                        <span class="shift-value">{{ adjustmentSettings.darkening.lightnessAmplitude }}</span>
+                        <div class="slider-with-tooltip">
+                            <input
+                                type="range"
+                                :value="adjustmentSettings.darkening.lightnessAmplitude"
+                                min="0"
+                                max="100"
+                                step="1"
+                                class="shift-slider shift-slider--dark"
+                                :style="{ '--primary-hsl': primaryHsl, '--val': adjustmentSettings.darkening.lightnessAmplitude + '%' }"
+                                @input="adjustmentSettings.darkening.lightnessAmplitude = Number(($event.target as HTMLInputElement).value)">
+                            <span
+                                class="slider-tooltip"
+                                :style="{ left: adjustmentSettings.darkening.lightnessAmplitude + '%' }">
+                                {{ adjustmentSettings.darkening.lightnessAmplitude }}
+                            </span>
+                        </div>
                     </div>
 
                     <div class="adjustment-control">
                         <label class="shift-label">Light falloff</label>
-                        <input
-                            type="range"
-                            :value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)"
-                            min="0"
-                            max="100"
-                            class="shift-slider shift-slider--dark"
-                            :style="{ '--primary-hsl': primaryHsl }"
-                            @input="adjustmentSettings.darkening.lightnessFalloffLight = Number(($event.target as HTMLInputElement).value) / 100">
-                        <span class="shift-value">{{ Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) }}%</span>
+                        <div class="slider-with-tooltip">
+                            <input
+                                type="range"
+                                :value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)"
+                                min="0"
+                                max="100"
+                                class="shift-slider shift-slider--dark"
+                                :style="{ '--primary-hsl': primaryHsl }"
+                                @input="adjustmentSettings.darkening.lightnessFalloffLight = Number(($event.target as HTMLInputElement).value) / 100">
+                            <span
+                                class="slider-tooltip"
+                                :style="{ left: Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) + '%' }">
+                                {{ Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) }}%
+                            </span>
+                        </div>
                     </div>
 
                     <div class="adjustment-control">
                         <label class="shift-label">Hue falloff</label>
-                        <input
-                            type="range"
-                            :value="adjustmentSettings.darkening.hueFalloff"
-                            min="0"
-                            max="100"
-                            class="shift-slider shift-slider--dark"
-                            :style="{ '--primary-hsl': primaryHsl }"
-                            @input="adjustmentSettings.darkening.hueFalloff = Number(($event.target as HTMLInputElement).value)">
-                        <span class="shift-value">{{ adjustmentSettings.darkening.hueFalloff }}%</span>
+                        <div class="slider-with-tooltip">
+                            <input
+                                type="range"
+                                :value="adjustmentSettings.darkening.hueFalloff"
+                                min="0"
+                                max="100"
+                                class="shift-slider shift-slider--dark"
+                                :style="{ '--primary-hsl': primaryHsl }"
+                                @input="adjustmentSettings.darkening.hueFalloff = Number(($event.target as HTMLInputElement).value)">
+                            <span
+                                class="slider-tooltip"
+                                :style="{ left: adjustmentSettings.darkening.hueFalloff + '%' }">
+                                {{ adjustmentSettings.darkening.hueFalloff }}%
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -204,30 +219,15 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
 
 <style scoped>
 .shift-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 1rem 0.5rem 3em;
+    padding: 10px;
     height: 100%;
 }
 
-/* Adjustment panel layout: vertical slider + horizontal controls */
 .adjustment-panel {
     display: flex;
     flex-direction: column;
+    width: 100%;
     height: 100%;
-    gap: 0.75rem;
-}
-
-.adjustment-panel-label {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-align: center;
-    opacity: 0.7;
-    order: 99;
-    margin-top: auto;
 }
 
 .adjustment-slider-area {
@@ -247,14 +247,14 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 5px;
+    margin-top: auto;
 }
 
 .adjustment-control {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
 }
 
 /* Shift slider styles */
@@ -314,6 +314,33 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
     font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
     opacity: 0.6;
+}
+
+.slider-with-tooltip {
+    position: relative;
+    width: 100%;
+}
+
+.slider-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    transform: translateX(-50%);
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    background: var(--ui-color-primary-900, #1a1a2e);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.slider-with-tooltip:hover .slider-tooltip,
+.slider-with-tooltip:active .slider-tooltip,
+.slider-with-tooltip:has(input:active) .slider-tooltip {
+    opacity: 1;
 }
 
 .shift-slider-wrapper--grey {

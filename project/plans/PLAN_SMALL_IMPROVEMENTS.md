@@ -20,22 +20,21 @@
 
 - [x]   8. Bezier input grid lines and handle lines too bright — make 2 steps darker
 - [x]   9. Dark mode background: chosen UI-tone swatch 800 with 500 grid lines
-       9a: In light mode, white background and 500 grid lines.
 
 ## Group E — Side Panel Layout
 
-- [ ]   10. Grey shift sliders move to bottom of side panels (flex), remove HR/line between them
-- [ ]   15. Step 4: move side panel titles to bottom of panel
+- [x]   10. Grey shift sliders move to bottom of side panels (flex), remove HR/line between them
+- [x]   15. Step 4: move side panel titles to bottom of panel
 
 ## Group F — Grey Swatch Rules
 
-- [ ]   11. Lightness adjustment offset should NOT apply to grey swatches
-- [ ]   12. Always put neutral grey swatch on top of other greys
-- [ ]   13. Only show 3 grey swatches below neutral on step 2; on step 3+, only show primary grey (or secondary/tertiary when selected)
+- [x]   11. Lightness adjustment offset should NOT apply to grey swatches
+- [x]   12. Always put neutral grey swatch on top of other greys
+- [x]   13. Only show 3 grey swatches below neutral on step 2; on step 3+, only show neutral/primary grey (or secondary/tertiary when selected)
 
 ## Group G — Naming
 
-- [ ]   14. In custom theme, call them "Primary", "Secondary", "Tertiary" and keep those names throughout
+- [ ]   14. In custom theme, call swatches "Primary", "Secondary", "Tertiary" and keep those names throughout, including UI tones.
 
 ## Group H — Slider UX
 

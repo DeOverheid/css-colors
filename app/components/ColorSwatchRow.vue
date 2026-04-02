@@ -37,6 +37,8 @@ const props = defineProps<{
     totalSteps: number;
     showMarker?: boolean;
     markerIndex?: number;
+    /** When true, lightness adjustment is not applied (used for grey rows) */
+    skipAdjustment?: boolean;
 }>();
 
 const { applyAdjustment } = useLightnessAdjustment();
@@ -60,6 +62,7 @@ const satValues = computed((): number[] => {
 /** All lightness values with adjustment applied: [0, ...steps, 100] */
 const adjustedLightness = computed((): number[] => {
     const allBase = [0, ...props.lightnessSteps, 100];
+    if (props.skipAdjustment) return allBase;
     const lastIndex = allBase.length - 1;
     return allBase.map((baseLightness, index) => {
         if (index === 0 || index === lastIndex) return baseLightness;
