@@ -68,9 +68,7 @@
 
         <!-- Grey section: 5 slots -->
         <div class="swatch-section swatch-section--grey" :style="{ height: greyHeight + 'px' }">
-            <template
-                v-for="slot in greySlots"
-                :key="slot.slotIndex">
+            <template v-for="slot in greySlots" :key="slot.slotIndex">
                 <div
                     v-if="slot.visible"
                     class="swatch-row swatch__row"

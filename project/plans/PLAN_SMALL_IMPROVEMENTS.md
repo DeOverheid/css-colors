@@ -38,16 +38,16 @@
 
 ## Group H — Slider UX
 
-- [ ]   16. Remove slider values of horizontal sliders, add as tooltip on hover/mousedown
-- [ ]   17. Flip dark strength slider track: primary → black
-- [ ]   18. Flip light side "Light falloff" track
-- [ ]   19. Dark "Light falloff" track: primary → white
-- [ ]   20. Dark hue falloff slider background: orange → green
-- [ ]   21. Light hue falloff slider background: cyan → violet
-- [ ]   22. Dynamic hue falloff track: right side = dark/light hue midpoint (120/250), left side = first hue offset slider handle value
+- [x]   16. Remove slider values of horizontal sliders, add as tooltip on hover/mousedown
+- [x]   17. Flip dark strength slider track: primary → black
+- [x]   18. Flip light side "Light falloff" track
+- [x]   19. Dark "Light falloff" track: primary → white
+- [x]   20. Dark hue falloff slider background: orange → green
+- [x]   21. Light hue falloff slider background: cyan → violet
+- [x]   22. Dynamic hue falloff track: right side = dark/light hue midpoint (120/250), left side = first hue offset slider handle value
 
 ## Group I — Step 5 Polish
 
-- [ ]   23. Hide copy hue offsets button, only show when dev-mode active
-- [ ]   24. Remove the duplicate sentence in text
-- [ ]   25. Show second grey swatch too
+- [x]   23. Hide copy hue offsets button, only show when dev-mode active
+- [x]   24. Remove the duplicate sentence in text
+- [x]   25. Show second grey swatch too
