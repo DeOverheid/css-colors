@@ -23,12 +23,6 @@
 
             <!-- Right Panel (placeholder) -->
             <GeneratorRightPanel class="right-panel" />
-
-            <!-- Footer -->
-            <GeneratorFooter
-                :hue="colorSettings.hue.value"
-                :saturation="colorSettings.saturation.value"
-                :target-lightness="targetLightness" />
         </main>
     </div>
 </template>
@@ -79,7 +73,7 @@ const targetLightness = computed(() => userInputLightness.value ?? config.colors
     flex: 1;
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) auto var(--panel-column-width, 15%);
-    grid-template-rows: 3fr 6fr 1fr;
+    grid-template-rows: 8fr 13fr;
     gap: 10px;
     min-width: 0;
     overflow: hidden;

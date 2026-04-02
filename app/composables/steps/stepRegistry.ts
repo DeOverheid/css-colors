@@ -15,8 +15,6 @@ export interface StepDefinition {
     inputComponent: string;
     /** Layout variant for the input panel */
     inputLayout?: "default" | "bezier" | "hue-wheel" | "lightness-adjustment";
-    /** Component name for the footer middle slot (undefined = keep persistent) */
-    footerComponent?: string;
     /** Whether the left/right side panels are visible on this step (default: true once unlocked) */
     sidePanels?: boolean;
     /** Swatch row IDs unlocked upon first visiting this step */
@@ -73,7 +71,6 @@ export const steps: StepDefinition[] = [
         id: "export",
         title: "Export",
         description: "Export your color palette configuration",
-        inputComponent: "ExportPanel",
-        footerComponent: "ExportActions"
+        inputComponent: "ExportPanel"
     }
 ];

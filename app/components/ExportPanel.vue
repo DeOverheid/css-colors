@@ -3,6 +3,7 @@
         <p class="export-hint">
             Review your palette and export when ready.
         </p>
+        <ExportActions />
     </div>
 </template>
 
