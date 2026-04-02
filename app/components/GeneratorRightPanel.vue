@@ -70,8 +70,7 @@
                         :style="{ '--track-background': `linear-gradient(to right, ${primaryHsl}, white)`, '--thumb-color': lightThumbColor(100 - lightShift) }"
                         @update:model-value="setLightShift(100 - $event)" />
                 </div>
-
-                <div class="sidepanel__bottom sidepanel__bottom--padded">
+                <div class="sidepanel__middle">
                     <TooltipSlider
                         label="Grey shift"
                         :model-value="100 - greyLightShift"

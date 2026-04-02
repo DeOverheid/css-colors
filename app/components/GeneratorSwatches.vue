@@ -102,25 +102,18 @@ watch(swatchRowRef, (el) => {
     else stopObserving();
 });
 
-// Measure container height with ResizeObserver
-let containerObserver: ResizeObserver | null = null;
+// Measure container height once on mount; overflow:hidden prevents content feedback loop
 onMounted(() => {
     if (containerRef.value) {
         containerHeight.value = containerRef.value.clientHeight;
-        containerObserver = new ResizeObserver((entries) => {
-            const h = entries[0]?.contentRect.height;
-            if (h && h > 0) containerHeight.value = h;
-        });
-        containerObserver.observe(containerRef.value);
     }
 });
 
 onUnmounted(() => {
     stopObserving();
-    containerObserver?.disconnect();
 });
 
-const rowHeight = computed(() => Math.max(10, containerHeight.value / MAX_VISIBLE_ROWS));
+const rowHeight = computed(() => Math.max(10, (containerHeight.value - 30) / MAX_VISIBLE_ROWS));
 
 const props = defineProps<{
     hue: number;
@@ -232,7 +225,7 @@ const greyRowsData = computed(() => {
         rows.push({
             rowId: `${row.rowId}-grey`,
             hue: row.hue,
-            label: (isStep1.value || isStep2) ? (greyLabels[row.rowId] ?? "Grey") : (row.rowId === "primary" ? primaryGreyName.value : (greyLabelByParent[row.rowId] ?? "Gray")),
+            label: (isStep1.value || isStep2) ? (greyLabels[row.rowId] ?? "Grey") : "Grey",
             isNeutral: false,
             saturation: greySaturations.value
         });
@@ -250,6 +243,10 @@ defineExpose({ markedSampleLightness });
 </script>
 
 <style scoped>
+.panel--preview {
+    overflow: hidden;
+}
+
 .swatches-preview {
     display: flex;
     flex-direction: column;
@@ -263,6 +260,18 @@ defineExpose({ markedSampleLightness });
     font-family: var(--font-family-header);
     grid-template-columns: var(--label-column-width, 80px) 1fr var(--label-column-width, 80px);
     align-items: center;
+}
+
+.swatch-row:first-child .swatch-row-swatches {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    overflow: hidden;
+}
+
+.swatch-row:last-child .swatch-row-swatches {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: hidden;
 }
 
 .swatch-row-label {}
