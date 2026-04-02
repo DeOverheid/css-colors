@@ -4,10 +4,6 @@
             Shift the hue of dark and light swatches to compensate for
             perceptual color drift at extreme lightness values.
         </p>
-        <p class="adjustment-hint">
-            Use the <strong>left panel</strong> for dark hue shifts and the
-            <strong>right panel</strong> for light hue shifts.
-        </p>
         <button
             class="copy-offsets-btn"
             @click="copyOffsets">

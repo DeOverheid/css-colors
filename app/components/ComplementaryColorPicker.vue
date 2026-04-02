@@ -28,7 +28,7 @@
             <button
                 class="tone-swatch"
                 :class="{ 'tone-swatch--active': uiToneSource === 'primary' }"
-                :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
+                :style="{ 'background': `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
                 @click="uiToneSource = 'primary'" />
             <button
                 class="tone-swatch"

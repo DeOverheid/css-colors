@@ -63,6 +63,10 @@
         "git checkout": true,
         "git merge": true,
         "git push": true,
-        "npx nuxi": true
+        "npx nuxi": true,
+        "/^node /Users/arnepitcrew/src/css-colors/_debug_bezier\\.mjs$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     }
 }
