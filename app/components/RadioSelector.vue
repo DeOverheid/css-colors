@@ -145,7 +145,7 @@ defineEmits<{
     text-align: center;
 }
 
-.radio-selector__fieldset--segmented .radio-selector__option + .radio-selector__option {
+.radio-selector__fieldset--segmented .radio-selector__option+.radio-selector__option {
     margin-left: -1.5px;
 }
 

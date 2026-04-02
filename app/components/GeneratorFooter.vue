@@ -6,8 +6,7 @@
                 :hue="hue"
                 :saturation="saturation"
                 :lightness="markedSampleLightness"
-                class="footer-sample"
-            />
+                class="footer-sample" />
             <div class="footer-color-info">
                 <span class="footer-color-name">Primary</span>
                 <span class="footer-color-value">H: {{ hue }}°</span>
@@ -20,13 +19,11 @@
         <div class="footer-middle">
             <component
                 :is="footerComponent"
-                v-if="footerComponent"
-            />
+                v-if="footerComponent" />
             <button
                 v-if="!footerComponent && !isLast"
                 class="next-step-btn"
-                @click="next"
-            >
+                @click="next">
                 Next step
             </button>
         </div>
@@ -38,8 +35,7 @@
                 :color="isDevModeEnabled ? buttonColor : 'neutral'"
                 variant="soft"
                 size="xs"
-                @click="toggleDevMode"
-            >
+                @click="toggleDevMode">
                 {{ isDevModeEnabled ? 'Dev' : 'Preview' }}
             </UButton>
         </div>
@@ -67,7 +63,7 @@ const { lightnessSteps } = lightnessDistribution;
 const { isUnlocked } = useSwatchUnlock();
 
 /** Use secondary color for buttons once complementary colors step is visited */
-const buttonColor = computed(() => isUnlocked('secondary') ? 'secondary' : 'primary');
+const buttonColor = computed(() => isUnlocked("secondary") ? "secondary" : "primary");
 
 /** Map step footerComponent names to lazy-loaded components */
 const footerComponentMap: Record<string, Component> = {

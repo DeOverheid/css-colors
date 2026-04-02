@@ -34,7 +34,7 @@ export const steps: StepDefinition[] = [
     {
         id: "complementary-colors",
         title: "Complementary Colors",
-        description: "Choose secondary and tertiary hues by setting the hue offset, then pick a UI tone for the app background",
+        description: "Use the wheel to pick complimentary colors and pick a UI tone",
         inputComponent: "ComplementaryColorPicker",
         inputLayout: "hue-wheel",
         unlocks: ["secondary", "tertiary", "secondary-grey", "tertiary-grey"]
@@ -58,7 +58,7 @@ export const steps: StepDefinition[] = [
     {
         id: "hue-adjustment",
         title: "Hue Adjustment",
-        description: "Shift hue per swatch to compensate for perceptual drift at extreme lightness",
+        description: "Shift hue per swatch",
         inputComponent: "HueAdjustmentPanel",
         inputLayout: "lightness-adjustment",
         unlocks: ["hue-adjustment"]
