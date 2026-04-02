@@ -209,7 +209,8 @@ function lightThumbColor(value: number, sat: number = colorSettings.saturation.v
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.5rem 3em;
+    height: 100%;
 }
 
 /* Adjustment panel layout: vertical slider + horizontal controls */
@@ -227,6 +228,8 @@ function lightThumbColor(value: number, sat: number = colorSettings.saturation.v
     letter-spacing: 0.05em;
     text-align: center;
     opacity: 0.7;
+    order: 99;
+    margin-top: auto;
 }
 
 .adjustment-slider-area {
@@ -316,8 +319,6 @@ function lightThumbColor(value: number, sat: number = colorSettings.saturation.v
 }
 
 .shift-slider-wrapper--grey {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--ui-border-muted, rgba(0, 0, 0, 0.1));
+    margin-top: auto;
 }
 </style>
