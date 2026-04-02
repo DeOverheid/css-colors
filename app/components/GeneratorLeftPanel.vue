@@ -20,7 +20,7 @@
                         :min="0"
                         :max="100"
                         :step="1"
-                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})` }"
+                        :style="{ '--track-background': `linear-gradient(to right, ${darkHueHsl}, black)`, '--thumb-color': darkStrengthThumb(adjustmentSettings.darkening.lightnessAmplitude) }"
                         @update:model-value="adjustmentSettings.darkening.lightnessAmplitude = $event" />
 
                     <TooltipSlider
@@ -29,7 +29,7 @@
                         :min="0"
                         :max="100"
                         :display-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) + '%'"
-                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})` }"
+                        :style="{ '--track-background': `linear-gradient(to right, ${darkHueHsl}, white)`, '--thumb-color': darkLightFalloffThumb(Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)) }"
                         @update:model-value="adjustmentSettings.darkening.lightnessFalloffLight = $event / 100" />
 
                     <TooltipSlider
@@ -38,7 +38,7 @@
                         :min="0"
                         :max="100"
                         :display-value="adjustmentSettings.darkening.hueFalloff + '%'"
-                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})` }"
+                        :style="{ '--track-background': 'linear-gradient(to right, hsl(30,100%,50%), hsl(120,100%,50%))', '--thumb-color': darkHueFalloffThumb(adjustmentSettings.darkening.hueFalloff) }"
                         @update:model-value="adjustmentSettings.darkening.hueFalloff = $event" />
                 </div>
             </div>
@@ -141,6 +141,10 @@ const darkeningCenterHue = computed(() => {
     return Math.round(((start + end + 360) / 2) % 360);
 });
 
+const darkHueHsl = computed(() =>
+    `hsl(${darkeningCenterHue.value}, ${colorSettings.saturation.value}%, 50%)`
+);
+
 /** Falloff span = half the range */
 const darkeningFalloffSpan = computed(() => {
     const { start, end } = adjustmentSettings.value.darkening;
@@ -165,5 +169,27 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
     const t = value / 100;
     const h = colorSettings.hue.value;
     return `hsl(${h}, ${Math.round(sat * t)}%, ${Math.round(50 * t)}%)`;
+}
+
+/** Strength thumb: darkHue → black */
+function darkStrengthThumb(value: number) {
+    const t = value / 100;
+    const h = darkeningCenterHue.value;
+    const s = colorSettings.saturation.value;
+    return `hsl(${h}, ${Math.round(s * (1 - t))}%, ${Math.round(50 * (1 - t))}%)`;
+}
+
+/** Light falloff thumb: darkHue → white */
+function darkLightFalloffThumb(value: number) {
+    const t = value / 100;
+    const h = darkeningCenterHue.value;
+    const s = colorSettings.saturation.value;
+    return `hsl(${h}, ${Math.round(s * (1 - t))}%, ${Math.round(50 + 50 * t)}%)`;
+}
+
+/** Hue falloff thumb: hsl(30) → hsl(120) */
+function darkHueFalloffThumb(value: number) {
+    const t = value / 100;
+    return `hsl(${Math.round(30 + 90 * t)}, 100%, 50%)`;
 }
 </script>
