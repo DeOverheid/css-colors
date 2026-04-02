@@ -163,7 +163,7 @@ const themeOptions = computed(() =>
 }
 
 .sidebar-theme {
-    padding-top: 0.5rem;
+    padding-top: 5px;
 }
 
 .sidebar-label {
@@ -172,7 +172,7 @@ const themeOptions = computed(() =>
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--ui-text-muted);
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
 }
 
 .sidebar-spacer {
@@ -187,7 +187,7 @@ const themeOptions = computed(() =>
 }
 
 .sidebar-branding {
-    padding-top: 1rem;
+    padding-top: 10px;
     border-top: 1px solid var(--ui-border);
 }
 

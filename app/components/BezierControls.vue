@@ -54,7 +54,7 @@ const { currentThemeId } = useThemes();
 
 .step2-title h2 {
     font-weight: 600;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 5px 0;
 }
 
 .step2-text {

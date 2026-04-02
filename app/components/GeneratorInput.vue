@@ -73,12 +73,12 @@ const inputComponent = computed(() =>
 
 .input-header {
     flex-shrink: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 .input-header h2 {
     font-weight: 600;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 5px 0;
 }
 
 .input-header p {
@@ -129,7 +129,7 @@ const inputComponent = computed(() =>
 .next-step-btn {
     grid-area: action;
     justify-self: start;
-    padding: 0.5rem 1.5rem;
+    padding: 5px 15px;
     border: 1px solid var(--ui-border);
     border-radius: 6px;
     background: transparent;

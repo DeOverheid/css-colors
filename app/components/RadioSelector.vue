@@ -80,7 +80,7 @@ defineEmits<{
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
     width: 100%;
 }
 
@@ -98,7 +98,7 @@ defineEmits<{
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    padding: 0.25rem 0.5rem;
+    padding: 5px 5px;
     border-radius: 6px;
     border: 1.5px solid var(--ui-border);
     background: transparent;

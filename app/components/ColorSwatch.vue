@@ -59,7 +59,7 @@ function handleCopy() {
     letter-spacing: 0.05em;
     background: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 0.125rem 0.375rem;
+    padding: 5px 5px;
     border-radius: 3px;
     white-space: nowrap;
     pointer-events: none;

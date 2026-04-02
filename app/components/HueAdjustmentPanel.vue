@@ -48,7 +48,7 @@ function copyOffsets() {
 
 .copy-offsets-btn {
     align-self: flex-start;
-    padding: 0.35rem 0.75rem;
+    padding: 5px 5px;
     font-size: 0.75rem;
     border: 1px solid var(--ui-border-color, #555);
     border-radius: 0.25rem;

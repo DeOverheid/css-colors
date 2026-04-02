@@ -36,7 +36,7 @@ function handleCopy() {
     transition: background-color 0.15s, color 0.15s;
     font-family: ui-monospace, SFMono-Regular, monospace;
     background: var(--ui-bg-accented);
-    padding: 0.25rem 0.5rem;
+    padding: 5px 5px;
     border-radius: 4px;
 }
 
@@ -60,7 +60,7 @@ function handleCopy() {
     letter-spacing: 0.05em;
     background: var(--ui-success, #22c55e);
     color: white;
-    padding: 0.125rem 0.375rem;
+    padding: 5px 5px;
     border-radius: 3px;
     white-space: nowrap;
     pointer-events: none;

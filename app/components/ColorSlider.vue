@@ -33,7 +33,7 @@ defineEmits<{
 
 <style scoped>
 .color-slider {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 .slider-row {

@@ -47,7 +47,7 @@ const themeOptions = computed<RadioOption[]>(() =>
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
-    padding-top: 0.25rem;
+    padding-top: 5px;
     line-height: 1.5;
 }
 </style>

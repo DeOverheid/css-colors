@@ -199,6 +199,6 @@ function lightHueFalloffThumb(value: number) {
 
 <style scoped>
 .sidepanel__bottom--padded {
-    padding-bottom: 3em;
+    padding-bottom: 30px;
 }
 </style>
