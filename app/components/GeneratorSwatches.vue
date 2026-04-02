@@ -68,18 +68,20 @@
 
         <!-- Grey section: 5 slots -->
         <div class="swatch-section swatch-section--grey" :style="{ height: greyHeight + 'px' }">
-            <!-- Adjustment steps: neutral only -->
-            <template v-if="isAdjustmentStep">
+            <template
+                v-for="slot in greySlots"
+                :key="slot.slotIndex">
                 <div
-                    v-if="isUnlocked('neutral')"
-                    class="swatch-row swatch__row swatch__row--neutral"
+                    v-if="slot.visible"
+                    class="swatch-row swatch__row"
+                    :class="slot.isNeutral ? 'swatch__row--neutral' : 'swatch__row--grey'"
                     :style="{ height: rowHeight + 'px' }">
                     <div class="swatch-row-label swatch__label">
-                        Neutral
+                        {{ slot.label }}
                     </div>
                     <ColorSwatchRow
-                        :hue="hue"
-                        :saturation="0"
+                        :hue="slot.hue"
+                        :saturation="slot.saturation"
                         :lightness-steps="greyLightnessSteps"
                         :total-steps="totalSteps"
                         skip-adjustment
@@ -89,34 +91,6 @@
                     v-else
                     class="swatch-row swatch-row--empty"
                     :style="{ height: rowHeight + 'px' }" />
-            </template>
-
-            <!-- Normal steps: grey companion + neutral rows -->
-            <template v-else>
-                <template
-                    v-for="slot in greySlots"
-                    :key="slot.slotIndex">
-                    <div
-                        v-if="slot.visible"
-                        class="swatch-row swatch__row"
-                        :class="slot.isNeutral ? 'swatch__row--neutral' : 'swatch__row--grey'"
-                        :style="{ height: rowHeight + 'px' }">
-                        <div class="swatch-row-label swatch__label">
-                            {{ slot.label }}
-                        </div>
-                        <ColorSwatchRow
-                            :hue="slot.hue"
-                            :saturation="slot.saturation"
-                            :lightness-steps="greyLightnessSteps"
-                            :total-steps="totalSteps"
-                            skip-adjustment
-                            class="swatch-row-swatches" />
-                    </div>
-                    <div
-                        v-else
-                        class="swatch-row swatch-row--empty"
-                        :style="{ height: rowHeight + 'px' }" />
-                </template>
             </template>
         </div>
     </section>
@@ -185,7 +159,7 @@ const props = defineProps<{
 const { grayscaleLightnessSteps: greyLightnessSteps } = stepLightnessDistribution();
 
 const { isUnlocked } = useSwatchUnlock();
-const { orderedRows, greyCompanionRows, primaryGreyName, complementarySaturation } = useComplementaryColors();
+const { orderedRows, greyCompanionRows, primaryGreyName, complementarySaturation, uiToneSource } = useComplementaryColors();
 const { activeStepId } = useStepNavigation();
 
 const isAdjustmentStep = computed(() =>
@@ -291,8 +265,11 @@ const greyRowsData = computed(() => {
     const isStep2 = activeStepId.value === "complementary-colors";
     for (const row of orderedRows.value) {
         if (!isUnlocked(row.rowId)) continue;
-        // Step 3+: only show primary grey
-        if (!isStep2 && row.rowId !== "primary") continue;
+        // Step 2: show all companion greys
+        // All other steps: only show the one matching uiToneSource (hide all if "neutral")
+        if (!isStep2) {
+            if (uiToneSource.value === "neutral" || row.rowId !== uiToneSource.value) continue;
+        }
         rows.push({
             rowId: `${row.rowId}-grey`,
             hue: row.hue,
