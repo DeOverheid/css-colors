@@ -1,19 +1,30 @@
 <template>
-    <div class="tooltip-slider">
-        <input
-            type="range"
-            :value="modelValue"
-            :min="min"
-            :max="max"
-            :step="step"
-            v-bind="$attrs"
-            @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
+    <label
+        :for="sliderId"
+        class="tooltip-slider"
+        v-bind="$attrs">
         <span
-            class="tooltip-slider__tip"
-            :style="{ left: tooltipLeft }">
-            {{ displayValue ?? modelValue }}
+            v-if="label"
+            class="sidepanel__label">
+            {{ label }}
         </span>
-    </div>
+        <span class="tooltip-slider__track">
+            <input
+                :id="sliderId"
+                type="range"
+                class="tooltip-slider__input"
+                :value="modelValue"
+                :min="min"
+                :max="max"
+                :step="step"
+                @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
+            <span
+                class="tooltip-slider__tip"
+                :style="{ left: tooltipLeft }">
+                {{ displayValue ?? modelValue }}
+            </span>
+        </span>
+    </label>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +35,8 @@ const props = defineProps<{
     min?: number;
     max?: number;
     step?: number;
+    /** Label text shown above the slider */
+    label?: string;
     /** Formatted string shown in tooltip (defaults to raw value) */
     displayValue?: string | number;
     /** Override tooltip position as 0–100 percentage (defaults to value mapped to min–max) */
@@ -33,6 +46,8 @@ const props = defineProps<{
 defineEmits<{
     "update:modelValue": [value: number];
 }>();
+
+const sliderId = useId();
 
 const tooltipLeft = computed(() => {
     if (props.tooltipPosition != null) return props.tooltipPosition + "%";
@@ -46,8 +61,43 @@ const tooltipLeft = computed(() => {
 
 <style scoped>
 .tooltip-slider {
-    position: relative;
     width: 100%;
+}
+
+.tooltip-slider__track {
+    position: relative;
+    display: block;
+}
+
+.tooltip-slider__input {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    background: var(--track-background, linear-gradient(to right, #333, #ccc));
+}
+
+.tooltip-slider__input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--thumb-color, var(--color-gray-300));
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.tooltip-slider__input::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--thumb-color, var(--color-gray-300));
+    border: 2px solid white;
+    cursor: pointer;
 }
 
 .tooltip-slider__tip {

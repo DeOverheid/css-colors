@@ -2,16 +2,12 @@
     <div class="hue-spectrum-row">
         <!-- Dark offset slider -->
         <div class="slider-column">
-            <label :for="`dark-offset-${entry.name}`">
-                {{ entry.name }} dark
-            </label>
             <TooltipSlider
-                :id="`dark-offset-${entry.name}`"
+                :label="`${entry.name} dark`"
                 :model-value="darkOffset"
                 :min="offsetRange.min"
                 :max="offsetRange.max"
                 :display-value="formatOffset(darkOffset)"
-                class="offset-slider"
                 @update:model-value="$emit('update:darkOffset', $event)" />
         </div>
 
@@ -29,16 +25,12 @@
 
         <!-- Light offset slider -->
         <div class="slider-column">
-            <label :for="`light-offset-${entry.name}`">
-                {{ entry.name }} light
-            </label>
             <TooltipSlider
-                :id="`light-offset-${entry.name}`"
+                :label="`${entry.name} light`"
                 :model-value="lightOffset"
                 :min="offsetRange.min"
                 :max="offsetRange.max"
                 :display-value="formatOffset(lightOffset)"
-                class="offset-slider"
                 @update:model-value="$emit('update:lightOffset', $event)" />
         </div>
     </div>
@@ -110,10 +102,6 @@ function adjustedSaturation(index: number): number {
     font-size: 0.625rem;
     opacity: 0.7;
     text-transform: capitalize;
-}
-
-.offset-slider {
-    width: 100%;
 }
 
 .swatches-column {

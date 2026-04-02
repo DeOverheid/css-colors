@@ -1,9 +1,9 @@
 <template>
-    <aside class="panel shift-panel">
+    <aside class="panel sidepanel sidepanel--dark">
         <!-- Step 4: Dark adjustment controls -->
         <template v-if="isLightnessAdjustmentStep">
-            <div class="adjustment-panel">
-                <div class="adjustment-slider-area">
+            <div class="sidepanel__content">
+                <div class="sidepanel__top sidepanel--center">
                     <HueRangeSlider
                         :hue-rows="hueRows"
                         :center-hue="darkeningCenterHue"
@@ -13,49 +13,40 @@
                         @update:falloff-span="setDarkeningFalloff" />
                 </div>
 
-                <div class="adjustment-controls">
-                    <div class="adjustment-control">
-                        <label class="shift-label">Strength</label>
-                        <TooltipSlider
-                            :model-value="adjustmentSettings.darkening.lightnessAmplitude"
-                            :min="0"
-                            :max="100"
-                            :step="1"
-                            class="shift-slider shift-slider--dark"
-                            :style="{ '--primary-hsl': primaryHsl }"
-                            @update:model-value="adjustmentSettings.darkening.lightnessAmplitude = $event" />
-                    </div>
+                <div class="sidepanel__bottom">
+                    <TooltipSlider
+                        label="Strength"
+                        :model-value="adjustmentSettings.darkening.lightnessAmplitude"
+                        :min="0"
+                        :max="100"
+                        :step="1"
+                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})` }"
+                        @update:model-value="adjustmentSettings.darkening.lightnessAmplitude = $event" />
 
-                    <div class="adjustment-control">
-                        <label class="shift-label">Light falloff</label>
-                        <TooltipSlider
-                            :model-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)"
-                            :min="0"
-                            :max="100"
-                            :display-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) + '%'"
-                            class="shift-slider shift-slider--dark"
-                            :style="{ '--primary-hsl': primaryHsl }"
-                            @update:model-value="adjustmentSettings.darkening.lightnessFalloffLight = $event / 100" />
-                    </div>
+                    <TooltipSlider
+                        label="Light falloff"
+                        :model-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)"
+                        :min="0"
+                        :max="100"
+                        :display-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) + '%'"
+                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})` }"
+                        @update:model-value="adjustmentSettings.darkening.lightnessFalloffLight = $event / 100" />
 
-                    <div class="adjustment-control">
-                        <label class="shift-label">Hue falloff</label>
-                        <TooltipSlider
-                            :model-value="adjustmentSettings.darkening.hueFalloff"
-                            :min="0"
-                            :max="100"
-                            :display-value="adjustmentSettings.darkening.hueFalloff + '%'"
-                            class="shift-slider shift-slider--dark"
-                            :style="{ '--primary-hsl': primaryHsl }"
-                            @update:model-value="adjustmentSettings.darkening.hueFalloff = $event" />
-                    </div>
+                    <TooltipSlider
+                        label="Hue falloff"
+                        :model-value="adjustmentSettings.darkening.hueFalloff"
+                        :min="0"
+                        :max="100"
+                        :display-value="adjustmentSettings.darkening.hueFalloff + '%'"
+                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})` }"
+                        @update:model-value="adjustmentSettings.darkening.hueFalloff = $event" />
                 </div>
             </div>
         </template>
 
         <!-- Step 5: Dark hue shift sliders -->
         <template v-else-if="isHueAdjustmentStep">
-            <div class="hue-shift-area">
+            <div class="sidepanel__content">
                 <HueShiftSliders
                     :hue-rows="hueRows"
                     side="dark"
@@ -68,36 +59,26 @@
 
         <!-- Other steps: shift sliders -->
         <template v-else-if="showShiftSliders">
-            <div class="shift-slider-wrapper">
-                <label
-                    for="uniform-dark-shift"
-                    class="shift-label">
-                    Dark shift
-                </label>
-                <TooltipSlider
-                    id="uniform-dark-shift"
-                    :model-value="darkShift"
-                    :min="0"
-                    :max="100"
-                    class="shift-slider shift-slider--dark"
-                    :style="{ '--primary-hsl': primaryHsl, '--thumb-color': darkThumbColor(darkShift) }"
-                    @update:model-value="setDarkShift($event)" />
-            </div>
+            <div class="sidepanel__content">
+                <div class="sidepanel__top">
+                    <TooltipSlider
+                        label="Dark shift"
+                        :model-value="darkShift"
+                        :min="0"
+                        :max="100"
+                        :style="{ '--track-background': `linear-gradient(to right, black, ${primaryHsl})`, '--thumb-color': darkThumbColor(darkShift) }"
+                        @update:model-value="setDarkShift($event)" />
+                </div>
 
-            <div class="shift-slider-wrapper shift-slider-wrapper--grey">
-                <label
-                    for="grey-dark-shift"
-                    class="shift-label">
-                    Grey shift
-                </label>
-                <TooltipSlider
-                    id="grey-dark-shift"
-                    :model-value="greyDarkShift"
-                    :min="0"
-                    :max="100"
-                    class="shift-slider shift-slider--dark"
-                    :style="{ '--primary-hsl': greyHsl, '--thumb-color': darkThumbColor(greyDarkShift, 10) }"
-                    @update:model-value="setGreyDarkShift($event)" />
+                <div class="sidepanel__bottom sidepanel__bottom--padded">
+                    <TooltipSlider
+                        label="Grey shift"
+                        :model-value="greyDarkShift"
+                        :min="0"
+                        :max="100"
+                        :style="{ '--track-background': `linear-gradient(to right, black, ${greyHsl})`, '--thumb-color': darkThumbColor(greyDarkShift, 10) }"
+                        @update:model-value="setGreyDarkShift($event)" />
+                </div>
             </div>
         </template>
     </aside>
@@ -186,97 +167,3 @@ function darkThumbColor(value: number, sat: number = colorSettings.saturation.va
     return `hsl(${h}, ${Math.round(sat * t)}%, ${Math.round(50 * t)}%)`;
 }
 </script>
-
-<style scoped>
-.shift-panel {
-    padding: 10px;
-    height: 100%;
-}
-
-.adjustment-panel {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-}
-
-.adjustment-slider-area {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    min-height: 0;
-}
-
-.hue-shift-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.adjustment-controls {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: auto;
-}
-
-.adjustment-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Shift slider styles */
-.shift-slider-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.shift-label {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.7;
-}
-
-.shift-slider {
-    width: 100%;
-    height: 8px;
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: 4px;
-    outline: none;
-}
-
-.shift-slider--dark {
-    background: linear-gradient(to right, black, var(--primary-hsl));
-}
-
-.shift-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--thumb-color, var(--color-gray-300));
-    border: 2px solid white;
-    cursor: pointer;
-}
-
-.shift-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--thumb-color, var(--color-gray-300));
-    border: 2px solid white;
-    cursor: pointer;
-}
-
-.shift-slider-wrapper--grey {
-    margin-top: auto;
-}
-</style>

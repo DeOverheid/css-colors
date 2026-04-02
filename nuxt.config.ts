@@ -21,7 +21,7 @@ export default defineNuxtConfig({
         baseURL: "/css-colors/"
     },
 
-    css: ["~/assets/css/main.css"],
+    css: ["~/assets/css/main.css", "~/assets/css/sidepanel.css"],
 
     routeRules: {
         "/": { prerender: true },
