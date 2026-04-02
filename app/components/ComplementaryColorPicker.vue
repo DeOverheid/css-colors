@@ -6,41 +6,40 @@
         <p>{{ activeStep.description }}</p>
     </div>
     <div class="step-controls">
-        <div class="input-row--tone">
-            <label class="input-label">UI Tone</label>
-            <RadioSelector
-                :model-value="uiToneSource"
-                name="ui-tone"
-                :options="toneOptions"
-                segmented
-                @update:model-value="uiToneSource = $event as UiToneSource" />
-        </div>
+        <label class="input-label">Choose a UI tone</label>
 
-        <div class="color-preview">
-            <!-- Labels row -->
-            <div class="preview-grid">
-                <span class="preview-label">Secondary</span>
-                <span class="preview-label">Primary</span>
-                <span class="preview-label">Tertiary</span>
-            </div>
-            <!-- Swatches row -->
-            <div class="preview-grid rounded-group rounded-group--horizontal">
-                <span
-                    class="preview-swatch"
-                    :style="{ background: `hsl(${secondaryHue}, ${complementarySaturation}%, ${lightness}%)` }" />
-                <span
-                    class="preview-swatch"
-                    :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }" />
-                <span
-                    class="preview-swatch"
-                    :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }" />
-            </div>
+        <div class="tone-grid">
+            <!-- Names row -->
+            <span class="preview-label">Neutral</span>
+            <span class="preview-label">Secondary</span>
+            <span class="preview-label">Primary</span>
+            <span class="preview-label">Tertiary</span>
+            <!-- Clickable swatches row -->
+            <button
+                class="tone-swatch"
+                :class="{ 'tone-swatch--active': uiToneSource === 'neutral' }"
+                :style="{ background: 'hsl(0, 0%, 46%)' }"
+                @click="uiToneSource = 'neutral'" />
+            <button
+                class="tone-swatch"
+                :class="{ 'tone-swatch--active': uiToneSource === 'secondary' }"
+                :style="{ background: `hsl(${secondaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
+                @click="uiToneSource = 'secondary'" />
+            <button
+                class="tone-swatch"
+                :class="{ 'tone-swatch--active': uiToneSource === 'primary' }"
+                :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
+                @click="uiToneSource = 'primary'" />
+            <button
+                class="tone-swatch"
+                :class="{ 'tone-swatch--active': uiToneSource === 'tertiary' }"
+                :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
+                @click="uiToneSource = 'tertiary'" />
             <!-- Degrees row -->
-            <div class="preview-grid">
-                <span class="degrees-value">{{ secondaryHue }}°</span>
-                <span class="degrees-value">{{ primaryHue }}°</span>
-                <span class="degrees-value">{{ tertiaryHue }}°</span>
-            </div>
+            <span class="degrees-value">&ndash;</span>
+            <span class="degrees-value">{{ secondaryHue }}°</span>
+            <span class="degrees-value">{{ primaryHue }}°</span>
+            <span class="degrees-value">{{ tertiaryHue }}°</span>
         </div>
     </div>
     <div class="step-wheel">
@@ -52,25 +51,14 @@
 import { useComplementaryColors, type UiToneSource } from "~/composables/input/useComplementaryColors";
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
-import type { RadioOption } from "~/components/RadioSelector.vue";
 
 const colorSettings = useColorSettings();
 const { activeStep } = useStepNavigation();
-const { hueOffset, secondaryHue, tertiaryHue, uiToneSource, availableTones, complementarySaturation } = useComplementaryColors();
+const { hueOffset, secondaryHue, tertiaryHue, uiToneSource, complementarySaturation } = useComplementaryColors();
 
 const primaryHue = computed(() => colorSettings.hue.value);
 const saturation = computed(() => colorSettings.saturation.value);
 const lightness = computed(() => colorSettings.lightness.value);
-
-/** Map tone data to RadioSelector options */
-const toneOptions = computed<RadioOption[]>(() =>
-    availableTones.value.map(tone => ({
-        value: tone.value,
-        label: tone.label,
-        swatch: tone.value === "neutral" ? "hsl(0, 0%, 46%)" : `hsl(${tone.hue}, 10%, 46%)`,
-        background: tone.value === "neutral" ? "hsl(0, 0%, 46%)" : `hsl(${tone.hue}, 10%, 46%)`
-    }))
-);
 </script>
 
 <style scoped>
@@ -97,7 +85,7 @@ const toneOptions = computed<RadioOption[]>(() =>
     grid-area: controls;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .step-wheel {
@@ -107,39 +95,41 @@ const toneOptions = computed<RadioOption[]>(() =>
     overflow: visible;
 }
 
-.input-row--tone {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    gap: 1rem;
-}
-
-.input-row--tone .input-label {
-    padding-top: 0.25rem;
-    line-height: 1.5;
-}
-
 .input-label {
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
 }
 
-.color-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.preview-grid {
+.tone-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 0;
+    row-gap: 0.25rem;
 }
 
-.preview-swatch {
+.tone-swatch {
     height: 20px;
     border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: outline-offset 0.1s;
+}
+
+.tone-swatch:first-of-type {
+    border-radius: 6px 0 0 6px;
+}
+
+.tone-swatch:last-of-type {
+    border-radius: 0 6px 6px 0;
+}
+
+.tone-swatch--active {
+    outline: 2px solid var(--active-outline, var(--ui-primary, white));
+    outline-offset: -2px;
+    z-index: 1;
+    position: relative;
 }
 
 .preview-label {

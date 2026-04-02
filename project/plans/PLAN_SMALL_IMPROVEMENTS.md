@@ -34,7 +34,7 @@
 
 ## Group G — Naming
 
-- [ ]   14. In custom theme, call swatches "Primary", "Secondary", "Tertiary" and keep those names throughout, including UI tones.
+- [x]   14. In custom theme, call grey swatches "Primary", "Secondary", "Tertiary" and keep those names throughout such as in UI tones
 
 ## Group H — Slider UX
 

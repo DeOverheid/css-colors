@@ -85,10 +85,11 @@ export function useComplementaryColors() {
     // If tertiary overlaps with secondary (offset 0 or ±180), they share the same hue
     // but we still show tertiary in the UI for layout stability
 
-    /** Closest TW grey name for each color hue */
-    const primaryGreyName = computed(() => closestGreyName(primaryHue.value));
-    const secondaryGreyName = computed(() => closestGreyName(secondaryHue.value));
-    const tertiaryGreyName = computed(() => closestGreyName(tertiaryHue.value));
+    /** Closest TW grey name for each color hue (custom theme uses role names) */
+    const isCustomTheme = computed(() => currentThemeId.value === "custom");
+    const primaryGreyName = computed(() => isCustomTheme.value ? "Primary" : closestGreyName(primaryHue.value));
+    const secondaryGreyName = computed(() => isCustomTheme.value ? "Secondary" : closestGreyName(secondaryHue.value));
+    const tertiaryGreyName = computed(() => isCustomTheme.value ? "Tertiary" : closestGreyName(tertiaryHue.value));
 
     /**
      * Returns swatch rows in fixed visual order:
