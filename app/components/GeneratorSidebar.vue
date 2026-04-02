@@ -37,6 +37,31 @@
         <!-- Spacer for removed export buttons -->
         <div class="sidebar-export" />
 
+        <!-- Primary Color Sample -->
+        <div class="sidebar-sample">
+            <ColorSwatch
+                :hue="colorSettings.hue.value"
+                :saturation="colorSettings.saturation.value"
+                :lightness="markedSampleLightness"
+                class="sidebar-sample__swatch" />
+            <div class="sidebar-sample__info">
+                <span class="sidebar-sample__name">Primary</span>
+                <span class="sidebar-sample__value">H: {{ colorSettings.hue.value }}°</span>
+                <span class="sidebar-sample__value">S: {{ colorSettings.saturation.value }}%</span>
+                <span class="sidebar-sample__value">L: {{ markedSampleLightness }}%</span>
+            </div>
+        </div>
+
+        <!-- Dev Mode Toggle -->
+        <UButton
+            :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
+            :color="isDevModeEnabled ? 'primary' : 'neutral'"
+            size="sm"
+            block
+            @click="toggleDevMode">
+            {{ isDevModeEnabled ? 'Dev' : 'Preview' }}
+        </UButton>
+
         <!-- Nuxt UI Logo -->
         <div class="sidebar-branding">
             <AppLogo class="nuxt-logo" />
@@ -47,9 +72,27 @@
 <script setup lang="ts">
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useThemes } from "~/composables/themes";
+import { useDevMode } from "~/composables/ui/useDevMode";
+import { useColorSettings } from "~/composables/core/useColorSettings";
+import { useConfig } from "~/composables/core/baseConfig";
+import { useSteps } from "~/composables/input/useSteps";
+import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 
 const { steps, activeStepId, goTo } = useStepNavigation();
 const { currentThemeId, availableThemes } = useThemes();
+const { isDevModeEnabled, toggleDevMode } = useDevMode();
+const colorSettings = useColorSettings();
+const config = useConfig();
+const { lightnessDistribution } = useSteps();
+const { lightnessSteps } = lightnessDistribution;
+
+const targetLightness = computed(() => config.colors.lightness);
+
+const markedSampleLightness = computed(() => {
+    const idx = findClosestLightnessIndex(lightnessSteps.value, targetLightness.value);
+    const allLightnesses = [0, ...lightnessSteps.value, 100];
+    return allLightnesses[idx] ?? targetLightness.value;
+});
 
 const themeOptions = computed(() =>
     availableThemes.value.map(theme => ({
@@ -146,6 +189,36 @@ const themeOptions = computed(() =>
 .sidebar-branding {
     padding-top: 1rem;
     border-top: 1px solid var(--ui-border);
+}
+
+.sidebar-sample {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar-sample__swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.sidebar-sample__info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.sidebar-sample__name {
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.sidebar-sample__value {
+    font-size: 0.6875rem;
+    color: var(--ui-text-muted);
+    font-variant-numeric: tabular-nums;
 }
 
 .nuxt-logo {
