@@ -9,6 +9,12 @@
         <!-- Bezier layout: component fills entire panel -->
         <template v-if="activeStep.inputLayout === 'bezier' || activeStep.inputLayout === 'hue-wheel'">
             <component :is="inputComponent" />
+            <button
+                v-if="!isLast"
+                class="next-step-btn"
+                @click="next">
+                Next step
+            </button>
         </template>
 
         <!-- Default layout: header + content area -->
@@ -23,6 +29,13 @@
                     :is="inputComponent"
                     v-model:user-input-lightness="userInputLightness" />
             </div>
+
+            <button
+                v-if="!isLast"
+                class="next-step-btn"
+                @click="next">
+                Next step
+            </button>
         </template>
     </section>
 </template>
@@ -32,7 +45,7 @@ import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import type { Component } from "vue";
 
 const userInputLightness = defineModel<number | null>("userInputLightness");
-const { activeStep } = useStepNavigation();
+const { activeStep, isLast, next } = useStepNavigation();
 
 /** Map step inputComponent names to lazy-loaded components */
 const componentMap: Record<string, Component> = {
@@ -86,11 +99,12 @@ const inputComponent = computed(() =>
 .generator-input--bezier {
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) 1fr 1fr var(--panel-column-width, 15%);
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
         "title   title   bezier  ."
         "text    text    bezier  ."
-        "results results bezier  .";
+        "results results bezier  ."
+        "action  .       .       .";
     gap: 0.75rem 1rem;
 }
 
@@ -98,16 +112,34 @@ const inputComponent = computed(() =>
 .generator-input--hue-wheel {
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) 1fr auto var(--panel-column-width, 15%);
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
         "title   title   wheel  ."
         "text    text    wheel  ."
-        ".       controls wheel  .";
+        ".       controls wheel  ."
+        "action  .       .      .";
     gap: 0.75rem 1rem;
 }
 
 /* Lightness-adjustment layout: simple header + content, no side padding */
 .generator-input--lightness-adjustment .input-content {
     grid-template-columns: 1fr;
+}
+
+.next-step-btn {
+    grid-area: action;
+    justify-self: start;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ui-text);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 0.15s;
+}
+
+.next-step-btn:hover {
+    background: var(--ui-bg-accented);
 }
 </style>
