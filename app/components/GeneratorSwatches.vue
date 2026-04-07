@@ -131,6 +131,7 @@ const { activeStepId } = useStepNavigation();
 
 const isAdjustmentStep = computed(() =>
     activeStepId.value === "lightness-adjustment" || activeStepId.value === "hue-adjustment"
+    || activeStepId.value === "select-theme" || activeStepId.value === "export"
 );
 
 const isStep1 = computed(() => activeStepId.value === "primary-color");
@@ -218,8 +219,9 @@ const greyRowsData = computed(() => {
             if (row.rowId !== "primary") continue;
             // Step 2: show all companion greys
         } else if (!isStep2) {
-            // All other steps: only show the one matching uiToneSource (hide all if "neutral")
-            if (uiToneSource.value === "neutral" || row.rowId !== uiToneSource.value) continue;
+            // All other steps: show the one matching uiToneSource, or primary grey as fallback
+            const greySource = uiToneSource.value === "neutral" ? "primary" : uiToneSource.value;
+            if (row.rowId !== greySource) continue;
         }
         const greyLabels: Record<string, string> = { primary: "Grey-P", secondary: "Grey-S", tertiary: "Grey-T" };
         rows.push({
