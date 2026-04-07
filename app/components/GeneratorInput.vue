@@ -20,7 +20,15 @@
             </div>
         </template>
 
-        <button v-if="!isLast" class="next-step-btn" @click="next">
+        <!-- Dev mode: copy settings button -->
+        <button
+            v-if="isDevMode"
+            class="dev-copy-btn"
+            @click="copyCurrentStepSettings">
+            {{ copied ? 'Copied!' : 'Copy settings' }}
+        </button>
+        <!-- Normal mode: next step or export -->
+        <button v-else-if="!isLast" class="next-step-btn" @click="next">
             Next step
         </button>
         <div v-else class="action-slot">
@@ -31,9 +39,13 @@
 
 <script setup lang="ts">
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
+import { useDevMode } from "~/composables/ui/useDevMode";
+import { useDevCopy } from "~/composables/ui/useDevCopy";
 import type { Component } from "vue";
 
 const { activeStep, isLast, next } = useStepNavigation();
+const { isDevModeEnabled: isDevMode } = useDevMode();
+const { copyCurrentStepSettings, copied } = useDevCopy();
 
 const topModules = import.meta.glob<{ default: Component }>("./steps/*/InputTop.vue");
 
@@ -140,5 +152,23 @@ const layoutClass = computed(() => {
 
 .next-step-btn:hover {
     background: var(--ui-bg-accented);
+}
+
+.dev-copy-btn {
+    grid-area: action;
+    justify-self: start;
+    padding: 5px 15px;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ui-text-muted);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.dev-copy-btn:hover {
+    background: var(--ui-bg-accented);
+    color: var(--ui-text);
 }
 </style>
