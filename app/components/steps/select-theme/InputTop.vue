@@ -1,52 +1,58 @@
 <template>
     <div class="theme-selector">
-        <div class="input-row">
-            <label class="input-label">Preset</label>
-            <RadioSelector
-                :model-value="currentThemeId"
-                name="theme"
-                :options="themeOptions"
-                @update:model-value="setTheme($event)" />
+        <p class="theme-description">
+            Switch between presets to compare palettes.
+            Each preset preserves your edits — tweak settings, switch away, and come back without losing changes.
+        </p>
+        <div class="theme-buttons rounded-group rounded-group--horizontal">
+            <UButton
+                v-for="theme in availableThemes"
+                :key="theme.id"
+                :color="currentThemeId === theme.id ? 'primary' : 'neutral'"
+                size="sm"
+                @click="setTheme(theme.id)">
+                {{ theme.name }}
+            </UButton>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { useThemes } from "~/composables/themes";
-import type { RadioOption } from "~/components/RadioSelector.vue";
 
 const { currentThemeId, availableThemes, setTheme } = useThemes();
-
-/** Map themes to RadioSelector options — name only, details in title */
-const themeOptions = computed<RadioOption[]>(() =>
-    availableThemes.value.map(theme => ({
-        value: theme.id,
-        label: theme.name,
-        title: `${theme.totalSteps - 2} shades — ${theme.description ?? theme.name}`
-    }))
-);
 </script>
 
 <style scoped>
 .theme-selector {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    grid-column: 2;
-}
-
-.input-row {
-    display: grid;
-    grid-template-columns: var(--label-column-width, 80px) 1fr;
     gap: 10px;
-    align-items: start;
 }
 
-.input-label {
-    font-family: var(--font-family-header);
-    font-weight: 600;
+.theme-description {
     color: var(--ui-text-muted);
-    padding-top: 5px;
+    margin: 0;
+    font-size: 0.875rem;
     line-height: 1.5;
+}
+
+.theme-buttons {
+    display: flex;
+}
+
+.theme-buttons :deep(button) {
+    flex: 1;
+    border-radius: 0;
+}
+
+.theme-buttons :deep(:first-child button) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.theme-buttons :deep(:last-child button) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 </style>

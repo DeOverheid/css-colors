@@ -21,16 +21,19 @@
         </template>
 
         <!-- Dev mode: copy settings button -->
-        <button
-            v-if="isDevMode"
-            class="dev-copy-btn"
-            @click="copyCurrentStepSettings">
-            {{ copied ? 'Copied!' : 'Copy settings' }}
-        </button>
+        <div v-if="isDevMode" class="action-row">
+            <StepModeToggle v-if="isOverridableStep" :step-id="activeStep.id as OverridableStepId" />
+            <button class="dev-copy-btn" @click="copyCurrentStepSettings">
+                {{ copied ? 'Copied!' : 'Copy settings' }}
+            </button>
+        </div>
         <!-- Normal mode: next step or export -->
-        <button v-else-if="!isLast" class="next-step-btn" @click="next">
-            Next step
-        </button>
+        <div v-else-if="!isLast" class="action-row">
+            <StepModeToggle v-if="isOverridableStep" :step-id="activeStep.id as OverridableStepId" />
+            <button class="next-step-btn" @click="next">
+                Next step
+            </button>
+        </div>
         <div v-else class="action-slot">
             <ExportActions />
         </div>
@@ -41,11 +44,16 @@
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useDevMode } from "~/composables/ui/useDevMode";
 import { useDevCopy } from "~/composables/ui/useDevCopy";
+import { OVERRIDABLE_STEPS, type OverridableStepId } from "~/composables/themes/useThemeOverrides";
 import type { Component } from "vue";
 
 const { activeStep, isLast, next } = useStepNavigation();
 const { isDevModeEnabled: isDevMode } = useDevMode();
 const { copyCurrentStepSettings, copied } = useDevCopy();
+
+const isOverridableStep = computed(() =>
+    OVERRIDABLE_STEPS.includes(activeStep.value.id as OverridableStepId)
+);
 
 const topModules = import.meta.glob<{ default: Component }>("./steps/*/InputTop.vue");
 
@@ -134,9 +142,16 @@ const layoutClass = computed(() => {
 }
 
 .next-step-btn,
-.action-slot {
+.action-slot,
+.action-row {
     grid-area: action;
     justify-self: start;
+}
+
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .next-step-btn {

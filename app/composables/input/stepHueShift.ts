@@ -10,24 +10,50 @@
  * with linear interpolation across the swatch range.
  */
 import type { HueShiftConfig, HueShiftEntry } from "~/composables/themes/lib/types";
-import { useThemes } from "~/composables/themes";
+import { useThemes, themes as allThemes } from "~/composables/themes";
 import { getHueShiftForTheme, findClosestEntryName } from "~/composables/utils/hueShiftDefaults";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 const MAX_OFFSET = 30;
 
 export function stepHueShift() {
-    const { currentTheme } = useThemes();
+    const { currentTheme, currentThemeId } = useThemes();
+    const { isCustom } = useThemeOverrides();
 
-    /** Build a fresh config from the current theme */
-    function themeDefaults(): HueShiftConfig {
-        return structuredClone(toRaw(getHueShiftForTheme(currentTheme.value.id)));
+    /** Build a fresh config from a theme ID */
+    function defaultsForTheme(themeId: string): HueShiftConfig {
+        return structuredClone(toRaw(getHueShiftForTheme(themeId)));
     }
 
-    const settings = ref<HueShiftConfig>(themeDefaults());
+    // Per-theme hue shift state
+    const perThemeHueShift = useState<Record<string, HueShiftConfig>>("per-theme-hue-shift", () => {
+        const map: Record<string, HueShiftConfig> = {};
+        for (const theme of allThemes) {
+            map[theme.id] = defaultsForTheme(theme.id);
+        }
+        return map;
+    });
 
-    // Re-seed when theme changes
-    watch(() => currentTheme.value.id, () => {
-        settings.value = themeDefaults();
+    // Ensure current theme has an entry
+    function getConfig(): HueShiftConfig {
+        const id = currentThemeId.value;
+        if (!perThemeHueShift.value[id]) {
+            perThemeHueShift.value[id] = defaultsForTheme(id);
+        }
+        return perThemeHueShift.value[id];
+    }
+
+    // Computed ref: returns theme defaults when in default mode, user edits when custom
+    const settings = computed({
+        get: () => {
+            if (!isCustom(currentThemeId.value, "hue-adjustment")) {
+                return defaultsForTheme(currentThemeId.value);
+            }
+            return getConfig();
+        },
+        set: (value: HueShiftConfig) => {
+            perThemeHueShift.value[currentThemeId.value] = value;
+        }
     });
 
     /**
@@ -99,14 +125,14 @@ export function stepHueShift() {
 
     /** Reset all offsets to theme defaults. */
     function resetAll() {
-        settings.value = themeDefaults();
+        perThemeHueShift.value[currentThemeId.value] = defaultsForTheme(currentThemeId.value);
     }
 
     /** Reset a single row (by hue) to theme defaults. */
     function resetRow(hue: number) {
         const name = nameForHue(hue);
         if (!name) return;
-        const defaults = getHueShiftForTheme(currentTheme.value.id);
+        const defaults = getHueShiftForTheme(currentThemeId.value);
         const defaultEntry = defaults.rows[name];
         if (defaultEntry) {
             settings.value.rows[name] = structuredClone(defaultEntry);

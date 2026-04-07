@@ -8,10 +8,46 @@ import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "~/composables/themes/lib/types";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { computeHueStrengthFactor } from "~/composables/utils/hueFalloff";
 import { computeLightnessFalloffFactor } from "~/composables/utils/lightnessFalloff";
+import { useThemes, getThemeById, themes as allThemes } from "~/composables/themes";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 export function stepLightnessAdjustment() {
-    // Reactive state
-    const settings = ref<LightnessAdjustmentConfig>(structuredClone(DEFAULT_LIGHTNESS_ADJUSTMENT));
+    const { currentThemeId } = useThemes();
+    const { isCustom } = useThemeOverrides();
+
+    // Per-theme lightness adjustment state
+    const perThemeSettings = useState<Record<string, LightnessAdjustmentConfig>>("per-theme-lightness-adjustment", () => {
+        const map: Record<string, LightnessAdjustmentConfig> = {};
+        for (const theme of allThemes) {
+            map[theme.id] = structuredClone(theme.lightnessAdjustment ?? DEFAULT_LIGHTNESS_ADJUSTMENT);
+        }
+        return map;
+    });
+
+    // Ensure current theme has an entry
+    function getSettings(): LightnessAdjustmentConfig {
+        const id = currentThemeId.value;
+        if (!perThemeSettings.value[id]) {
+            const theme = getThemeById(id);
+            perThemeSettings.value[id] = structuredClone(theme?.lightnessAdjustment ?? DEFAULT_LIGHTNESS_ADJUSTMENT);
+        }
+        return perThemeSettings.value[id];
+    }
+
+    // Computed ref: returns theme defaults when in default mode, user edits when custom
+    const settings = computed({
+        get: () => {
+            if (!isCustom(currentThemeId.value, "lightness-adjustment")) {
+                const theme = getThemeById(currentThemeId.value);
+                return theme?.lightnessAdjustment ?? DEFAULT_LIGHTNESS_ADJUSTMENT;
+            }
+            return getSettings();
+        },
+        set: (value: LightnessAdjustmentConfig) => {
+            perThemeSettings.value[currentThemeId.value] = value;
+        }
+    });
+
     const { isUnlocked } = useSwatchUnlock();
 
     /**
@@ -197,7 +233,8 @@ export function stepLightnessAdjustment() {
      * Reset to default settings
      */
     function resetToDefaults() {
-        settings.value = structuredClone(DEFAULT_LIGHTNESS_ADJUSTMENT);
+        const theme = getThemeById(currentThemeId.value);
+        perThemeSettings.value[currentThemeId.value] = structuredClone(theme?.lightnessAdjustment ?? DEFAULT_LIGHTNESS_ADJUSTMENT);
     }
 
     return {

@@ -13,6 +13,7 @@
  * State is stored per-theme so each preset preserves its own values.
  */
 import { useThemes, getThemeById, themes } from "~/composables/themes";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 interface ShiftValues {
     darkShift: number;
@@ -34,6 +35,7 @@ function defaultsForTheme(themeId: string): ShiftValues {
 /** Reactive state for the shift sliders, stored per theme */
 export function stepUniformLightnessShift() {
     const { currentThemeId } = useThemes();
+    const { isCustom } = useThemeOverrides();
 
     // Per-theme shift state: { [themeId]: ShiftValues }
     const perThemeShifts = useState<Record<string, ShiftValues>>("per-theme-shifts", () => {
@@ -53,10 +55,30 @@ export function stepUniformLightnessShift() {
         return perThemeShifts.value[id];
     }
 
-    const darkShift = computed(() => getShifts().darkShift);
-    const lightShift = computed(() => getShifts().lightShift);
-    const greyDarkShift = computed(() => getShifts().greyDarkShift);
-    const greyLightShift = computed(() => getShifts().greyLightShift);
+    const darkShift = computed(() => {
+        if (!isCustom(currentThemeId.value, "lightness-distribution")) {
+            return defaultsForTheme(currentThemeId.value).darkShift;
+        }
+        return getShifts().darkShift;
+    });
+    const lightShift = computed(() => {
+        if (!isCustom(currentThemeId.value, "lightness-distribution")) {
+            return defaultsForTheme(currentThemeId.value).lightShift;
+        }
+        return getShifts().lightShift;
+    });
+    const greyDarkShift = computed(() => {
+        if (!isCustom(currentThemeId.value, "lightness-distribution")) {
+            return defaultsForTheme(currentThemeId.value).greyDarkShift;
+        }
+        return getShifts().greyDarkShift;
+    });
+    const greyLightShift = computed(() => {
+        if (!isCustom(currentThemeId.value, "lightness-distribution")) {
+            return defaultsForTheme(currentThemeId.value).greyLightShift;
+        }
+        return getShifts().greyLightShift;
+    });
 
     function clamp(value: number) {
         return Math.max(0, Math.min(100, value));

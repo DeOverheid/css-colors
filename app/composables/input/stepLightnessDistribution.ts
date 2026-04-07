@@ -7,10 +7,12 @@ import { generateLightnessSteps } from "~/composables/utils/bezierCurve";
 import { themes } from "~/composables/themes";
 import { sliderToSqueeze } from "~/composables/utils/lightnessOffset";
 import { stepUniformLightnessShift } from "~/composables/input/stepUniformLightnessShift";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 import type { BezierCurve } from "~/composables/themes/lib/types";
 
 export function stepLightnessDistribution() {
     const { currentTheme, currentThemeId } = useThemes();
+    const { isCustom } = useThemeOverrides();
 
     // Per-theme bezier state (preserves user edits per theme, same pattern as stepHueSpectrum)
     const perThemeBezier = useState<Record<string, BezierCurve>>("per-theme-bezier", () => {
@@ -21,8 +23,11 @@ export function stepLightnessDistribution() {
         return state;
     });
 
-    /** Convenience computed: current bezier as a plain object */
+    /** Convenience computed: current bezier — uses user edits when custom, theme defaults when default */
     const bezierValues = computed(() => {
+        if (!isCustom(currentThemeId.value, "lightness-distribution")) {
+            return currentTheme.value.bezier;
+        }
         return perThemeBezier.value[currentThemeId.value] ?? currentTheme.value.bezier;
     });
 
