@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import { stepUniformLightnessShift } from "~/composables/input/stepUniformLightnessShift";
 import { useColorSettings } from "~/composables/core/useColorSettings";
-import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
 import { useHueShift } from "~/composables/input/stepHueShift";
@@ -97,8 +96,7 @@ import { useThemes } from "~/composables/themes";
 
 const { darkShift, setDarkShift, greyDarkShift, setGreyDarkShift } = stepUniformLightnessShift();
 const colorSettings = useColorSettings();
-const { isUnlocked } = useSwatchUnlock();
-const { activeStepId, showSidePanels } = useStepNavigation();
+const { activeStepId } = useStepNavigation();
 const { settings: adjustmentSettings } = useLightnessAdjustment();
 const { getDarkOffset, setDarkOffset } = useHueShift();
 const { fullLightnessSteps } = stepLightnessDistribution();
@@ -115,7 +113,7 @@ const greyHsl = computed(() =>
     `hsl(${colorSettings.hue.value}, 10%, 50%)`
 );
 
-const showShiftSliders = computed(() => isUnlocked("shift-sliders") && showSidePanels.value);
+const showShiftSliders = computed(() => activeStepId.value === "lightness-distribution");
 
 /** Hue rows matching the swatch display, derived from theme entries */
 const hueRows = computed(() => {
