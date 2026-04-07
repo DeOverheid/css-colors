@@ -90,7 +90,7 @@ const lightness = computed(() => colorSettings.lightness.value);
 }
 
 .step-wheel {
-    grid-area: wheel;
+    grid-area: ui-input;
     height: 100%;
     aspect-ratio: 1;
     overflow: visible;

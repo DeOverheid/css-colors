@@ -1,8 +1,8 @@
 <template>
-    <div class="step2-title">
+    <div class="step-title">
         <h2>{{ activeStep.title }}</h2>
     </div>
-    <div class="step2-text">
+    <div class="step-text">
         <p>{{ activeStep.description }}</p>
     </div>
     <div class="step2-results">
@@ -48,20 +48,20 @@ const { currentThemeId } = useThemes();
 </script>
 
 <style scoped>
-.step2-title {
+.step-title {
     grid-area: title;
 }
 
-.step2-title h2 {
+.step-title h2 {
     font-weight: 600;
-    margin: 0 0 5px 0;
+    margin: 0;
 }
 
-.step2-text {
+.step-text {
     grid-area: text;
 }
 
-.step2-text p {
+.step-text p {
     color: var(--ui-text-muted);
     margin: 0;
 }
@@ -72,7 +72,7 @@ const { currentThemeId } = useThemes();
 }
 
 .step2-bezier {
-    grid-area: bezier;
+    grid-area: ui-input;
     height: 100%;
     overflow: hidden;
 }

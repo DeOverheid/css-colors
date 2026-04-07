@@ -1,42 +1,31 @@
 <template>
     <section
         class="generator-input panel"
-        :class="{
-            'generator-input--bezier': activeStep.inputLayout === 'bezier',
-            'generator-input--hue-wheel': activeStep.inputLayout === 'hue-wheel',
-            'generator-input--lightness-adjustment': activeStep.inputLayout === 'lightness-adjustment'
-        }">
-        <!-- Bezier layout: component fills entire panel -->
+        :class="layoutClass">
+        <!-- Bezier / hue-wheel layout: step owns title + description -->
         <template v-if="activeStep.inputLayout === 'bezier' || activeStep.inputLayout === 'hue-wheel'">
             <component :is="inputComponent" />
-            <button
-                v-if="!isLast"
-                class="next-step-btn"
-                @click="next">
-                Next step
-            </button>
         </template>
 
-        <!-- Default layout: header + content area -->
+        <!-- Default / lightness-adjustment layout: shell owns title + description -->
         <template v-else>
-            <div class="input-header">
+            <div class="step-title">
                 <h2>{{ activeStep.title }}</h2>
+            </div>
+            <div class="step-text">
                 <p>{{ activeStep.description }}</p>
             </div>
-
             <div class="input-content">
-                <component
-                    :is="inputComponent"
-                    v-model:user-input-lightness="userInputLightness" />
+                <component :is="inputComponent" />
             </div>
-
-            <button
-                v-if="!isLast"
-                class="next-step-btn"
-                @click="next">
-                Next step
-            </button>
         </template>
+
+        <button v-if="!isLast" class="next-step-btn" @click="next">
+            Next step
+        </button>
+        <div v-else class="action-slot">
+            <ExportActions />
+        </div>
     </section>
 </template>
 
@@ -44,91 +33,101 @@
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import type { Component } from "vue";
 
-const userInputLightness = defineModel<number | null>("userInputLightness");
 const { activeStep, isLast, next } = useStepNavigation();
 
-/** Map step inputComponent names to lazy-loaded components */
-const componentMap: Record<string, Component> = {
-    ColorInputControls: defineAsyncComponent(() => import("~/components/ColorInputControls.vue")),
-    ComplementaryColorPicker: defineAsyncComponent(() => import("~/components/ComplementaryColorPicker.vue")),
-    ThemeSelector: defineAsyncComponent(() => import("~/components/ThemeSelector.vue")),
-    BezierControls: defineAsyncComponent(() => import("~/components/BezierControls.vue")),
-    LightnessAdjustmentPanel: defineAsyncComponent(() => import("~/components/LightnessAdjustmentPanel.vue")),
-    HueSpectrumControls: defineAsyncComponent(() => import("~/components/HueSpectrumControls.vue")),
-    HueAdjustmentPanel: defineAsyncComponent(() => import("~/components/HueAdjustmentPanel.vue")),
-    ExportPanel: defineAsyncComponent(() => import("~/components/ExportPanel.vue"))
-};
+const topModules = import.meta.glob<{ default: Component }>("./steps/*/InputTop.vue");
 
-const inputComponent = computed(() =>
-    componentMap[activeStep.value.inputComponent]
-);
+const inputComponent = computed(() => {
+    const path = `./steps/${activeStep.value.id}/InputTop.vue`;
+    const loader = topModules[path];
+    return loader ? defineAsyncComponent(loader) : null;
+});
+
+const layoutClass = computed(() => {
+    const layout = activeStep.value.inputLayout ?? "default";
+    return [`generator-input--grid`, `generator-input--${layout}`];
+});
 </script>
 
 <style scoped>
 .generator-input {
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
 }
 
-.input-header {
-    flex-shrink: 0;
-    margin-bottom: 10px;
+.step-title {
+    grid-area: title;
 }
 
-.input-header h2 {
+.step-title h2 {
     font-weight: 600;
-    margin: 0 0 5px 0;
+    margin: 0;
 }
 
-.input-header p {
+.step-text {
+    grid-area: text;
+}
+
+.step-text p {
     color: var(--ui-text-muted);
     margin: 0;
 }
 
 .input-content {
-    flex: 1;
+    grid-area: content;
     overflow: auto;
-    display: grid;
-    grid-template-columns: var(--panel-column-width, 15%) 1fr var(--panel-column-width, 15%);
-    gap: 0 10px;
-    align-content: start;
 }
 
-/* Bezier layout: Named grid */
-.generator-input--bezier {
-    display: grid;
-    grid-template-columns: var(--panel-column-width, 15%) 1fr 1fr var(--panel-column-width, 15%);
-    grid-template-rows: auto auto 1fr auto;
-    grid-template-areas:
-        "title   title   bezier  ."
-        "text    text    bezier  ."
-        "results results bezier  ."
-        "action  .       .       .";
-    gap: 5px 10px;
-}
-
-/* Hue-wheel layout: controls left, wheel right */
-.generator-input--hue-wheel {
+/* Grid layout base — applied to all steps */
+.generator-input--grid {
     display: grid;
     grid-template-columns: var(--panel-column-width, 15%) 1fr auto var(--panel-column-width, 15%);
     grid-template-rows: auto auto 1fr auto;
-    grid-template-areas:
-        "title   title   wheel  ."
-        "text    text    wheel  ."
-        ".       controls wheel  ."
-        "action  .       .      .";
     gap: 5px 10px;
 }
 
-/* Lightness-adjustment layout: simple header + content, no side padding */
-.generator-input--lightness-adjustment .input-content {
-    grid-template-columns: 1fr;
+/* Default layout */
+.generator-input--default {
+    grid-template-areas:
+        "title    title    title    title"
+        "text     text     text     text"
+        ".        content  content  ."
+        ".        action   .        .";
+}
+
+/* Lightness-adjustment layout */
+.generator-input--lightness-adjustment {
+    grid-template-areas:
+        "title    title    title    title"
+        "text     text     text     text"
+        ".        content  content  ."
+        ".        action   .        .";
+}
+
+/* Bezier layout */
+.generator-input--bezier {
+    grid-template-areas:
+        "title    title    ui-input  ."
+        "text     text     ui-input  ."
+        ".        results  ui-input  ."
+        ".        action   .         .";
+}
+
+/* Hue-wheel layout */
+.generator-input--hue-wheel {
+    grid-template-areas:
+        "title    title    ui-input  ."
+        "text     text     ui-input  ."
+        ".        controls ui-input  ."
+        ".        action   .         .";
+}
+
+.next-step-btn,
+.action-slot {
+    grid-area: action;
+    justify-self: start;
 }
 
 .next-step-btn {
-    grid-area: action;
-    justify-self: start;
     padding: 5px 15px;
     border: 1px solid var(--ui-border);
     border-radius: 6px;
