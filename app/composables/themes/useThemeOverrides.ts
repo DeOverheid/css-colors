@@ -10,7 +10,7 @@
  *
  * Applicable to steps: lightness-distribution, lightness-adjustment, hue-adjustment
  */
-import { themes } from "~/composables/themes";
+import { themes, useThemes } from "~/composables/themes";
 
 export type OverrideMode = "default" | "custom";
 
@@ -73,13 +73,27 @@ function createThemeOverrides() {
         return OVERRIDABLE_STEPS.some(stepId => isCustom(themeId, stepId));
     }
 
+    /** Reset all overridable steps to "custom" for a given theme */
+    function resetToCustom(themeId: string) {
+        for (const stepId of OVERRIDABLE_STEPS) {
+            setMode(themeId, stepId, "custom");
+        }
+    }
+
+    // When the active theme changes, reset all toggles to "custom"
+    const { currentThemeId } = useThemes();
+    watch(currentThemeId, (id) => {
+        resetToCustom(id);
+    });
+
     return {
         modes,
         getMode,
         setMode,
         toggleMode,
         isCustom,
-        hasAnyCustom
+        hasAnyCustom,
+        resetToCustom
     };
 }
 
