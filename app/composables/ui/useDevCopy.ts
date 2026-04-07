@@ -19,6 +19,8 @@ function serializePrimaryColor(): string {
     const { currentThemeId } = useThemes();
     return [
         `Theme: ${currentThemeId.value}`,
+        `Step: 1 (primary-color)`,
+        "",
         `hue: ${hue.value}`,
         `saturation: ${saturation.value}`,
         `lightness: ${lightness.value}`
@@ -30,6 +32,8 @@ function serializeComplementaryColors(): string {
     const { currentThemeId } = useThemes();
     return [
         `Theme: ${currentThemeId.value}`,
+        `Step: 2 (complementary-colors)`,
+        "",
         `hueOffset: ${hueOffset.value}`,
         `satRatio: ${satRatio.value}`,
         `uiToneSource: ${uiToneSource.value}`
@@ -42,6 +46,7 @@ function serializeLightnessDistribution(): string {
     const { currentThemeId } = useThemes();
     return [
         `Theme: ${currentThemeId.value}`,
+        `Step: 3 (lightness-distribution)`,
         "",
         "bezier:",
         `  x1: ${bezierValues.value.x1}`,
@@ -75,6 +80,7 @@ function serializeLightnessAdjustment(): string {
 
     return [
         `Theme: ${currentThemeId.value}`,
+        `Step: 4 (lightness-adjustment)`,
         "",
         ...formatRange("darkening", settings.value.darkening),
         "",
@@ -85,7 +91,7 @@ function serializeLightnessAdjustment(): string {
 function serializeHueAdjustment(): string {
     const { settings } = useHueShift();
     const { currentThemeId } = useThemes();
-    const lines = [`Theme: ${currentThemeId.value}`, ""];
+    const lines = [`Theme: ${currentThemeId.value}`, `Step: 5 (hue-adjustment)`, ""];
     for (const [name, entry] of Object.entries(settings.value.rows)) {
         lines.push(`${name}: light ${entry.light}, dark ${entry.dark}`);
     }

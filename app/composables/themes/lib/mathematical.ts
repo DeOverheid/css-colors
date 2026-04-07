@@ -1,5 +1,4 @@
 import type { ThemeConfig } from "./types";
-import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "./types";
 
 /**
  * Mathematical color palette theme
@@ -46,12 +45,32 @@ export const mathematicalTheme: ThemeConfig = {
     totalSteps: 9,
     swatchLabels: ["Black", "Darkest", "Darker", "Dark", "Medium", "Light", "Lighter", "Lightest", "White"],
     bezier: {
-        x1: 0.0,
-        y1: 0.0,
-        x2: 0.54,
-        y2: 0.94
+        x1: 0,
+        y1: 0,
+        x2: 0.5,
+        y2: 0.9
     },
-    lightnessAdjustment: { ...DEFAULT_LIGHTNESS_ADJUSTMENT, enabled: true },
+    lightnessAdjustment: {
+        enabled: true,
+        darkening: {
+            enabled: true,
+            start: 26,
+            end: 206,
+            lightnessAmplitude: 39,
+            lightnessFalloffLight: 1,
+            lightnessFalloffDark: 0.33,
+            hueFalloff: 25
+        },
+        brightening: {
+            enabled: true,
+            start: 200,
+            end: 294,
+            lightnessAmplitude: 21,
+            lightnessFalloffLight: 0.67,
+            lightnessFalloffDark: 0.33,
+            hueFalloff: 80
+        }
+    },
     greySaturationMax: 20,
     greySaturationMin: 5,
     defaultRainbowDarkShift: 0,
