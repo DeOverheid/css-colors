@@ -121,7 +121,7 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
         start: 178,
         end: 314,
         hueFalloff: 100,
-        lightnessFalloffLight: 0,
+        lightnessFalloffLight: 0.69,
         lightnessAmplitude: 47,
         lightnessFalloffDark: 0.07
     }

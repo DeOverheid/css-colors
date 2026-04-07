@@ -147,7 +147,6 @@ export function stepLightnessAdjustment() {
         if (hueFactor <= 0) return 0;
 
         // Get lightness falloff factor (0–1): strongest at dark, tapers toward light
-        // (skipped for brightening — dark falloff handles it instead)
         const lightnessFactor = computeLightnessFalloffFactor(
             baseLightness,
             rangeSettings.lightnessFalloffLight * 100
