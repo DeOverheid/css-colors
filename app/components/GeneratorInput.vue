@@ -22,17 +22,17 @@
 
         <!-- Dev mode: copy settings button -->
         <div v-if="isDevMode" class="action-row">
-            <StepModeToggle v-if="isOverridableStep" :step-id="activeStep.id as OverridableStepId" />
             <button class="dev-copy-btn" @click="copyCurrentStepSettings">
                 {{ copied ? 'Copied!' : 'Copy settings' }}
             </button>
+            <StepModeToggle v-if="showModeToggle" :step-id="activeStep.id as OverridableStepId" />
         </div>
         <!-- Normal mode: next step or export -->
         <div v-else-if="!isLast" class="action-row">
-            <StepModeToggle v-if="isOverridableStep" :step-id="activeStep.id as OverridableStepId" />
             <button class="next-step-btn" @click="next">
                 Next step
             </button>
+            <StepModeToggle v-if="showModeToggle" :step-id="activeStep.id as OverridableStepId" />
         </div>
         <div v-else class="action-slot">
             <ExportActions />
@@ -45,14 +45,18 @@ import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useDevMode } from "~/composables/ui/useDevMode";
 import { useDevCopy } from "~/composables/ui/useDevCopy";
 import { OVERRIDABLE_STEPS, type OverridableStepId } from "~/composables/themes/useThemeOverrides";
+import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import type { Component } from "vue";
 
 const { activeStep, isLast, next } = useStepNavigation();
 const { isDevModeEnabled: isDevMode } = useDevMode();
 const { copyCurrentStepSettings, copied } = useDevCopy();
+const { isUnlocked } = useSwatchUnlock();
 
-const isOverridableStep = computed(() =>
+/** Toggle visible only on overridable steps AND after step 6 has been visited */
+const showModeToggle = computed(() =>
     OVERRIDABLE_STEPS.includes(activeStep.value.id as OverridableStepId)
+    && isUnlocked("compare-themes")
 );
 
 const topModules = import.meta.glob<{ default: Component }>("./steps/*/InputTop.vue");

@@ -38,7 +38,7 @@ function createThemeOverrides() {
         for (const theme of themes) {
             map[theme.id] = {};
             for (const stepId of OVERRIDABLE_STEPS) {
-                map[theme.id]![stepId] = "default";
+                map[theme.id]![stepId] = "custom";
             }
         }
         return map;
@@ -46,7 +46,7 @@ function createThemeOverrides() {
 
     /** Get the mode for a given theme + step */
     function getMode(themeId: string, stepId: string): OverrideMode {
-        return modes.value[themeId]?.[stepId] ?? "default";
+        return modes.value[themeId]?.[stepId] ?? "custom";
     }
 
     /** Set the mode for a given theme + step */
