@@ -24,7 +24,7 @@ export interface DevModeFlags {
 }
 
 const DEFAULT_FLAGS: DevModeFlags = {
-    enabled: true, // Active for development
+    enabled: false, // Preview mode by default
     allStepsOpen: true,
     hideStepHeaders: true
 };

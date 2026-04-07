@@ -53,14 +53,22 @@
         </div>
 
         <!-- Dev Mode Toggle -->
-        <UButton
-            :icon="isDevModeEnabled ? 'i-lucide-code' : 'i-lucide-eye'"
-            :color="isDevModeEnabled ? 'primary' : 'neutral'"
-            size="sm"
-            block
-            @click="toggleDevMode">
-            {{ isDevModeEnabled ? 'Dev' : 'Preview' }}
-        </UButton>
+        <div class="mode-toggle rounded-group rounded-group--horizontal">
+            <UButton
+                icon="i-lucide-eye"
+                :color="!isDevModeEnabled ? 'primary' : 'neutral'"
+                size="sm"
+                @click="disableDevMode">
+                Preview
+            </UButton>
+            <UButton
+                icon="i-lucide-code"
+                :color="isDevModeEnabled ? 'primary' : 'neutral'"
+                size="sm"
+                @click="setFlag('enabled', true)">
+                Dev
+            </UButton>
+        </div>
 
         <!-- Nuxt UI Logo -->
         <div class="sidebar-branding">
@@ -80,7 +88,7 @@ import { findClosestLightnessIndex } from "~/composables/utils/lightnessIndex";
 
 const { steps, activeStepId, goTo } = useStepNavigation();
 const { currentThemeId, availableThemes } = useThemes();
-const { isDevModeEnabled, toggleDevMode } = useDevMode();
+const { isDevModeEnabled, disableDevMode, setFlag } = useDevMode();
 const colorSettings = useColorSettings();
 const config = useConfig();
 const { lightnessDistribution } = useSteps();
@@ -184,6 +192,25 @@ const themeOptions = computed(() =>
     flex-direction: column;
     gap: 5px;
     flex: 1;
+}
+
+.mode-toggle {
+    display: flex;
+}
+
+.mode-toggle :deep(button) {
+    flex: 1;
+    border-radius: 0;
+}
+
+.mode-toggle :deep(:first-child button) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.mode-toggle :deep(:last-child button) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .sidebar-branding {

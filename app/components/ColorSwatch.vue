@@ -7,6 +7,10 @@
         }"
         @click="handleCopy">
         <span
+            v-if="dotColor"
+            class="swatch__dot"
+            :style="{ backgroundColor: dotColor }" />
+        <span
             v-if="copied"
             class="swatch__copy-feedback">
             Copied!
@@ -25,6 +29,7 @@ const props = defineProps<{
     hue: number;
     saturation: number;
     lightness: number;
+    dotColor?: string | null;
 }>();
 
 const hslColor = computed(() =>
@@ -46,6 +51,17 @@ function handleCopy() {
     height: 100%;
     cursor: pointer;
     position: relative;
+}
+
+.swatch__dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
 
 .swatch__copy-feedback {
