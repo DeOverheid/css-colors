@@ -271,12 +271,12 @@ onUnmounted(() => {
 }
 
 .hue-range-slider--disabled .hue-range-track {
-    opacity: 0.15;
+    filter: saturate(0.5);
+    opacity: 0.3;
 }
 
 .hue-range-slider--disabled .hue-range-handle-thumb {
-    background: var(--ui-text-dimmed) !important;
-    border-color: var(--ui-color-primary-200, #c7d2fe) !important;
+    filter: saturate(0.5);
     cursor: default;
 }
 

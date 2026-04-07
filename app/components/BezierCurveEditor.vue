@@ -1,5 +1,7 @@
 <template>
-    <div class="bezier-editor" :class="{ 'bezier-editor--disabled': disabled }">
+    <div
+        class="bezier-editor"
+        :class="{ 'bezier-editor--disabled': disabled }">
         <div class="bezier-editor__container">
             <svg
                 ref="svgElement"

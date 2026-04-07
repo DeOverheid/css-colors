@@ -128,19 +128,17 @@ const tooltipLeft = computed(() => {
 
 /* Disabled state */
 .tooltip-slider--disabled .tooltip-slider__input {
-    background: var(--ui-bg-muted);
+    filter: saturate(0.5);
     pointer-events: none;
 }
 
 .tooltip-slider--disabled .tooltip-slider__input::-webkit-slider-thumb {
-    background: var(--ui-text-dimmed);
-    border-color: var(--ui-color-primary-200, #c7d2fe);
+    filter: saturate(0.5);
     cursor: default;
 }
 
 .tooltip-slider--disabled .tooltip-slider__input::-moz-range-thumb {
-    background: var(--ui-text-dimmed);
-    border-color: var(--ui-color-primary-200, #c7d2fe);
+    filter: saturate(0.5);
     cursor: default;
 }
 </style>
