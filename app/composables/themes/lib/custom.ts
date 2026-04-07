@@ -45,10 +45,10 @@ export const customTheme: ThemeConfig = {
     totalSteps: 13,
     swatchLabels: ["0", "950", "900", "800", "700", "600", "500", "400", "300", "200", "100", "50", "1000"],
     bezier: {
-        x1: 0.00,
-        y1: 0.00,
-        x2: 0.50,
-        y2: 0.90
+        x1: 0,
+        y1: 0,
+        x2: 0.75,
+        y2: 0.95
     },
     grayscaleLightnessMin: 0,
     grayscaleLightnessMax: 100,

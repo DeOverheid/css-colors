@@ -21,10 +21,7 @@
         </template>
 
         <!-- Dev mode: copy settings button -->
-        <button
-            v-if="isDevMode"
-            class="dev-copy-btn"
-            @click="copyCurrentStepSettings">
+        <button v-if="isDevMode" class="dev-copy-btn" @click="copyCurrentStepSettings">
             {{ copied ? 'Copied!' : 'Copy settings' }}
         </button>
         <!-- Normal mode: next step or export -->

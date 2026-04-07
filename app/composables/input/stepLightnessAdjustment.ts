@@ -7,7 +7,7 @@ import type { AdjustmentRange, LightnessAdjustmentConfig } from "~/composables/t
 import { DEFAULT_LIGHTNESS_ADJUSTMENT } from "~/composables/themes/lib/types";
 import { useSwatchUnlock } from "~/composables/steps/useSwatchUnlock";
 import { computeHueStrengthFactor } from "~/composables/utils/hueFalloff";
-import { computeLightnessFalloffFactor } from "~/composables/utils/lightnessFalloff";
+import { computeLightnessFalloffFactor, computeDarkFalloffFactor } from "~/composables/utils/lightnessFalloff";
 
 export function stepLightnessAdjustment() {
     // Reactive state
@@ -152,7 +152,13 @@ export function stepLightnessAdjustment() {
             rangeSettings.lightnessFalloffLight * 100
         );
 
-        return clamp(amplitude / 100, 0, 1) * hueFactor * lightnessFactor;
+        // Get dark-end falloff factor (0–1): strongest at light, tapers toward dark
+        const darkFalloff = computeDarkFalloffFactor(
+            baseLightness,
+            rangeSettings.lightnessFalloffDark * 100
+        );
+
+        return clamp(amplitude / 100, 0, 1) * hueFactor * lightnessFactor * darkFalloff;
     }
 
     /**

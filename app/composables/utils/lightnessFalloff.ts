@@ -49,3 +49,31 @@ export function computeLightnessFalloffFactor(
     // Blend between uniform (1.0) and curved falloff based on falloff %
     return 1 - falloff * (1 - curvedFactor);
 }
+
+/**
+ * Compute a dark-end falloff factor (0–1).
+ * Effect is strongest at the light end and tapers toward the dark end.
+ * This is the inverse of computeLightnessFalloffFactor.
+ *
+ * @param lightness - The swatch's base lightness (0–100)
+ * @param darkFalloffPercent - How much dark-end effect to keep (0–100).
+ *   100 = uniform, all swatches get full strength (default, no reduction).
+ *   0 = full taper: dark swatches get zero effect, light swatches stay at 100%.
+ * @returns Strength factor from 0.0 (no effect) to 1.0 (full effect)
+ */
+export function computeDarkFalloffFactor(
+    lightness: number,
+    darkFalloffPercent: number
+): number {
+    const l = Math.max(0, Math.min(100, lightness));
+    const keep = Math.max(0, Math.min(100, darkFalloffPercent)) / 100;
+
+    if (keep >= 1) return 1;
+
+    // normalizedL: 0 = black, 1 = white
+    const normalizedL = l / 100;
+
+    // At keep=1: factor=1 everywhere (no reduction)
+    // At keep=0: factor=normalizedL (0 at black, 1 at white)
+    return 1 - (1 - keep) * (1 - normalizedL);
+}
