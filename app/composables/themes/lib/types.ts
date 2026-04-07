@@ -111,19 +111,19 @@ export const DEFAULT_LIGHTNESS_ADJUSTMENT: LightnessAdjustmentConfig = {
         enabled: true,
         start: 20,
         end: 220,
-        hueFalloff: 54,
-        lightnessFalloffLight: 1,
-        lightnessAmplitude: 18,
-        lightnessFalloffDark: 1
+        hueFalloff: 27,
+        lightnessFalloffLight: 0.86,
+        lightnessAmplitude: 16,
+        lightnessFalloffDark: 0.33
     },
     brightening: {
         enabled: true,
-        start: 178,
-        end: 314,
-        hueFalloff: 100,
-        lightnessFalloffLight: 0.69,
-        lightnessAmplitude: 47,
-        lightnessFalloffDark: 0.07
+        start: 212,
+        end: 276,
+        hueFalloff: 84,
+        lightnessFalloffLight: 1,
+        lightnessAmplitude: 29,
+        lightnessFalloffDark: 0.33
     }
 };
 

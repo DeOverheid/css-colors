@@ -31,15 +31,6 @@
                 @update:model-value="adjustmentSettings.brightening.lightnessFalloffLight = $event / 100" />
 
             <TooltipSlider
-                label="Dark falloff"
-                :model-value="Math.round(adjustmentSettings.brightening.lightnessFalloffDark * 100)"
-                :min="0"
-                :max="100"
-                :display-value="Math.round(adjustmentSettings.brightening.lightnessFalloffDark * 100) + '%'"
-                :style="{ '--track-background': `linear-gradient(to right, black, ${lightHueHsl})`, '--thumb-color': lightDarkFalloffThumb(Math.round(adjustmentSettings.brightening.lightnessFalloffDark * 100)) }"
-                @update:model-value="adjustmentSettings.brightening.lightnessFalloffDark = $event / 100" />
-
-            <TooltipSlider
                 label="Hue falloff"
                 :model-value="adjustmentSettings.brightening.hueFalloff"
                 :min="0"
@@ -117,13 +108,6 @@ function lightLightFalloffThumb(value: number) {
     const h = brighteningCenterHue.value;
     const s = colorSettings.saturation.value;
     return `hsl(${h}, ${Math.round(s * (1 - t))}%, ${Math.round(50 + 50 * t)}%)`;
-}
-
-function lightDarkFalloffThumb(value: number) {
-    const t = value / 100;
-    const h = brighteningCenterHue.value;
-    const s = colorSettings.saturation.value;
-    return `hsl(${h}, ${Math.round(s * t)}%, ${Math.round(50 * t)}%)`;
 }
 
 function lightHueFalloffThumb(value: number) {
