@@ -7,6 +7,7 @@
                 :min="0"
                 :max="100"
                 :display-value="lightShift"
+                :disabled="isDefault"
                 :style="{ '--track-background': `linear-gradient(to right, ${primaryHsl}, white)`, '--thumb-color': lightThumbColor(100 - lightShift) }"
                 @update:model-value="setLightShift(100 - $event)" />
         </div>
@@ -17,6 +18,7 @@
                 :min="0"
                 :max="100"
                 :display-value="greyLightShift"
+                :disabled="isDefault"
                 :style="{ '--track-background': `linear-gradient(to right, ${greyHsl}, white)`, '--thumb-color': lightThumbColor(100 - greyLightShift, 10) }"
                 @update:model-value="setGreyLightShift(100 - $event)" />
         </div>
@@ -26,9 +28,15 @@
 <script setup lang="ts">
 import { stepUniformLightnessShift } from "~/composables/input/stepUniformLightnessShift";
 import { useColorSettings } from "~/composables/core/useColorSettings";
+import { useThemes } from "~/composables/themes";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 const { lightShift, setLightShift, greyLightShift, setGreyLightShift } = stepUniformLightnessShift();
 const colorSettings = useColorSettings();
+const { currentThemeId } = useThemes();
+const { isCustom } = useThemeOverrides();
+
+const isDefault = computed(() => !isCustom(currentThemeId.value, "lightness-distribution"));
 
 const primaryHsl = computed(() =>
     `hsl(${colorSettings.hue.value}, ${colorSettings.saturation.value}%, 50%)`

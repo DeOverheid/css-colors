@@ -32,6 +32,7 @@
             :initial-y1="bezierValues.y1"
             :initial-x2="bezierValues.x2"
             :initial-y2="bezierValues.y2"
+            :disabled="isDefault"
             @update="updateBezier" />
     </div>
 </template>
@@ -40,11 +41,15 @@
 import { useSteps } from "~/composables/input/useSteps";
 import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 import { useThemes } from "~/composables/themes";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 const { lightnessDistribution } = useSteps();
 const { bezierValues, updateBezier } = lightnessDistribution;
 const { activeStep } = useStepNavigation();
 const { currentThemeId } = useThemes();
+const { isCustom } = useThemeOverrides();
+
+const isDefault = computed(() => !isCustom(currentThemeId.value, "lightness-distribution"));
 </script>
 
 <style scoped>

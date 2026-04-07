@@ -11,6 +11,7 @@
                 :step="1"
                 :display-value="formatOffset(getOffset(row))"
                 :style="sliderStyle(row)"
+                :disabled="disabled"
                 @update:model-value="emitOffset(row, $event)" />
         </div>
     </div>
@@ -32,6 +33,8 @@ const props = defineProps<{
     saturation: number;
     /** Fixed lightness for all slider tracks (e.g. 800-swatch lightness for dark, 200-swatch for light) */
     trackLightness: number;
+    /** Disable all sliders (read-only, muted visuals) */
+    disabled?: boolean;
 }>();
 
 const emit = defineEmits<{

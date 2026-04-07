@@ -1,5 +1,5 @@
 <template>
-    <div class="bezier-editor">
+    <div class="bezier-editor" :class="{ 'bezier-editor--disabled': disabled }">
         <div class="bezier-editor__container">
             <svg
                 ref="svgElement"
@@ -115,6 +115,8 @@ const props = defineProps<{
     initialY1: number;
     initialX2: number;
     initialY2: number;
+    /** Disable interaction (read-only, muted visuals) */
+    disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -154,6 +156,7 @@ watch(normalizedValues, (values) => {
 }, { deep: true });
 
 function startDrag(point: number, event: MouseEvent | TouchEvent) {
+    if (props.disabled) return;
     dragging.value = point;
     event.preventDefault();
 
@@ -267,5 +270,11 @@ onUnmounted(() => {
 
 .bezier-editor__handle:active {
     cursor: grabbing;
+}
+
+/* Disabled state */
+.bezier-editor--disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }
 </style>

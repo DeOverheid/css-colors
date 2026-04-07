@@ -2,6 +2,7 @@
     <label
         :for="sliderId"
         class="tooltip-slider"
+        :class="{ 'tooltip-slider--disabled': disabled }"
         v-bind="$attrs">
         <span
             v-if="label"
@@ -17,7 +18,8 @@
                 :min="min"
                 :max="max"
                 :step="step"
-                @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
+                :disabled="disabled"
+                @input="!disabled && $emit('update:modelValue', Number(($event.target as HTMLInputElement).value))">
             <span
                 class="tooltip-slider__tip"
                 :style="{ left: tooltipLeft }">
@@ -41,6 +43,8 @@ const props = defineProps<{
     displayValue?: string | number;
     /** Override tooltip position as 0–100 percentage (defaults to value mapped to min–max) */
     tooltipPosition?: number;
+    /** Disable the slider (read-only, muted visuals) */
+    disabled?: boolean;
 }>();
 
 defineEmits<{
@@ -120,5 +124,23 @@ const tooltipLeft = computed(() => {
 .tooltip-slider:active .tooltip-slider__tip,
 .tooltip-slider:has(input:active) .tooltip-slider__tip {
     opacity: 1;
+}
+
+/* Disabled state */
+.tooltip-slider--disabled .tooltip-slider__input {
+    background: var(--ui-bg-muted);
+    pointer-events: none;
+}
+
+.tooltip-slider--disabled .tooltip-slider__input::-webkit-slider-thumb {
+    background: var(--ui-text-dimmed);
+    border-color: var(--ui-color-primary-200, #c7d2fe);
+    cursor: default;
+}
+
+.tooltip-slider--disabled .tooltip-slider__input::-moz-range-thumb {
+    background: var(--ui-text-dimmed);
+    border-color: var(--ui-color-primary-200, #c7d2fe);
+    cursor: default;
 }
 </style>

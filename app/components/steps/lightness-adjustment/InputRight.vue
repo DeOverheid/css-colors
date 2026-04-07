@@ -7,6 +7,7 @@
                 :falloff-span="brighteningFalloffSpan"
                 :saturation="colorSettings.saturation.value"
                 label-side="left"
+                :disabled="isDefault"
                 @update:center-hue="setBrighteningCenter"
                 @update:falloff-span="setBrighteningFalloff" />
         </div>
@@ -18,6 +19,7 @@
                 :min="0"
                 :max="100"
                 :step="1"
+                :disabled="isDefault"
                 :style="{ '--track-background': `linear-gradient(to right, ${lightHueHsl}, white)`, '--thumb-color': lightStrengthThumb(adjustmentSettings.brightening.lightnessAmplitude) }"
                 @update:model-value="adjustmentSettings.brightening.lightnessAmplitude = $event" />
 
@@ -27,6 +29,7 @@
                 :min="0"
                 :max="100"
                 :display-value="Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100) + '%'"
+                :disabled="isDefault"
                 :style="{ '--track-background': `linear-gradient(to right, ${lightHueHsl}, white)`, '--thumb-color': lightLightFalloffThumb(Math.round(adjustmentSettings.brightening.lightnessFalloffLight * 100)) }"
                 @update:model-value="adjustmentSettings.brightening.lightnessFalloffLight = $event / 100" />
 
@@ -36,6 +39,7 @@
                 :min="0"
                 :max="100"
                 :display-value="adjustmentSettings.brightening.hueFalloff + '%'"
+                :disabled="isDefault"
                 :style="{ '--track-background': `linear-gradient(to right, hsl(180,${colorSettings.saturation.value}%,50%), hsl(270,${colorSettings.saturation.value}%,50%))`, '--thumb-color': lightHueFalloffThumb(adjustmentSettings.brightening.hueFalloff) }"
                 @update:model-value="adjustmentSettings.brightening.hueFalloff = $event" />
         </div>
@@ -47,10 +51,14 @@ import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
 import { getChromaticEntriesForTheme } from "~/composables/utils/hueShiftDefaults";
 import { useThemes } from "~/composables/themes";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 const colorSettings = useColorSettings();
 const { settings: adjustmentSettings } = useLightnessAdjustment();
-const { currentTheme } = useThemes();
+const { currentTheme, currentThemeId } = useThemes();
+const { isCustom } = useThemeOverrides();
+
+const isDefault = computed(() => !isCustom(currentThemeId.value, "lightness-adjustment"));
 
 const hueRows = computed(() => {
     const entries = getChromaticEntriesForTheme(currentTheme.value.id);

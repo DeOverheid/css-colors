@@ -2,7 +2,8 @@
     <div
         ref="trackRef"
         class="hue-range-slider"
-        @pointerdown="onTrackPointerDown">
+        :class="{ 'hue-range-slider--disabled': disabled }"
+        @pointerdown="!disabled && onTrackPointerDown($event)">
         <!-- Track background: vertical hue gradient matching swatch rows -->
         <div class="hue-range-track" :style="trackStyle">
             <!-- Active zone highlight between falloff handles -->
@@ -15,7 +16,7 @@
         <div
             class="hue-range-handle hue-range-handle--falloff"
             :style="{ 'top': falloffTopPx + 'px', '--handle-hue-color': hueColorAt(falloffTopHue) }"
-            @pointerdown.stop="startDrag('falloff-top', $event)">
+            @pointerdown.stop="!disabled && startDrag('falloff-top', $event)">
             <div class="hue-range-handle-thumb" />
             <span
                 class="hue-range-label"
@@ -28,7 +29,7 @@
         <div
             class="hue-range-handle hue-range-handle--center"
             :style="{ 'top': centerPx + 'px', '--handle-hue-color': hueColorAt(centerHue) }"
-            @pointerdown.stop="startDrag('center', $event)">
+            @pointerdown.stop="!disabled && startDrag('center', $event)">
             <div class="hue-range-handle-thumb" />
             <span
                 class="hue-range-label"
@@ -41,7 +42,7 @@
         <div
             class="hue-range-handle hue-range-handle--falloff"
             :style="{ 'top': falloffBottomPx + 'px', '--handle-hue-color': hueColorAt(falloffBottomHue) }"
-            @pointerdown.stop="startDrag('falloff-bottom', $event)">
+            @pointerdown.stop="!disabled && startDrag('falloff-bottom', $event)">
             <div class="hue-range-handle-thumb" />
             <span
                 class="hue-range-label"
@@ -64,6 +65,8 @@ const props = defineProps<{
     saturation: number;
     /** Which side to show floating labels: 'left' or 'right' */
     labelSide?: "left" | "right";
+    /** Disable interaction (read-only, muted visuals) */
+    disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -259,5 +262,25 @@ onUnmounted(() => {
 
 .hue-range-label--left {
     right: calc(100% + 10px);
+}
+
+/* Disabled state */
+.hue-range-slider--disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
+.hue-range-slider--disabled .hue-range-track {
+    opacity: 0.15;
+}
+
+.hue-range-slider--disabled .hue-range-handle-thumb {
+    background: var(--ui-text-dimmed) !important;
+    border-color: var(--ui-color-primary-200, #c7d2fe) !important;
+    cursor: default;
+}
+
+.hue-range-slider--disabled .hue-range-zone {
+    opacity: 0.1;
 }
 </style>
