@@ -45,9 +45,6 @@ export function useStepNavigation() {
         }
     }
 
-    /** Side panels visible: unlocked AND not explicitly hidden by the active step */
-    const showSidePanels = computed(() => activeStep.value.sidePanels !== false);
-
     // Unlock swatches for the initial step
     visitStep(activeStep.value);
 
@@ -58,7 +55,6 @@ export function useStepNavigation() {
         activeIndex,
         isFirst,
         isLast,
-        showSidePanels,
         goTo,
         next,
         prev

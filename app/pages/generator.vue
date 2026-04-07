@@ -6,9 +6,7 @@
         <!-- Right Content Area -->
         <main class="right-content">
             <!-- Top Controls: Header + Primary Controls (Step-specific) -->
-            <GeneratorInput
-                v-model:user-input-lightness="userInputLightness"
-                class="top-controls" />
+            <GeneratorInput class="top-controls" />
 
             <!-- Left Panel (placeholder for future use) -->
             <GeneratorLeftPanel class="left-panel" />
@@ -32,6 +30,7 @@ import { useSteps } from "~/composables/input/useSteps";
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useConfig } from "~/composables/core/baseConfig";
 import { useThemes } from "~/composables/themes";
+import { useUserInputLightness } from "~/composables/ui/useUserInputLightness";
 
 definePageMeta({
     layout: "blank"
@@ -46,8 +45,7 @@ const { lightnessSteps } = lightnessDistribution;
 const colorSettings = useColorSettings();
 const config = useConfig();
 const { currentTheme } = useThemes();
-
-const userInputLightness = ref<number | null>(null);
+const userInputLightness = useUserInputLightness();
 
 // Get total steps from current theme
 const totalSteps = computed(() => currentTheme.value.totalSteps);

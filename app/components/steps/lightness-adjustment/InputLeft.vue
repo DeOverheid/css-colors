@@ -1,0 +1,117 @@
+<template>
+    <div class="sidepanel__content">
+        <div class="sidepanel__top sidepanel--center">
+            <HueRangeSlider
+                :hue-rows="hueRows"
+                :center-hue="darkeningCenterHue"
+                :falloff-span="darkeningFalloffSpan"
+                :saturation="colorSettings.saturation.value"
+                label-side="right"
+                @update:center-hue="setDarkeningCenter"
+                @update:falloff-span="setDarkeningFalloff" />
+        </div>
+
+        <div class="sidepanel__bottom">
+            <TooltipSlider
+                label="Strength"
+                :model-value="adjustmentSettings.darkening.lightnessAmplitude"
+                :min="0"
+                :max="100"
+                :step="1"
+                :style="{ '--track-background': `linear-gradient(to right, ${darkHueHsl}, black)`, '--thumb-color': darkStrengthThumb(adjustmentSettings.darkening.lightnessAmplitude) }"
+                @update:model-value="adjustmentSettings.darkening.lightnessAmplitude = $event" />
+
+            <TooltipSlider
+                label="Light falloff"
+                :model-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)"
+                :min="0"
+                :max="100"
+                :display-value="Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100) + '%'"
+                :style="{ '--track-background': `linear-gradient(to right, ${darkHueHsl}, white)`, '--thumb-color': darkLightFalloffThumb(Math.round(adjustmentSettings.darkening.lightnessFalloffLight * 100)) }"
+                @update:model-value="adjustmentSettings.darkening.lightnessFalloffLight = $event / 100" />
+
+            <TooltipSlider
+                label="Hue falloff"
+                :model-value="adjustmentSettings.darkening.hueFalloff"
+                :min="0"
+                :max="100"
+                :display-value="adjustmentSettings.darkening.hueFalloff + '%'"
+                :style="{ '--track-background': `linear-gradient(to right, hsl(30,${colorSettings.saturation.value}%,50%), hsl(120,${colorSettings.saturation.value}%,50%))`, '--thumb-color': darkHueFalloffThumb(adjustmentSettings.darkening.hueFalloff) }"
+                @update:model-value="adjustmentSettings.darkening.hueFalloff = $event" />
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { useColorSettings } from "~/composables/core/useColorSettings";
+import { useLightnessAdjustment } from "~/composables/input/stepLightnessAdjustment";
+import { getChromaticEntriesForTheme } from "~/composables/utils/hueShiftDefaults";
+import { useThemes } from "~/composables/themes";
+
+const colorSettings = useColorSettings();
+const { settings: adjustmentSettings } = useLightnessAdjustment();
+const { currentTheme } = useThemes();
+
+const hueRows = computed(() => {
+    const entries = getChromaticEntriesForTheme(currentTheme.value.id);
+    const primaryHue = colorSettings.hue.value % 360;
+    let primaryIdx = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < entries.length; i++) {
+        const d = Math.abs(entries[i]!.baseHue - primaryHue);
+        const dist = d > 180 ? 360 - d : d;
+        if (dist < bestDist) {
+            bestDist = dist;
+            primaryIdx = i;
+        }
+    }
+    return entries.map((e, i) => i === primaryIdx ? primaryHue : e.baseHue);
+});
+
+const darkeningCenterHue = computed(() => {
+    const { start, end } = adjustmentSettings.value.darkening;
+    if (start <= end) return Math.round((start + end) / 2);
+    return Math.round(((start + end + 360) / 2) % 360);
+});
+
+const darkHueHsl = computed(() =>
+    `hsl(${darkeningCenterHue.value}, ${colorSettings.saturation.value}%, 50%)`
+);
+
+const darkeningFalloffSpan = computed(() => {
+    const { start, end } = adjustmentSettings.value.darkening;
+    const span = start <= end ? end - start : 360 - start + end;
+    return Math.round(span / 2);
+});
+
+function setDarkeningCenter(hue: number) {
+    const span = darkeningFalloffSpan.value;
+    adjustmentSettings.value.darkening.start = ((hue - span) % 360 + 360) % 360;
+    adjustmentSettings.value.darkening.end = (hue + span) % 360;
+}
+
+function setDarkeningFalloff(span: number) {
+    const center = darkeningCenterHue.value;
+    adjustmentSettings.value.darkening.start = ((center - span) % 360 + 360) % 360;
+    adjustmentSettings.value.darkening.end = (center + span) % 360;
+}
+
+function darkStrengthThumb(value: number) {
+    const t = value / 100;
+    const h = darkeningCenterHue.value;
+    const s = colorSettings.saturation.value;
+    return `hsl(${h}, ${Math.round(s * (1 - t))}%, ${Math.round(50 * (1 - t))}%)`;
+}
+
+function darkLightFalloffThumb(value: number) {
+    const t = value / 100;
+    const h = darkeningCenterHue.value;
+    const s = colorSettings.saturation.value;
+    return `hsl(${h}, ${Math.round(s * (1 - t))}%, ${Math.round(50 + 50 * t)}%)`;
+}
+
+function darkHueFalloffThumb(value: number) {
+    const t = value / 100;
+    return `hsl(${Math.round(30 + 90 * t)}, ${colorSettings.saturation.value}%, 50%)`;
+}
+</script>
