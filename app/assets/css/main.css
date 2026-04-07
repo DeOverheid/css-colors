@@ -161,7 +161,7 @@
                 var(--grey-lightness-900)
         );
         --ui-color-neutral-950: hsl(
-            var(--hue-slider-value) var(--grey-saturation-950)
+            var(--ui-neutral-hue) var(--grey-saturation-950)
                 var(--grey-lightness-950)
         );
     }

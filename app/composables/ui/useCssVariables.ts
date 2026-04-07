@@ -206,12 +206,17 @@ export function useCssVariables() {
             );
         });
 
-        // Set per-shade saturations: zero for "neutral", bezier-curved otherwise
+        // Set per-shade saturations and compose final --ui-color-neutral-* inline
+        // (inline styles override Nuxt UI's @layer theme plugin that would otherwise win)
         if (tone === "neutral") {
-            GREY_SHADE_LABELS.forEach((label) => {
+            GREY_SHADE_LABELS.forEach((label, i) => {
                 document.documentElement.style.setProperty(
                     `--grey-saturation-${label}`,
                     "0%"
+                );
+                document.documentElement.style.setProperty(
+                    `--ui-color-neutral-${label}`,
+                    `hsl(0 0% ${greySteps[i]}%)`
                 );
             });
         } else {
@@ -225,6 +230,10 @@ export function useCssVariables() {
                 document.documentElement.style.setProperty(
                     `--grey-saturation-${label}`,
                     `${saturations[i + 1]}%`
+                );
+                document.documentElement.style.setProperty(
+                    `--ui-color-neutral-${label}`,
+                    `hsl(${toneHue} ${saturations[i + 1]}% ${greySteps[i]}%)`
                 );
             });
         }
