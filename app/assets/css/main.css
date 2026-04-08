@@ -3,6 +3,11 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+/* Restore cursor:pointer on all buttons (Tailwind v4 removed the default) */
+button:not(:disabled) {
+    cursor: pointer;
+}
+
 @layer base {
     :root {
         /* Font families */

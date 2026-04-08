@@ -9,15 +9,20 @@
 
         <!-- Step Navigation -->
         <nav class="step-navigation rounded-group rounded-group--vertical">
-            <button
-                v-for="(step, index) in steps"
-                :key="step.id"
-                class="step-nav-item"
-                :class="{ active: activeStepId === step.id }"
-                @click="goTo(step.id)">
-                <span class="step-number">{{ index + 1 }}</span>
-                <span class="step-label">{{ step.title }}</span>
-            </button>
+            <UFieldGroup
+                orientation="vertical">
+                <UButton
+                    v-for="(step, index) in steps"
+                    :key="step.id"
+                    class="step-nav-item"
+                    :color="activeStepId === step.id ? 'primary' : 'neutral'"
+                    :variant="activeStepId === step.id ? 'solid' : 'soft'"
+                    block
+                    @click="goTo(step.id)">
+                    <span class="step-number">{{ index + 1 }}</span>
+                    <span class="step-label">{{ step.title }}</span>
+                </UButton>
+            </UFieldGroup>
         </nav>
 
         <!-- Theme Selector (hidden for now) -->
@@ -53,22 +58,23 @@
         </div>
 
         <!-- Dev Mode Toggle -->
-        <div class="mode-toggle rounded-group rounded-group--horizontal">
+        <UFieldGroup
+            orientation="horizontal">
             <UButton
                 icon="i-lucide-eye"
-                :color="!isDevModeEnabled ? 'primary' : 'neutral'"
+                :color="!isDevModeEnabled ? 'primary' : 'soft'"
                 size="sm"
                 @click="disableDevMode">
                 Preview
             </UButton>
             <UButton
                 icon="i-lucide-code"
-                :color="isDevModeEnabled ? 'primary' : 'neutral'"
+                :color="isDevModeEnabled ? 'primary' : 'soft'"
                 size="sm"
                 @click="setFlag('enabled', true)">
                 Dev
             </UButton>
-        </div>
+        </UFieldGroup>
 
         <!-- Nuxt UI Logo -->
         <div class="sidebar-branding">
@@ -142,26 +148,8 @@ const themeOptions = computed(() =>
 }
 
 .step-nav-item {
-    display: flex;
-    align-items: center;
+    justify-content: flex-start;
     gap: 10px;
-    padding: 10px;
-    margin: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    font-size: 13px;
-    transition: background-color 0.15s;
-}
-
-.step-nav-item:hover {
-    background: var(--ui-bg-accented);
-}
-
-.step-nav-item.active {
-    background: var(--ui-primary);
-    color: var(--color-neutral-900);
 }
 
 .step-number {

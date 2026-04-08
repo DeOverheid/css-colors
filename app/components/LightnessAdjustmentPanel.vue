@@ -5,11 +5,9 @@
             (yellows, oranges) are darkened and cool tones (blues, purples)
             are brightened for perceptual uniformity. (The AI means "look the same").
         </p>
-        <button
-            class="copy-offsets-btn"
-            @click="copySettings">
+        <UButton color="neutral" variant="ghost" size="xs" @click="copySettings">
             {{ copied ? "Copied!" : "Copy adjustment values" }}
-        </button>
+        </UButton>
     </div>
 </template>
 
@@ -57,22 +55,5 @@ function copySettings() {
     color: var(--ui-text-muted);
     margin: 0;
     line-height: 1.5;
-}
-
-.copy-offsets-btn {
-    align-self: flex-start;
-    padding: 5px 5px;
-    font-size: 0.75rem;
-    border: 1px solid var(--ui-border-color, #555);
-    border-radius: 0.25rem;
-    background: transparent;
-    color: var(--ui-text-muted);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-}
-
-.copy-offsets-btn:hover {
-    background: var(--ui-bg-elevated, #333);
-    color: var(--ui-text, #fff);
 }
 </style>

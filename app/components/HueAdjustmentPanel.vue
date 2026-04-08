@@ -4,11 +4,9 @@
             Shift the hue of dark and light swatches to compensate for
             perceptual color drift at extreme lightness values.
         </p>
-        <button
-            class="copy-offsets-btn"
-            @click="copyOffsets">
+        <UButton color="neutral" variant="ghost" size="xs" @click="copyOffsets">
             {{ copied ? "Copied!" : "Copy hue offsets" }}
-        </button>
+        </UButton>
     </div>
 </template>
 
@@ -44,22 +42,5 @@ function copyOffsets() {
     color: var(--ui-text-muted);
     margin: 0;
     line-height: 1.5;
-}
-
-.copy-offsets-btn {
-    align-self: flex-start;
-    padding: 5px 5px;
-    font-size: 0.75rem;
-    border: 1px solid var(--ui-border-color, #555);
-    border-radius: 0.25rem;
-    background: transparent;
-    color: var(--ui-text-muted);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-}
-
-.copy-offsets-btn:hover {
-    background: var(--ui-bg-elevated, #333);
-    color: var(--ui-text, #fff);
 }
 </style>

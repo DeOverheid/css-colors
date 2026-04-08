@@ -16,22 +16,22 @@
             <span class="preview-label">Primary</span>
             <span class="preview-label">Tertiary</span>
             <!-- Clickable swatches row -->
-            <button
+            <UButton
                 class="tone-swatch"
                 :class="{ 'tone-swatch--active': uiToneSource === 'neutral' }"
                 :style="{ background: 'hsl(0, 0%, 46%)' }"
                 @click="uiToneSource = 'neutral'" />
-            <button
+            <UButton
                 class="tone-swatch"
                 :class="{ 'tone-swatch--active': uiToneSource === 'secondary' }"
                 :style="{ background: `hsl(${secondaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
                 @click="uiToneSource = 'secondary'" />
-            <button
+            <UButton
                 class="tone-swatch"
                 :class="{ 'tone-swatch--active': uiToneSource === 'primary' }"
                 :style="{ 'background': `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
                 @click="uiToneSource = 'primary'" />
-            <button
+            <UButton
                 class="tone-swatch"
                 :class="{ 'tone-swatch--active': uiToneSource === 'tertiary' }"
                 :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
@@ -114,8 +114,10 @@ const lightness = computed(() => colorSettings.lightness.value);
 
 .tone-swatch {
     height: 30px;
-    cursor: pointer;
+    min-width: 0;
     padding: 0;
+    border: none;
+    border-radius: 0;
     outline: none;
     transition: outline-offset 0.1s;
 }

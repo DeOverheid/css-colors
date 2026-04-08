@@ -22,16 +22,16 @@
 
         <!-- Dev mode: copy settings button -->
         <div v-if="isDevMode" class="action-row">
-            <button class="dev-copy-btn" @click="copyCurrentStepSettings">
+            <UButton color="neutral" variant="ghost" size="xs" @click="copyCurrentStepSettings">
                 {{ copied ? 'Copied!' : 'Copy settings' }}
-            </button>
+            </UButton>
             <StepModeToggle v-if="showModeToggle" :step-id="activeStep.id as OverridableStepId" />
         </div>
         <!-- Normal mode: next step or export -->
         <div v-else-if="!isLast" class="action-row">
-            <button class="next-step-btn" @click="next">
+            <UButton color="neutral" variant="outline" size="sm" @click="next">
                 Next step
-            </button>
+            </UButton>
             <StepModeToggle v-if="showModeToggle" :step-id="activeStep.id as OverridableStepId" />
         </div>
         <div v-else class="action-slot">
@@ -145,7 +145,6 @@ const layoutClass = computed(() => {
         ".        action   .         .";
 }
 
-.next-step-btn,
 .action-slot,
 .action-row {
     grid-area: action;
@@ -156,38 +155,5 @@ const layoutClass = computed(() => {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.next-step-btn {
-    padding: 5px 15px;
-    border: 1px solid var(--ui-border);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--ui-text);
-    cursor: pointer;
-    font-size: 0.875rem;
-    transition: background-color 0.15s;
-}
-
-.next-step-btn:hover {
-    background: var(--ui-bg-accented);
-}
-
-.dev-copy-btn {
-    grid-area: action;
-    justify-self: start;
-    padding: 5px 15px;
-    border: 1px solid var(--ui-border);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--ui-text-muted);
-    cursor: pointer;
-    font-size: 0.75rem;
-    transition: background-color 0.15s, color 0.15s;
-}
-
-.dev-copy-btn:hover {
-    background: var(--ui-bg-accented);
-    color: var(--ui-text);
 }
 </style>

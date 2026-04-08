@@ -1,18 +1,18 @@
 <template>
-    <div class="step-mode-toggle rounded-group rounded-group--horizontal">
+    <UFieldGroup
+        class="step-mode-toggle"
+        orientation="horizontal">
         <UButton
             :color="!isCustomMode ? 'primary' : 'neutral'"
-            size="xs"
             @click="setDefault">
             Default
         </UButton>
         <UButton
             :color="isCustomMode ? 'primary' : 'neutral'"
-            size="xs"
             @click="setCustom">
             Custom
         </UButton>
-    </div>
+    </UFieldGroup>
 </template>
 
 <script setup lang="ts">

@@ -7,12 +7,14 @@
                 placeholder="#hex, rgb(), or hsl()"
                 class="input-field"
                 @keydown.enter="applyColor" />
-            <button
-                class="color-apply-btn"
+            <UButton
+                color="neutral"
+                variant="outline"
+                size="xs"
                 :disabled="!colorInput.trim()"
                 @click="applyColor">
                 Update
-            </button>
+            </UButton>
         </div>
         <div class="input-row">
             <label class="input-label">Hue</label>
@@ -90,23 +92,6 @@ function applyColor() {
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
-}
-
-.color-apply-btn {
-    width: fit-content;
-    border: 1px solid var(--ui-text-muted);
-    color: var(--ui-text-muted);
-    background: transparent;
-    padding: 0 10px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    align-self: stretch;
-}
-
-.color-apply-btn:disabled {
-    opacity: 0.4;
-    cursor: default;
 }
 
 .input-value {

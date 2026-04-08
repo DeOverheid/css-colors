@@ -4,7 +4,9 @@
             Switch between presets to compare palettes.
             Each preset preserves your edits — tweak settings, switch away, and come back without losing changes.
         </p>
-        <div class="theme-buttons rounded-group rounded-group--horizontal">
+        <UFieldGroup
+            class="theme-buttons"
+            orientation="horizontal">
             <UButton
                 v-for="theme in availableThemes"
                 :key="theme.id"
@@ -13,7 +15,7 @@
                 @click="setTheme(theme.id)">
                 {{ theme.name }}
             </UButton>
-        </div>
+        </UFieldGroup>
     </div>
 </template>
 
