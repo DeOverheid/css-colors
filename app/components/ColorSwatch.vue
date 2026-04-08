@@ -32,12 +32,16 @@ const props = defineProps<{
     dotColor?: string | null;
 }>();
 
+function fmt(n: number) {
+    return Number.isInteger(n) ? String(n) : n.toFixed(1);
+}
+
 const hslColor = computed(() =>
-    `hsl(${props.hue}, ${props.saturation}%, ${props.lightness}%)`
+    `hsl(${fmt(props.hue)}, ${fmt(props.saturation)}%, ${fmt(props.lightness)}%)`
 );
 
 const tooltipHtml = computed(() =>
-    `<strong>H:</strong> ${props.hue}° <strong>S:</strong> ${props.saturation}% <strong>L:</strong> ${props.lightness}%`
+    `<strong>H:</strong> ${fmt(props.hue)}° <strong>S:</strong> ${fmt(props.saturation)}% <strong>L:</strong> ${fmt(props.lightness)}%`
 );
 
 function handleCopy() {
