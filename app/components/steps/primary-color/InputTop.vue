@@ -1,17 +1,20 @@
 <template>
-    <div class="step1-controls">
+    <div
+        class="step1-controls"
+        :class="{ 'step-disabled': isDefault }">
         <div class="input-row-color">
             <label class="input-label">Color</label>
             <UInput
                 v-model="colorInput"
                 placeholder="#hex, rgb(), or hsl()"
                 class="input-field"
+                :disabled="isDefault"
                 @keydown.enter="applyColor" />
             <UButton
                 class="color-apply-btn w-fit justify-self-start"
                 color="primary"
                 variant="soft"
-                :disabled="!colorInput.trim()"
+                :disabled="isDefault || !colorInput.trim()"
                 @click="applyColor">
                 <span>Input color</span>
             </UButton>
@@ -49,6 +52,12 @@
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useUserInputLightness } from "~/composables/ui/useUserInputLightness";
 import { parseColor } from "~/composables/utils/parseColor";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
+import { useThemes } from "~/composables/themes";
+
+const { currentThemeId } = useThemes();
+const { isCustom } = useThemeOverrides();
+const isDefault = computed(() => !isCustom(currentThemeId.value, "primary-color"));
 
 const colorSettings = useColorSettings();
 const userInputLightness = useUserInputLightness();
@@ -112,5 +121,10 @@ function applyColor() {
 
 .input-field {
     width: 100%;
+}
+
+.step-disabled {
+    pointer-events: none;
+    filter: saturate(0.5);
 }
 </style>
