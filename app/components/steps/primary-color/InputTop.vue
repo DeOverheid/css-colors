@@ -8,12 +8,12 @@
                 class="input-field"
                 @keydown.enter="applyColor" />
             <UButton
-                color="neutral"
-                variant="outline"
-                size="xs"
+                class="color-apply-btn"
+                color="primary"
+                variant="soft"
                 :disabled="!colorInput.trim()"
                 @click="applyColor">
-                Update
+                <span>Input color</span>
             </UButton>
         </div>
         <div class="input-row">
@@ -85,7 +85,15 @@ function applyColor() {
     display: grid;
     grid-template-columns: var(--label-column-width, 80px) 0.5fr auto;
     gap: 1rem;
-    align-items: center;
+}
+
+.input-row-color>.input-label {
+    align-self: center;
+}
+
+.color-apply-btn {
+    width: fit-content;
+    justify-self: start;
 }
 
 .input-label {

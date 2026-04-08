@@ -8,6 +8,7 @@
                 class="input-field"
                 @keydown.enter="applyColor" />
             <UButton
+                class="color-apply-btn"
                 :disabled="!colorInput.trim()"
                 @click="applyColor">
                 <span>Update</span>
@@ -88,6 +89,12 @@ function applyColor() {
     font-family: var(--font-family-header);
     font-weight: 600;
     color: var(--ui-text-muted);
+}
+
+.color-apply-btn {
+    align-self: stretch;
+    justify-self: start;
+    width: fit-content;
 }
 
 .input-value {
