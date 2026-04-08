@@ -133,7 +133,7 @@ const layoutClass = computed(() => {
         "title    title    ui-input  ."
         "text     text     ui-input  ."
         ".        results  ui-input  ."
-        ".        action   .         .";
+        ".        action   ui-input  .";
 }
 
 /* Hue-wheel layout */
@@ -142,7 +142,7 @@ const layoutClass = computed(() => {
         "title    title    ui-input  ."
         "text     text     ui-input  ."
         ".        controls ui-input  ."
-        ".        action   .         .";
+        ".        action   ui-input  .";
 }
 
 .action-slot,

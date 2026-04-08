@@ -16,26 +16,30 @@
             <span class="preview-label">Primary</span>
             <span class="preview-label">Tertiary</span>
             <!-- Clickable swatches row -->
-            <UButton
-                class="tone-swatch"
-                :class="{ 'tone-swatch--active': uiToneSource === 'neutral' }"
-                :style="{ background: 'hsl(0, 0%, 46%)' }"
-                @click="uiToneSource = 'neutral'" />
-            <UButton
-                class="tone-swatch"
-                :class="{ 'tone-swatch--active': uiToneSource === 'secondary' }"
-                :style="{ background: `hsl(${secondaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
-                @click="uiToneSource = 'secondary'" />
-            <UButton
-                class="tone-swatch"
-                :class="{ 'tone-swatch--active': uiToneSource === 'primary' }"
-                :style="{ 'background': `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
-                @click="uiToneSource = 'primary'" />
-            <UButton
-                class="tone-swatch"
-                :class="{ 'tone-swatch--active': uiToneSource === 'tertiary' }"
-                :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
-                @click="uiToneSource = 'tertiary'" />
+
+            <UFieldGroup>
+                <UButton
+                    class="tone-swatch"
+                    :class="{ 'tone-swatch--active': uiToneSource === 'neutral' }"
+                    :style="{ background: 'hsl(0, 0%, 46%)' }"
+                    @click="uiToneSource = 'neutral'" />
+                <UButton
+                    class="tone-swatch"
+                    :class="{ 'tone-swatch--active': uiToneSource === 'secondary' }"
+                    :style="{ background: `hsl(${secondaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
+                    @click="uiToneSource = 'secondary'" />
+                <UButton
+                    class="tone-swatch"
+                    :class="{ 'tone-swatch--active': uiToneSource === 'primary' }"
+                    :style="{ 'background': `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
+                    @click="uiToneSource = 'primary'" />
+                <UButton
+                    class="tone-swatch"
+                    :class="{ 'tone-swatch--active': uiToneSource === 'tertiary' }"
+                    :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
+                    @click="uiToneSource = 'tertiary'" />
+            </UFieldGroup>
+
             <!-- Degrees row -->
             <span class="degrees-value">&ndash;</span>
             <span class="degrees-value">{{ secondaryHue }}°</span>
@@ -113,7 +117,7 @@ const lightness = computed(() => colorSettings.lightness.value);
 }
 
 .tone-swatch {
-    height: 30px;
+    min-height: 20px;
     min-width: 0;
     padding: 0;
     border: none;
