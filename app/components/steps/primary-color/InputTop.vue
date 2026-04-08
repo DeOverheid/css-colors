@@ -8,7 +8,7 @@
                 class="input-field"
                 @keydown.enter="applyColor" />
             <UButton
-                class="color-apply-btn"
+                class="color-apply-btn w-fit justify-self-start"
                 color="primary"
                 variant="soft"
                 :disabled="!colorInput.trim()"

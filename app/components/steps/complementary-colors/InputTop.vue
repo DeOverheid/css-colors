@@ -11,40 +11,52 @@
 
         <div class="tone-grid">
             <!-- Names row -->
-            <span class="preview-label">Neutral</span>
-            <span class="preview-label">Secondary</span>
-            <span class="preview-label">Primary</span>
-            <span class="preview-label">Tertiary</span>
+            <div class="tone-row">
+                <span class="preview-label">Neutral</span>
+                <span class="preview-label">Secondary</span>
+                <span class="preview-label">Primary</span>
+                <span class="preview-label">Tertiary</span>
+            </div>
             <!-- Clickable swatches row -->
 
-            <UFieldGroup>
+            <UFieldGroup class="tone-row">
                 <UButton
+                    variant="ghost"
+                    color="neutral"
                     class="tone-swatch"
-                    :class="{ 'tone-swatch--active': uiToneSource === 'neutral' }"
+                    :class="uiToneSource === 'neutral' && 'ring-2 ring-inset ring-(--ui-primary)'"
                     :style="{ background: 'hsl(0, 0%, 46%)' }"
                     @click="uiToneSource = 'neutral'" />
                 <UButton
+                    variant="ghost"
+                    color="neutral"
                     class="tone-swatch"
-                    :class="{ 'tone-swatch--active': uiToneSource === 'secondary' }"
+                    :class="uiToneSource === 'secondary' && 'ring-2 ring-inset ring-(--ui-primary)'"
                     :style="{ background: `hsl(${secondaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
                     @click="uiToneSource = 'secondary'" />
                 <UButton
+                    variant="ghost"
+                    color="neutral"
                     class="tone-swatch"
-                    :class="{ 'tone-swatch--active': uiToneSource === 'primary' }"
-                    :style="{ 'background': `hsl(${primaryHue}, ${saturation}%, ${lightness}%)`, '--active-outline': 'white' }"
+                    :class="uiToneSource === 'primary' && 'ring-2 ring-inset ring-white'"
+                    :style="{ background: `hsl(${primaryHue}, ${saturation}%, ${lightness}%)` }"
                     @click="uiToneSource = 'primary'" />
                 <UButton
+                    variant="ghost"
+                    color="neutral"
                     class="tone-swatch"
-                    :class="{ 'tone-swatch--active': uiToneSource === 'tertiary' }"
+                    :class="uiToneSource === 'tertiary' && 'ring-2 ring-inset ring-(--ui-primary)'"
                     :style="{ background: `hsl(${tertiaryHue}, ${complementarySaturation}%, ${lightness}%)` }"
                     @click="uiToneSource = 'tertiary'" />
             </UFieldGroup>
 
             <!-- Degrees row -->
-            <span class="degrees-value">&ndash;</span>
-            <span class="degrees-value">{{ secondaryHue }}°</span>
-            <span class="degrees-value">{{ primaryHue }}°</span>
-            <span class="degrees-value">{{ tertiaryHue }}°</span>
+            <div class="tone-row">
+                <span class="degrees-value">&ndash;</span>
+                <span class="degrees-value">{{ secondaryHue }}°</span>
+                <span class="degrees-value">{{ primaryHue }}°</span>
+                <span class="degrees-value">{{ tertiaryHue }}°</span>
+            </div>
         </div>
     </div>
     <div class="step-wheel">
@@ -110,10 +122,15 @@ const lightness = computed(() => colorSettings.lightness.value);
 }
 
 .tone-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.tone-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    row-gap: 5px;
+    min-height: 20px;
 }
 
 .tone-swatch {
@@ -123,7 +140,7 @@ const lightness = computed(() => colorSettings.lightness.value);
     border: none;
     border-radius: 0;
     outline: none;
-    transition: outline-offset 0.1s;
+    position: relative;
 }
 
 .tone-swatch:first-of-type {
@@ -132,13 +149,6 @@ const lightness = computed(() => colorSettings.lightness.value);
 
 .tone-swatch:last-of-type {
     border-radius: 0 6px 6px 0;
-}
-
-.tone-swatch--active {
-    outline: 2px solid var(--active-outline, var(--ui-primary, white));
-    outline-offset: -2px;
-    z-index: 1;
-    position: relative;
 }
 
 .preview-label {
