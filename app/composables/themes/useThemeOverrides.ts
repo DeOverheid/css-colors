@@ -11,11 +11,14 @@
  * Applicable to steps: lightness-distribution, lightness-adjustment, hue-adjustment
  */
 import { themes, useThemes } from "~/composables/themes";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 
 export type OverrideMode = "default" | "custom";
 
 /** Step IDs that support the default/custom toggle */
 export const OVERRIDABLE_STEPS = [
+    "primary-color",
+    "complementary-colors",
     "lightness-distribution",
     "lightness-adjustment",
     "hue-adjustment"
@@ -84,6 +87,14 @@ function createThemeOverrides() {
     const { currentThemeId } = useThemes();
     watch(currentThemeId, (id) => {
         resetToCustom(id);
+    });
+
+    // When navigating to a different step, reset that step's toggle to "custom"
+    const { activeStepId } = useStepNavigation();
+    watch(activeStepId, (stepId) => {
+        if (OVERRIDABLE_STEPS.includes(stepId as OverridableStepId)) {
+            setMode(currentThemeId.value, stepId, "custom");
+        }
     });
 
     return {

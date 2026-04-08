@@ -1,6 +1,7 @@
 import { useColorSettings } from "~/composables/core/useColorSettings";
 import { closestGreyName } from "~/composables/utils/closestGreyName";
 import { useThemes, getThemeById, themes as allThemes } from "~/composables/themes";
+import { useThemeOverrides } from "~/composables/themes/useThemeOverrides";
 
 /** Which grey tone feeds the app's UI neutral palette */
 export type UiToneSource = "primary" | "secondary" | "tertiary" | "neutral";
@@ -22,6 +23,7 @@ export function useComplementaryColors() {
     const colorSettings = useColorSettings();
 
     const { currentThemeId } = useThemes();
+    const { isCustom } = useThemeOverrides();
 
     const hueOffset = useState<number>("complementary-hue-offset", () => 120);
 
@@ -65,6 +67,10 @@ export function useComplementaryColors() {
     const uiToneSource = computed({
         get: () => {
             const id = currentThemeId.value;
+            if (!isCustom(id, "complementary-colors")) {
+                const theme = getThemeById(id);
+                return theme?.defaultUiTone ?? "neutral";
+            }
             if (!perThemeUiTone.value[id]) {
                 const theme = getThemeById(id);
                 perThemeUiTone.value[id] = theme?.defaultUiTone ?? "neutral";

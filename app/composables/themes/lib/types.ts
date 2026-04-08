@@ -97,6 +97,8 @@ export interface ThemeConfig {
     defaultUiTone?: "primary" | "secondary" | "tertiary" | "neutral";
     /** Default saturation for the theme (0–100) */
     defaultSaturation?: number;
+    /** Default hue for the theme (0–360) */
+    defaultHue?: number;
     /** Description of the theme */
     description?: string;
 }
