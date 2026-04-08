@@ -1,14 +1,15 @@
 <template>
     <UFieldGroup
-        class="step-mode-toggle"
         orientation="horizontal">
         <UButton
-            :color="!isCustomMode ? 'primary' : 'neutral'"
+            color="primary"
+            :variant="!isCustomMode ? 'solid' : 'soft'"
             @click="setDefault">
             Default
         </UButton>
         <UButton
-            :color="isCustomMode ? 'primary' : 'neutral'"
+            color="primary"
+            :variant="isCustomMode ? 'solid' : 'soft'"
             @click="setCustom">
             Custom
         </UButton>
@@ -37,22 +38,4 @@ function setCustom() {
 }
 </script>
 
-<style scoped>
-.step-mode-toggle {
-    display: flex;
-}
-
-.step-mode-toggle :deep(button) {
-    border-radius: 0;
-}
-
-.step-mode-toggle :deep(:first-child button) {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.step-mode-toggle :deep(:last-child button) {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-</style>
+<style scoped></style>

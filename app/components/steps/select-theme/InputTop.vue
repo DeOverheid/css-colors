@@ -5,13 +5,12 @@
             Each preset preserves your edits — tweak settings, switch away, and come back without losing changes.
         </p>
         <UFieldGroup
-            class="theme-buttons"
             orientation="horizontal">
             <UButton
                 v-for="theme in availableThemes"
                 :key="theme.id"
-                :color="currentThemeId === theme.id ? 'primary' : 'neutral'"
-                size="sm"
+                color="primary"
+                :variant="currentThemeId === theme.id ? 'solid' : 'soft'"
                 @click="setTheme(theme.id)">
                 {{ theme.name }}
             </UButton>
@@ -30,31 +29,5 @@ const { currentThemeId, availableThemes, setTheme } = useThemes();
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
-
-.theme-description {
-    color: var(--ui-text-muted);
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.5;
-}
-
-.theme-buttons {
-    display: flex;
-}
-
-.theme-buttons :deep(button) {
-    flex: 1;
-    border-radius: 0;
-}
-
-.theme-buttons :deep(:first-child button) {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.theme-buttons :deep(:last-child button) {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
 }
 </style>
