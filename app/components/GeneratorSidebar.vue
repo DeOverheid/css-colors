@@ -62,15 +62,15 @@
             orientation="horizontal">
             <UButton
                 icon="i-lucide-eye"
-                :color="!isDevModeEnabled ? 'primary' : 'soft'"
-                size="sm"
+                color="primary"
+                :variant="!isDevModeEnabled ? 'solid' : 'soft'"
                 @click="disableDevMode">
                 Preview
             </UButton>
             <UButton
                 icon="i-lucide-code"
-                :color="isDevModeEnabled ? 'primary' : 'soft'"
-                size="sm"
+                color="primary"
+                :variant="isDevModeEnabled ? 'solid' : 'soft'"
                 @click="setFlag('enabled', true)">
                 Dev
             </UButton>

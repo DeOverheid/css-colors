@@ -22,14 +22,14 @@
 
         <!-- Dev mode: copy settings button -->
         <div v-if="isDevMode" class="action-row">
-            <UButton color="neutral" variant="ghost" size="xs" @click="copyCurrentStepSettings">
+            <UButton color="primary" variant="soft" @click="copyCurrentStepSettings">
                 {{ copied ? 'Copied!' : 'Copy settings' }}
             </UButton>
             <StepModeToggle v-if="showModeToggle" :step-id="activeStep.id as OverridableStepId" />
         </div>
         <!-- Normal mode: next step or export -->
         <div v-else-if="!isLast" class="action-row">
-            <UButton color="neutral" variant="outline" size="sm" @click="next">
+            <UButton color="primary" variant="soft" @click="next">
                 Next step
             </UButton>
             <StepModeToggle v-if="showModeToggle" :step-id="activeStep.id as OverridableStepId" />

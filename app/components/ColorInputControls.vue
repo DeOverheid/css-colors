@@ -10,7 +10,7 @@
             <UButton
                 :disabled="!colorInput.trim()"
                 @click="applyColor">
-                Update
+                <span>Update</span>
             </UButton>
         </div>
         <div class="input-row">
