@@ -11,8 +11,12 @@
             <!-- Left Panel (placeholder for future use) -->
             <GeneratorLeftPanel class="left-panel" />
 
-            <!-- Swatches Preview (PERSISTENT) -->
+            <!-- Export step: code block replaces swatches -->
+            <ExportCodeBlock v-if="isExportStep" />
+
+            <!-- Swatches Preview (all other steps) -->
             <GeneratorSwatches
+                v-else
                 :hue="colorSettings.hue.value"
                 :saturation="colorSettings.saturation.value"
                 :lightness-steps="lightnessSteps"
@@ -31,6 +35,7 @@ import { useColorSettings } from "~/composables/core/useColorSettings";
 import { useConfig } from "~/composables/core/baseConfig";
 import { useThemes } from "~/composables/themes";
 import { useUserInputLightness } from "~/composables/ui/useUserInputLightness";
+import { useStepNavigation } from "~/composables/steps/useStepNavigation";
 
 definePageMeta({
     layout: "blank"
@@ -46,12 +51,16 @@ const colorSettings = useColorSettings();
 const config = useConfig();
 const { currentTheme } = useThemes();
 const userInputLightness = useUserInputLightness();
+const { activeStepId } = useStepNavigation();
 
 // Get total steps from current theme
 const totalSteps = computed(() => currentTheme.value.totalSteps);
 
 // Target lightness: user-entered value or config default
 const targetLightness = computed(() => userInputLightness.value ?? config.colors.lightness);
+
+// Show export code block instead of swatches on the export step
+const isExportStep = computed(() => activeStepId.value === "export");
 </script>
 
 <style scoped>
