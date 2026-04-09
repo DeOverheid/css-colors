@@ -1,42 +1,47 @@
 <template>
     <div class="export-controls">
-        <div class="export-controls__row">
+        <div class="export-control-row">
             <label class="export-controls__label">Format</label>
-            <RadioSelector
-                v-model="format"
-                name="export-format"
-                :options="formatOptions"
-                segmented
-                class="export-controls__selector" />
+            <UFieldGroup>
+                <UButton
+                    v-for="opt in formatOptions"
+                    :key="opt.value"
+                    :variant="format === opt.value ? 'solid' : 'soft'"
+                    color="primary"
+                    @click="format = opt.value">
+                    {{ opt.label }}
+                </UButton>
+            </UFieldGroup>
         </div>
-        <div class="export-controls__row">
+        <div class="export-control-row">
             <label class="export-controls__label">Notation</label>
-            <RadioSelector
-                v-model="notation"
-                name="export-notation"
-                :options="notationOptions"
-                segmented
-                class="export-controls__selector" />
+            <UFieldGroup>
+                <UButton
+                    v-for="opt in notationOptions"
+                    :key="opt.value"
+                    :variant="notation === opt.value ? 'solid' : 'soft'"
+                    color="primary"
+                    @click="notation = opt.value">
+                    {{ opt.label }}
+                </UButton>
+            </UFieldGroup>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { useUserExport } from "~/composables/output/useUserExport";
-
-interface RadioOption {
-    value: string;
-    label: string;
-}
+import type { ExportFormat } from "~/composables/output/useUserExport";
+import type { ColorNotation } from "~/composables/output/formatters/tailwindV4Css";
 
 const { format, notation } = useUserExport();
 
-const formatOptions: RadioOption[] = [
+const formatOptions: { value: ExportFormat; label: string }[] = [
     { value: "tailwind-v4", label: "Tailwind v4" },
     { value: "css-variables", label: "CSS Variables" }
 ];
 
-const notationOptions: RadioOption[] = [
+const notationOptions: { value: ColorNotation; label: string }[] = [
     { value: "hsl", label: "HSL" },
     { value: "hex", label: "Hex" }
 ];
@@ -46,18 +51,26 @@ const notationOptions: RadioOption[] = [
 .export-controls {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
-.export-controls__row {
+.export-control-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 20px;
 }
 
 .export-controls__label {
-    min-width: 60px;
     font-size: 13px;
     color: var(--ui-text-muted);
+}
+
+.export-controls__label {
+    min-width: 80px;
+}
+
+.export-controls__buttons {
+    display: flex;
+    gap: 4px;
 }
 </style>

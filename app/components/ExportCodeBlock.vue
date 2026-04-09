@@ -24,7 +24,9 @@
                         @click="downloadFile" />
                 </UTooltip>
             </div>
-            <pre ref="preRef" class="export-code-block__pre"><code class="export-code-block__code">{{ exportOutput }}</code></pre>
+            <pre
+                ref="preRef"
+                class="export-code-block__pre"><code class="export-code-block__code">{{ exportOutput }}</code></pre>
         </div>
     </section>
 </template>
