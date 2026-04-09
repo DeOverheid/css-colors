@@ -38,7 +38,11 @@ function fmt(value: number): string {
  * @returns Formatted CSS string
  */
 export function toTailwindV4Css(palette: CollectedPalette, notation: ColorNotation = "hsl"): string {
-    const lines: string[] = ["@theme {"];
+    const lines: string[] = [
+        '@import "tailwindcss";',
+        "",
+        "@theme {"
+    ];
 
     const allRows = [...palette.chromatic, ...palette.grey];
 
@@ -52,11 +56,15 @@ export function toTailwindV4Css(palette: CollectedPalette, notation: ColorNotati
             lines.push(`    --color-${row.name}-${shade.label}: ${value};`);
         }
 
-        // Blank line between color groups, but not after the last one
-        if (rowIdx < allRows.length - 1) {
-            lines.push("");
-        }
+        // Blank line between color groups
+        lines.push("");
     }
+
+    // Black and white at the bottom, matching Tailwind's default palette reference
+    const black = notation === "hex" ? "#000" : "hsl(0, 0%, 0%)";
+    const white = notation === "hex" ? "#fff" : "hsl(0, 0%, 100%)";
+    lines.push(`    --color-black: ${black};`);
+    lines.push(`    --color-white: ${white};`);
 
     lines.push("}");
     return lines.join("\n");
