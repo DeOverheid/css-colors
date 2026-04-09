@@ -1,8 +1,7 @@
 <template>
     <UButton
         icon="i-lucide-save"
-        variant="outline"
-        size="sm"
+        color="primary"
         @click="exportConfig.copyUserThemeToClipboard">
         Export Theme
     </UButton>

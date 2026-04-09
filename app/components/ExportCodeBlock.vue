@@ -2,6 +2,13 @@
     <section class="panel export-code-block">
         <div class="export-code-block__scroll-wrapper">
             <div class="export-code-block__actions">
+                <UTooltip text="Select all text">
+                    <UButton
+                        icon="i-lucide-text-cursor-input"
+                        variant="ghost"
+                        color="primary"
+                        @click="selectAll" />
+                </UTooltip>
                 <UTooltip text="Copy to clipboard">
                     <UButton
                         :icon="copyFeedback ? 'i-lucide-check' : 'i-lucide-copy'"
@@ -17,7 +24,7 @@
                         @click="downloadFile" />
                 </UTooltip>
             </div>
-            <pre class="export-code-block__pre"><code class="export-code-block__code">{{ exportOutput }}</code></pre>
+            <pre ref="preRef" class="export-code-block__pre"><code class="export-code-block__code">{{ exportOutput }}</code></pre>
         </div>
     </section>
 </template>
@@ -27,7 +34,17 @@ import { useUserExport } from "~/composables/output/useUserExport";
 
 const { exportOutput, downloadFilename, copyToClipboard, downloadFile } = useUserExport();
 
+const preRef = ref<HTMLElement | null>(null);
 const copyFeedback = ref(false);
+
+function selectAll() {
+    if (!preRef.value) return;
+    const range = document.createRange();
+    range.selectNodeContents(preRef.value);
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+}
 
 async function handleCopy() {
     const ok = await copyToClipboard();
