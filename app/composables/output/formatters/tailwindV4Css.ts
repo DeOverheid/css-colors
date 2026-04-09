@@ -39,7 +39,7 @@ function fmt(value: number): string {
  */
 export function toTailwindV4Css(palette: CollectedPalette, notation: ColorNotation = "hsl"): string {
     const lines: string[] = [
-        '@import "tailwindcss";',
+        "@import \"tailwindcss\";",
         "",
         "@theme {"
     ];
