@@ -2,12 +2,12 @@
     <section class="panel export-code-block">
         <div class="export-code-block__scroll-wrapper">
             <div class="export-code-block__actions">
-                <UTooltip text="Select all text">
+                <UTooltip :text="isSelected ? 'Deselect text' : 'Select all text'">
                     <UButton
                         icon="i-lucide-text-cursor-input"
-                        variant="ghost"
+                        :variant="isSelected ? 'soft' : 'ghost'"
                         color="primary"
-                        @click="selectAll" />
+                        @click="toggleSelectAll" />
                 </UTooltip>
                 <UTooltip text="Copy to clipboard">
                     <UButton
@@ -37,13 +37,23 @@ const { exportOutput, downloadFilename, copyToClipboard, downloadFile } = useUse
 const preRef = ref<HTMLElement | null>(null);
 const copyFeedback = ref(false);
 
-function selectAll() {
+const isSelected = ref(false);
+
+function toggleSelectAll() {
     if (!preRef.value) return;
+    const sel = window.getSelection();
+
+    if (isSelected.value) {
+        sel?.removeAllRanges();
+        isSelected.value = false;
+        return;
+    }
+
     const range = document.createRange();
     range.selectNodeContents(preRef.value);
-    const sel = window.getSelection();
     sel?.removeAllRanges();
     sel?.addRange(range);
+    isSelected.value = true;
 }
 
 async function handleCopy() {
